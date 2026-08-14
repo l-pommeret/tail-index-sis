@@ -22,6 +22,15 @@ $f"*) continue ;; esac
     fi
   done
   if [ "$new" -gt 0 ]; then
+    # refresh the human-readable report from every cell available so far
+    if PATH="$PWD/.renv/bin:$PATH" KAPPA=0.20 ASTAR=0.30 BSTAR=0.10 \
+       GRID_NCELL="$TOTAL" Rscript code/R/summarize_grid.R "$DIR" \
+       results/grid >/dev/null 2>&1; then
+      git add results/grid/rapport_grille.md results/grid/grid_summary.csv \
+              results/grid/grid_timings.csv
+      git commit -q -m "grid: refresh report ($(git ls-files "$DIR" | wc -l)/$TOTAL cells)" \
+        >/dev/null 2>&1 || true
+    fi
     git push -q origin HEAD 2>&1 | tail -2
     echo "$(date +%H:%M:%S) pushed $new cell(s), $(git ls-files "$DIR" | wc -l)/$TOTAL total"
   fi

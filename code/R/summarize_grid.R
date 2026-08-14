@@ -58,6 +58,7 @@ md_table <- function(header, align, body) {
     body, "")
 }
 NREP <- max(S$reps)
+NCELL <- as.integer(Sys.getenv("GRID_NCELL", "288"))
 sure_cols <- paste0("sure", DS)
 
 ## rho label without trailing zeros
@@ -105,8 +106,13 @@ sured_profile <- function(w) {
 md <- c(
 "# Comparaison des methodes de screening sur grille etendue",
 "",
-sprintf("Genere le %s a partir de `%s` (%d cellules).",
-        format(Sys.time(), "%Y-%m-%d %H:%M"), celldir, length(files)),
+sprintf("Genere le %s a partir de `%s` (%d cellules sur %d).",
+        format(Sys.time(), "%Y-%m-%d %H:%M"), celldir, length(files), NCELL),
+"",
+if (length(files) < NCELL)
+  sprintf("> **Rapport partiel** : la campagne est en cours, %d cellules sur %d sont calculees. Les vues agregees de la section 3 ne portent que sur les cellules disponibles et bougeront encore. Les tables completes de la section 4 sont definitives cellule par cellule.",
+          length(files), NCELL)
+else "Campagne complete.",
 "",
 "## 1. Protocole",
 "",
@@ -145,7 +151,10 @@ ref_file <- "results/draft3/comparison_summary.csv"
 if (file.exists(ref_file)) {
   ref <- read.csv(ref_file, stringsAsFactors = FALSE)
   w <- S[S$n == 2000 & S$p == 1000 & abs(S$rho - 0.25) < 1e-9, ]
-  if (nrow(w)) {
+  if (!nrow(w)) {
+    md <- c(md, "## 2. Controle : cellule de reference de la Draft 3", "",
+      "La cellule n = 2000, p = 1000, rho = 0.25 n'est pas encore calculee ; ce controle apparaitra des qu'elle sera disponible.", "")
+  } else {
     body <- character(0)
     for (m in c("M1", "M2", "M3", "M4")) for (k in METHODS) {
       a <- w[w$model == m & w$method == k, ]

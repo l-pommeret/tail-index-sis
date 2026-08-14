@@ -1,0 +1,11 @@
+288 cells total, 0 already on disk, 288 to run (92.2 core-hours)
+14:35:40 batch of 7 cells (10.69 core-hours), 281 cells left after
+14:54:33 cell g_M1_n5000_p2000_r000 done
+14:54:33 cell g_M1_n5000_p2000_r020 done
+14:54:33 cell g_M1_n5000_p2000_r025 done
+14:54:33 cell g_M1_n5000_p2000_r030 done
+14:54:33 cell g_M1_n5000_p2000_r040 done
+14:54:33 cell g_M1_n5000_p2000_r050 done
+14:54:33 cell g_M2_n5000_p2000_r000 done
+14:54:33 elapsed 18.9 min, remaining budget 81.5 core-hours
+14:54:33 batch of 7 cells (10.69 core-hours), 274 cells left after
