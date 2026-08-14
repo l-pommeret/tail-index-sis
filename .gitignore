@@ -48,3 +48,6 @@ proof_pipeline.py
 code_alex/
 .claude/
 docs/
+
+# local conda environment for R (ephemeral, ~1.6 GB)
+.renv/
