@@ -129,23 +129,82 @@ Mesurés sur la campagne (288 cellules) et les tests ciblés :
 
 ---
 
-## D4. Variante M2 en amas corrélé — **exploratoire, à ne pas présenter comme pré-enregistrée**
+## D4. M2 : facteur d'échelle en **amas corrélé**, s = 20, λ = 0.7
 
-Le facteur d'échelle de M2 en somme indépendante lie l'attractivité de chaque
-leurre (∝ κ) au dégât infligé au Hill (∝ κ²s) : augmenter le nombre de
-covariables d'échelle tue les deux écrans à κ constant, ou affaiblit les leurres
-au point que quantile SIS **s'améliore** (Sure-4 de 0.225 à 0.600) si l'on
-apparie la variance. La variante en amas — un facteur latent unique observé par
-s proxys de corrélation λ — sépare les deux axes et fait de s un vrai cadran.
+**Décision retenue.**
 
-À n=2000, p=500, ρ=0.30, λ=0.7, s=20, variance appariée : screen agrégé
+```r
+# code/R/generate3.R
+LAMBDA  <- 0.7          # charge du facteur latent sur chaque proxy
+S_SCALE <- 20L          # A_scale = {5, ..., 24}
+# kappa_c calibre pour que sd(log ell) egale celle du M2 publie au meme (n,p,rho) :
+#   kappa_c = sd_cible * sqrt(12)     -- sd(log ell) = kappa_c / sqrt(12) exactement
+# mesure : 0.1377 a rho=0.25 -> kappa_c = 0.477
+#          0.143  a rho=0.30 -> kappa_c = 0.495
+#          0.116  a rho=0    -> kappa_c = 0.402
+
+# dans simulate_dataset3(), pour M2 uniquement :
+f <- rnorm(n)
+for (j in 5:(4 + S_SCALE))
+  z[, j] <- LAMBDA * f + sqrt(1 - LAMBDA^2) * rnorm(n)
+# ... puis
+y <- V^(-gamma) * exp(-V / 2) * exp(kappa_c * (pnorm(f) - 0.5))
+```
+
+**Pourquoi changer.** Le facteur d'échelle publié est une somme de contributions
+indépendantes, log ℓ = κ·Σ<sub>j∈A_scale</sub>(u_j − ½), ce qui lie l'attractivité
+de chaque leurre (∝ κ) au dégât infligé au Hill local (∝ κ²s) — un seul
+coefficient gouverne les deux. Conséquence mesurée
+(`code/R/test_m2_scale20.R`) : passer s de 4 à 20 à κ constant multiplie
+sd(log ℓ) par 2.4 et **tue les deux écrans** (Sure-20 ≈ 0.10 partout) ; et
+apparier la variance par κ ∝ 1/√s affaiblit chaque leurre au point que
+**quantile SIS s'améliore**, de 0.225 à 0.600 en Sure-4. Le nombre de
+covariables d'échelle ne peut donc pas servir de cadran dans cette
+paramétrisation.
+
+**Ce que l'amas corrige.** Un facteur latent unique F porte toute la nuisance et
+les s coordonnées d'échelle en sont des proxys de corrélation λ. Var(log ℓ) vaut
+κ_c²/12 quels que soient s et λ, donc la difficulté pour le screen est figée,
+pendant que chaque proxy garde une corrélation marginale λ avec la nuisance et
+reste individuellement attractif pour un écran par quantiles. s et λ deviennent
+deux cadrans indépendants de la difficulté.
+
+**Mesuré** (`code/R/test_m2_cluster20.R`, sd(log ℓ) = 0.138 dans tous les bras,
+n=2000, p=1000, ρ=0.25, 40 réplications, Sure-4 / Sure-20) :
+
+| bras | screen 9 régl. min | quantile SIS τ=.95 | top-24 de quantile ∩ A_scale |
+|:---|:---|:---|---:|
+| s=4 publié | 0.325 / 0.775 | 0.050 / 0.975 | 3.58 / 4 |
+| s=20, λ=0.5 | 0.400 / 0.825 | 0.175 / 1.000 | 14.45 / 20 |
+| **s=20, λ=0.7** | **0.425 / 0.925** | 0.050 / 0.550 | 19.02 / 20 |
+| s=20, λ=0.9 | 0.425 / 0.900 | 0.000 / 0.075 | 20.00 / 20 |
+
+Le screen est **plat en λ** (0.825 / 0.925 / 0.900) pendant que quantile SIS
+s'effondre (1.000 / 0.550 / 0.075). Le mécanisme se lit au chiffre près à λ=0.9 :
+quantile SIS met les 20 variables d'échelle dans son top-24, son Sure-20 vaut
+0.075 mais son Sure-30 vaut 1.000 — les actives se rangent exactement derrière
+les leurres, à la marche d = 4 + s.
+
+**Pourquoi λ = 0.7 et non 0.9.** L'effet est déjà décisif (0.925 contre 0.550) et
+la corrélation intra-amas vaut λ² = 0.49, du même ordre que le ρ = 0.5 déjà
+présent dans l'étude, donc défendable comme réaliste. À λ = 0.9 elle monte à
+0.81, plus spectaculaire mais plus facile à contester.
+
+**Meilleur point de design mesuré** : n=2000, p=500, ρ=0.30 — screen agrégé
 **0.550 / 0.975** contre **0.050 / 0.750** pour quantile SIS, qui place 19.1 des
 20 variables d'échelle dans son top-24.
 
-**Réserve.** κ = 0.20 provient d'un pilote pré-enregistré avec règle de sélection
-fixée avant inspection ; ni le passage à l'amas, ni s = 20, ni λ = 0.7 n'ont ce
-statut. À présenter comme une variante exploratoire (un M5), pas comme faisant
-partie du protocole initial.
+**Réserve de présentation.** κ = 0.20 provient d'un pilote pré-enregistré dont la
+règle de sélection était fixée avant inspection ; ni le passage à l'amas, ni
+s = 20, ni λ = 0.7 n'ont ce statut — ils ont été choisis en connaissant les
+résultats. À présenter comme une variante exploratoire (un M5 ajouté à M2), pas
+comme faisant partie du protocole initial. Un pilote pré-enregistré sur λ, sur
+le modèle de celui qui a fixé κ, lèverait cette réserve.
+
+**Conséquence sur le code.** A_scale passe de {5,…,8} à {5,…,24} : les drivers
+qui codent `%in% 5:8` pour la composition du top-4 doivent être mis à jour, et
+`simulate_score_streaming3` suppose actuellement que toutes les coordonnées
+pertinentes tiennent dans les 8 premières colonnes.
 
 ---
 
@@ -154,7 +213,6 @@ partie du protocole initial.
 - Recalibrer κ par modèle pour que M3 et M4 supportent la perturbation d'échelle
   de M2 : le même κ appliqué à un contraste deux à trois fois plus faible écrase
   le signal (Sure-20 de M3 : 0.750 → 0.325 en substituant ℓ₂ à ℓ₁).
-- Pilote pré-enregistré sur λ, sur le modèle de celui qui a fixé κ.
 - Généraliser le code : `sv_l2` code en dur les colonnes 5:8,
   `simulate_score_streaming3` suppose que tout tient dans les 8 premières
   colonnes, les drivers codent `%in% 5:8`.
