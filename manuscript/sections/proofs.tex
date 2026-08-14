@@ -1,0 +1,780 @@
+\section{Proofs}
+\label{app:proofs}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\setcounter{equation}{0}
+
+Throughout the appendix the dimension is written $p=p_n$, and the auxiliary
+moduli suppressed in the main text reappear:
+\[
+ b_n(a)=\max_{j\le p}\sup_{u\in\I}\sup_{s\ge a^{-1},\,t>1}
+ \frac{|\log\{\ell_j(ts,u)/\ell_j(s,u)\}|}{\log t},
+ \qquad
+ \omega_n(r,\tau)=\max_{j\le p}
+ \sup_{u\in\I}\;
+ \sup_{\substack{v\in[0,1]\\|v-u|\le r}}\;
+ \sup_{w\in[\tau,1-\tau]}
+ \left|\log\frac{Q_j(w^{-1},v)}{Q_j(w^{-1},u)}\right|,
+\]
+so that (E2) reads $b_n(3\alpha)=o(\Delta_{\min})$ and (E3) reads
+$\omega_n(C_0h,\tau_n)=o(\Delta_{\min})$ with $\tau_n=(pn)^{-2}$; note
+that $\omega_n(\cdot,\tau)$ is nondecreasing in its first argument, so
+(E3) bounds $\omega_n(r,\tau_n)$ for every $r\le C_0h$.  Put
+$\delta_n=(n+1)^{-1}$,
+\[
+ m_n^-=\bigl\lfloor\{h+\min(h,\varepsilon)\}(n+1)\bigr\rfloor-1,
+ \qquad
+ K_n=\lfloor\alpha m_n^-\rfloor,
+ \qquad
+ S_n=4n+1.
+\]
+Once $nh\ge4$ and $\alpha m_n^-\ge2$, one has $m_n^-\ge nh/2$ and
+$K_n\ge\alpha m_n^-/2\ge n\alpha h/4$; the rate conditions
+\eqref{eq:rate-cond} force both requirements for $n$ large, which is the
+only regime where the conversion $K_n\asymp n\alpha h$ is used.  All
+conditional distributions are the pointwise compatible versions of
+Section~\ref{sec:population}, and constants are uniform over the triangular
+array.  The appendix is organized as follows: preliminary lemmas
+(\ref{app:prelim}); projection (\ref{app:projection}); population results
+(\ref{app:population}); the finite-sample uniform profile bound
+(\ref{app:rank}); quadrature, score concentration and screening, including
+the proofs of Theorems~\ref{thm:score} and~\ref{thm:sis}
+(\ref{app:screening}); model classes satisfying (E1)--(E3)
+(\ref{app:examples}).
+
+\subsection{Preliminary lemmas}\label{app:prelim}
+
+The first lemma transfers pointwise perturbations to order statistics, as in
+\citet[Appendix, Lemma~3]{gardesPodgorny2025}.
+
+\begin{lemma}[Sorting is sup-norm nonexpansive]\label{lem:app-sorting}
+Let $a_1,\ldots,a_m$ and $b_1,\ldots,b_m$ satisfy $a_i\le b_i$ for all $i$.
+Then $a_{(i)}\le b_{(i)}$ for all $i$.  Consequently
+$|a_i-b_i|\le\epsilon$ for all $i$ implies
+$|a_{(i)}-b_{(i)}|\le\epsilon$ for all $i$.
+\end{lemma}
+
+\begin{proof}
+Fix $i$.  At least $m-i+1$ indices $r$ satisfy $a_r\ge a_{(i)}$, and for
+each such $r$, $b_r\ge a_r\ge a_{(i)}$; hence $b_{(i)}\ge a_{(i)}$.  For
+the second claim apply the first to $(a_i-\epsilon,b_i)$ and
+$(b_i-\epsilon,a_i)$.
+\end{proof}
+
+\begin{lemma}[Chernoff bound for exponential means]\label{lem:app-chernoff}
+Let $L_k$ be the mean of $k$ i.i.d.\ standard exponentials.  For
+$0<t\le1$,
+$\Pp(|L_k-1|>t)\le2e^{-kt^2/4}$.
+\end{lemma}
+
+\begin{proof}
+Markov's inequality applied to $e^{\lambda kL_k}$, optimized at
+$\lambda=t/(1+t)$, gives
+$\Pp(L_k>1+t)\le e^{-k\{t-\log(1+t)\}}$.  The function
+$\varphi(t)=t-\log(1+t)-t^2/4$ has $\varphi(0)=0$ and
+\[
+ \varphi'(t)=1-\frac1{1+t}-\frac t2=\frac{t(1-t)}{2(1+t)}\ge0
+ \quad\text{on }[0,1],
+\]
+so $t-\log(1+t)\ge t^2/4$ on $(0,1]$.  For the lower tail,
+$\Pp(L_k<1-t)\le e^{-k\{-t-\log(1-t)\}}$ and
+$-t-\log(1-t)\ge t^2/2\ge t^2/4$.
+\end{proof}
+
+\begin{lemma}[Threshold order statistic of uniforms]\label{lem:app-threshold}
+Let $V_{(1)}<\cdots<V_{(m)}$ be the order statistics of $m$ i.i.d.\
+standard uniforms, $0<\alpha\le1/3$ and
+$k=\lfloor\alpha m\rfloor\ge1$.  Then
+$\Pp\{V_{(k+1)}>3\alpha\}\le e^{-(k+1)/4}$.
+\end{lemma}
+
+\begin{proof}
+If $3\alpha\ge1$ the probability is zero.  Otherwise
+$\{V_{(k+1)}>3\alpha\}=\{N\le k\}$ with
+$N\sim\mathrm{Bin}(m,3\alpha)$ and mean $\mu=3\alpha m\ge3k$.  The
+multiplicative Chernoff bound
+$\Pp\{N\le(1-\delta)\mu\}\le e^{-\delta^2\mu/2}$
+\citep[Section~2.2]{boucheronLugosiMassart2013} with $\delta=2/3$ gives
+$\Pp(N\le\mu/3)\le e^{-2\mu/9}\le e^{-2k/3}\le e^{-(k+1)/4}$, the last
+step because $8k\ge3(k+1)$ for $k\ge1$.
+\end{proof}
+
+\subsection{Projection}\label{app:projection}
+
+Let $\mathcal G\subseteq\sigma(U)$, $T=\gamma(U)$, and
+$\xi=\esssup(T\mid\mathcal G)$, the smallest $\mathcal G$-measurable random
+variable dominating $T$ almost surely.
+
+\begin{lemma}[Uniform remainder replacement]\label{lem:app-remainder}
+Define $M(y)=\E\{c(U)y^{-1/T}\mid\mathcal G\}$.  Under (C1)--(C2), almost
+surely,
+\begin{equation}
+ \left|\frac{\Pp(Y>y\mid\mathcal G)}{M(y)}-1\right|
+ \le\rho(y):=\sup_u\left|\frac{L(y,u)}{c(u)}-1\right|\longrightarrow0.
+ \label{eq:A1}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the tower property,
+$\Pp(Y>y\mid\mathcal G)=\E\{y^{-1/T}L(y,U)\mid\mathcal G\}$.  Writing
+$L(y,U)=c(U)\{1+r(y,U)\}$ with $|r(y,U)|\le\rho(y)$,
+\[
+ |\Pp(Y>y\mid\mathcal G)-M(y)|
+ =\bigl|\E\{c(U)y^{-1/T}r(y,U)\mid\mathcal G\}\bigr|
+ \le\rho(y)M(y),
+\]
+and $\rho(y)\to0$ is (C2).
+\end{proof}
+
+The next lemma is the point at which the argument departs from the proof of
+Proposition~1 in \citet{gardesPodgorny2025}: their condition (C.1) assumes
+the law of $\gamma(X)$ absolutely continuous, which identifies
+$\{\gamma>t\}$ with $\{\gamma\ge t\}$ in their computation.  The tilting
+argument below needs no such assumption and allows purely atomic
+conditional laws of $T$ --- the relevant case for inactive coordinates and
+constant-index null models.
+
+\begin{lemma}[Tilted-measure concentration]\label{lem:app-tilt}
+For $y>1$ define the random probability measure
+\[
+ K_y^\star(A)=
+ \frac{\E\{c(U)y^{-1/T}\mathbf 1_{\{T\in A\}}\mid\mathcal G\}}{M(y)},
+ \qquad A\in\mathcal B([\underline\gamma,\Gamma]).
+\]
+On a common probability-one event, $K_y^\star\Rightarrow\delta_\xi$ weakly
+as $y\to\infty$.
+\end{lemma}
+
+\begin{proof}
+Since $K_y^\star\{T>\xi+\delta\}=0$ for every $\delta>0$ by definition of
+$\xi$, it suffices to prove, for fixed
+$\delta\in(0,\underline\gamma)$,
+\begin{equation}
+ K_y^\star\{T\le\xi-\delta\}\longrightarrow0\qquad\text{almost surely.}
+ \label{eq:A2}
+\end{equation}
+Split by the $\mathcal G$-measurable event
+$G_\delta=\{\xi\ge\underline\gamma+\delta\}$.  On $G_\delta^c$,
+$\xi-\delta<\underline\gamma\le T$, so $\{T\le\xi-\delta\}$ is empty and
+\eqref{eq:A2} is trivial.  On $G_\delta$, set $r=\xi-\delta$,
+$s=\xi-\delta/2$ and $\pi=\Pp(T>s\mid\mathcal G)$.  Then $\pi>0$ almost
+surely on $G_\delta$: otherwise
+$\xi'=\xi-(\delta/2)\mathbf 1_{G_\delta\cap\{\pi=0\}}$ would be a
+$\mathcal G$-measurable almost-sure upper bound for $T$, strictly smaller
+than $\xi$ with positive probability, contradicting minimality of the
+conditional essential supremum.  Bounding numerator and denominator
+separately, using only $c_-\le c\le c_+$ and monotonicity of
+$g\mapsto y^{-1/g}$,
+\[
+ K_y^\star\{T\le r\}
+ \le\frac{c_+y^{-1/r}}{c_-\pi y^{-1/s}}
+ =\frac{c_+}{c_-\pi}\,y^{-(1/r-1/s)}\longrightarrow0.
+\]
+A rational sequence $\delta\downarrow0$ and a countable intersection give
+a common probability-one event.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:projection}]
+For fixed $t>0$,
+\[
+ \frac{M(ty)}{M(y)}
+ =\int_{[\underline\gamma,\Gamma]}t^{-1/g}\,K_y^\star(dg)
+ \longrightarrow t^{-1/\xi}
+\]
+almost surely, by Lemma~\ref{lem:app-tilt} and boundedness and continuity
+of $g\mapsto t^{-1/g}$ on $[\underline\gamma,\Gamma]$.
+Lemma~\ref{lem:app-remainder} transfers the limit to
+$\Pp(Y>ty\mid\mathcal G)/\Pp(Y>y\mid\mathcal G)$.  Convergence
+simultaneously for all $t>0$ follows from rational $t$, monotonicity of
+the ratio in $t$, and continuity of $t\mapsto t^{-1/\xi}$.
+
+For the fibre identity \eqref{eq:fibre}, fix $u\in\I$ and apply the above
+on the probability space $([0,1]^{p-1},K_j(u,\cdot))$ with the trivial
+$\sigma$-field; $\xi_j(u)$ is then the essential supremum of
+$v\mapsto\gamma(u,v)$ under $K_j(u,\cdot)$.  Let
+$m=\max_v\gamma(u,v)$, attained by compactness and continuity.  The
+essential supremum is at most $m$.  Conversely, for $\eta>0$ the set
+$\{v:\gamma(u,v)>m-\eta\}$ is open and nonempty, so has positive
+$K_j(u,\cdot)$-probability under (S); the essential supremum is at least
+$m-\eta$ for every $\eta>0$.
+\end{proof}
+
+\subsection{Population results}\label{app:population}
+
+\begin{lemma}[Continuity of the envelope]\label{lem:app-envelope-cont}
+Under (C1), each $\xi_j(u)=\max_v\gamma(u,v)$ is continuous on $[0,1]$,
+with modulus bounded by the modulus of continuity of $\gamma$.
+\end{lemma}
+
+\begin{proof}
+$\gamma$ is uniformly continuous on the compact cube; if
+$|u-u'|\le\delta$ then $|\gamma(u,v)-\gamma(u',v)|\le\varpi(\delta)$ for
+every $v$, and taking maxima preserves the bound.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:geometry}]
+\emph{Claim 1.}  For $j\notin\A$, $\gamma(u,v)=g\{(u,v)_{\A}\}$ does not
+involve $u$, and as $v$ ranges over the fibre the active subvector ranges
+over all of $[0,1]^{s}$; by \eqref{eq:fibre},
+$\xi_j(u)=\max_{w}g(w)=\gmax$ for every $u$.
+
+\emph{Claim 2.}  By \eqref{eq:fibre}, $\xi_j(u)=\gmax$ exactly when the
+fibre through $u$ intersects $\M$, i.e.\ when $u\in\pi_j(\M)$.
+
+\emph{Claim 3.}  $u\mapsto\gmax-\xi_j(u)$ is continuous
+(Lemma~\ref{lem:app-envelope-cont}), nonnegative, and by Claim~2 vanishes
+on $\I$ exactly on $\I\cap\pi_j(\M)$.  A continuous nonnegative function
+has positive integral over $\I$ if and only if its positivity set has
+positive Lebesgue measure.
+
+\emph{Final statement.}  Write $\M^{\A}$ for the maximizer set of $g$ in
+$[0,1]^{s}$; then $\M=\{u:u_{\A}\in\M^{\A}\}$ and, for $j\in\A$,
+$\pi_j(\M)$ is the projection of $\M^{\A}$, a finite set when $\M^{\A}$ is
+finite; its intersection with $\I$ is Lebesgue-null and Claim~3 applies.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:margin}]
+Every $x$ on the fibre $x_j=u$ has
+$\|x_{\A}-u^\star_{\A}\|\ge|u-u^\star_j|$, so every point of the fibre
+satisfies
+$\gamma(x)\le\gmax-c\,|u-u^\star_j|^\nu$; taking the fibre maximum gives
+$\xi_j(u)\le\gmax-c\,|u-u^\star_j|^\nu$.  Averaging
+over $u\in\I$ gives the score bound.  For $\nu=2$,
+$\E(V-u_j^\star)^2=\mathrm{Var}(V)+(1/2-u_j^\star)^2
+=(1-2\varepsilon)^2/12+(1/2-u_j^\star)^2$.
+\end{proof}
+
+\subsection{Uniform profile bound}\label{app:rank}
+
+Inside proofs the empirical-rank quantities carry a superscript $R$ when
+the distinction from frozen-location quantities matters.  The scheme
+parallels the proof of Theorem~3 in \citet{gardesPodgorny2025} ---
+oscillation control, exponential-spacings representation, slowly varying
+remainder --- with the covering net over their compact matrix class
+replaced by exact union bounds over $p$ coordinates and $S_n$ window
+states, and their density conditions (H.1)--(H.2) replaced by the
+deterministic rank geometry.
+
+\begin{lemma}[Rank displacement]\label{lem:app-dkw}
+Let $\widehat U_{ij}=R_{ij}/(n+1)$ and
+\[
+ D_n(\eta)=\Bigl\{\max_{j\le p}\max_{i\le n}
+ |U_{ij}-\widehat U_{ij}|\le\eta+\delta_n\Bigr\}.
+\]
+Then $\Pp\{D_n(\eta)^c\}\le2pe^{-2n\eta^2}$.
+\end{lemma}
+
+\begin{proof}
+Fix $j$ and let $F_{n,j}$ be the empirical distribution function of the
+$U_{ij}$, $i\le n$.  By the Dvoretzky--Kiefer--Wolfowitz inequality with
+Massart's constant \citep{massart1990},
+$\sup_t|F_{n,j}(t)-t|\le\eta$ outside probability
+$2e^{-2n\eta^2}$.  On that event, continuity gives
+$F_{n,j}(U_{(r)j})=r/n$, hence $|U_{(r)j}-r/n|\le\eta$ and
+\[
+ |U_{(r)j}-r/(n+1)|\le\eta+\frac{r}{n(n+1)}\le\eta+\delta_n
+\]
+for every rank $r$ simultaneously.  A union bound over $j$ finishes; no
+union over ranks is needed.
+\end{proof}
+
+\begin{lemma}[Deterministic window counts]\label{lem:app-counts}
+For every $j$, every realization and every $u\in\I$,
+$M_j(u)\ge m_n^-$ and $k_j(u)\ge K_n$; moreover $M_j(u)$ is a nonrandom
+function of $u$.
+\end{lemma}
+
+\begin{proof}
+The ranks form a permutation of $1,\ldots,n$, so
+$M_j(u)=\#\{r\in\{1,\ldots,n\}:|r/(n+1)-u|\le h\}$, a deterministic
+function of $u$: the number of integers in
+$[x(u),y(u)]$ with $x(u)=\max\{(u-h)(n+1),1\}$ and
+$y(u)=\min\{(u+h)(n+1),n\}$.  Fix $u\in\I$ and write
+$m^-=m_n^-=\lfloor\{h+\min(h,\varepsilon)\}(n+1)\rfloor-1$; note
+$h+\min(h,\varepsilon)\le\min(2h,\,h+\varepsilon)$.  Four cases.
+
+If neither endpoint is clipped, the interval has length $2h(n+1)$ and
+contains at least $\lfloor2h(n+1)\rfloor-1\ge m^-$ integers.
+
+If only the left endpoint is clipped, then $x(u)=1$ and the count is
+$\lfloor y(u)\rfloor$.  Either $y(u)=(u+h)(n+1)\ge(\varepsilon+h)(n+1)$,
+so the count is at least
+$\lfloor(h+\varepsilon)(n+1)\rfloor\ge m^-+1$; or $y(u)=n$ and the count
+is $n\ge\lfloor(h+\varepsilon)(n+1)\rfloor-1\ge m^-$, using
+$h\le1-\varepsilon$, i.e.\ $(h+\varepsilon)(n+1)\le n+1$.
+
+If only the right endpoint is clipped, then $y(u)=n$ and the count is
+$n-\lceil x(u)\rceil+1\ge n-x(u)\ge n-(1-\varepsilon-h)(n+1)
+=(h+\varepsilon)(n+1)-1$, hence at least
+$\lceil(h+\varepsilon)(n+1)\rceil-1\ge m^-$.
+
+If both endpoints are clipped, the count is $n$, which is at least
+$m^-$ as in the second case.  In every case $M_j(u)\ge m^-$, and
+$k_j(u)=\lfloor\alpha M_j(u)\rfloor\ge\lfloor\alpha m_n^-\rfloor=K_n$.
+\end{proof}
+
+\begin{lemma}[Finite-state structure]\label{lem:app-states}
+For fixed $j$ and fixed ranks, $u\mapsto\mathcal W_j(u)$ takes at most
+$S_n=4n+1$ distinct values on $[0,1]$.
+\end{lemma}
+
+\begin{proof}
+The membership indicator of observation $i$ changes only at
+$\widehat U_{ij}\pm h$: at most $2n$ breakpoints, hence at most $2n+1$
+constancy intervals plus the $2n$ breakpoint states.
+\end{proof}
+
+\begin{lemma}[Conditional PIT and R\'enyi representation]\label{lem:app-pit}
+Fix $j$ and condition on the column $\bm U_j=(U_{1j},\ldots,U_{nj})$.
+Under (E1):
+\begin{enumerate}
+\item $V_{ij}=1-F_{Y|j}(Y_i\mid U_{ij})$, $i\le n$, are i.i.d.\ standard
+uniform, and $Y_i=Q_j(1/V_{ij},U_{ij})$ almost surely;
+\item for any index set $\mathcal W$ of size $m$, deterministic given
+$\bm U_j$, with $V_{(1)}<\cdots<V_{(m)}$ the ordered PIT values of its
+members and $k=\lfloor\alpha m\rfloor$,
+\[
+ L_k=\frac1k\sum_{r=1}^k\log\frac{V_{(k+1)}}{V_{(r)}}
+\]
+is distributed as the mean of $k$ i.i.d.\ standard exponentials,
+independent of $V_{(k+1)}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) Given $\bm U_j$, the pairs $(U_{ij},Y_i)$ are independent in $i$ and
+$Y_i$ has continuous conditional distribution function
+$F_{Y|j}(\cdot\mid U_{ij})$, so $V_{ij}$ is standard uniform.  For the
+representation, $Q_j(1/V_{ij},U_{ij})=F_{Y|j}^{-1}(F_{Y|j}(Y_i\mid U_{ij})\mid
+U_{ij})\le Y_i$ always, with strict inequality only when $Y_i$ lies in the
+interior of an interval on which $F_{Y|j}(\cdot\mid U_{ij})$ is constant; each
+such interval has conditional probability zero and there are countably
+many, so the representation holds almost surely.  Strict monotonicity is
+not needed.  Conditioning on the whole column, rather than on window
+counts as in \citet[Appendix, Lemma~4]{gardesPodgorny2025}, makes the
+window sets deterministic (Lemma~\ref{lem:app-counts}); only coordinate
+$j$ is conditioned on, and no independence across coordinates is used.
+
+(ii) With $W_i=-\log V_i$ standard exponentials and order statistics
+$W_{(1)}<\cdots<W_{(m)}$, $W_{(m-r+1)}=-\log V_{(r)}$, Abel summation
+gives
+\[
+ kL_k=\sum_{r=1}^k\{W_{(m-r+1)}-W_{(m-k)}\}
+ =\sum_{i=1}^k i\,\{W_{(m-i+1)}-W_{(m-i)}\},
+\]
+and by the R\'enyi representation of exponential order statistics
+\citep{renyi1953} the normalized top spacings
+$i\{W_{(m-i+1)}-W_{(m-i)}\}$, $i\le k$, are i.i.d.\ standard exponential
+and independent of $W_{(m-k)}$, hence of $V_{(k+1)}$.
+\end{proof}
+
+\begin{lemma}[Frozen-location Hill expansion]\label{lem:app-hill}
+Fix $j$, condition on $\bm U_j$, and fix a window state $\mathcal W$ of
+size $m$ realized at $u\in\I$, with $k=\lfloor\alpha m\rfloor$ and Hill
+statistic $H$.  On the event $D_n(\eta)$ intersected with
+$\{V_{ij}\in[\tau,1-\tau]\ \forall i\}$ and $\{V_{(k+1)}\le3\alpha\}$,
+\begin{equation}
+ |H-\xi_j(u)|
+ \le2\omega_n(h+\eta+\delta_n,\tau)+\xi_j(u)|L_k-1|+b_n(3\alpha)L_k.
+ \label{eq:A3app}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Spatial freezing.}  Each $i\in\mathcal W$ has
+$|\widehat U_{ij}-u|\le h$, hence $|U_{ij}-u|\le r_n:=h+\eta+\delta_n$ on
+$D_n(\eta)$.  With $V_{ij}\in[\tau,1-\tau]$, the definition of
+$\omega_n$ gives
+$|\log Q_j(1/V_{ij},U_{ij})-\log Q_j(1/V_{ij},u)|\le\omega_n(r_n,\tau)$
+for every member.  Let $\check H$ be the Hill statistic of the frozen
+responses $\check Y_i=Q_j(1/V_{ij},u)$.  By Lemma~\ref{lem:app-sorting},
+ordered log-responses differ by at most $\omega_n(r_n,\tau)$, and the Hill
+statistic is an average of differences of two of them, so
+$|H-\check H|\le2\omega_n(r_n,\tau)$.
+
+\emph{Exact decomposition.}  Since $s\mapsto Q_j(s,u)$ is nondecreasing,
+$\check Y_{(m-r+1)}=Q_j(1/V_{(r)},u)$, and
+$\log Q_j(s,u)=\xi_j(u)\log s+\log\ell_j(s,u)$ yields
+\[
+ \check H=\xi_j(u)L_k+R,
+ \qquad
+ R=\frac1k\sum_{r=1}^k
+ \log\frac{\ell_j(1/V_{(r)},u)}{\ell_j(1/V_{(k+1)},u)}.
+\]
+
+\emph{Remainder.}  On $\{V_{(k+1)}\le3\alpha\}$, each ratio is
+$\ell_j(ts,u)/\ell_j(s,u)$ with $s=1/V_{(k+1)}\ge(3\alpha)^{-1}$ and
+$t=V_{(k+1)}/V_{(r)}>1$, so
+$|\log(\cdot)|\le b_n(3\alpha)\log(V_{(k+1)}/V_{(r)})$; averaging gives
+$|R|\le b_n(3\alpha)L_k$.
+\end{proof}
+
+\begin{theorem}[Finite-sample uniform profile bound]
+\label{thm:app-rank-profile}
+Assume (C1)--(C2), (S), the structural part of (E1) (continuity of
+every $F_{Y|j}(\cdot\mid u)$, hence the quantile representation), that
+$b_n(3\alpha)$ and $\omega_n(\cdot,\cdot)$ are finite,
+$0<h\le1-\varepsilon$, $0<\alpha\le1/3$, and $K_n\ge2$.  For every
+$\eta>0$, $0<t\le1$, $0<\tau<1/2$,
+\begin{align}
+&\Pp\left\{\max_{j\le p}\sup_{u\in\I}
+ |\widehat\xi_j(u)-\xi_j(u)|
+ >2\omega_n(h+\eta+\delta_n,\tau)+\Gamma t+(1+t)b_n(3\alpha)\right\}
+ \nonumber\\
+&\qquad\le
+ \underbrace{2pe^{-2n\eta^2}}_{\text{ranks}}
+ +\underbrace{2pn\tau}_{\text{PIT truncation}}
+ +\underbrace{2pS_ne^{-K_nt^2/4}}_{\text{spacings}}
+ +\underbrace{pS_ne^{-(K_n+1)/4}}_{\text{threshold}}.
+ \label{eq:A4app}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+Call a window state \emph{admissible} for coordinate $j$ if it equals
+$\mathcal W_j(u)$ for some $u\in\I$; by
+Lemmas~\ref{lem:app-counts} and~\ref{lem:app-states} there are at most
+$S_n$ admissible states per coordinate and each has
+$k\ge K_n\ge2$, so $L_k$ and $V_{(k+1)}$ are well defined on every one of
+them.  (States realized only outside $\I$ may have smaller windows; they
+are simply not needed.)  Define the exceptional events
+$T_1=D_n(\eta)^c$;
+$T_2=\{\exists\,i,j:V_{ij}\notin[\tau,1-\tau]\}$;
+$T_3=\{\exists\,j,\text{ admissible state }\mathcal W:|L_k-1|>t\}$;
+$T_4=\{\exists\,j,\text{ admissible state }\mathcal W:
+V_{(k+1)}>3\alpha\}$.
+
+Outside $T_1\cup T_2\cup T_3\cup T_4$, fix $j$ and $u\in\I$: the realized
+window is an admissible state, and
+Lemma~\ref{lem:app-hill} with $\xi_j\le\Gamma$, $|L_k-1|\le t$,
+$L_k\le1+t$ gives the displayed deviation bound; the modulus
+$\omega_n(h+\eta+\delta_n,\tau)$ covers every selected observation
+because its definition allows the displaced point $v=U_{ij}$ to range
+over all of $[0,1]$.
+
+Probabilities: $\Pp(T_1)\le2pe^{-2n\eta^2}$ is
+Lemma~\ref{lem:app-dkw}; $\Pp(T_2)\le2pn\tau$ since each $V_{ij}$ is
+uniform.  For $T_3$, $T_4$, condition on $\bm U_j$; the admissible states
+are then deterministic with $k\ge K_n$,
+Lemma~\ref{lem:app-pit} applies to each, and
+Lemmas~\ref{lem:app-chernoff} and~\ref{lem:app-threshold} give conditional
+bounds $2e^{-kt^2/4}\le2e^{-K_nt^2/4}$ and
+$e^{-(k+1)/4}\le e^{-(K_n+1)/4}$, both decreasing in $k$.  A union bound
+over the at most $pS_n$ admissible states and
+integration over $\bm U_j$ complete the proof; overlapping states and
+dependent coordinates cost nothing beyond the union bound.
+\end{proof}
+
+\subsection{Scores, concentration, and screening}\label{app:screening}
+
+Recall the score grid $G=\{r\delta_n:r=1,\ldots,n\}\cap\I$, of size
+$L_n=|G|$, and that
+$K_n\ge2$ makes every grid point usable, so
+$\widehat\Psi_j=L_n^{-1}\sum_{u\in G}\widehat\xi_j(u)$.
+
+\begin{lemma}[Quadrature]\label{lem:app-quadrature}
+If $L_n\ge1$, then for every $j$,
+\begin{equation}
+ \Bigl|L_n^{-1}\sum_{u\in G}\xi_j(u)-\Psi_j\Bigr|
+ \le q_n:=\omega_\xi(\delta_n)+\frac{4\Gamma\delta_n}{1-2\varepsilon}.
+ \label{eq:A5app}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Write the grid points $u_1<\cdots<u_{L_n}$, consecutive multiples of
+$\delta_n$.  If $L_n=1$ then $|\I|<2\delta_n$ and the left side is at most
+$\Gamma<4\Gamma\delta_n/|\I|$.  Assume $L_n\ge2$ and partition $\I$
+exactly: $C_1=[\varepsilon,u_1+\delta_n/2]$,
+$C_{L_n}=[u_{L_n}-\delta_n/2,1-\varepsilon]$, and
+$C_r=[u_r-\delta_n/2,u_r+\delta_n/2]$ otherwise.  Interior cells have
+length $\delta_n$, boundary cells length in $[\delta_n/2,3\delta_n/2)$,
+and every point of $C_r$ is within $\delta_n$ of $u_r$.  Then
+\[
+ \Bigl|\frac1{L_n}\sum_r\xi_j(u_r)-\frac1{|\I|}\int_{\I}\xi_j\Bigr|
+ \le\frac1{|\I|}\sum_r\int_{C_r}|\xi_j-\xi_j(u_r)|
+ +\Gamma\sum_r\Bigl|\frac{\lambda(C_r)}{|\I|}-\frac1{L_n}\Bigr|.
+\]
+The first term is at most $\omega_\xi(\delta_n)$.  For the second, both
+weight vectors sum to one;
+$|\I|=\sum_r\lambda(C_r)\in[(L_n-1)\delta_n,(L_n+1)\delta_n]$ gives
+$||\I|/L_n-\delta_n|\le\delta_n/L_n$, so interior cells contribute at most
+$\delta_n$ in total and the two boundary cells at most
+$\delta_n/2+\delta_n/L_n\le\delta_n$ each; the sum is at most $3\delta_n$,
+and the second term is at most $3\Gamma\delta_n/|\I|\le
+4\Gamma\delta_n/|\I|$.
+\end{proof}
+
+\begin{theorem}[Finite-sample score bound]\label{thm:app-score}
+Under the conditions of Theorem~\ref{thm:app-rank-profile} (with in
+addition $\omega_\xi(\delta_n)<\infty$) and $L_n\ge1$, for every $\eta>0$, $0<t\le1$, $0<\tau<1/2$,
+\begin{align}
+ \Pp\Bigl\{\max_{j\le p}|\widehat\Psi_j-\Psi_j|
+ >B_n(\eta,t,\tau)+q_n\Bigr\}
+ \le
+ 2pe^{-2n\eta^2}+2pn\tau+2pS_ne^{-K_nt^2/4}+pS_ne^{-(K_n+1)/4},
+ \label{eq:A6app}
+\end{align}
+where
+$B_n(\eta,t,\tau)=2\omega_n(h+\eta+\delta_n,\tau)+\Gamma t
++(1+t)b_n(3\alpha)$.
+If moreover $B_n(\eta,t,\tau)+q_n<\Delta_{\min}/2$, the same right-hand
+side bounds the probability that some active score fails to precede every
+inactive score; on the complementary event,
+$\A\subseteq\widehat\A_d$ for every $d\ge s$, and
+$\widehat\A_s=\A$.
+\end{theorem}
+
+\begin{proof}
+Pathwise,
+\[
+ |\widehat\Psi_j-\Psi_j|
+ \le\sup_{u\in\I}|\widehat\xi_j(u)-\xi_j(u)|
+ +\Bigl|L_n^{-1}\sum_{u\in G}\xi_j(u)-\Psi_j\Bigr|,
+\]
+and Lemma~\ref{lem:app-quadrature} bounds the second term by $q_n$ on
+every sample path; reusing the same observations for estimation and
+averaging therefore costs no extra probability.
+Theorem~\ref{thm:app-rank-profile} gives \eqref{eq:A6app}.  On the event
+that every score error is below $\Delta_{\min}/2$: inactive coordinates
+have $\Psi_j=\gmax$ (Proposition~\ref{prop:geometry}), hence
+$\widehat\Psi_j>\gmax-\Delta_{\min}/2$; active coordinates have
+$\Psi_j\le\gmax-\Delta_{\min}$, hence
+$\widehat\Psi_j<\gmax-\Delta_{\min}/2$.  Every active score precedes every
+inactive score, and the screening and recovery statements follow
+deterministically.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:score}]
+Choose $\eta_n=\sqrt{\log(pn)/n}$, $\tau=\tau_n=(pn)^{-2}$, and
+$t_n=\sqrt{(4/K_n)\log\{pS_n(pn)\}}$.  The four probability terms in
+\eqref{eq:A6app} are then each $o(1)$: the first is
+$2pe^{-2\log(pn)}=2p(pn)^{-2}\to0$; the second is $2pn(pn)^{-2}\to0$; the
+third is $2pS_n\{pS_n(pn)\}^{-1}=2(pn)^{-1}\to0$; the fourth is
+$pS_ne^{-(K_n+1)/4}\to0$ because $\log(pS_n)\le C\log(pn)=o(K_n)$ by the
+second condition in \eqref{eq:rate-cond} and $K_n\ge c\,n\alpha h$.  The
+same condition makes $t_n\le1$ for large $n$, as required by
+Lemma~\ref{lem:app-chernoff}, and
+$\Gamma t_n=O(\sqrt{\log(pn)/(n\alpha h)})$.
+
+It remains to check that the bias part of $B_n(\eta_n,t_n,\tau_n)+q_n$ is
+$o(\Delta_{\min})$.  First, $\log(pn)=o(nh^2)$ gives
+$\eta_n+\delta_n=o(h)$, so $h+\eta_n+\delta_n\le C_0h$ eventually and
+$2\omega_n(h+\eta_n+\delta_n,\tau_n)\le2\omega_n(C_0h,\tau_n)
+=o(\Delta_{\min})$ by (E3).  Second,
+$(1+t_n)b_n(3\alpha)\le2b_n(3\alpha)=o(\Delta_{\min})$ by (E2).  Third, $q_n=\omega_\xi(\delta_n)+O(1/n)$: the first part is
+$o(\Delta_{\min})$ by (E1), and
+$1/n\le\sqrt{\log(pn)/(n\alpha h)}$ since $\alpha h\le1\le n\log(pn)$, so
+the second part is absorbed into the stochastic rate.  Collecting terms,
+$\max_j|\widehat\Psi_j-\Psi_j|\le
+O(\sqrt{\log(pn)/(n\alpha h)})+o(\Delta_{\min})$ outside a vanishing
+probability.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sis} and
+Corollary~\ref{cor:exact}]
+Under \eqref{eq:sis-cond},
+$\sqrt{\log(pn)/(n\alpha h)}=o(\Delta_{\min})$, so the choices in the
+previous proof give $B_n(\eta_n,t_n,\tau_n)+q_n<\Delta_{\min}/2$ for $n$
+large, and the second part of Theorem~\ref{thm:app-score} applies: the
+failure probability of active--inactive separation is bounded by the four
+vanishing terms.  Sure screening for every $d\ge s$ and exact recovery at
+$d=s$ follow.
+\end{proof}
+
+\subsection{Model classes satisfying the estimation conditions}
+\label{app:examples}
+
+The two moduli admit a convenient sufficient condition through the
+logarithmic derivative of the slowly varying factor.
+
+\begin{lemma}[Derivative criterion for the tail modulus]
+\label{lem:app-derivative}
+Suppose that for every $j$ and $u\in\I$ the map
+$s\mapsto\log\ell_j(s,u)$ is differentiable on $[s_0,\infty)$ with
+\[
+ D(s):=\max_{j\le p}\sup_{u\in\I}\;
+ \sup_{s'\ge s}\,\bigl|\partial_{\log s'}\log\ell_j(s',u)\bigr|<\infty .
+\]
+Then $b_n(a)\le D(a^{-1})$ for every $a\le s_0^{-1}$.
+\end{lemma}
+
+\begin{proof}
+For $s\ge a^{-1}$ and $t>1$, the mean value theorem in the variable
+$\log s$ gives
+$|\log\ell_j(ts,u)-\log\ell_j(s,u)|\le D(s)\log t\le D(a^{-1})\log t$;
+divide by $\log t$ and take suprema.
+\end{proof}
+
+\begin{proposition}[Finite mixtures with a spectral gap]
+\label{prop:app-mixture}
+Suppose the projected conditional survival functions have the form
+\begin{equation}
+ \bar F_j(y\mid u)=w_j(u)\,y^{-1/\xi_j(u)}+\{1-w_j(u)\}\,y^{-1/\zeta_j(u)},
+ \qquad y\ge1,
+ \label{eq:app-mixture}
+\end{equation}
+with $w_j\in[w_0,1-w_0]$, $\underline\gamma\le\zeta_j<\xi_j\le\Gamma$,
+$\inf_{j,u}\{1/\zeta_j(u)-1/\xi_j(u)\}\ge d_0>0$, and $w_j,\xi_j,\zeta_j$
+uniformly Lipschitz in $u$.  Then (E1) holds, and there are constants
+depending only on $(w_0,\underline\gamma,\Gamma,d_0)$ and the Lipschitz
+bounds such that
+\[
+ b_n(a)\le C\,a^{\rho},\qquad
+ \omega_n(r,\tau)\le C\,r\,\{1+\log(1/\tau)\},
+ \qquad\rho=\underline\gamma d_0 .
+\]
+Consequently, with $\alpha=n^{-a}$, $h=n^{-b}/2$, $\tau_n=(pn)^{-2}$ and
+a gap $\Delta_{\min}$ bounded away from zero, (E1)--(E3) and
+\eqref{eq:sis-cond} hold for every $p$ with
+$\log(pn)=o(n^{\min(b,\,1-a-b)})$; the $n^{b}$ branch comes from the
+spatial modulus (E3), the $n^{1-a-b}$ branch from the local extreme
+count.  For $b>\max(a,1/3)$ the rank-displacement condition
+$\log(pn)=o(n^{1-2b})$ of \eqref{eq:rate-cond} binds before this range,
+as noted after Corollary~\ref{cor:exact}.
+\end{proposition}
+
+\begin{proof}
+(E1): the survival function \eqref{eq:app-mixture} is continuous and
+strictly decreasing on $[1,\infty)$, so the conditional cdf is
+continuous, and the Lipschitz property of $\xi_j$ gives
+$\omega_\xi(r)\le Cr$.
+
+For the moduli, write $\bar F_j(y\mid u)=w_jy^{-1/\xi_j}\{1+g\}$ with
+$g=g_j(y,u)=\{(1-w_j)/w_j\}\,y^{-(1/\zeta_j-1/\xi_j)}$, so
+$0\le g\le w_0^{-1}y^{-d_0}$.  Solving $\bar F_j(y\mid u)=1/s$ for the
+quantile $y=Q_j(s,u)$ and taking logarithms,
+\[
+ \log Q_j(s,u)=\xi_j(u)\log\{w_j(u)s\}+\xi_j(u)\log\{1+g(Q_j,u)\},
+\]
+so that $\ell_j(s,u)=w_j^{\xi_j}\{1+g(Q_j(s,u),u)\}^{\xi_j}$.  A lower
+bound on the quantile follows from
+$1/s=\bar F_j(Q_j)\ge w_j\,Q_j^{-1/\xi_j}\ge w_0\,Q_j^{-1/\xi_j}$, which
+gives $Q_j(s,u)\ge(w_0s)^{\xi_j}\ge c_2\,s^{\underline\gamma}$ for
+$s\ge w_0^{-2}$, hence
+$g(Q_j(s,u),u)\le w_0^{-1}c_2^{-d_0}s^{-\underline\gamma d_0}
+=C_3s^{-\rho}$.
+
+Differentiability: $s\mapsto Q_j(s,u)$ is differentiable (inverse of a
+smooth strictly monotone function), and
+\[
+ \partial_{\log s}\log\ell_j(s,u)
+ =\xi_j\,\frac{g'(Q_j)Q_j}{1+g(Q_j)}\;\partial_{\log s}\log Q_j
+ =-\xi_j\Bigl(\tfrac1{\zeta_j}-\tfrac1{\xi_j}\Bigr)
+ \frac{g(Q_j)}{1+g(Q_j)}\;\partial_{\log s}\log Q_j .
+\]
+Since $\partial_{\log s}\log Q_j\in[\zeta_j,\xi_j]\subseteq
+[\underline\gamma,\Gamma]$ (differentiate the identity
+$\bar F_j(Q_j)=1/s$), $1/\zeta_j-1/\xi_j\le1/\underline\gamma$, and
+$g(Q_j(s,u),u)\le C_3s^{-\rho}$, the supremum in
+Lemma~\ref{lem:app-derivative} satisfies
+$D(a^{-1})\le\Gamma\cdot\underline\gamma^{-1}\cdot\Gamma\,C_3\,a^{\rho}
+=Ca^{\rho}$, whence $b_n(a)\le Ca^{\rho}$.
+
+Spatial modulus: differentiate the defining identity
+$\bar F_j\{Q_j(s,u)\mid u\}=1/s$ with respect to $u$ at fixed $s$:
+\[
+ \partial_u\log Q_j(s,u)
+ =-\frac{\partial_u\log\bar F_j(y\mid u)\big|_{y=Q_j}}
+        {\partial_{\log y}\log\bar F_j(y\mid u)\big|_{y=Q_j}} .
+\]
+The denominator lies in $[-1/\underline\gamma,-1/\Gamma]$, so its
+reciprocal is bounded by $\Gamma$ in absolute value.  For the numerator,
+$\log\bar F_j(y\mid u)=\log w_j(u)-\{1/\xi_j(u)\}\log y
++\log\{1+g_j(y,u)\}$, and each $u$-derivative is bounded using the
+Lipschitz assumptions: $|\partial_u\log w_j|\le C$;
+$|\partial_u\{1/\xi_j\}|\log y\le C\log y$; and
+$|\partial_u\log(1+g_j)|\le|\partial_u g_j|
+\le C\,g_j(y,u)\,(1+\log y)\le C(1+\log y)$, since $g_j\le w_0^{-1}$
+and the $u$-dependence of $g_j$ enters through the Lipschitz functions
+$w_j,\zeta_j,\xi_j$ in its factor and its exponent.  At $y=Q_j(w^{-1},u)$
+with $w\ge\tau$, $\log y\le\Gamma\log(w^{-1})+C\le C\{1+\log(1/\tau)\}$.
+Integrating $\partial_u\log Q_j$ over $|u-v|\le r$ gives
+$\omega_n(r,\tau)\le Cr\{1+\log(1/\tau)\}$.
+
+Finally, with $\alpha=n^{-a}$, $h=n^{-b}/2$, $\tau_n=(pn)^{-2}$:
+$b_n(3\alpha)=O(n^{-a\rho})\to0$;
+$\omega_n(C_0h,\tau_n)=O(n^{-b}\log(pn))$, which vanishes exactly when
+$\log(pn)=o(n^{b})$ --- this is an additional constraint whenever
+$a+2b<1$, and is implied by $\log(pn)=o(n^{1-a-b})$ when
+$a+2b\ge1$; and $\omega_\xi(1/n)=O(1/n)$.  All three are
+$o(\Delta_{\min})$ for a gap bounded away from zero, and combining with
+\eqref{eq:sis-cond} gives the stated range
+$\log(pn)=o(n^{\min(b,1-a-b)})$.
+\end{proof}
+
+The second class is presented as a derivation outline rather than a
+theorem: the displayed orders are obtained by the argument sketched
+below, whose one omitted step is stated explicitly.
+
+\begin{remark}[Plateau-maximizer arrays; derivation outline]
+\label{prop:app-plateau}
+Let $U$ have uniform marginals and full fibre support, and suppose that
+for every $j$ and $u\in\I$ the conditional density of the omitted
+\emph{active} coordinates given $U_j=u$ is bounded above and below by
+positive constants on $[0,1]^{|\A\setminus\{j\}|}$; the remaining $p-s$
+coordinates may be arbitrarily dependent.  For $a_0\ge1$, $\kappa>0$,
+$\Gamma_0>\kappa s$, let
+\[
+ \gamma(u)=\Gamma_0-\kappa\sum_{\ell\in\A}\psi(u_\ell),
+ \qquad
+ \psi(t)=\{\max(t-\tfrac12,0)\}^{a_0},
+\]
+with exact conditional Pareto tails
+$\Pp(Y>y\mid U=u)=y^{-1/\gamma(u)}$, $y\ge1$, so that (C1)--(C2) hold
+with $L\equiv1$.  Then $\xi_j(u)=\Gamma_0-\kappa\psi(u)$ for
+$j\in\A$, every active coordinate is detectable, and
+\[
+ b_n(\alpha)\le C\{\log(1/\alpha)\}^{-\{1+(s-1)/a_0\}},
+ \qquad
+ \omega_n(r,\tau)\le C\,r\,\{1+\log(1/\tau)\},
+\]
+with $C$ depending on the density bounds and degrading geometrically in
+$s$.  The least favourable case is $s=2$, where the first exponent is
+$1+1/a_0$; with $\alpha=n^{-a}$, condition (E2) holds whenever
+$(\log n)^{-\{1+(s-1)/a_0\}}=o(\Delta_{\min})$.
+
+\emph{Outline.}
+The fibre maximum is attained on the plateau
+$\{u_\ell\le1/2,\ \ell\in\A\setminus\{j\}\}$, whose conditional
+probability is bounded below by the density assumption; the conditional
+law of $\gamma(U)$ given $U_j=u$ is therefore an atom of mass
+$w_j(u)\ge w_->0$ at $\xi_j(u)$ plus a residual whose mass within
+$\delta$ of the endpoint is of exact order $\delta^{(s-1)/a_0}$,
+since reaching within $\delta$ requires each of the $s-1$ omitted
+active coordinates to exceed $1/2$ by at most
+$(\delta/\kappa)^{1/a_0}$.  Projecting,
+\[
+ \Pp(Y>y\mid U_j=u)
+ =w_j(u)\,y^{-1/\xi_j(u)}
+ +\int y^{-1/t}\,\nu_u(dt),
+\]
+where $\nu_u$ is the residual part, whose mass within $\delta$ of the
+endpoint is of order $\delta^{(s-1)/a_0}$.  Substituting
+$1/t-1/\xi_j\ge(\xi_j-t)/\Gamma_0^2$ and integrating in
+$x=\log y$ shows the residual integral is
+$y^{-1/\xi_j(u)}\,O\{(\log y)^{-(s-1)/a_0}\}$ (a Laplace-type
+computation with the polynomial mass profile; the omitted step is the
+uniform matching of upper and lower bounds on $\nu_u$ near the
+endpoint).  The quantile inversion and the derivative computation then
+parallel the proof of Proposition~\ref{prop:app-mixture}, with
+$s^{-\rho}$ replaced by $\{\log s\}^{-(s-1)/a_0}$, whose logarithmic
+derivative gains one further power of $\log s$;
+Lemma~\ref{lem:app-derivative} yields the stated $b_n$.  The omitted
+step --- the uniform two-sided control of the residual mass near the
+plateau boundary --- is elementary but lengthy; the displays above
+record the resulting orders rather than a complete derivation, which is
+why this class is stated as a remark.
+\end{remark}
+
+\paragraph{The continuous-mixture boundary.}
+For $W\sim U(0,1)$ and $\Pp(Y>y\mid W)=y^{-1/(1+W)}$, projection gives
+$Q(s)\sim4s^2/(\log s)^2$, and the left side of (E2) is of exact order
+$1/\log(1/\alpha)\asymp1/\log n$ for $\alpha=n^{-a}$.  Comparing the
+three classes isolates what drives the tail modulus: the conditional
+mass at the fibre maximum.  A spectral gap below the maximum gives a
+polynomial modulus; an atom with polynomially decaying nearby mass gives
+$\{\log n\}^{-(1+1/a_0)}$; no atom at all gives $1/\log n$, and gaps of
+that order or smaller fall outside (E2).  This boundary belongs to the
+problem, not to the proof technique: the projected quantile genuinely
+converges at a logarithmic rate in the last regime.

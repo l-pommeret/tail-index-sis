@@ -1,0 +1,2 @@
+model,signal,n,p,rho,reps,a,b,epsilon,block_size
+A,1,1000,10000,0,200,.20,.20,.05,256

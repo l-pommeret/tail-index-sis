@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage[section]{placeins}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\A}{A}\newcommand{\I}{I_\varepsilon}
+\newcommand{\M}{M}\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}\newcommand{\R}{\mathbb R}
+\newcommand{\gmax}{\gamma^\star}
+\title{Tail-Index Sure Independence Screening for\\Ultra-High-Dimensional Heavy-Tailed Regression}
+\author{Anonymous manuscript}\date{}
+\begin{document}\maketitle
+\begin{abstract}
+We propose a marginal screen for the covariates that determine a positive
+conditional tail index, designed for problems where the dimension $p$ is large
+relative to the number of observations informative about the tail. The screen
+rests on one geometric fact: after projection onto a single coordinate, the
+conditional distribution is a mixture whose tail is governed by its heaviest
+component, so the projected tail index is the upper envelope of the tail-index
+surface along the corresponding fibre. Inactive coordinates produce flat
+envelopes at the global maximum $\gmax$; active coordinates are detectable
+exactly when their fibres miss the global argmax set on a set of positive
+measure. Ranking coordinates by the average projected index therefore
+separates detectable active variables from noise. We estimate the envelope
+with empirical-rank local Hill profiles, and prove that the maximal score
+error over $p$ coordinates is
+$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term negligible relative to
+the population gap, where $\alpha$ is the local tail fraction and $h$ the rank
+bandwidth; $n\alpha h$ is the effective local extreme sample size. Sure
+screening and exact recovery follow when
+$\log(pn)=o(n\alpha h\Delta_{\min}^2)$. The algorithm costs $O(pn\log n)$.
+Simulations with slowly varying factors driven by inactive covariates show
+when screening on the tail index differs from screening on a fixed high
+quantile. An application to violent-crime rates in 1{,}993 U.S. communities,
+with $p=99$ continuous predictors against an effective tail sample of about
+$200$, illustrates the method in its intended regime. The uniform
+projected-quantile conditions are stated directly; deriving them from a fully
+primitive growing-dimensional model remains open.
+\end{abstract}
+\input{sections/introduction}
+\input{sections/model_population}
+\input{sections/estimation_theory}
+\input{sections/computation_simulation}
+\FloatBarrier
+\input{sections/real_data}
+\FloatBarrier
+\input{sections/discussion}
+\appendix\input{sections/proofs}
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}

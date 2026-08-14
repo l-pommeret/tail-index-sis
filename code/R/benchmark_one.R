@@ -1,0 +1,7 @@
+args <- commandArgs(trailingOnly=TRUE)
+if(length(args)!=4L) stop("usage: benchmark_one.R n p rho block_size")
+n<-as.integer(args[1]);p<-as.integer(args[2]);rho<-as.numeric(args[3]);bs<-as.integer(args[4])
+source("code/R/streaming.R"); library(Rcpp); sourceCpp("code/src/local_hill.cpp",rebuild=FALSE)
+t<-system.time(z<-simulate_score_streaming(n,p,rho,"A",1,99173,n^(-.2)/2,n^(-.3),.05,bs))
+stopifnot(length(z$scores)==p,all(is.finite(z$scores)),z$y_min>1)
+cat(sprintf("BENCH n=%d p=%d rho=%g block=%d elapsed=%.6f under=%.8f\n",n,p,rho,bs,t[["elapsed"]],mean(z$under_rate)))

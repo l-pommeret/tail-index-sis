@@ -1,0 +1,50 @@
+# local R library and caches
+.Rlib/
+__pycache__/
+*.Rout
+
+# LaTeX build artifacts
+manuscript/*.aux
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.fdb_latexmk
+manuscript/*.fls
+manuscript/*.log
+manuscript/*.out
+manuscript/main2.pdf
+
+# heavy or non-redistributable material kept out of the public repository
+sources/
+lean/
+data/real/
+data/crime/crime.zip
+results/archive/
+results/*.rds
+results/*.log
+results/*.out
+results/*.time
+results/tables/
+results/final/
+results/real_online_news/
+results/*.txt
+results/*.csv
+Rplots.pdf
+Dimension_reduction_tail_index.pdf
+
+# internal working notes (not part of the release)
+notes/
+prompts/
+proof_bundle/
+reviews/
+preuve.md
+preuve-v2.md
+preuve-v3.md
+Prompt*.md
+pipeline.json
+campaign.py
+browser_submit.py
+browser_sync.py
+proof_pipeline.py
+code_alex/
+.claude/
+docs/

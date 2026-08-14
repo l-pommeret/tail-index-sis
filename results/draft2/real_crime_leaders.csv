@@ -1,0 +1,11 @@
+"variable","primary","grid_med","grid_max","half_med","half_q10","half_q90","top5_freq","tie_max","yu_rank","q95_rank"
+"pctUsePubTrans",1,4,20,6,1,14,0.44,1,57,53
+"pctKids2Par",2,2,5,2,1,5,0.92,2,3,1
+"pct2Par",3,4,5,5,2,10,0.64,3,7,5
+"pctMaleNevMar",4,4,19,9,3,20,0.265,4,47,33
+"pctWfarm",5,5,18,8,2,19,0.345,6,60,59
+"pctPoverty",6,6,11,4,2,9,0.705,6,14,2
+"pctKids4w2Par",7,6,7,5,2,14,0.52,7,6,3
+"pct12to17w2Par",8,7,8,7,4,19,0.21,8,11,8
+"pctKidsBornNevrMarr",9,9,13,5,2,16,0.535,9,2,4
+"popDensity",10,32,44,19,9,41,0.035,11,69,60
