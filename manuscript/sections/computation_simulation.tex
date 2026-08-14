@@ -25,7 +25,7 @@ tail-index functions from increasing difficulty,
 \begin{align*}
  \gamma_1(u)&=0.5\exp\bigl(-\textstyle\sum_{j=1}^4u_j\bigr),\\
  \gamma_2(u)&=0.5\exp\bigl(-0.5\textstyle\sum_{j=1}^4u_j\bigr),\\
- \gamma_3(u)&=0.55\exp\bigl(-0.35\textstyle\sum_{j=1}^4u_j
+ \gamma_3(u)&=0.55\exp\bigl(-0.80\textstyle\sum_{j=1}^4u_j
  -0.20\,u_1u_2-0.15\,u_3u_4\bigr),
 \end{align*}
 with two slowly varying functions in the forms of
@@ -33,18 +33,38 @@ with two slowly varying functions in the forms of
 \[
  \ell^{(1)}(s,u)=\bigl[1+\exp\{v(u)-s\}\bigr]^{-1},
  \qquad
- \ell^{(2)}(s,u)=e^{-1/(2s)}\,v_\kappa(u),
+ \ell^{(2)}(s,F)=e^{-1/(2s)}\,v_\kappa(F),
 \]
 where $v(u)=2.5\,(u_5+u_6+u_7+u_8)\in(0,10)$ matches the range of their
-$B_1^\top x$, and the scale factor of $\ell^{(2)}$ is
+$B_1^\top x$. The scale factor of $\ell^{(2)}$ is carried by a single
+latent standard normal $F$, independent of the active coordinates and not
+itself observed, through
 \[
- v_\kappa(u)=\exp\Bigl\{\kappa\sum_{j=5}^{8}\bigl(u_j-\tfrac12\bigr)\Bigr\}
- \in[e^{-2\kappa},e^{2\kappa}],
+ v_\kappa(F)=\exp\bigl\{\kappa\bigl(\Phi(F)-\tfrac12\bigr)\bigr\}
+ \in[e^{-\kappa/2},e^{\kappa/2}],
 \]
-strictly positive, bounded, symmetric in the four \emph{inactive}
-variables, and controlled by the single strength parameter $\kappa$;
-its bounds keep the model compatible with the uniform constants in
-(C2). The four models are
+strictly positive and bounded, which keeps the model compatible with the
+uniform constants in (C2). What the analyst observes are $s=20$ proxies of
+$F$, occupying the coordinates $\A_{\rm scale}=\{5,\ldots,24\}$,
+\[
+ Z_{ij}=\lambda F_i+\sqrt{1-\lambda^{2}}\,\epsilon_{ij},
+ \qquad j\in\A_{\rm scale},
+ \qquad \lambda=0.7,
+\]
+so each is marginally standard normal like every other covariate and
+correlates with the nuisance at $\lambda$. Two consequences make this
+parameterization the useful one. First,
+$\operatorname{Var}\{\log v_\kappa(F)\}=\kappa^{2}/12$ exactly, whatever
+$s$ and $\lambda$: the magnitude of the nuisance is a property of $\kappa$
+alone, so the number of scale covariates and the quality of each proxy can
+be varied without changing how hard the tail index is to estimate.
+Second, $\kappa^\star=0.4772$ is the value for which that standard
+deviation, $\kappa^\star/\sqrt{12}=0.138$, equals the one produced at the
+baseline design by the additive form
+$\exp\{\kappa\sum_{j=5}^{8}(u_j-\tfrac12)\}$ of
+\citet[Section~4.3]{gardesPodgorny2025} at their $\kappa=0.20$; the two
+specifications therefore perturb the response by the same amount.
+The four models are
 \[
  \mathrm{M1}=(\gamma_1,\ell^{(1)}),\quad
  \mathrm{M2}=(\gamma_1,\ell^{(2)}_{\kappa^\star}),\quad
@@ -52,36 +72,34 @@ its bounds keep the model compatible with the uniform constants in
  \mathrm{M4}=(\gamma_3,\ell^{(1)}).
 \]
 M1 is the reference. M2 keeps the tail index of M1 and changes only the
-slowly varying factor: $\ell^{(2)}(s,u)\to v_\kappa(u)$ as $s\to\infty$,
+slowly varying factor: $\ell^{(2)}(s,F)\to v_\kappa(F)$ as $s\to\infty$,
 so the tail index depends on $\A_\gamma=\{1,2,3,4\}$ while the scale ---
-hence every high finite quantile --- also depends on
-$\A_{\rm scale}=\{5,6,7,8\}$. Variables can therefore matter for a
+hence every high finite quantile --- depends instead on the latent $F$,
+and through it on the twenty observed proxies
+$\A_{\rm scale}=\{5,\ldots,24\}$. Variables can therefore matter for a
 $0.95$-quantile screen without entering the limiting exponent, by
-construction; Section~\ref{sec:comparison} exploits this. The strength
-$\kappa^\star=0.20$ was chosen by a pilot on a dedicated seed stream,
-never reused below: candidate values
-$\kappa\in\{.15,.25,.35,.50,.70\}$, plus the single authorized midpoint
-extension $\kappa=.20$, were evaluated on 80 replications each. The
-selection rule, fixed in the pilot code before inspection, required the
-smallest $\kappa$ with (i) tail-screen Sure-20 at least $0.5$, (ii)
-clearly more scale variables in the quantile screen's top four than in
-the tail screen's, (iii) more of $\A_\gamma$ in the tail screen's top
-four than in the quantile screen's, and (iv) at least one scale
-variable in the quantile screen's top four on average. No candidate
-satisfied all four: at $\kappa=.20$, criteria (i), (ii) and (iv) hold
-(Sure-20 $0.55$, with standard error $0.056$ on 80 replications, so
-(i) itself clears its threshold only within one standard error;
-$1.14$ against $0.17$ scale variables) but (iii) fails by a margin
-within Monte Carlo error ($2.71$ against $2.83$ of $\A_\gamma$), while
-at $\kappa=.25$ criterion (i) fails ($0.40$). We therefore applied the
-protocol's declared fallback --- the candidate best balancing scale
-separation against tail estimability --- and fixed
-$\kappa^\star=0.20$; the choice is a judgment call informed by the
-pilot, not the output of a rule that selected uniquely. Full pilot
-results are in the supplementary table (\texttt{pilot\_summary.csv}). M3 halves the exponent range of the
-signal, weakening the population gaps from $0.186$ to $0.107$; M4 adds
-interactions among the active coordinates while remaining detectable
-(Proposition~\ref{prop:geometry}), with trimmed gap $0.086$.
+construction, and here twenty of them do; Section~\ref{sec:comparison}
+exploits this. M3 halves the exponent of the signal, weakening the
+population gap from $0.186$ to $0.107$; M4 adds interactions among the
+active coordinates while remaining detectable
+(Proposition~\ref{prop:geometry}), with trimmed gap $0.173$.
+
+The population gaps quoted above follow in closed form from the
+construction. Conditioning on $U_j=t$ for an active $j$ and maximising
+over the other three active coordinates places them at $0$, where the
+interaction terms of $\gamma_3$ vanish; the upper envelope along the
+fibre is therefore $c\,e^{-\beta t}$ for all three tail-index functions,
+with $(c,\beta)$ equal to $(0.5,1)$, $(0.5,0.5)$ and $(0.55,0.80)$, while
+an inactive coordinate has the flat envelope $c$. Averaging over the
+trimmed grid $(\varepsilon,1-\varepsilon)$ gives
+\[
+ \Delta \;=\; c\Bigl[1-\frac{e^{-\beta\varepsilon}-e^{-\beta(1-\varepsilon)}}
+ {\beta\,(1-2\varepsilon)}\Bigr],
+\]
+that is $0.186$, $0.107$ and $0.173$. The interaction coefficients of
+$\gamma_3$ do not enter: they act in the interior of the tail-index
+surface, not on its upper envelope, so M4 tests robustness to
+non-additivity without being harder to detect on that account.
 
 None of the four models belongs to the sufficient classes of
 Appendix~\ref{app:examples}: their tail-index surfaces are continuous
@@ -90,7 +108,7 @@ laws have no atom and the projected quantiles acquire slow variation of
 logarithmic type --- the boundary regime in which condition (E2) covers
 only gaps large relative to $1/\log n$. At $n=2000$ the corresponding
 bias modulus is of order one, larger than every population gap
-($0.086$--$0.186$), so the finite-sample bounds of
+($0.107$--$0.186$), so the finite-sample bounds of
 Section~\ref{sec:estimation} are not numerically informative for these
 designs. The simulations therefore probe the method beyond the regime
 its theory certifies. Ranking nevertheless succeeds because much of the
@@ -105,9 +123,13 @@ Unless a factor is explicitly varied, the design is
  n=2000,\qquad p=1000,\qquad \rho=0.25,\qquad d=20,
  \qquad \varepsilon=0.05,
 \]
-with 200 Monte Carlo replications per cell; Sure-$d$ denotes
-$\Pp(R_{\max}\le d)$ with $R_{\max}=\max_{j\in\A}\mathrm{rank}(j)$, and
-binomial standard errors are at most $0.036$.
+with 1000 Monte Carlo replications per cell in the comparison of
+Section~\ref{sec:comparison}, and 200 in the tuning and sensitivity
+studies that Section~\ref{sec:tuning} and Section~\ref{sec:factors}
+carry over unchanged. Sure-$d$ denotes
+$\Pp(R_{\max}\le d)$ with $R_{\max}=\max_{j\in\A}\mathrm{rank}(j)$;
+binomial standard errors are at most $0.016$ on 1000 replications and
+$0.036$ on 200.
 
 \subsection{Tuning}\label{sec:tuning}
 
