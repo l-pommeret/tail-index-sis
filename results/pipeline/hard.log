@@ -1,0 +1,83 @@
+17:18:52 g_M1_n5000_p2000_r000.rds done
+17:19:39 g_M1_n5000_p2000_r025.rds done
+17:20:27 g_M2_n5000_p2000_r000.rds done
+17:21:15 g_M2_n5000_p2000_r025.rds done
+17:22:03 g_M3_n5000_p2000_r000.rds done
+17:22:50 g_M3_n5000_p2000_r025.rds done
+17:23:38 g_M4_n5000_p2000_r000.rds done
+17:24:26 g_M4_n5000_p2000_r025.rds done
+
+Pipeline : quantile SIS (tau=0.95) en etage 1, puis tail-index SIS
+
+=== M1  n=5000 p=2000 rho=0.00, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.900    0.975    0.975          -
+quantile seul             1.000    1.000    1.000          -
+pipeline d1=25            0.975    0.975    1.000      1.000
+pipeline d1=50            0.975    0.975    0.975      1.000
+pipeline d1=100           0.950    0.975    0.975      1.000
+pipeline d1=200           0.950    0.975    0.975      1.000
+
+=== M1  n=5000 p=2000 rho=0.25, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           1.000    1.000    1.000          -
+quantile seul             1.000    1.000    1.000          -
+pipeline d1=25            1.000    1.000    1.000      1.000
+pipeline d1=50            1.000    1.000    1.000      1.000
+pipeline d1=100           1.000    1.000    1.000      1.000
+pipeline d1=200           1.000    1.000    1.000      1.000
+
+=== M2  n=5000 p=2000 rho=0.00, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.425    0.650    0.675          -
+quantile seul             0.100    1.000    1.000          -
+pipeline d1=25            0.575    0.875    1.000      1.000
+pipeline d1=50            0.500    0.725    0.850      1.000
+pipeline d1=100           0.475    0.675    0.775      1.000
+pipeline d1=200           0.450    0.675    0.775      1.000
+
+=== M2  n=5000 p=2000 rho=0.25, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.900    0.950    0.975          -
+quantile seul             0.300    1.000    1.000          -
+pipeline d1=25            0.925    1.000    1.000      1.000
+pipeline d1=50            0.925    1.000    1.000      1.000
+pipeline d1=100           0.925    1.000    1.000      1.000
+pipeline d1=200           0.925    0.975    1.000      1.000
+
+=== M3  n=5000 p=2000 rho=0.00, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.125    0.300    0.450          -
+quantile seul             0.800    0.925    0.975          -
+pipeline d1=25            0.275    0.675    0.950      0.975
+pipeline d1=50            0.250    0.600    0.725      0.975
+pipeline d1=100           0.225    0.475    0.600      1.000
+pipeline d1=200           0.150    0.400    0.525      1.000
+
+=== M3  n=5000 p=2000 rho=0.25, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.675    0.800    0.850          -
+quantile seul             1.000    1.000    1.000          -
+pipeline d1=25            0.800    0.950    0.975      1.000
+pipeline d1=50            0.750    0.900    0.950      1.000
+pipeline d1=100           0.725    0.900    0.900      1.000
+pipeline d1=200           0.700    0.900    0.900      1.000
+
+=== M4  n=5000 p=2000 rho=0.00, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.025    0.100    0.125          -
+quantile seul             0.350    0.850    0.875          -
+pipeline d1=25            0.125    0.425    0.775      0.900
+pipeline d1=50            0.075    0.275    0.550      0.950
+pipeline d1=100           0.050    0.175    0.425      1.000
+pipeline d1=200           0.050    0.150    0.275      1.000
+
+=== M4  n=5000 p=2000 rho=0.25, 40 replications
+regle                    Sure-4  Sure-10  Sure-20  survie e1
+tail-index seul           0.400    0.600    0.700          -
+quantile seul             0.900    1.000    1.000          -
+pipeline d1=25            0.575    0.900    1.000      1.000
+pipeline d1=50            0.475    0.875    0.950      1.000
+pipeline d1=100           0.475    0.700    0.875      1.000
+pipeline d1=200           0.475    0.700    0.800      1.000
+
