@@ -1,0 +1,47 @@
+17:47:31 g_M1_n5000_p2000_r025.rds done
+17:48:46 g_M2_n5000_p2000_r025.rds done
+17:50:00 g_M3_n5000_p2000_r025.rds done
+17:51:14 g_M4_n5000_p2000_r025.rds done
+
+Pipeline et agregation de reglages combines
+
+=== M1  n=5000 p=2000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+tail-index seul                 1.000    1.000    1.000
+tail-index 9 reglages           1.000    1.000    1.000
+quantile .95                    1.000    1.000    1.000
+pipeline d1=25                  1.000    1.000    1.000
+pipeline d1=25 + 9 reglages     1.000    1.000    1.000
+pipeline d1=50                  1.000    1.000    1.000
+pipeline d1=50 + 9 reglages     1.000    1.000    1.000
+
+=== M2  n=5000 p=2000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+tail-index seul                 0.900    0.950    0.975
+tail-index 9 reglages           0.950    0.975    1.000
+quantile .95                    0.300    1.000    1.000
+pipeline d1=25                  0.925    1.000    1.000
+pipeline d1=25 + 9 reglages     0.975    1.000    1.000
+pipeline d1=50                  0.925    1.000    1.000
+pipeline d1=50 + 9 reglages     0.975    1.000    1.000
+
+=== M3  n=5000 p=2000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+tail-index seul                 0.675    0.800    0.850
+tail-index 9 reglages           0.650    0.750    0.800
+quantile .95                    1.000    1.000    1.000
+pipeline d1=25                  0.800    0.950    0.975
+pipeline d1=25 + 9 reglages     0.775    0.950    1.000
+pipeline d1=50                  0.750    0.900    0.950
+pipeline d1=50 + 9 reglages     0.750    0.925    0.950
+
+=== M4  n=5000 p=2000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+tail-index seul                 0.400    0.600    0.700
+tail-index 9 reglages           0.400    0.600    0.700
+quantile .95                    0.900    1.000    1.000
+pipeline d1=25                  0.575    0.900    1.000
+pipeline d1=25 + 9 reglages     0.525    0.875    0.975
+pipeline d1=50                  0.475    0.875    0.950
+pipeline d1=50 + 9 reglages     0.500    0.850    0.925
+
