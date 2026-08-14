@@ -218,13 +218,89 @@ if (file.exists(ref_file)) {
   }
 }
 
-md <- c(md, "## 3. Vues agregees", "",
+## --- narrative analysis, with every figure computed from the data -----------
+analysis_lines <- function(S) {
+  if (length(unique(S$n)) < 3L || length(unique(S$p)) < 4L) return(character(0))
+  m20 <- function(meth, model) mean(S$sure20[S$method == meth & S$model == model])
+  glob <- function(col, meth) mean(S[[col]][S$method == meth])
+  by <- function(col, meth, key, val)
+    mean(S[[col]][S$method == meth & S[[key]] == val])
+  comp <- function(col, meth, model)
+    mean(S[[col]][S$method == meth & S$model == model])
+  ratio <- function(col) glob(col, "ours") / glob(col, "q950")
+  c(
+"## 3. Analyse d'ensemble",
+"",
+"### 3.1 Le classement global des methodes",
+"",
+sprintf("Sur le Sure-20 moyen, quantile SIS a tau=.95 devance le screen propose dans les quatre modeles : %s contre %s pour M1 a M4. Yoshida--Umezu est derniere partout (%s). Le constat vaut sur l'ensemble de la grille et pas seulement sur la cellule de la Draft 3.",
+        paste(fmt(vapply(c("M1","M2","M3","M4"), function(m) m20("q950", m), 0), 2), collapse = " / "),
+        paste(fmt(vapply(c("M1","M2","M3","M4"), function(m) m20("ours", m), 0), 2), collapse = " / "),
+        paste(fmt(vapply(c("M1","M2","M3","M4"), function(m) m20("yu", m), 0), 2), collapse = " / ")),
+"",
+sprintf("L'ecart se referme pourtant sur la recuperation exacte : en Sure-4 moyen le screen propose fait %s contre %s pour quantile SIS a tau=.95, soit une egalite aux erreurs Monte Carlo pres, et il devance nettement les trois autres valeurs de tau (%s a tau=.90, %s a tau=.975, %s a tau=.99).",
+        fmt(glob("sure4", "ours")), fmt(glob("sure4", "q950")),
+        fmt(glob("sure4", "q900")), fmt(glob("sure4", "q975")),
+        fmt(glob("sure4", "q990"))),
+"",
+sprintf("C'est la lecture que seules les valeurs de d etendues permettent. Le rapport des deux methodes passe de %s en Sure-4 a %s en Sure-100 (%s contre %s) : le screen propose place les variables actives tres haut quand il reussit, mais elargir la fenetre ne le sauve pas quand il echoue. Sa distribution de Rmax est bimodale -- succes quasi parfait ou echec profond -- tandis que celle de quantile SIS a une queue plus legere, donc elle profite de l'augmentation de d. Un tableau limite au Sure-20 masque entierement cette difference de nature.",
+        fmt(ratio("sure4"), 2), fmt(ratio("sure100"), 2),
+        fmt(glob("sure100", "ours")), fmt(glob("sure100", "q950"))),
+"",
+"### 3.2 Ce qui gouverne la performance",
+"",
+sprintf("**La taille d'echantillon domine tout.** Le Sure-20 du screen propose passe de %s a %s puis %s quand n vaut 1000, 2000 puis 5000. A n=5000 il se tient entre %s et %s quelle que soit la dimension, alors qu'a n=1000 il ne depasse jamais %s. C'est n, et non p, qui est la contrainte active.",
+        fmt(by("sure20", "ours", "n", 1000)), fmt(by("sure20", "ours", "n", 2000)),
+        fmt(by("sure20", "ours", "n", 5000)),
+        fmt(min(vapply(c(200,500,1000,2000), function(pp)
+          mean(S$sure20[S$method == "ours" & S$n == 5000 & S$p == pp]), 0))),
+        fmt(max(vapply(c(200,500,1000,2000), function(pp)
+          mean(S$sure20[S$method == "ours" & S$n == 5000 & S$p == pp]), 0))),
+        fmt(max(vapply(c(200,500,1000,2000), function(pp)
+          mean(S$sure20[S$method == "ours" & S$n == 1000 & S$p == pp]), 0)))),
+"",
+sprintf("**La dimension coute, mais pas davantage au screen propose qu'a ses concurrents.** En passant de p=200 a p=2000 son Sure-20 tombe de %s a %s, soit une perte relative de %.0f%% ; quantile SIS a tau=.95 perd %.0f%% (%s vers %s). L'idee que la competition entre p coordonnees penaliserait specifiquement un classement par score minimal n'est donc pas verifiee : la degradation est de meme ampleur pour les deux familles. Yoshida--Umezu est en revanche la plus sensible, avec %.0f%% de perte.",
+        fmt(by("sure20", "ours", "p", 200)), fmt(by("sure20", "ours", "p", 2000)),
+        100 * (1 - by("sure20", "ours", "p", 2000) / by("sure20", "ours", "p", 200)),
+        100 * (1 - by("sure20", "q950", "p", 2000) / by("sure20", "q950", "p", 200)),
+        fmt(by("sure20", "q950", "p", 200)), fmt(by("sure20", "q950", "p", 2000)),
+        100 * (1 - by("sure20", "yu", "p", 2000) / by("sure20", "yu", "p", 200))),
+"",
+sprintf("**La correlation aide, fortement et pour toutes les methodes.** Le Sure-20 du screen propose passe de %s a rho=0 a %s a rho=0.5 ; quantile SIS de %s a %s. Le cas independant est donc le plus difficile, ce qui peut surprendre. L'explication tient a la structure AR(1) : les quatre coordonnees actives sont adjacentes, donc correlees entre elles, et conditionner sur l'une deplace aussi les trois autres. La depression de l'enveloppe le long d'une fibre active s'en trouve amplifiee, et le signal marginal de chaque active augmente avec rho. Les etudes qui ne rapportent qu'un seul rho intermediaire surestiment donc la performance par rapport au cas independant.",
+        fmt(by("sure20", "ours", "rho", 0)), fmt(by("sure20", "ours", "rho", 0.5)),
+        fmt(by("sure20", "q950", "rho", 0)), fmt(by("sure20", "q950", "rho", 0.5))),
+"",
+"### 3.3 La ou le screen propose est irremplacable",
+"",
+sprintf("Sur M2, seul modele dote de variables d'echelle (A_scale = {5,6,7,8}, qui deplacent les quantiles finis sans toucher l'indice de queue), le top-4 de quantile SIS en contient %s en moyenne contre %s pour le screen propose. Ce dernier retient en meme temps davantage de vraies actives en indice de queue (%s contre %s). C'est la seule dimension ou il domine, et c'est precisement celle qui justifie son existence : il repond a une autre question, pas mieux a la meme.",
+        fmt(comp("top4_scale", "q950", "M2"), 2), fmt(comp("top4_scale", "ours", "M2"), 2),
+        fmt(comp("top4_gamma", "ours", "M2"), 2), fmt(comp("top4_gamma", "q950", "M2"), 2)),
+"",
+sprintf("Le prix a payer est visible dans le meme tableau : sur M2 son Sure-20 vaut %s contre %s pour quantile SIS. Il ne se laisse pas tromper par les variables d'echelle, mais il classe moins surement les actives.",
+        fmt(m20("ours", "M2")), fmt(m20("q950", "M2"))),
+"",
+"### 3.4 Le reglage de tau",
+"",
+sprintf("Quantile SIS n'est pas une methode mais une famille, et l'ecart entre ses membres depasse l'ecart entre familles : en Sure-20 moyen, tau=.95 donne %s et tau=.99 donne %s. Le tau optimal n'est pas connu en pratique, et tau=.99 -- le choix le plus naturel si l'on cherche un effet de queue -- est le pire des quatre. Compare a cette famille reglee a sa meilleure valeur, le screen propose part avec un handicap qui n'existe pas dans une application reelle.",
+        fmt(mean(S$sure20[S$method == "q950"])),
+        fmt(mean(S$sure20[S$method == "q990"]))),
+"",
+"### 3.5 Reserves",
+"",
+sprintf("Chaque cellule repose sur %d replications, donc l'erreur type d'une probabilite atteint %.3f ; les ecarts inferieurs a 0.10 dans une cellule isolee ne sont pas interpretables. Les moyennes de la section 4, portant sur 72 cellules par modele, sont en revanche precises. Les quatre modeles partagent la meme forme de gamma decroissante en chaque coordonnee active, donc les conclusions ne s'etendent pas telles quelles a des effets non monotones. Enfin le reglage (a*, b*) = (%s, %s) a ete choisi dans la Draft 3 a n=2000 et p=1000 : les cellules a n=5000 et p=2000 utilisent donc un reglage cale ailleurs, ce qui joue en defaveur du screen propose sur une partie de la grille.",
+        NREP, 0.5 / sqrt(NREP), Sys.getenv("ASTAR", "0.30"),
+        Sys.getenv("BSTAR", "0.10")),
+"")
+}
+md <- c(md, analysis_lines(S))
+
+md <- c(md, "## 4. Vues agregees", "",
   sprintf("Moyennes non ponderees des Sure-d sur les cellules concernees (%d cellules par modele).",
           length(unique(S$n)) * length(unique(S$p)) * length(unique(S$rho))), "")
 
 for (m in c("M1", "M2", "M3", "M4")) {
   w <- S[S$model == m, ]
-  md <- c(md, sprintf("### 3.%d Modele %s", match(m, c("M1","M2","M3","M4")), m), "",
+  md <- c(md, sprintf("### 4.%d Modele %s", match(m, c("M1","M2","M3","M4")), m), "",
     "Profil Sure-d, moyenne sur toutes les cellules du modele :", "",
     sured_profile(w),
     "Sure-20 par taille d'echantillon (moyenne sur p et rho) :", "",
@@ -242,19 +318,19 @@ for (m in c("M1", "M2", "M3", "M4")) for (k in METHODS) {
   body <- c(body, paste0("| ", paste(c(m, LABEL[k],
     fmt(mean(w$top4_gamma), 2), fmt(mean(w$top4_scale), 2)), collapse = " | "), " |"))
 }
-md <- c(md, "### 3.5 Composition du top-4", "",
+md <- c(md, "### 4.5 Composition du top-4", "",
   "Nombre moyen, parmi les 4 coordonnees les mieux classees, de variables actives en indice de queue (A_gamma = {1,2,3,4}) et de variables d'echelle (A_scale = {5,6,7,8}), moyenne sur toutes les cellules.", "",
   md_table(c("Modele", "Methode", "|top4 inter A_gamma|", "|top4 inter A_scale|"),
            c("l", "l", "r", "r"), body))
 
 ## --- full tables ------------------------------------------------------------
-md <- c(md, "## 4. Tableaux complets", "",
+md <- c(md, "## 5. Tableaux complets", "",
   sprintf("Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = %s.",
           paste(DS, collapse = ", ")), "")
 si <- 0L
 for (m in c("M1", "M2", "M3", "M4")) {
   si <- si + 1L
-  md <- c(md, sprintf("### 4.%d Modele %s", si, m), "")
+  md <- c(md, sprintf("### 5.%d Modele %s", si, m), "")
   for (nn in sort(unique(S$n))) for (pp in sort(unique(S$p))) {
     w <- S[S$model == m & S$n == nn & S$p == pp, ]
     if (!nrow(w)) next
@@ -271,7 +347,7 @@ for (nn in sort(unique(TM$n))) for (pp in sort(unique(TM$p))) {
     fmt(mean(w$ours), 2), fmt(mean(w$yu), 2), fmt(mean(w$qsis), 2),
     fmt(mean(w$yu_undefined), 3)), collapse = " | "), " |"))
 }
-md <- c(md, "## 5. Cout de calcul", "",
+md <- c(md, "## 6. Cout de calcul", "",
   "Secondes par replication et par methode, monocoeur, moyenne sur modeles et rho. Quantile SIS est chronometre par valeur de tau. Derniere colonne : proportion moyenne de scores Yoshida--Umezu non definis.", "",
   md_table(c("n", "p", "Tail-index SIS", "Yoshida--Umezu", "Quantile SIS (par tau)",
              "YU non defini"), c("r", "r", "r", "r", "r", "r"), body))

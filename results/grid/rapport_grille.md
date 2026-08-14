@@ -1,6 +1,6 @@
 # Comparaison des methodes de screening sur grille etendue
 
-Genere le 2026-08-14 17:12 a partir de `results/grid/comparison_cells` (288 cellules sur 288).
+Genere le 2026-08-14 17:16 a partir de `results/grid/comparison_cells` (288 cellules sur 288).
 
 Campagne complete.
 
@@ -64,11 +64,43 @@ Cellule n = 2000, p = 1000, rho = 0.25. Colonnes *pub.* : `results/draft3/compar
 | M4 | Quantile SIS t=.975 | 0.010 | 0.000 | 0.325 | 0.425 | 63.9 | 43.0 |
 | M4 | Quantile SIS t=.99 | 0.000 | 0.000 | 0.010 | 0.075 | 221.9 | 166.8 |
 
-## 3. Vues agregees
+## 3. Analyse d'ensemble
+
+### 3.1 Le classement global des methodes
+
+Sur le Sure-20 moyen, quantile SIS a tau=.95 devance le screen propose dans les quatre modeles : 0.90 / 0.82 / 0.74 / 0.66 contre 0.81 / 0.60 / 0.58 / 0.47 pour M1 a M4. Yoshida--Umezu est derniere partout (0.51 / 0.17 / 0.28 / 0.21). Le constat vaut sur l'ensemble de la grille et pas seulement sur la cellule de la Draft 3.
+
+L'ecart se referme pourtant sur la recuperation exacte : en Sure-4 moyen le screen propose fait 0.425 contre 0.439 pour quantile SIS a tau=.95, soit une egalite aux erreurs Monte Carlo pres, et il devance nettement les trois autres valeurs de tau (0.259 a tau=.90, 0.416 a tau=.975, 0.231 a tau=.99).
+
+C'est la lecture que seules les valeurs de d etendues permettent. Le rapport des deux methodes passe de 0.97 en Sure-4 a 0.83 en Sure-100 (0.759 contre 0.912) : le screen propose place les variables actives tres haut quand il reussit, mais elargir la fenetre ne le sauve pas quand il echoue. Sa distribution de Rmax est bimodale -- succes quasi parfait ou echec profond -- tandis que celle de quantile SIS a une queue plus legere, donc elle profite de l'augmentation de d. Un tableau limite au Sure-20 masque entierement cette difference de nature.
+
+### 3.2 Ce qui gouverne la performance
+
+**La taille d'echantillon domine tout.** Le Sure-20 du screen propose passe de 0.282 a 0.654 puis 0.902 quand n vaut 1000, 2000 puis 5000. A n=5000 il se tient entre 0.867 et 0.947 quelle que soit la dimension, alors qu'a n=1000 il ne depasse jamais 0.406. C'est n, et non p, qui est la contrainte active.
+
+**La dimension coute, mais pas davantage au screen propose qu'a ses concurrents.** En passant de p=200 a p=2000 son Sure-20 tombe de 0.705 a 0.540, soit une perte relative de 23% ; quantile SIS a tau=.95 perd 23% (0.881 vers 0.683). L'idee que la competition entre p coordonnees penaliserait specifiquement un classement par score minimal n'est donc pas verifiee : la degradation est de meme ampleur pour les deux familles. Yoshida--Umezu est en revanche la plus sensible, avec 42% de perte.
+
+**La correlation aide, fortement et pour toutes les methodes.** Le Sure-20 du screen propose passe de 0.319 a rho=0 a 0.822 a rho=0.5 ; quantile SIS de 0.567 a 0.918. Le cas independant est donc le plus difficile, ce qui peut surprendre. L'explication tient a la structure AR(1) : les quatre coordonnees actives sont adjacentes, donc correlees entre elles, et conditionner sur l'une deplace aussi les trois autres. La depression de l'enveloppe le long d'une fibre active s'en trouve amplifiee, et le signal marginal de chaque active augmente avec rho. Les etudes qui ne rapportent qu'un seul rho intermediaire surestiment donc la performance par rapport au cas independant.
+
+### 3.3 La ou le screen propose est irremplacable
+
+Sur M2, seul modele dote de variables d'echelle (A_scale = {5,6,7,8}, qui deplacent les quantiles finis sans toucher l'indice de queue), le top-4 de quantile SIS en contient 0.94 en moyenne contre 0.13 pour le screen propose. Ce dernier retient en meme temps davantage de vraies actives en indice de queue (2.84 contre 2.71). C'est la seule dimension ou il domine, et c'est precisement celle qui justifie son existence : il repond a une autre question, pas mieux a la meme.
+
+Le prix a payer est visible dans le meme tableau : sur M2 son Sure-20 vaut 0.596 contre 0.822 pour quantile SIS. Il ne se laisse pas tromper par les variables d'echelle, mais il classe moins surement les actives.
+
+### 3.4 Le reglage de tau
+
+Quantile SIS n'est pas une methode mais une famille, et l'ecart entre ses membres depasse l'ecart entre familles : en Sure-20 moyen, tau=.95 donne 0.780 et tau=.99 donne 0.481. Le tau optimal n'est pas connu en pratique, et tau=.99 -- le choix le plus naturel si l'on cherche un effet de queue -- est le pire des quatre. Compare a cette famille reglee a sa meilleure valeur, le screen propose part avec un handicap qui n'existe pas dans une application reelle.
+
+### 3.5 Reserves
+
+Chaque cellule repose sur 40 replications, donc l'erreur type d'une probabilite atteint 0.079 ; les ecarts inferieurs a 0.10 dans une cellule isolee ne sont pas interpretables. Les moyennes de la section 4, portant sur 72 cellules par modele, sont en revanche precises. Les quatre modeles partagent la meme forme de gamma decroissante en chaque coordonnee active, donc les conclusions ne s'etendent pas telles quelles a des effets non monotones. Enfin le reglage (a*, b*) = (0.30, 0.10) a ete choisi dans la Draft 3 a n=2000 et p=1000 : les cellules a n=5000 et p=2000 utilisent donc un reglage cale ailleurs, ce qui joue en defaveur du screen propose sur une partie de la grille.
+
+## 4. Vues agregees
 
 Moyennes non ponderees des Sure-d sur les cellules concernees (72 cellules par modele).
 
-### 3.1 Modele M1
+### 4.1 Modele M1
 
 Profil Sure-d, moyenne sur toutes les cellules du modele :
 
@@ -114,7 +146,7 @@ Sure-20 par correlation AR(1) (moyenne sur n et p) :
 | Quantile SIS t=.975 | 0.677 | 0.821 | 0.823 | 0.875 | 0.917 | 0.948 |
 | Quantile SIS t=.99 | 0.456 | 0.579 | 0.625 | 0.637 | 0.715 | 0.775 |
 
-### 3.2 Modele M2
+### 4.2 Modele M2
 
 Profil Sure-d, moyenne sur toutes les cellules du modele :
 
@@ -160,7 +192,7 @@ Sure-20 par correlation AR(1) (moyenne sur n et p) :
 | Quantile SIS t=.975 | 0.579 | 0.748 | 0.773 | 0.762 | 0.808 | 0.856 |
 | Quantile SIS t=.99 | 0.410 | 0.502 | 0.554 | 0.556 | 0.621 | 0.644 |
 
-### 3.3 Modele M3
+### 4.3 Modele M3
 
 Profil Sure-d, moyenne sur toutes les cellules du modele :
 
@@ -206,7 +238,7 @@ Sure-20 par correlation AR(1) (moyenne sur n et p) :
 | Quantile SIS t=.975 | 0.415 | 0.594 | 0.627 | 0.685 | 0.735 | 0.833 |
 | Quantile SIS t=.99 | 0.229 | 0.356 | 0.404 | 0.440 | 0.510 | 0.571 |
 
-### 3.4 Modele M4
+### 4.4 Modele M4
 
 Profil Sure-d, moyenne sur toutes les cellules du modele :
 
@@ -252,7 +284,7 @@ Sure-20 par correlation AR(1) (moyenne sur n et p) :
 | Quantile SIS t=.975 | 0.321 | 0.462 | 0.529 | 0.567 | 0.675 | 0.760 |
 | Quantile SIS t=.99 | 0.129 | 0.277 | 0.319 | 0.342 | 0.417 | 0.479 |
 
-### 3.5 Composition du top-4
+### 4.5 Composition du top-4
 
 Nombre moyen, parmi les 4 coordonnees les mieux classees, de variables actives en indice de queue (A_gamma = {1,2,3,4}) et de variables d'echelle (A_scale = {5,6,7,8}), moyenne sur toutes les cellules.
 
@@ -283,11 +315,11 @@ Nombre moyen, parmi les 4 coordonnees les mieux classees, de variables actives e
 | M4 | Quantile SIS t=.975 | 2.22 | 0.02 |
 | M4 | Quantile SIS t=.99 | 1.26 | 0.03 |
 
-## 4. Tableaux complets
+## 5. Tableaux complets
 
 Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20, 30, 50, 100.
 
-### 4.1 Modele M1
+### 5.1 Modele M1
 
 #### M1, n = 1000, p = 200
 
@@ -781,7 +813,7 @@ Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20
 |  | Quantile SIS t=.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
 |  | Quantile SIS t=.99 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
 
-### 4.2 Modele M2
+### 5.2 Modele M2
 
 #### M2, n = 1000, p = 200
 
@@ -1275,7 +1307,7 @@ Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20
 |  | Quantile SIS t=.975 | 0.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
 |  | Quantile SIS t=.99 | 0.875 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.2 | 4.0 |
 
-### 4.3 Modele M3
+### 5.3 Modele M3
 
 #### M3, n = 1000, p = 200
 
@@ -1769,7 +1801,7 @@ Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20
 |  | Quantile SIS t=.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
 |  | Quantile SIS t=.99 | 0.800 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.2 | 4.0 |
 
-### 4.4 Modele M4
+### 5.4 Modele M4
 
 #### M4, n = 1000, p = 200
 
@@ -2263,7 +2295,7 @@ Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20
 |  | Quantile SIS t=.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
 |  | Quantile SIS t=.99 | 0.550 | 0.925 | 0.975 | 0.975 | 0.975 | 0.975 | 8.2 | 4.0 |
 
-## 5. Cout de calcul
+## 6. Cout de calcul
 
 Secondes par replication et par methode, monocoeur, moyenne sur modeles et rho. Quantile SIS est chronometre par valeur de tau. Derniere colonne : proportion moyenne de scores Yoshida--Umezu non definis.
 
