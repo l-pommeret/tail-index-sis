@@ -12,7 +12,13 @@ dir.create("results/pipeline_agg", showWarnings = FALSE, recursive = TRUE)
 EPS <- 0.05
 ASTAR <- as.numeric(Sys.getenv("ASTAR", "0.30"))
 BSTAR <- as.numeric(Sys.getenv("BSTAR", "0.10"))
-AGRID <- c(0.30, 0.35, 0.40); BGRID <- c(0.05, 0.10, 0.15)
+## tuning grid, overridable so that grid sizes can be compared on the same
+## replications: GRID_A / GRID_B are comma-separated lists
+axis <- function(v, d) { x <- Sys.getenv(v)
+  if (!nzchar(x)) d else as.numeric(strsplit(x, ",", fixed = TRUE)[[1]]) }
+AGRID <- axis("GRID_A", c(0.30, 0.35, 0.40))
+BGRID <- axis("GRID_B", c(0.05, 0.10, 0.15))
+NTUNE <- length(AGRID) * length(BGRID)
 D1 <- c(25L, 50L)
 score_vec <- function(z, y, a, b) {
   n <- nrow(z); p <- ncol(z); h <- n^(-b)/2; alpha <- n^(-a)
@@ -44,9 +50,10 @@ one <- function(z0) {
   }
   list(model = z0$model, n = n, p = p, rho = z0$rho, rmax = out)
 }
-RULES <- c("tail-index seul", "tail-index 9 reglages", "quantile .95",
+RULES <- c("tail-index seul", paste0("tail-index ", NTUNE, " reglages"),
+           "quantile .95",
            unlist(lapply(D1, function(d) paste0("pipeline d1=", d,
-                                                c("", " + 9 reglages")))))
+                        c("", paste0(" + ", NTUNE, " reglages"))))))
 res <- list()
 for (f in cells) {
   x <- readRDS(f)
@@ -56,9 +63,11 @@ for (f in cells) {
   res[[f]] <- o
   cat(format(Sys.time(), "%H:%M:%S"), basename(f), "done\n"); flush.console()
 }
-saveRDS(res, file.path("results/pipeline_agg", paste0("raw_n", res[[1]][[1]]$n, "_p", res[[1]][[1]]$p, ".rds")), compress = "xz")
+saveRDS(res, file.path("results/pipeline_agg",
+        sprintf("raw_n%d_p%d_t%d.rds", res[[1]][[1]]$n, res[[1]][[1]]$p, NTUNE)),
+        compress = "xz")
 fm <- function(v) formatC(v, format = "f", digits = 3)
-cat("\nPipeline et agregation de reglages combines\n\n")
+cat(sprintf("\nPipeline et agregation sur %d reglages\n\n", NTUNE))
 for (f in cells) {
   o <- res[[f]]; z1 <- o[[1]]
   cat(sprintf("=== %s  n=%d p=%d rho=%.2f, %d replications\n", z1$model, z1$n,
