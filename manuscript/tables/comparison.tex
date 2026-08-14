@@ -1,30 +1,38 @@
 \begin{table}[t]
 \centering
-\caption{Method comparison at $n=2000$, $p=1000$, $\rho=0.25$, on the same 200 replications per model; the proposed screen uses $(a^\star,b^\star)=(0.30,0.10)$, the Yoshida--Umezu screen its published tuning $h=1$, $k=\lfloor0.072n\rfloor$ (see the text for a bandwidth grid), and the quantile screens cubic $B$-splines with three degrees of freedom at every $\tau$. Sure-$d$ is the probability that all four tail-index-active variables rank among the $d$ smallest scores ($d=4$ is exact recovery); $\mathbb{E}(R_{\max})$ is the mean worst active rank, reported to two decimals. Standard errors of the probabilities are at most $0.036$.}
+\caption{Method comparison at $n=2000$, $p=1000$, $\rho=0.25$, on the same 1000 replications per model. The proposed screen uses the tuning $(a^\star,b^\star)=(0.30,0.15)$ of Section~\ref{sec:tuning}; its aggregated form ranks by the smallest rank attained over the nine tunings $a\in\{.30,.35,.40\}\times b\in\{.10,.15,.20\}$. Yoshida--Umezu uses its published tuning $h=1$, $k=\lfloor0.072n\rfloor$, and the quantile screens cubic $B$-splines with three degrees of freedom. Sure-$d$ is the probability that all four tail-index-active variables rank among the $d$ smallest scores ($d=4$ is exact recovery). Standard errors of the probabilities are at most $0.016$.}
 \label{tab:comparison}
-\begin{tabular}{llrrr}
+\begin{tabular}{llrrrr}
 \toprule
-Model & Method & Sure-4 & Sure-20 & $\mathbb{E}(R_{\max})$\\
+Model & Method & Sure-4 & Sure-20 & $\mathbb{E}(R_{\max})$ & $\mathrm{Med}(R_{\max})$\\
 \midrule
-M1 & Tail-index SIS & 0.780 & 0.925 & 8.45\\
- & Yoshida--Umezu & 0.190 & 0.410 & 190.03\\
- & Quantile SIS ($\tau=.95$) & 0.870 & 1.000 & 4.24\\
- & Quantile SIS ($\tau=.99$) & 0.070 & 0.610 & 22.89\\
+M1 & Tail-index SIS & 0.809 & 0.954 & 8.3 & 4\\
+ & Tail-index SIS, aggregated & 0.882 & 0.985 & 4.9 & 4\\
+ & Yoshida--Umezu & 0.179 & 0.398 & 188.1 & 58\\
+ & Quantile SIS ($\tau=.90$) & 0.219 & 0.804 & 18.6 & 7\\
+ & Quantile SIS ($\tau=.95$) & 0.830 & 0.997 & 4.6 & 4\\
+ & Quantile SIS ($\tau=.99$) & 0.068 & 0.674 & 22.2 & 15\\
 \addlinespace
-M2 & Tail-index SIS & 0.240 & 0.570 & 85.02\\
- & Yoshida--Umezu & 0.005 & 0.115 & 269.21\\
- & Quantile SIS ($\tau=.95$) & 0.160 & 0.940 & 8.46\\
- & Quantile SIS ($\tau=.99$) & 0.005 & 0.395 & 38.49\\
+M2 & Tail-index SIS & 0.290 & 0.683 & 54.4 & 8\\
+ & Tail-index SIS, aggregated & 0.466 & 0.866 & 15.8 & 5\\
+ & Yoshida--Umezu & 0.003 & 0.066 & 258.4 & 202\\
+ & Quantile SIS ($\tau=.90$) & 0.000 & 0.032 & 25.2 & 24\\
+ & Quantile SIS ($\tau=.95$) & 0.054 & 0.593 & 17.0 & 18\\
+ & Quantile SIS ($\tau=.99$) & 0.026 & 0.463 & 34.1 & 22\\
 \addlinespace
-M3 & Tail-index SIS & 0.230 & 0.535 & 103.11\\
- & Yoshida--Umezu & 0.010 & 0.115 & 346.90\\
- & Quantile SIS ($\tau=.95$) & 0.305 & 0.815 & 14.98\\
- & Quantile SIS ($\tau=.99$) & 0.000 & 0.085 & 115.00\\
+M3 & Tail-index SIS & 0.192 & 0.525 & 81.0 & 17\\
+ & Tail-index SIS, aggregated & 0.183 & 0.695 & 38.7 & 9\\
+ & Yoshida--Umezu & 0.021 & 0.138 & 320.1 & 256\\
+ & Quantile SIS ($\tau=.90$) & 0.059 & 0.456 & 68.7 & 24\\
+ & Quantile SIS ($\tau=.95$) & 0.303 & 0.873 & 14.8 & 6\\
+ & Quantile SIS ($\tau=.99$) & 0.004 & 0.103 & 120.5 & 74\\
 \addlinespace
-M4 & Tail-index SIS & 0.070 & 0.345 & 167.38\\
- & Yoshida--Umezu & 0.015 & 0.100 & 336.59\\
- & Quantile SIS ($\tau=.95$) & 0.135 & 0.690 & 28.89\\
- & Quantile SIS ($\tau=.99$) & 0.000 & 0.010 & 221.90\\
+M4 & Tail-index SIS & 0.747 & 0.939 & 10.5 & 4\\
+ & Tail-index SIS, aggregated & 0.766 & 0.980 & 6.4 & 4\\
+ & Yoshida--Umezu & 0.202 & 0.507 & 123.9 & 20\\
+ & Quantile SIS ($\tau=.90$) & 0.306 & 0.885 & 15.7 & 6\\
+ & Quantile SIS ($\tau=.95$) & 0.799 & 0.994 & 4.7 & 4\\
+ & Quantile SIS ($\tau=.99$) & 0.030 & 0.533 & 29.8 & 19\\
 \bottomrule
 \end{tabular}
 \end{table}

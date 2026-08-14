@@ -141,44 +141,55 @@ following the convention of \citet{gardesPodgorny2025}. We evaluate
 Sure-20 for each of the four models over the crossed grid
 $a\in\{.25,.30,.35,.40,.45,.50\}$,
 $b\in\{0,.05,.10,.15,.20,.30,.40\}$ at the baseline design;
-Figure~\ref{fig:tuning} shows the four heatmaps.
+Figure~\ref{fig:tuning} shows the four heatmaps. Each replication draws one
+dataset and scores it at all 42 tunings, so the cells of a heatmap are paired:
+the comparisons that decide the selection carry no common variance, at the
+price that the 42 cells are not independent and absolute differences across
+distant cells should be read with that in mind.
 
 Three features stand out. The row $a=0.25$ collapses for the three
-$\ell^{(1)}$ models (Sure-20 at most $.115$, $.085$ and $.060$ for M1,
-M3 and M4) but not for M2 (up to $.475$): at
+$\ell^{(1)}$ models (Sure-20 at most $.110$, $.085$ and $.250$ for M1,
+M3 and M4) but not for M2 (up to $.595$): at
 $\alpha=n^{-0.25}\approx0.15$ the local Hill statistics reach into
 quantile regions where the factor $\ell^{(1)}$, whose argument
 $v(u)-s$ is dominated by the $U_5$--$U_8$ combination $v(u)\in(0,10)$
-at moderate $s$, deforms the projected distributions; the recalibrated
-$\ell^{(2)}$, bounded within $[e^{-0.4},e^{0.4}]$, produces no such
-deformation. Performance also degrades toward large $a$ and large $b$
+at moderate $s$, deforms the projected distributions; $\ell^{(2)}$, bounded
+within $[e^{-0.24},e^{0.24}]$, produces no such deformation. Performance also degrades toward large $a$ and large $b$
 together, where the local extreme count collapses, and the degenerate
 bandwidth $b=0$, which retains half of the rank scale in every window,
 is never optimal. In between, the row $a=0.30$ performs best for M1,
 M3 and M4 simultaneously over $b\in\{.05,\ldots,.20\}$, with Sure-20
-ranges $(.915$--$.975,\ .445$--$.605,\ .300$--$.385)$.
-The M1 variation over this region is small ($0.06$, within two to
-three standard errors of a difference); the M3 and M4 variations are
-larger (up to $0.16$, about three standard errors of a difference),
-so the region is one of good rather than statistically
+ranges $(.890$--$.965,\ .450$--$.585,\ .815$--$.925)$.
+The M1 variation over this region is small ($0.075$, about two standard
+errors of a difference); the M3 and M4 variations are larger ($0.135$ and
+$0.110$), so the region is one of good rather than statistically
 indistinguishable performance, and we select the value of $b$ at which
 both M3 and M4 attain their grid maxima. We fix
 \[
- (a^\star,b^\star)=(0.30,\ 0.10),
+ (a^\star,b^\star)=(0.30,\ 0.15),
  \qquad\text{i.e.}\qquad
- \alpha=n^{-0.3},\quad h=n^{-0.1}/2,
+ \alpha=n^{-0.3},\quad h=n^{-0.15}/2,
 \]
 for every subsequent experiment, in simulation and in the application; at
-$n=2000$ this gives $\alpha\approx0.10$, $h\approx0.23$, and about
-$2n\alpha h\approx96$ effective local extremes per interior window,
-whose width is $2h$. No model is given its own tuning.
+$n=2000$ this gives $\alpha\approx0.098$, $h\approx0.160$, and about
+$2n\alpha h\approx65$ effective local extremes per interior window,
+whose width is $2h$. The same cell is also M1's grid maximum and the
+maximum of the four-model average ($0.796$). No model is given its own
+tuning.
 
-M2 behaves like a damped M1: its Sure-20 reaches $0.555$ at
-$(a^\star,b^\star)$ and its grid maximum, $0.625$, sits at the deeper
-tail fraction $a=0.40$ with the same $b=0.10$ --- the direction
+Section~\ref{sec:comparison} also reports an aggregated form of the screen,
+which ranks a coordinate by the smallest rank it attains over the nine
+tunings $a\in\{.30,.35,.40\}\times b\in\{.10,.15,.20\}$. That block is
+not centred on $(a^\star,b^\star)$ in $a$: the row $a=0.25$ is excluded
+deliberately, since a rule that promotes a coordinate as soon as one tuning
+ranks it well is degraded, not helped, by admitting tunings that fail.
+
+M2 behaves like a damped M1: its Sure-20 reaches $0.710$ at
+$(a^\star,b^\star)$ and its grid maximum, $0.760$, sits at the deeper
+tail fraction $a=0.35$ with the same $b=0.15$ --- the direction
 predicted by condition (E2), since a smaller $\alpha$ reduces the bias
 contributed by $\ell^{(2)}$. M2 uses the common tuning, at a cost of
-$0.07$ relative to its own best cell; its role in
+$0.05$ relative to its own best cell; its role in
 Section~\ref{sec:comparison} is to separate statistical targets.
 
 Two caveats on this selection protocol apply throughout. Sure-20 is an
@@ -196,8 +207,8 @@ stability grid includes $a=0.25$ deliberately.
 \centering
 \includegraphics[width=.95\linewidth]{figures/tuning_heatmaps.pdf}
 \caption{Sure-20 over the $(a,b)$ tuning grid for the four models at
-$n=2000$, $p=1000$, $\rho=0.25$ (200 replications per cell;
-$\alpha=n^{-a}$, $h=n^{-b}/2$). Standard errors are at most $0.036$.}
+$n=2000$, $p=1000$, $\rho=0.25$ (200 replications, paired across tunings;
+$\alpha=n^{-a}$, $h=n^{-b}/2$). Standard errors are at most $0.035$.}
 \label{fig:tuning}
 \end{figure}
 
@@ -256,9 +267,11 @@ on $d$.}
 
 \subsection{Comparison with competing screens}\label{sec:comparison}
 
-Three methods are compared on the same 200 simulated datasets per model at
+Four rules are compared on the same 1000 simulated datasets per model at
 the baseline design: the proposed tail-index screen with the tuning
-$(a^\star,b^\star)$ fixed in Section~\ref{sec:tuning}; the
+$(a^\star,b^\star)$ fixed in Section~\ref{sec:tuning}; its aggregated form,
+ranking by the smallest rank attained over the nine tunings of that section;
+the
 conditional-Pickands screen of \citet{yoshidaUmezu2026}, implemented from
 their equations (2)--(4) with the Epanechnikov kernel and the tuning of
 their numerical work transplanted proportionally
@@ -270,55 +283,73 @@ with three degrees of freedom, identical at every quantile level, its
 utility being the empirical squared deviation of the fitted conditional
 quantile from the marginal one. The two competitors rank large utilities
 first; ours ranks small scores first. Table~\ref{tab:comparison} reports
-the levels $\tau=.95$ and $\tau=.99$; Section~\ref{sec:tau} varies
-$\tau$ over $\{.90,.95,.975,.99\}$ on the same datasets.
+the levels $\tau\in\{.90,.95,.99\}$, together with
+$\mathbb{E}(R_{\max})$ and $\mathrm{Med}(R_{\max})$, whose gap measures the
+asymmetry of the worst-active-rank distribution.
 
 \input{tables/comparison.tex}
 \input{tables/composition.tex}
 
-At $\tau=.95$, quantile SIS performs best in M1, M3 and M4 (Sure-20
-$1.000$, $.815$ and $.690$ against our $.925$, $.535$ and $.345$),
-where the monotone $\gamma$ moves the entire upper distribution and the
+At $\tau=.95$, quantile SIS and the tail-index screen are close on M1 and
+M4, the two models whose signal is strongest: Sure-20 $.997$ and $.994$
+against $.985$ and $.980$ for the aggregated screen, which in turn leads on
+exact recovery for M1 ($.882$ against $.830$). On M3, whose population gap is
+the smallest of the four, quantile SIS is clearly ahead ($.873$ against
+$.695$): the monotone $\gamma$ moves the entire upper distribution and the
 quantile utility pools all $n=2000$ observations at a moderately extreme
-level, while the tail-index statistic works from about
-$2n\alpha h\approx96$ local extremes per window. At $\tau=.99$ the
-ordering reverses on all four models (our $.925$, $.570$, $.535$,
-$.345$ against $.610$, $.395$, $.085$, $.010$). The Pickands-based
-screen of Yoshida--Umezu trails on all four models at the transplanted
-tuning; rerunning it at bandwidths $h\in\{0.5,1.5\}$ on the same
-datasets does not change its position (best Sure-20 over the three
-bandwidths: $.445$, $.270$, $.165$, $.160$, the M2 value at $h=1.5$).
+level, while the tail-index statistic works from about $2n\alpha h\approx65$
+local extremes per window. At $\tau=.99$ the ordering reverses on all four
+models ($.674$, $.463$, $.103$, $.533$ against $.985$, $.866$, $.695$,
+$.980$), and at $\tau=.90$ it reverses on M2. Aggregating over the nine
+tunings improves the screen on every model, by $.031$ to $.183$ of Sure-20,
+and shortens the right tail of $R_{\max}$ markedly --- on M2 the mean worst
+rank falls from $54.4$ to $15.8$ while the median moves only from $8$ to $5$,
+which is the signature of fewer catastrophic replications rather than a
+uniform improvement.
+
+The Pickands-based screen of \citet{yoshidaUmezu2026} trails on all four
+models at the transplanted tuning, with mean worst ranks of $124$ to $320$.
+Its scores are all well defined here, so the deficit is variance rather than
+failed fits: it differences three conditional quantiles where the proposed
+score averages $\lfloor\alpha m\rfloor$ log-spacings.
 
 M2 separates the two statistical targets. Its tail index depends on
-$\A_\gamma=\{1,2,3,4\}$ only, while the scale factor
-$v_{\kappa^\star}$ carries $\A_{\rm scale}=\{5,6,7,8\}$ into every
-finite quantile. Table~\ref{tab:composition} shows the composition of
-each method's four leading positions. The quantile screen at
-$\tau=.90$ places on average $2.28$ scale variables in its top four ---
-correct behaviour for its own target, since those variables genuinely
-move the $.90$ quantile --- and at $\tau=.95$ still $1.12$. The
-tail-index screen places $0.16$. Both recover $\A_\gamma$ in their top
-four at nearly the same rate ($2.87$ for the tail screen, $2.82$ for
-$\tau=.95$), so on M2 the practical difference between the two screens
-is not power but what the leading positions contain: an analyst reading
-a $\tau=.95$ ranking as a statement about the limiting tail would carry
-forward one or two variables that do not determine it. As $\tau$
-increases the quantile target approaches the tail index and the scale
-contamination falls ($.35$ at $\tau=.975$, $.03$ at $\tau=.99$), but
-the variance cost rises faster: Sure-20 drops from $.940$ at
-$\tau=.95$ to $.395$ at $\tau=.99$, below our $.570$.
+$\A_\gamma=\{1,2,3,4\}$ only, while the scale factor $v_{\kappa^\star}$
+carries the latent $F$ --- and with it the twenty proxies
+$\A_{\rm scale}=\{5,\ldots,24\}$ --- into every finite quantile.
+Table~\ref{tab:composition} shows the composition of each method's four
+leading positions. The quantile screen at $\tau=.90$ places on average
+$3.70$ scale variables in its top four, and at $\tau=.95$ still $2.19$; the
+aggregated tail-index screen places $0.17$. The consequence is visible in the
+rank distribution rather than in a variance: at $\tau=.90$ the mean and
+median worst active rank are $25.2$ and $24$, that is exactly behind the
+twenty proxies, so the quantile screen recovers $\A_\gamma$ only once its
+leading positions have been exhausted by variables that do not determine the
+limiting exponent. This is correct behaviour for its own target --- those
+variables genuinely move the $.90$ quantile --- and the point of the model is
+that the two targets can be told apart: an analyst reading a $\tau=.90$
+ranking as a statement about the tail would carry forward twenty variables
+that have nothing to do with it. As $\tau$ increases the quantile target
+approaches the tail index and the contamination falls ($0.27$ at
+$\tau=.99$), but the variance cost rises faster: Sure-20 goes from $.593$ at
+$\tau=.95$ to $.463$ at $\tau=.99$, against $.866$ for the aggregated screen.
 
 \subsection{Sensitivity of quantile SIS to the level}\label{sec:tau}
 
-Figure~\ref{fig:tau} plots Sure-20 of the quantile screen against
-$\tau\in\{.90,.95,.975,.99\}$ for the four models, on the same datasets
-as Table~\ref{tab:comparison}. Two forms of sensitivity combine. First,
-changing $\tau$ changes the statistical target $Q_\tau(Y\mid X)$: under
-M2, lower levels weight the scale variables more heavily, which is
-visible in Table~\ref{tab:composition}. Second, raising $\tau$ thins
-the information available for estimating the target: every curve is
-highest at $\tau=.90$ or $.95$ and collapses by $\tau=.99$
-(M3: $.815$ at $.95$, $.085$ at $.99$; M4: $.690$ to $.010$). The
+Table~\ref{tab:comparison} reports the quantile screen at
+$\tau\in\{.90,.95,.99\}$ on common datasets, and two forms of sensitivity
+combine there. First, changing $\tau$ changes the statistical target
+$Q_\tau(Y\mid X)$: under M2, lower levels weight the scale variables more
+heavily, which is visible in Table~\ref{tab:composition} --- $3.70$ of the
+four leading positions at $\tau=.90$ against $0.27$ at $\tau=.99$. Second,
+raising $\tau$ thins the information available for estimating the target:
+every model peaks at $\tau=.95$ and collapses by $\tau=.99$
+(Figure~\ref{fig:tau})
+(M3: $.873$ to $.103$; M4: $.994$ to $.533$). The two act in opposite
+directions on M2, where the contamination argues for a high level and the
+variance for a moderate one, and no level resolves both: the best of the
+three, $\tau=.95$, still reaches only $.593$ against $.866$ for the
+aggregated tail-index screen. The
 tail-index screen is subject to a bias--variance compromise of the same
 kind through $\alpha$, but with a fixed asymptotic target: moving
 $\alpha$ changes the threshold used to estimate $\gamma$, not the
@@ -333,7 +364,9 @@ better tool. For a question about the limiting exponent itself ---
 which covariates change the polynomial rate of decay --- the tail-index
 screen targets that quantity directly, keeps scale variables out of its
 leading positions, and avoids the variance collapse that affects the
-quantile screen at genuinely extreme levels. Reading the two rankings
+quantile screen at genuinely extreme levels; aggregating it over a small
+block of tunings costs nine passes of an $O(pn\log n)$ statistic and
+removes much of the right tail of $R_{\max}$. Reading the two rankings
 side by side, as in Section~\ref{sec:realdata}, identifies the
 variables on which the two questions part ways.
 
@@ -342,8 +375,8 @@ variables on which the two questions part ways.
 \includegraphics[width=.6\linewidth]{figures/tau_sensitivity.pdf}
 \caption{Sure-20 of the quantile-adaptive SIS as a function of the
 level $\tau$, for the four models at $n=2000$, $p=1000$, $\rho=0.25$
-(200 common replications per model; grey symbols at the right edge mark
-the tail-index screen at the same design). Standard errors are at most
-$0.036$.}
+(1000 common replications per model; grey symbols at the right edge mark
+the aggregated tail-index screen at the same design). Standard errors are
+at most $0.016$.}
 \label{fig:tau}
 \end{figure}

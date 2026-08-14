@@ -1,17 +1,38 @@
 \begin{table}[t]
 \centering
-\caption{Composition of the four leading positions under Model M2 ($\kappa^\star=0.20$), over the same 200 replications: expected number of tail-index-active variables ($\A_\gamma=\{1,2,3,4\}$) and of scale variables ($\A_{\rm scale}=\{5,6,7,8\}$) among the four leading positions of each method, rounded half up to two decimals.}
+\caption{Composition of the four leading positions, same 1000 replications as Table~\ref{tab:comparison}. $\A_\gamma=\{1,2,3,4\}$ are the tail-index-active coordinates; $\A_{\rm scale}=\{5,\ldots,24\}$ are the twenty proxies of the latent scale factor, present in M2 only. Entries are averages of $|\widehat\A_4\cap\A_\gamma|$ and $|\widehat\A_4\cap\A_{\rm scale}|$ over replications.}
 \label{tab:composition}
-\begin{tabular}{lrr}
+\begin{tabular}{llrr}
 \toprule
-Method & $\mathbb{E}|\widehat\A_4\cap\A_\gamma|$ & $\mathbb{E}|\widehat\A_4\cap\A_{\rm scale}|$\\
+Model & Method & $|\widehat\A_4\cap\A_\gamma|$ & $|\widehat\A_4\cap\A_{\rm scale}|$\\
 \midrule
-Tail-index SIS & 2.87 & 0.16\\
-Yoshida--Umezu & 0.62 & 0.75\\
-Quantile SIS ($\tau=.90$) & 1.73 & 2.28\\
-Quantile SIS ($\tau=.95$) & 2.82 & 1.12\\
-Quantile SIS ($\tau=.975$) & 3.11 & 0.35\\
-Quantile SIS ($\tau=.99$) & 1.50 & 0.03\\
+M1 & Tail-index SIS & 3.80 & 0.00\\
+ & Tail-index SIS, aggregated & 3.88 & 0.01\\
+ & Yoshida--Umezu & 1.68 & 0.34\\
+ & Quantile SIS ($\tau=.90$) & 2.79 & 0.28\\
+ & Quantile SIS ($\tau=.95$) & 3.82 & 0.01\\
+ & Quantile SIS ($\tau=.99$) & 1.96 & 0.04\\
+\addlinespace
+M2 & Tail-index SIS & 2.99 & 0.28\\
+ & Tail-index SIS, aggregated & 3.36 & 0.17\\
+ & Yoshida--Umezu & 0.39 & 1.50\\
+ & Quantile SIS ($\tau=.90$) & 0.30 & 3.70\\
+ & Quantile SIS ($\tau=.95$) & 1.81 & 2.19\\
+ & Quantile SIS ($\tau=.99$) & 1.64 & 0.27\\
+\addlinespace
+M3 & Tail-index SIS & 2.79 & 0.03\\
+ & Tail-index SIS, aggregated & 2.82 & 0.04\\
+ & Yoshida--Umezu & 0.77 & 0.22\\
+ & Quantile SIS ($\tau=.90$) & 2.08 & 0.27\\
+ & Quantile SIS ($\tau=.95$) & 3.14 & 0.04\\
+ & Quantile SIS ($\tau=.99$) & 0.80 & 0.06\\
+\addlinespace
+M4 & Tail-index SIS & 3.73 & 0.01\\
+ & Tail-index SIS, aggregated & 3.75 & 0.01\\
+ & Yoshida--Umezu & 2.05 & 0.26\\
+ & Quantile SIS ($\tau=.90$) & 3.04 & 0.26\\
+ & Quantile SIS ($\tau=.95$) & 3.80 & 0.01\\
+ & Quantile SIS ($\tau=.99$) & 1.74 & 0.04\\
 \bottomrule
 \end{tabular}
 \end{table}
