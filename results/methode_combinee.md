@@ -107,6 +107,36 @@ plus de bruit de réglage à moyenner — et quantile SIS seul redevient meilleu
 sur M3 et M4. Le seul modèle où la méthode combinée domine à toutes les tailles
 est M2, celui qui porte des variables d'échelle.
 
+### Tests appariés
+
+Les réplications étant appariées (mêmes jeux de données), la comparaison à la
+méthode du papier se teste par McNemar exact. Contre le screen proposé à
+réglage unique, en nombre de paires discordantes favorables sur discordantes
+totales :
+
+| cellule | modèle | Sure-4 | p | Sure-20 | p |
+|:---|:---|---:|---:|---:|---:|
+| n=2000, p=1000 | M1 | 9/11 | 0.065 | 2/2 | 0.50 |
+| | M2 | 14/16 | **0.0042** | 17/17 | **<0.0001** |
+| | M3 | 9/11 | 0.065 | 14/15 | **0.0010** |
+| | M4 | 5/7 | 0.45 | 21/23 | **0.0001** |
+| n=5000, p=2000 | M2 | 3/3 | 0.25 | 1/1 | — |
+| | M3 | 6/8 | 0.29 | 6/6 | **0.031** |
+| | M4 | 10/15 | 0.30 | 11/11 | **0.0010** |
+
+Sur Sure-20 le gain est significatif sur M2, M3 et M4 à n=2000 et sur M3 et M4
+à n=5000, avec une quasi-unanimité des paires discordantes (17/17, 21/23,
+11/11, 6/6) : la domination est réplication par réplication, pas seulement en
+moyenne. Sur Sure-4 la direction est constante mais la puissance manque à 40
+réplications, la récupération exacte étant un événement rare ; seul M2 à
+n=2000 est significatif isolément.
+
+Sur les 16 comparaisons (8 cellules x 2 critères), la méthode combinée gagne 14
+fois, égalise 2 fois et ne perd jamais, soit p environ 1.2e-4 par test des
+signes. Elle est donc meilleure que le screen proposé partout où elle a été
+mesurée ; c'est contre *quantile SIS* que le bilan est mitigé, et seulement à
+n=5000 sur M3 et M4.
+
 ## 5. Coût
 
 Par réplication à n=2000, p=1000, monocœur : le score de Hill local coûte

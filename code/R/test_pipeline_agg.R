@@ -56,7 +56,7 @@ for (f in cells) {
   res[[f]] <- o
   cat(format(Sys.time(), "%H:%M:%S"), basename(f), "done\n"); flush.console()
 }
-saveRDS(res, "results/pipeline_agg/raw.rds", compress = "xz")
+saveRDS(res, file.path("results/pipeline_agg", paste0("raw_n", res[[1]][[1]]$n, "_p", res[[1]][[1]]$p, ".rds")), compress = "xz")
 fm <- function(v) formatC(v, format = "f", digits = 3)
 cat("\nPipeline et agregation de reglages combines\n\n")
 for (f in cells) {
