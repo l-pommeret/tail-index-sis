@@ -1,0 +1,43 @@
+17:43:16 g_M1_n2000_p1000_r025.rds done
+17:43:25 g_M2_n2000_p1000_r025.rds done
+17:43:33 g_M3_n2000_p1000_r025.rds done
+17:43:42 g_M4_n2000_p1000_r025.rds done
+
+Stabilite de Rmax : agregation sur reglages et sur demi-echantillons
+
+=== M1  n=2000 p=1000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+score seul (a*, b*)             0.775    0.925    0.950
+rang median sur 9 reglages      0.900    0.975    1.000
+rang median sur 10 demi-ech.    0.550    0.750    0.825
+
+  part des 9 reglages qui echouent   : 0.07 quand le score seul reussit, 0.33 quand il echoue
+  part des 10 demi-ech. qui echouent : 0.54 quand le score seul reussit, 0.60 quand il echoue
+
+=== M2  n=2000 p=1000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+score seul (a*, b*)             0.200    0.350    0.550
+rang median sur 9 reglages      0.375    0.650    0.700
+rang median sur 10 demi-ech.    0.175    0.350    0.425
+
+  part des 9 reglages qui echouent   : 0.30 quand le score seul reussit, 0.59 quand il echoue
+  part des 10 demi-ech. qui echouent : 0.75 quand le score seul reussit, 0.94 quand il echoue
+
+=== M3  n=2000 p=1000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+score seul (a*, b*)             0.175    0.450    0.500
+rang median sur 9 reglages      0.225    0.450    0.575
+rang median sur 10 demi-ech.    0.100    0.200    0.325
+
+  part des 9 reglages qui echouent   : 0.39 quand le score seul reussit, 0.80 quand il echoue
+  part des 10 demi-ech. qui echouent : 0.80 quand le score seul reussit, 0.96 quand il echoue
+
+=== M4  n=2000 p=1000 rho=0.25, 40 replications
+regle                          Sure-4  Sure-10  Sure-20
+score seul (a*, b*)             0.050    0.175    0.325
+rang median sur 9 reglages      0.150    0.350    0.450
+rang median sur 10 demi-ech.    0.025    0.125    0.200
+
+  part des 9 reglages qui echouent   : 0.51 quand le score seul reussit, 0.87 quand il echoue
+  part des 10 demi-ech. qui echouent : 0.92 quand le score seul reussit, 0.98 quand il echoue
+
