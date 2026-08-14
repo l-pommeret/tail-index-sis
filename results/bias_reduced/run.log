@@ -1,0 +1,93 @@
+17:37:55 g_M1_n2000_p1000_r025.rds done
+17:38:16 g_M1_n5000_p2000_r025.rds done
+17:38:20 g_M2_n2000_p1000_r000.rds done
+17:38:24 g_M2_n2000_p1000_r025.rds done
+17:38:45 g_M2_n5000_p2000_r025.rds done
+17:38:49 g_M3_n2000_p1000_r025.rds done
+17:39:10 g_M3_n5000_p2000_r025.rds done
+17:39:14 g_M4_n2000_p1000_r025.rds done
+17:39:35 g_M4_n5000_p2000_r025.rds done
+
+Hill local a biais reduit de second ordre
+
+=== M1  n=2000 p=1000 rho=0.25, 40 replications (seuil de competition 3.09 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.775    0.925    0.950      5.02     0.197    0.0171
+Hill (grille 25)          0.725    0.900    0.950      4.93     0.197    0.0170
+biais reduit rho=-1       0.525    0.675    0.725      3.71     0.216    0.0290
+biais reduit rho=-2       0.600    0.875    0.925      4.49     0.206    0.0250
+biais reduit rho=-3       0.750    0.925    0.950      4.68     0.202    0.0227
+biais reduit rho=-4       0.750    0.950    0.975      4.73     0.201    0.0213
+
+=== M1  n=5000 p=2000 rho=0.25, 40 replications (seuil de competition 3.29 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     1.000    1.000    1.000      9.46     0.199    0.0225
+Hill (grille 25)          1.000    1.000    1.000      9.33     0.199    0.0225
+biais reduit rho=-1       0.850    0.925    0.925      6.32     0.222    0.0330
+biais reduit rho=-2       0.950    0.975    0.975      7.58     0.211    0.0290
+biais reduit rho=-3       0.950    0.975    1.000      8.10     0.207    0.0272
+biais reduit rho=-4       0.975    1.000    1.000      8.37     0.205    0.0261
+
+=== M2  n=2000 p=1000 rho=0.00, 40 replications (seuil de competition 3.09 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.025    0.175    0.225      1.11     0.158    0.0031
+Hill (grille 25)          0.025    0.175    0.250      1.12     0.158    0.0032
+biais reduit rho=-1       0.025    0.175    0.225      1.19     0.172    0.0067
+biais reduit rho=-2       0.000    0.100    0.200      1.32     0.164    0.0055
+biais reduit rho=-3       0.000    0.125    0.225      1.34     0.162    0.0050
+biais reduit rho=-4       0.000    0.150    0.200      1.34     0.160    0.0047
+
+=== M2  n=2000 p=1000 rho=0.25, 40 replications (seuil de competition 3.09 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.200    0.350    0.550      2.38     0.180    0.0073
+Hill (grille 25)          0.200    0.375    0.525      2.36     0.180    0.0073
+biais reduit rho=-1       0.400    0.625    0.675      3.12     0.200    0.0219
+biais reduit rho=-2       0.450    0.675    0.750      3.16     0.190    0.0159
+biais reduit rho=-3       0.325    0.650    0.700      3.02     0.187    0.0133
+biais reduit rho=-4       0.325    0.550    0.650      2.90     0.185    0.0118
+
+=== M2  n=5000 p=2000 rho=0.25, 40 replications (seuil de competition 3.29 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.900    0.950    0.975      6.23     0.187    0.0142
+Hill (grille 25)          0.925    0.950    1.000      6.17     0.187    0.0143
+biais reduit rho=-1       0.800    0.900    0.925      5.22     0.217    0.0274
+biais reduit rho=-2       0.850    0.900    0.925      5.69     0.203    0.0215
+biais reduit rho=-3       0.850    0.875    0.950      5.87     0.197    0.0193
+biais reduit rho=-4       0.850    0.900    0.925      5.95     0.195    0.0181
+
+=== M3  n=2000 p=1000 rho=0.25, 40 replications (seuil de competition 3.09 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.175    0.450    0.500      2.34     0.290    0.0115
+Hill (grille 25)          0.150    0.375    0.500      2.27     0.290    0.0113
+biais reduit rho=-1       0.000    0.100    0.175      1.00     0.261    0.0103
+biais reduit rho=-2       0.025    0.225    0.325      1.68     0.268    0.0125
+biais reduit rho=-3       0.100    0.250    0.400      2.01     0.272    0.0132
+biais reduit rho=-4       0.100    0.300    0.450      2.22     0.275    0.0137
+
+=== M3  n=5000 p=2000 rho=0.25, 40 replications (seuil de competition 3.29 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.675    0.800    0.850      4.45     0.277    0.0144
+Hill (grille 25)          0.625    0.800    0.850      4.36     0.277    0.0143
+biais reduit rho=-1       0.200    0.250    0.250      1.91     0.274    0.0136
+biais reduit rho=-2       0.375    0.525    0.575      3.08     0.272    0.0157
+biais reduit rho=-3       0.475    0.600    0.725      3.66     0.272    0.0163
+biais reduit rho=-4       0.550    0.700    0.725      3.98     0.272    0.0165
+
+=== M4  n=2000 p=1000 rho=0.25, 40 replications (seuil de competition 3.09 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.050    0.175    0.325      1.51     0.352    0.0091
+Hill (grille 25)          0.025    0.175    0.325      1.50     0.352    0.0092
+biais reduit rho=-1       0.000    0.025    0.025      0.13     0.302    0.0013
+biais reduit rho=-2       0.000    0.100    0.175      0.73     0.316    0.0064
+biais reduit rho=-3       0.025    0.125    0.225      1.03     0.323    0.0081
+biais reduit rho=-4       0.025    0.100    0.200      1.16     0.327    0.0086
+
+=== M4  n=5000 p=2000 rho=0.25, 40 replications (seuil de competition 3.29 sigma)
+regle                    Sure-4  Sure-10  Sure-20       SNR    niveau     ecart
+Hill (score campagne)     0.400    0.600    0.700      3.25     0.342    0.0130
+Hill (grille 25)          0.325    0.550    0.700      3.18     0.343    0.0129
+biais reduit rho=-1       0.000    0.125    0.200      1.07     0.339    0.0094
+biais reduit rho=-2       0.125    0.300    0.400      1.98     0.337    0.0126
+biais reduit rho=-3       0.175    0.375    0.500      2.41     0.337    0.0134
+biais reduit rho=-4       0.175    0.475    0.525      2.64     0.337    0.0136
+
