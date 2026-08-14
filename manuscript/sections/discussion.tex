@@ -17,14 +17,15 @@ is a property of the target, so enlarging $d$ or $n$ cannot repair it;
 iterative or grouped extensions would require new identification arguments.
 Second, mixture bias: when the projected slowly varying factor decays
 logarithmically, condition (E2) restricts the detectable gaps to
-$\Delta_{\min}\gg1/\log n$. Appendix~\ref{app:examples} shows that the
-severity of this restriction is governed by the conditional mass at the
-fibre maximum. Third, rare favourable configurations: even with a
-comfortable population gap, the envelope near its maximum is estimable only
-from observations whose remaining active coordinates are simultaneously
-near their maximizing values, and the mass of such configurations can decay
-exponentially in $s$. Model M4 in Section~\ref{sec:simulation} shows the
-resulting cost.
+$\Delta_{\min}\gg1/\log n$, and the continuous-mixture example of
+Section~\ref{sec:estimation} shows the restriction is intrinsic rather
+than an artifact of the proofs. Third, rare favourable configurations:
+even with a comfortable population gap, the envelope near its maximum is
+estimable only from observations whose remaining active coordinates are
+simultaneously near their maximizing values, and the mass of such
+configurations can decay exponentially with the number of active
+coordinates. The weak-signal model M3 in Section~\ref{sec:simulation}
+shows the resulting cost.
 
 The main open theoretical question is the gap between the primitive model
 (C1)--(C2) and the estimation conditions (E1)--(E3). Projection creates
@@ -39,12 +40,15 @@ In practice, tuning matters more than the theory prescribes. The tail
 fraction trades Hill bias against variance; the bandwidth additionally
 determines how often near-maximizing configurations of the other active
 coordinates enter a window. We recommend the workflow of
-Sections~\ref{sec:simulation} and~\ref{sec:realdata}: inspect stability of
-the leading set over a modest $(a,b)$ grid and under half-sampling, retain
-a generous $d$, and reserve interpretation for variables that survive these
-perturbations. Dependence deserves the same caution: it can help, by
-concentrating active configurations, or hurt, by promoting inactive
-neighbours, and the direction is design-specific.
+Sections~\ref{sec:simulation} and~\ref{sec:realdata}: run the screen on
+the block of nine neighbouring tunings, rank by the aggregated minimum
+rank, read the per-setting ranks as the stability diagnostic --- a
+variable promoted by a single setting warrants no interpretation, one
+holding its rank across the block does --- retain a generous $d$, and
+reserve interpretation for variables that survive. Dependence deserves
+the same caution: it can help, by concentrating active configurations,
+or hurt, by promoting inactive neighbours, and the direction is
+design-specific.
 
 Projection turns a tail-index surface into an upper envelope. Variation
 of that envelope is a scalable marginal signal for tail-index activity,

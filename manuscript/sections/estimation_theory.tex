@@ -106,14 +106,12 @@ so no lower bound on a covariate density is required.
 These conditions are stated on the projected quantiles, not derived from
 (C1)--(C2): projection can generate genuinely new slow variation. If
 $W\sim U(0,1)$ and $\Pp(Y>y\mid W)=y^{-1/(1+W)}$ exactly, then
-$\Pp(Y>y)\sim4y^{-1/2}/\log y$, so even exact Pareto conditionals produce a
-logarithmic factor after projection. Appendix~\ref{app:examples} establishes
-(E1)--(E3) for finite mixtures with a spectral gap, where the left side
-of (E2) is $O(\alpha^{\rho})$, and sketches the same for a dependent
-plateau-maximizer class where it is
-$O(\{\log(1/\alpha)\}^{-\{1+(s-1)/a_0\}})$, $a_0$ being the flatness of
-the plateau boundary; the least favourable case $s=2$ gives exponent
-$1+1/a_0$.
+$\Pp(Y>y)\sim4y^{-1/2}/\log y$, so even exact Pareto conditionals produce
+a logarithmic factor after projection, and the left side of (E2) is then
+of exact order $1/\log(1/\alpha)$. Exhibiting primitive model classes
+whose coordinatewise projections satisfy (E1)--(E3) with useful rates is
+left open, together with the derivation of the conditions themselves
+from a fully primitive model.
 
 \subsection{Main results}
 
@@ -196,8 +194,6 @@ extreme count $n\alpha h$, deflated by the squared gap. With
 $\alpha=n^{-a}$ and $h=n^{-b}/2$ and $b\le a$, dimensions up to
 $\log p=o(n^{1-a-b}\Delta_{\min}^2)$ are admissible, a polynomial range
 of $p$ for fixed gaps; for $b>a$ the rank-displacement condition
-$\log(pn)=o(nh^2)=o(n^{1-2b})$ binds first. These ranges treat (E3) as
-given: in the verified mixture class of
-Proposition~\ref{prop:app-mixture} the spatial modulus adds the
-constraint $\log(pn)=o(n^{b})$, giving the range
-$\log(pn)=o(n^{\min(b,1-a-b)})$ stated there.
+$\log(pn)=o(nh^2)=o(n^{1-2b})$ binds first. These ranges treat (E3) as given; a spatial modulus of order
+$h\log(1/\tau_n)$, the natural benchmark, adds the constraint
+$\log(pn)=o(n^{b})$.

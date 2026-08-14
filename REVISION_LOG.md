@@ -246,3 +246,46 @@
   rounding and caption typo fixed; τ-figure grey markers un-clipped;
   YU tuning described as transplanted from their numerical work, k held
   at their ratio (disclosed).
+
+# Revision log — Draft 3 → Draft 4
+
+## Simulations (fixed model suite, code/R/generate4.R)
+- M4 decay rate 0.35 → 0.80 (trimmed gap 0.107 → 0.173): the model now
+  probes non-additivity rather than weakness of signal, M3 being the
+  weak-signal model.
+- M2 rebuilt: single latent scale factor F, log-scale κ_c{Φ(F)−½} with
+  κ_c = 0.4772, observed through s = 20 proxies at loading λ = 0.7
+  (A_scale = {5,…,24}); Var of the log-scale = κ_c²/12 exactly.
+- Tuning rerun on the fixed suite (tuning4): (a*, b*) = (0.30, 0.15).
+- Aggregated screen introduced as an official variant: minimum rank over
+  the 3×3 block N9 = {0.30,0.35,0.40}×{0.10,0.15,0.20}.
+- Final campaign (campaign5): n = 2000, p ∈ {500, 1000, 2000}, ρ = 0.25,
+  1000 replications, six rules on common datasets; three tables (one per
+  p) with Sure-4, Sure-20, E(R_max) and Med(R_max) [the "Mex(R_max)"
+  requested does not exist in the result files; medmax = median is the
+  recorded statistic]; commentary along three axes (dimension, quantile
+  level, aggregation effect). Old §4.3 (one-factor study) and §4.5
+  (τ-sensitivity section) removed, their content absorbed.
+- Note: Yoshida–Umezu has no τ parameter; it appears once per table at
+  its transplanted tuning (h = 1, k = ⌊0.072n⌋).
+
+## Application (rerun with the new method)
+- Aggregated screen applied unchanged to the crime data (N9, min-rank,
+  median-imputed matrix shared by all methods); half-sample material
+  removed everywhere. Aggregated leaders: pctPoverty, pctMaleNevMar,
+  pct2Par, pctKids2Par (consensus block with the quantile screen and YU);
+  tail-specific candidates pctUsePubTrans (rank 5 vs 49–73 for the
+  quantile screen) and pctWfarm (6 vs 59–69) survive; the two variables
+  promoted by a single setting (pctLargHous, pctHousWOplumb) are
+  identified as the known failure mode of the minimum and given no
+  interpretation. Figure: Hill + Pareto QQ + per-setting ranks panel.
+
+## Theory and text
+- Appendix A.6 deleted in full (derivative criterion, finite-mixture
+  proposition, plateau remark); §3.2 now states that exhibiting primitive
+  classes for (E1)–(E3) is open; the admissible-range remark uses the
+  h·log(1/τ_n) benchmark instead of the deleted proposition; discussion
+  and introduction propagated; the §4.1 regime paragraph references the
+  §3.2 logarithmic discussion instead of A.6.
+- Abstract and roadmap updated (aggregated screen, p-range, scale
+  cluster); no pilot or model-selection narrative appears in §4.1.
