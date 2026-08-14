@@ -1,16 +1,17 @@
 #!/bin/sh
-# Commit every finished grid cell as soon as it lands on disk, and push in
-# groups of PUSH_EVERY cells (the Markdown report is regenerated at each push,
-# not at each cell, to keep the refresh off the critical path).
-# A cell file is only staged once it has been untouched for 20 seconds, so a
-# half-written .rds is never committed.  Exits when all cells are in, or when
-# the driver is gone and nothing is left to pick up; a partial group is always
-# pushed before exiting.
-# usage: code/sh/git_watch_cells.sh [CELLDIR] [TOTAL] [PUSH_EVERY]
+# Commit every finished grid cell as soon as it lands on disk, and push once per
+# driver batch: the driver writes all the cells of a batch back to back and then
+# spends minutes on the next one, so a burst that has gone quiet is a batch
+# boundary.  The Markdown report is regenerated at each push.
+# A cell file is only staged once it has been untouched for QUIET seconds, so a
+# half-written .rds is never committed, and a push only fires once nothing is
+# being written any more.  A partial group is always pushed before exiting.
+# usage: code/sh/git_watch_cells.sh [CELLDIR] [TOTAL] [MAXHOLD]
 set -u
 DIR=${1:-results/grid/comparison_cells}
 TOTAL=${2:-288}
-PUSH_EVERY=${3:-5}
+MAXHOLD=${3:-40}          # safety valve: never hold more than this many cells
+QUIET=20                  # seconds of inactivity that mark a finished burst
 export GIT_TERMINAL_PROMPT=0
 
 publish() {   # regenerate the report, commit it, push everything pending
@@ -24,13 +25,13 @@ publish() {   # regenerate the report, commit it, push everything pending
       >/dev/null 2>&1 || true
   fi
   git push -q origin HEAD 2>&1 | tail -2
-  echo "$(date +%H:%M:%S) pushed, $committed/$TOTAL cells"
+  echo "$(date +%H:%M:%S) batch pushed ($pending cells), $committed/$TOTAL total"
 }
 
 pending=0
 while :; do
   tracked=$(git ls-files "$DIR")
-  for f in $(find "$DIR" -name '*.rds' ! -newermt '-20 seconds' 2>/dev/null | sort); do
+  for f in $(find "$DIR" -name '*.rds' ! -newermt "-$QUIET seconds" 2>/dev/null | sort); do
     case "
 $tracked" in *"
 $f"*) continue ;; esac
@@ -39,7 +40,9 @@ $f"*) continue ;; esac
       pending=$((pending + 1))
     fi
   done
-  if [ "$pending" -ge "$PUSH_EVERY" ]; then
+  # a batch is complete when nothing has been written for QUIET seconds
+  writing=$(find "$DIR" -name '*.rds' -newermt "-$QUIET seconds" 2>/dev/null | wc -l)
+  if [ "$pending" -gt 0 ] && { [ "$writing" -eq 0 ] || [ "$pending" -ge "$MAXHOLD" ]; }; then
     publish
     pending=0
   fi
