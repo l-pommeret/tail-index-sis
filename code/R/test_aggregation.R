@@ -88,7 +88,7 @@ for (f in cells) {
   res[[f]] <- o
   cat(format(Sys.time(), "%H:%M:%S"), basename(f), "done\n"); flush.console()
 }
-saveRDS(res, file.path("results/aggregation", sprintf("raw_n%d_p%d.rds", res[[1]][[1]]$n, res[[1]][[1]]$p)), compress = "xz")
+saveRDS(res, file.path("results/aggregation", sprintf("raw_n%d_p%d_r%03.0f.rds", res[[1]][[1]]$n, res[[1]][[1]]$p, 100*res[[1]][[1]]$rho)), compress = "xz")
 
 fm <- function(v) formatC(v, format = "f", digits = 3)
 nm <- setdiff(names(res[[1]][[1]]), c("model", "n", "p", "rho"))
