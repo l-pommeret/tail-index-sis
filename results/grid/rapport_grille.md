@@ -1,8 +1,12 @@
 # Comparaison des methodes de screening sur grille etendue
 
-Genere le 2026-08-14 15:13 a partir de `results/grid/comparison_cells` (14 cellules sur 288).
+Genere le 2026-08-14 15:19 a partir de `results/grid/comparison_cells` (14 cellules sur 288).
 
 > **Rapport partiel** : la campagne est en cours, 14 cellules sur 288 sont calculees. Les vues agregees de la section 3 ne portent que sur les cellules disponibles et bougeront encore. Les tables completes de la section 4 sont definitives cellule par cellule.
+
+**Prochaine echeance : batch de 7 cellules attendu vers 15:32 ; fin de campagne estimee vers 17:18.**
+
+Debit mesure 33.9 core-heures par heure de calcul (soit 34 coeurs solo-equivalents) ; 70.8 core-heures restantes sur 92.2.
 
 ## 1. Protocole
 

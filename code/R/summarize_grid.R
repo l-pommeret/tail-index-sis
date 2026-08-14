@@ -64,6 +64,47 @@ sure_cols <- paste0("sure", DS)
 ## rho label without trailing zeros
 rl <- function(v) sub("\\.?0+$", "", formatC(v, format = "f", digits = 2))
 
+## --- campaign schedule, read off the driver log ------------------------------
+## The driver logs, per batch, "HH:MM:SS batch of N cells (C core-hours)" when
+## it starts one and "HH:MM:SS elapsed E min, remaining budget R core-hours"
+## when it finishes one.  Those give the realised throughput and, from it, the
+## next batch's due time and the end of the campaign.
+schedule_lines <- function(log_file = Sys.getenv("GRID_LOG",
+                                                 "results/grid/run_grid.log")) {
+  if (!file.exists(log_file)) return(character(0))
+  lg <- readLines(log_file, warn = FALSE)
+  hdr <- grep("to run \\(", lg, value = TRUE)
+  el  <- grep("elapsed .*remaining budget", lg, value = TRUE)
+  bt  <- grep("batch of .* cells \\(", lg, value = TRUE)
+  if (!length(hdr) || !length(bt)) return(character(0))
+  total <- as.numeric(sub(".*to run \\(([0-9.]+) core-hours\\).*", "\\1", hdr[1]))
+  if (grepl("ALL CELLS DONE", paste(lg, collapse = " "))) {
+    return(c("**Campagne terminee.**", ""))
+  }
+  last_b <- bt[length(bt)]
+  t0 <- as.POSIXct(paste(Sys.Date(),
+                         sub("^([0-9:]{8}).*", "\\1", last_b)), tz = "")
+  cost <- as.numeric(sub(".*\\(([0-9.]+) core-hours\\).*", "\\1", last_b))
+  ncell_batch <- as.numeric(sub(".*batch of ([0-9]+) cells.*", "\\1", last_b))
+  if (!length(el)) return(character(0))
+  last_e <- el[length(el)]
+  emin <- as.numeric(sub(".*elapsed ([0-9.]+) min.*", "\\1", last_e))
+  rem  <- as.numeric(sub(".*remaining budget ([0-9.]+) core-hours.*", "\\1", last_e))
+  rate <- (total - rem) / emin            # core-hours per minute of wall time
+  if (!is.finite(rate) || rate <= 0) return(character(0))
+  hm <- function(tm) format(tm, "%H:%M")
+  eta_batch <- t0 + 60 * cost / rate
+  eta_end   <- t0 + 60 * rem / rate
+  now <- Sys.time()
+  c(sprintf("**Prochaine echeance : batch de %d cellules attendu vers %s%s ; fin de campagne estimee vers %s.**",
+            ncell_batch, hm(eta_batch),
+            if (eta_batch < now) " (imminent)" else "", hm(eta_end)),
+    "",
+    sprintf("Debit mesure %.1f core-heures par heure de calcul (soit %.0f coeurs solo-equivalents) ; %.1f core-heures restantes sur %.1f.",
+            rate * 60, rate * 60, rem, total),
+    "")
+}
+
 ## --- block of full tables: one per (model, n, p) ----------------------------
 cell_table <- function(w) {
   w <- w[order(w$rho, as.integer(w$method)), ]
@@ -114,6 +155,7 @@ if (length(files) < NCELL)
           length(files), NCELL)
 else "Campagne complete.",
 "",
+schedule_lines(),
 "## 1. Protocole",
 "",
 "Les quatre modeles M1-M4 de la Draft 3 (`code/R/generate3.R`), les memes",
