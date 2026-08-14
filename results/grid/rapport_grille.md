@@ -1,8 +1,8 @@
 # Comparaison des methodes de screening sur grille etendue
 
-Genere le 2026-08-14 15:03 a partir de `results/grid/comparison_cells` (7 cellules sur 288).
+Genere le 2026-08-14 15:13 a partir de `results/grid/comparison_cells` (14 cellules sur 288).
 
-> **Rapport partiel** : la campagne est en cours, 7 cellules sur 288 sont calculees. Les vues agregees de la section 3 ne portent que sur les cellules disponibles et bougeront encore. Les tables completes de la section 4 sont definitives cellule par cellule.
+> **Rapport partiel** : la campagne est en cours, 14 cellules sur 288 sont calculees. Les vues agregees de la section 3 ne portent que sur les cellules disponibles et bougeront encore. Les tables completes de la section 4 sont definitives cellule par cellule.
 
 ## 1. Protocole
 
@@ -14,7 +14,7 @@ un espace de design elargi.
 - **Tailles** : n = 1000, 2000, 5000.
 - **Dimensions** : p = 200, 500, 1000, 2000.
 - **Dependance** : X ~ AR(1) gaussien de correlation rho = 0, 0.20, 0.25, 0.30, 0.40, 0.50.
-- **Replications Monte Carlo** : 40 par cellule, soit 7 cellules et 280 jeux de donnees simules.
+- **Replications Monte Carlo** : 40 par cellule, soit 14 cellules et 560 jeux de donnees simules.
 
 Methodes comparees (identiques a celles de la Draft 3) :
 
@@ -91,20 +91,20 @@ Profil Sure-d, moyenne sur toutes les cellules du modele :
 
 | Methode | Sure-4 | Sure-10 | Sure-20 | Sure-30 | Sure-50 | Sure-100 |
 |:---|---:|---:|---:|---:|---:|---:|
-| Tail-index SIS | 0.425 | 0.650 | 0.675 | 0.675 | 0.775 | 0.775 |
-| Yoshida--Umezu | 0.000 | 0.025 | 0.025 | 0.025 | 0.075 | 0.125 |
-| Quantile SIS t=.90 | 0.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
-| Quantile SIS t=.95 | 0.100 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
-| Quantile SIS t=.975 | 0.600 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
-| Quantile SIS t=.99 | 0.175 | 0.925 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Tail-index SIS | 0.812 | 0.887 | 0.912 | 0.921 | 0.950 | 0.950 |
+| Yoshida--Umezu | 0.054 | 0.150 | 0.183 | 0.225 | 0.296 | 0.358 |
+| Quantile SIS t=.90 | 0.000 | 0.996 | 0.996 | 1.000 | 1.000 | 1.000 |
+| Quantile SIS t=.95 | 0.217 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Quantile SIS t=.975 | 0.779 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Quantile SIS t=.99 | 0.638 | 0.979 | 1.000 | 1.000 | 1.000 | 1.000 |
 
 Sure-20 par taille d'echantillon (moyenne sur p et rho) :
 
 | Methode | n = 5000 |
 |:---|---:|
-| Tail-index SIS | 0.675 |
-| Yoshida--Umezu | 0.025 |
-| Quantile SIS t=.90 | 1.000 |
+| Tail-index SIS | 0.912 |
+| Yoshida--Umezu | 0.183 |
+| Quantile SIS t=.90 | 0.996 |
 | Quantile SIS t=.95 | 1.000 |
 | Quantile SIS t=.975 | 1.000 |
 | Quantile SIS t=.99 | 1.000 |
@@ -113,23 +113,23 @@ Sure-20 par dimension (moyenne sur n et rho) :
 
 | Methode | p = 2000 |
 |:---|---:|
-| Tail-index SIS | 0.675 |
-| Yoshida--Umezu | 0.025 |
-| Quantile SIS t=.90 | 1.000 |
+| Tail-index SIS | 0.912 |
+| Yoshida--Umezu | 0.183 |
+| Quantile SIS t=.90 | 0.996 |
 | Quantile SIS t=.95 | 1.000 |
 | Quantile SIS t=.975 | 1.000 |
 | Quantile SIS t=.99 | 1.000 |
 
 Sure-20 par correlation AR(1) (moyenne sur n et p) :
 
-| Methode | rho = 0 |
-|:---|---:|
-| Tail-index SIS | 0.675 |
-| Yoshida--Umezu | 0.025 |
-| Quantile SIS t=.90 | 1.000 |
-| Quantile SIS t=.95 | 1.000 |
-| Quantile SIS t=.975 | 1.000 |
-| Quantile SIS t=.99 | 1.000 |
+| Methode | rho = 0 | rho = 0.2 | rho = 0.25 | rho = 0.3 | rho = 0.4 | rho = 0.5 |
+|:---|---:|---:|---:|---:|---:|---:|
+| Tail-index SIS | 0.675 | 0.875 | 0.975 | 0.975 | 1.000 | 0.975 |
+| Yoshida--Umezu | 0.025 | 0.150 | 0.275 | 0.175 | 0.200 | 0.275 |
+| Quantile SIS t=.90 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.975 |
+| Quantile SIS t=.95 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Quantile SIS t=.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Quantile SIS t=.99 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
 
 ### 3.3 Modele M3
 
@@ -137,45 +137,45 @@ Profil Sure-d, moyenne sur toutes les cellules du modele :
 
 | Methode | Sure-4 | Sure-10 | Sure-20 | Sure-30 | Sure-50 | Sure-100 |
 |:---|---:|---:|---:|---:|---:|---:|
-| Tail-index SIS |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
-| Yoshida--Umezu |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
-| Quantile SIS t=.90 |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
-| Quantile SIS t=.95 |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
-| Quantile SIS t=.975 |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
-| Quantile SIS t=.99 |  NaN |  NaN |  NaN |  NaN |  NaN |  NaN |
+| Tail-index SIS | 0.375 | 0.550 | 0.662 | 0.713 | 0.738 | 0.738 |
+| Yoshida--Umezu | 0.062 | 0.125 | 0.150 | 0.163 | 0.287 | 0.350 |
+| Quantile SIS t=.90 | 0.438 | 0.713 | 0.812 | 0.875 | 0.912 | 0.925 |
+| Quantile SIS t=.95 | 0.900 | 0.963 | 0.988 | 0.988 | 0.988 | 1.000 |
+| Quantile SIS t=.975 | 0.650 | 0.900 | 0.950 | 0.963 | 0.988 | 1.000 |
+| Quantile SIS t=.99 | 0.075 | 0.413 | 0.550 | 0.688 | 0.788 | 0.925 |
 
 Sure-20 par taille d'echantillon (moyenne sur p et rho) :
 
-| Methode | n =  |
-|:---|
-| Tail-index SIS |
-| Yoshida--Umezu |
-| Quantile SIS t=.90 |
-| Quantile SIS t=.95 |
-| Quantile SIS t=.975 |
-| Quantile SIS t=.99 |
+| Methode | n = 5000 |
+|:---|---:|
+| Tail-index SIS | 0.662 |
+| Yoshida--Umezu | 0.150 |
+| Quantile SIS t=.90 | 0.812 |
+| Quantile SIS t=.95 | 0.988 |
+| Quantile SIS t=.975 | 0.950 |
+| Quantile SIS t=.99 | 0.550 |
 
 Sure-20 par dimension (moyenne sur n et rho) :
 
-| Methode | p =  |
-|:---|
-| Tail-index SIS |
-| Yoshida--Umezu |
-| Quantile SIS t=.90 |
-| Quantile SIS t=.95 |
-| Quantile SIS t=.975 |
-| Quantile SIS t=.99 |
+| Methode | p = 2000 |
+|:---|---:|
+| Tail-index SIS | 0.662 |
+| Yoshida--Umezu | 0.150 |
+| Quantile SIS t=.90 | 0.812 |
+| Quantile SIS t=.95 | 0.988 |
+| Quantile SIS t=.975 | 0.950 |
+| Quantile SIS t=.99 | 0.550 |
 
 Sure-20 par correlation AR(1) (moyenne sur n et p) :
 
-| Methode | rho =  |
-|:---|
-| Tail-index SIS |
-| Yoshida--Umezu |
-| Quantile SIS t=.90 |
-| Quantile SIS t=.95 |
-| Quantile SIS t=.975 |
-| Quantile SIS t=.99 |
+| Methode | rho = 0 | rho = 0.2 |
+|:---|---:|---:|
+| Tail-index SIS | 0.450 | 0.875 |
+| Yoshida--Umezu | 0.000 | 0.300 |
+| Quantile SIS t=.90 | 0.650 | 0.975 |
+| Quantile SIS t=.95 | 0.975 | 1.000 |
+| Quantile SIS t=.975 | 0.900 | 1.000 |
+| Quantile SIS t=.99 | 0.300 | 0.800 |
 
 ### 3.4 Modele M4
 
@@ -235,18 +235,18 @@ Nombre moyen, parmi les 4 coordonnees les mieux classees, de variables actives e
 | M1 | Quantile SIS t=.95 | 4.00 | 0.00 |
 | M1 | Quantile SIS t=.975 | 4.00 | 0.00 |
 | M1 | Quantile SIS t=.99 | 3.87 | 0.00 |
-| M2 | Tail-index SIS | 3.05 | 0.05 |
-| M2 | Yoshida--Umezu | 0.28 | 0.47 |
-| M2 | Quantile SIS t=.90 | 1.02 | 2.98 |
-| M2 | Quantile SIS t=.95 | 2.80 | 1.20 |
-| M2 | Quantile SIS t=.975 | 3.60 | 0.33 |
-| M2 | Quantile SIS t=.99 | 2.88 | 0.12 |
-| M3 | Tail-index SIS | NaN | NaN |
-| M3 | Yoshida--Umezu | NaN | NaN |
-| M3 | Quantile SIS t=.90 | NaN | NaN |
-| M3 | Quantile SIS t=.95 | NaN | NaN |
-| M3 | Quantile SIS t=.975 | NaN | NaN |
-| M3 | Quantile SIS t=.99 | NaN | NaN |
+| M2 | Tail-index SIS | 3.74 | 0.02 |
+| M2 | Yoshida--Umezu | 0.92 | 0.60 |
+| M2 | Quantile SIS t=.90 | 1.63 | 2.37 |
+| M2 | Quantile SIS t=.95 | 3.08 | 0.93 |
+| M2 | Quantile SIS t=.975 | 3.78 | 0.21 |
+| M2 | Quantile SIS t=.99 | 3.58 | 0.02 |
+| M3 | Tail-index SIS | 3.03 | 0.00 |
+| M3 | Yoshida--Umezu | 0.98 | 0.04 |
+| M3 | Quantile SIS t=.90 | 3.11 | 0.04 |
+| M3 | Quantile SIS t=.95 | 3.89 | 0.00 |
+| M3 | Quantile SIS t=.975 | 3.58 | 0.00 |
+| M3 | Quantile SIS t=.99 | 2.06 | 0.00 |
 | M4 | Tail-index SIS | NaN | NaN |
 | M4 | Yoshida--Umezu | NaN | NaN |
 | M4 | Quantile SIS t=.90 | NaN | NaN |
@@ -313,8 +313,55 @@ Une table par (modele, n, p) ; lignes = rho x methode. Sure-d pour d = 4, 10, 20
 |  | Quantile SIS t=.95 | 0.100 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 5.9 | 6.0 |
 |  | Quantile SIS t=.975 | 0.600 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.6 | 4.0 |
 |  | Quantile SIS t=.99 | 0.175 | 0.925 | 1.000 | 1.000 | 1.000 | 1.000 | 6.7 | 6.0 |
+| **0.2** | Tail-index SIS | 0.725 | 0.850 | 0.875 | 0.900 | 0.950 | 0.950 | 15.0 | 4.0 |
+|  | Yoshida--Umezu | 0.050 | 0.125 | 0.150 | 0.200 | 0.275 | 0.350 | 326.3 | 150.0 |
+|  | Quantile SIS t=.90 | 0.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 7.8 | 8.0 |
+|  | Quantile SIS t=.95 | 0.275 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 5.8 | 6.0 |
+|  | Quantile SIS t=.975 | 0.800 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.3 | 4.0 |
+|  | Quantile SIS t=.99 | 0.675 | 0.975 | 1.000 | 1.000 | 1.000 | 1.000 | 5.0 | 4.0 |
+| **0.25** | Tail-index SIS | 0.900 | 0.950 | 0.975 | 1.000 | 1.000 | 1.000 | 5.0 | 4.0 |
+|  | Yoshida--Umezu | 0.050 | 0.175 | 0.275 | 0.325 | 0.350 | 0.400 | 394.5 | 340.0 |
+|  | Quantile SIS t=.90 | 0.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 7.7 | 8.0 |
+|  | Quantile SIS t=.95 | 0.300 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 5.5 | 6.0 |
+|  | Quantile SIS t=.975 | 0.775 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.2 | 4.0 |
+|  | Quantile SIS t=.99 | 0.650 | 0.975 | 1.000 | 1.000 | 1.000 | 1.000 | 4.9 | 4.0 |
+| **0.3** | Tail-index SIS | 0.875 | 0.925 | 0.975 | 0.975 | 0.975 | 0.975 | 11.3 | 4.0 |
+|  | Yoshida--Umezu | 0.050 | 0.150 | 0.175 | 0.225 | 0.325 | 0.425 | 347.1 | 163.5 |
+|  | Quantile SIS t=.90 | 0.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 7.7 | 8.0 |
+|  | Quantile SIS t=.95 | 0.175 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 5.8 | 6.0 |
+|  | Quantile SIS t=.975 | 0.775 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.3 | 4.0 |
+|  | Quantile SIS t=.99 | 0.650 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.5 | 4.0 |
+| **0.4** | Tail-index SIS | 0.975 | 0.975 | 1.000 | 1.000 | 1.000 | 1.000 | 4.2 | 4.0 |
+|  | Yoshida--Umezu | 0.050 | 0.175 | 0.200 | 0.225 | 0.300 | 0.350 | 377.9 | 214.5 |
+|  | Quantile SIS t=.90 | 0.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 7.8 | 8.0 |
+|  | Quantile SIS t=.95 | 0.125 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 6.0 | 6.0 |
+|  | Quantile SIS t=.975 | 0.750 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.4 | 4.0 |
+|  | Quantile SIS t=.99 | 0.800 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.3 | 4.0 |
+| **0.5** | Tail-index SIS | 0.975 | 0.975 | 0.975 | 0.975 | 1.000 | 1.000 | 4.7 | 4.0 |
+|  | Yoshida--Umezu | 0.125 | 0.250 | 0.275 | 0.350 | 0.450 | 0.500 | 235.6 | 94.0 |
+|  | Quantile SIS t=.90 | 0.000 | 0.975 | 0.975 | 1.000 | 1.000 | 1.000 | 8.4 | 8.0 |
+|  | Quantile SIS t=.95 | 0.325 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 5.4 | 5.0 |
+|  | Quantile SIS t=.975 | 0.975 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
+|  | Quantile SIS t=.99 | 0.875 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.2 | 4.0 |
 
 ### 4.3 Modele M3
+
+#### M3, n = 5000, p = 2000
+
+| rho | Methode | Sure-4 | Sure-10 | Sure-20 | Sure-30 | Sure-50 | Sure-100 | E(Rmax) | Med(Rmax) |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|
+| **0** | Tail-index SIS | 0.125 | 0.300 | 0.450 | 0.500 | 0.550 | 0.550 | 211.4 | 34.0 |
+|  | Yoshida--Umezu | 0.000 | 0.000 | 0.000 | 0.000 | 0.100 | 0.150 | 755.8 | 684.5 |
+|  | Quantile SIS t=.90 | 0.150 | 0.450 | 0.650 | 0.750 | 0.825 | 0.850 | 73.0 | 12.5 |
+|  | Quantile SIS t=.95 | 0.800 | 0.925 | 0.975 | 0.975 | 0.975 | 1.000 | 6.6 | 4.0 |
+|  | Quantile SIS t=.975 | 0.350 | 0.800 | 0.900 | 0.925 | 0.975 | 1.000 | 9.4 | 5.0 |
+|  | Quantile SIS t=.99 | 0.025 | 0.150 | 0.300 | 0.500 | 0.675 | 0.875 | 55.4 | 31.0 |
+| **0.2** | Tail-index SIS | 0.625 | 0.800 | 0.875 | 0.925 | 0.925 | 0.925 | 18.1 | 4.0 |
+|  | Yoshida--Umezu | 0.125 | 0.250 | 0.300 | 0.325 | 0.475 | 0.550 | 287.5 | 69.5 |
+|  | Quantile SIS t=.90 | 0.725 | 0.975 | 0.975 | 1.000 | 1.000 | 1.000 | 4.9 | 4.0 |
+|  | Quantile SIS t=.95 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.0 | 4.0 |
+|  | Quantile SIS t=.975 | 0.950 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 4.1 | 4.0 |
+|  | Quantile SIS t=.99 | 0.125 | 0.675 | 0.800 | 0.875 | 0.900 | 0.975 | 15.6 | 6.0 |
 
 ### 4.4 Modele M4
 
@@ -324,5 +371,5 @@ Secondes par replication et par methode, monocoeur, moyenne sur modeles et rho. 
 
 | n | p | Tail-index SIS | Yoshida--Umezu | Quantile SIS (par tau) | YU non defini |
 |---:|---:|---:|---:|---:|---:|
-| 5000 | 2000 | 4.57 | 25.49 | 73.12 | 0.000 |
+| 5000 | 2000 | 4.53 | 25.24 | 73.50 | 0.000 |
 
