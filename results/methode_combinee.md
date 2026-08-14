@@ -23,8 +23,8 @@ et deux corrections indépendantes s'y attaquent :
    les mieux notées par quantile SIS. Cela réduit la compétition, donc la
    probabilité qu'une coordonnée nulle chanceuse dépasse une active.
 2. **Agrégation de rangs sur une grille de réglages** — au lieu d'un seul
-   couple (a, b), calculer le score sur 25 réglages voisins et classer par le
-   **rang minimum** obtenu sur ces 25.
+   couple (a, b), calculer le score sur 9 réglages voisins et classer par le
+   **rang minimum** obtenu sur ces 9.
 
 Ensemble, moyenné sur les quatre modèles :
 
@@ -55,14 +55,14 @@ d. Sortie : d coordonnées.
   S = les d1 coordonnées de plus grande utilité w_j            [d1 = 25]
 
 ÉTAGE 2 — classement par indice de queue, agrégé sur les réglages
-  G = { (a,b) : a dans {0.300,0.325,0.350,0.375,0.400},
-                b dans {0.050,0.075,0.100,0.125,0.150} }        [25 réglages]
+  G = { (a,b) : a dans {0.30,0.35,0.40},
+                b dans {0.05,0.10,0.15} }                        [9 réglages]
   pour chaque (a,b) dans G :
       alpha = n^(-a) ;  h = n^(-b)/2
       s_j(a,b) = score de Hill local pour j dans S
                  (code/src/local_hill.cpp, score_coordinate_cpp)
       r_j(a,b) = rang de s_j(a,b) parmi S, par ordre CROISSANT
-  r_j = MINIMUM des r_j(a,b) sur les 25 réglages
+  r_j = MINIMUM des r_j(a,b) sur les 9 réglages
   sortie = les d coordonnées de S de plus petit r_j
 ```
 
@@ -165,7 +165,13 @@ Trois grilles comparées, chacune avec les six agrégateurs, sans pipeline :
 | **fine** | 25 | **même étendue**, pas de 0.025 | **0.352** | **0.631** |
 | large | 25 | a ∈ [0.25, 0.45], b ∈ [0, 0.20] | 0.154 | 0.481 |
 
-**Densifier apporte un gain modeste ; élargir divise la performance par deux.**
+**Densifier n'apporte rien d'exploitable ; élargir divise la performance par
+deux.** Le gain apparent de la grille fine ne résiste pas à un test direct : sur
+huit configurations comparant 9 et 25 réglages sur les mêmes réplications,
+l'écart moyen en Sure-4 est de +0.006, de signe alternant, pour une erreur type
+d'environ 0.04. Des réglages espacés de 0.025 donnent des classements trop
+corrélés pour augmenter le nombre effectif de configurations indépendantes.
+**La grille retenue est donc la 3x3**, 2.8 fois moins coûteuse.
 À nombre de points identique (25), la grille fine fait 0.352 et la large 0.154.
 
 L'explication est mesurée : le balayage de séparation montre que le SNR tombe à

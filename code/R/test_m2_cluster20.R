@@ -35,10 +35,13 @@ ASTAR <- as.numeric(Sys.getenv("ASTAR", "0.30"))
 BSTAR <- as.numeric(Sys.getenv("BSTAR", "0.10"))
 KAP <- as.numeric(Sys.getenv("KAPPA", "0.20"))
 AGRID <- c(0.30, 0.35, 0.40); BGRID <- c(0.05, 0.10, 0.15)
-n <- 2000L; p <- 1000L; rho <- 0.25
+## design point and lambda grid are overridable
+n <- as.integer(Sys.getenv("GRID_N", "2000"))
+p <- as.integer(Sys.getenv("GRID_P", "1000"))
+rho <- as.numeric(Sys.getenv("GRID_RHO", "0.25"))
 DS <- c(4, 10, 20, 30, 50)
-LAMBDAS <- c(0.5, 0.7, 0.9)
-S_CLUSTER <- 20L
+LAMBDAS <- as.numeric(strsplit(Sys.getenv("LAMBDAS", "0.5,0.7,0.9"), ",")[[1]])
+S_CLUSTER <- as.integer(Sys.getenv("S_CLUSTER", "20"))
 
 draw <- function(seed, s, design, kappa, lambda = NA_real_) {
   set.seed(seed)
