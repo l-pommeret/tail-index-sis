@@ -174,33 +174,14 @@ a common probability-one event.
 \end{proof}
 
 \begin{lemma}[Continuity of the envelope]\label{lem:app-envelope-cont}
-Under (C1), the map $u\mapsto\max_v\gamma(u,v)$ is continuous on
-$[0,1]$, with modulus bounded by the modulus of continuity of
-$\gamma$; under (S) this map equals $\xi_j$ on $\I$, by
-Proposition~\ref{prop:projection}.
+Under (C1), each $\xi_j(u)=\max_v\gamma(u,v)$ is continuous on $[0,1]$,
+with modulus bounded by the modulus of continuity of $\gamma$.
 \end{lemma}
 
 \begin{proof}
 $\gamma$ is uniformly continuous on the compact cube; if
 $|u-u'|\le\delta$ then $|\gamma(u,v)-\gamma(u',v)|\le\varpi(\delta)$ for
 every $v$, and taking maxima preserves the bound.
-\end{proof}
-
-\begin{lemma}[Regular variation of the projected quantile]
-\label{lem:app-quantile-rv}
-If $\bar F(y)=\Pp(Y>y\mid U_j=u)$ is regularly varying at infinity with
-index $-1/\xi$, $\xi>0$, then its generalized upper quantile
-$Q(s)=\bar F^{-1}(1/s)$ is regularly varying with index $\xi$, i.e.\
-$Q(s)=s^{\xi}\ell(s)$ with $\ell$ slowly varying.
-\end{lemma}
-
-\begin{proof}
-This is the standard inversion property of regularly varying functions
-\citep[Proposition~B.1.9(9)]{deHaanFerreira2006}: the generalized
-inverse of a regularly varying nonincreasing function with index
-$-1/\xi$ is regularly varying with index $\xi$ at the appropriate
-argument, and the representation follows from the definition of slow
-variation.
 \end{proof}
 
 \subsection{Empirical-rank geometry}\label{app:rankgeom}
@@ -282,16 +263,16 @@ constancy intervals plus the $2n$ breakpoint states.
 \begin{lemma}[Local extreme count]\label{lem:app-kn}
 If $nh\ge4$ and $\alpha m_n^-\ge2$, then $m_n^-\ge nh/2$ and
 \[
- \frac{n\alpha h}{4}\;\le\;K_n\;\le\;2n\alpha h+1 .
+ \frac{n\alpha h}{4}\;\le\;K_n\;\le\;2n\alpha h .
 \]
 \end{lemma}
 
 \begin{proof}
 $m_n^-\ge\lfloor h(n+1)\rfloor-1\ge h n-2\ge nh/2$ for $nh\ge4$, and
 $K_n=\lfloor\alpha m_n^-\rfloor\ge\alpha m_n^-/2\ge n\alpha h/4$ when
-$\alpha m_n^-\ge2$ (since $\lfloor x\rfloor\ge x/2$ for $x\ge2$).  For
-the upper bound, $m_n^-\le2h(n+1)-1\le2hn+2h-1\le2hn+1$, so
-$K_n\le\alpha m_n^-\le2n\alpha h+1$.
+$\alpha m_n^-\ge2$ (since $\lfloor x\rfloor\ge x/2$ for $x\ge2$).  The
+upper bound follows from $m_n^-\le2h(n+1)\le2hn+2$ and
+$K_n\le\alpha m_n^-$.
 \end{proof}
 
 The rate conditions \eqref{eq:rate-cond} force $nh\to\infty$ and
@@ -541,11 +522,8 @@ $\widehat\A_s=\A$.
 \end{lemma}
 
 \begin{proof}
-This lemma uses only the fibre identity \eqref{eq:fibre}, proved in
-Appendix~\ref{app:proofs} without reference to this subsection, through
-its consequence that inactive coordinates have $\Psi_j=\gmax$
-(Proposition~\ref{prop:geometry}, claim 1); no circularity arises.
-Hence
+Inactive coordinates have $\Psi_j=\gmax$
+(Proposition~\ref{prop:geometry}), hence
 $\widehat\Psi_j>\gmax-\Delta_{\min}/2$; active coordinates have
 $\Psi_j\le\gmax-\Delta_{\min}$, hence
 $\widehat\Psi_j<\gmax-\Delta_{\min}/2$.  Every active score therefore

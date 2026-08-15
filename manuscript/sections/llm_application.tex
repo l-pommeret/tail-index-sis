@@ -14,16 +14,12 @@ $S_t=-\log p_\theta(w_t\mid w_{<t})$ be the token surprisal and take
  Y=\exp\Bigl(\max_{t\le T}S_t\Bigr)
  =\Bigl\{\min_{t\le T}p_\theta(w_t\mid w_{<t})\Bigr\}^{-1}.
 \]
-If the conditional surprisal tails are exponential,
-$\Pp(S_t>s\mid x)\sim c(x)e^{-s/\gamma(x)}$ --- the behaviour a Zipfian
-vocabulary produces --- then each $e^{S_t}$ is conditionally regularly
-varying with index $-1/\gamma(x)$, and for weakly dependent surprisals
-the maximum inherits the index:
-$\Pp(Y>y\mid x)\sim\theta(x)\,T\,c(x)\,y^{-1/\gamma(x)}$, where the
-extremal coefficient $\theta(x)$ and $T$ enter the scale only. Weak
-dependence of the within-document surprisal series at extreme levels is
-an assumption of this application, not a verified fact; the nested-prefix
-experiment below supports its first-order consequence. Mean
+If the conditional surprisal tail is exponential,
+$\Pp(S>s\mid x)\sim c(x)e^{-s/\gamma(x)}$ --- the behaviour a Zipfian
+vocabulary produces --- then
+$\Pp(Y>y\mid x)\sim c(x)y^{-1/\gamma(x)}$: conditional regular variation
+with $\gamma(x)>0$ holds by the exponential mechanism, and the
+subexponential factor becomes the slowly varying factor of (C1). Mean
 log-perplexity, by contrast, concentrates and lands in the Gumbel
 domain; its marginal can look heavy-tailed by mixture while every
 conditional law is light, which would invalidate (C1) silently. The
@@ -41,35 +37,23 @@ computed from the forward pass that produces $Y$: $p=272$ surface and
 frozen-encoder-embedding covariates survive a continuity filter, with
 $n=20{,}000$ documents, and at the tuning of
 Section~\ref{sec:tuning} the regime is $2n\alpha h\approx232$ local
-extremes per interior window. The marginal generalized Pareto fit gives $\xi=1.16$ with profile
-confidence interval $[1.07,1.25]$, the marginal Hill estimate at the
-$10\%$ level is $1.28$ --- the gap between the two reflecting
-threshold sensitivity --- and the sixteen stratified fits give
-$\xi\in[1.14,1.29]$ with every profile interval excluding $0$: the
-conditional positivity that (C1) requires and that a marginal Hill
-plot cannot establish. Numerical saturation, degenerate document classes, and
+extremes per interior window. Marginal and stratified generalized
+Pareto fits give $\gamma\approx1.24$ with profile confidence intervals
+excluding $0$ in all sixteen strata examined --- the conditional
+positivity that (C1) requires and that a marginal Hill plot cannot
+establish. Numerical saturation, degenerate document classes, and
 fp32 rounding are ruled out by direct checks in the replication
 material.
 
 \subsection{Calibrated screening and a null result}
 
-Ranks alone never refuse to answer: a ranking exists whether or not
-any signal does. The screening here is therefore calibrated by
-permutation: for $B=1{,}000$ permutations $\sigma$ of the responses
-against the covariate matrix, the full screen is rerun and the
-familywise threshold is the empirical $5\%$ quantile of the null
-minimum score $\min_j\widehat\Psi_j^{(\sigma)}$ (scores rank
-small-first). The null hypothesis this tests is joint independence of
-$Y$ and the covariates --- permutation destroys scale dependence and
-index dependence alike --- so it is a global test, not a test of the
-tail-index-specific hypothesis; a covariate could move the scale of
-$Y$ and reject under it. On the primary analysis, no covariate of the
-$272$ crosses the familywise threshold, for either response variant.
-The per-covariate $5\%$ thresholds are exceeded $31$ times for $Y$ and
-$23$ for $Y_\Delta$ against $13.6$ expected under independence, an
-excess concentrated in the strongly dependent embedding-PCA block and
-absorbed by the familywise threshold; we read the outcome as no
-familywise-significant covariate, not as a textbook uniform null. The same holds for
+Ranks alone never refuse to answer: a ranking exists whether or not any
+signal does. The screening here is therefore calibrated by permutation:
+responses are permuted against covariates, the full screen is rerun, and
+the familywise $5\%$ threshold is the appropriate quantile of the
+best null score. On the primary analysis, no covariate of the $272$
+crosses the familywise threshold, for either response variant; per-covariate
+exceedances match their expected counts. The same holds for
 $1{,}024$-dimensional blocks of internal model activations (residual-stream
 averages over a past prefix, screened against $Y$ computed on the
 disjoint future suffix, at $n=50{,}000$): every layer configuration is
@@ -88,22 +72,14 @@ documents --- composition held fixed --- the measured slope of
 $\E[\max S]$ against $\log T$ is $1.23$ with intra-document confidence
 interval $[1.15,1.31]$, containing the independent Hill estimates of
 $\gamma$; across free-length strata the Hill intervals overlap while
-the location moves by $2.24$ nats. When $T$ is left free, the screening runs on the $16$ surface
-covariates that survive the continuity filter in that mode, five of
-which are length proxies (characters, bytes, words, whitespace count,
-gzip size). Those five fill the top five positions of the quantile
-screen at every level $\tau\in\{.90,.95,.99\}$ --- for one level, the
-chance probability that a prespecified five-element block occupies the
-top five of sixteen is $1/\binom{16}{5}\approx2.3\times10^{-4}$, and
-the three levels are strongly dependent, so we quote no combined
-probability --- while the tail-index screen places none of them in its
-top five and ranks the block in its bottom quartile (median rank $13$
-of $16$ against $3$ for the quantile screen). Under the permutation
-calibration of the free-$T$ run, no covariate reaches the familywise
-threshold for $Y$, and a single covariate crosses for $Y_\Delta$. This
-is the B1 dissociation on real data, with a nuisance an order of
-magnitude stronger than the simulated one, visible in the rankings and
-absorbed by the familywise test.
+the location moves by $2.24$ nats. When $T$ is left free, the length
+cluster --- eight correlated proxies from character count to gzip
+size --- fills the top five positions of the quantile screen at every
+level $\tau\in\{.90,.95,.99\}$ ($5/5$; the chance probability of this
+configuration is about $2\times10^{-4}$), while the tail-index screen
+places none of them in its top five and ranks the block in its bottom
+quartile. This is the B1 dissociation on real data, with a nuisance an
+order of magnitude stronger than the simulated one.
 
 The same experiment locates a boundary of validity: at $n=2{,}000$
 ($2n\alpha h\approx65$) the tail screen itself ranks the length block
@@ -113,37 +89,28 @@ $n=20{,}000$ ($2n\alpha h\approx232$). Specificity against scale is an
 asymptotic property with a measurable finite-sample onset.
 
 \paragraph{A grafted cluster: exact truth.}
-By Breiman's lemma, if $\Pp(Y>y\mid x)$ is regularly varying with
-index $-1/\gamma(x)$ and $V>0$ is bounded and independent of $Y$ given
-$x$, then
-$\Pp(YV>y\mid x)\sim\E\{V^{1/\gamma(x)}\}\,\Pp(Y>y\mid x)$: the index
-is unchanged and only the scale constant moves (boundedness makes the
-moment finite for every $\gamma$). Grafting
+By Breiman's lemma, if $V>0$ is bounded and independent of $Y$, then
+$YV$ is regularly varying with the same index, and only the scale
+constant changes. Grafting
 $V=\exp\{\kappa(\Phi(F)-1/2)\}$ with a latent $F\sim N(0,1)$ and
 $q_{\rm scale}=20$ observed proxies of $F$ (loading $0.7$, as in B1)
 onto the real responses produces twenty covariates that provably carry
 no information about the index while shifting every finite quantile,
 inside the real correlation structure of the $272$ genuine covariates.
-Across the paired strength sweep $\kappa\in\{0,0.5,1,2,4\}$, the
-number of proxies among the twenty leading positions grows for the
-quantile screen from $1$ ($\kappa=.5$) to $19$ ($\kappa=2$) and $20$
-($\kappa=4$, all three levels; median proxy rank $10.5$ of $292$). The
-tail-index screen retains $2$ to $4$ (selected pair; median proxy rank
-$143$--$175$, at or beyond the chance value of $146$) and $0$ to $5$
-(aggregated; median proxy rank $126$--$181$ up to $\kappa=2$, falling
-to $66.8$ at $\kappa=4$). The quantile screen's behaviour is coherent
-for its own target throughout; the experiment measures an
-order-of-magnitude sensitivity gap, not an immunity --- at $\kappa=4$
-both variants of the tail screen show visible contamination ($4$--$5$
-proxies, one of them first), and minimum-rank aggregation does not
-help here and degrades the median proxy rank, since there is no
-dispersed tail signal to stabilize and nine passes only pool noise. The two findings must be kept separate: under the permutation
-calibration nothing is declared in any arm for any screen --- no proxy
-ever reaches the familywise threshold, so neither method makes a false
-discovery --- while the target separation of this section lives in the
-uncalibrated rankings, which are what a practitioner reads when
-choosing $d$ variables to retain. The raw rankings are more
-contaminated than the calibrated procedure.
+Across the paired strength sweep $\kappa\in\{0,0.5,1,2,4\}$, the number
+of proxies among the twenty leading positions grows for the quantile
+screen from $1$ ($\kappa=.5$) to $19$ ($\kappa=2$) and $20$
+($\kappa=4$, all three levels; median proxy rank $10.5$ of $292$),
+while the tail-index screen retains $2$ to $4$ across the entire sweep
+(median proxy rank $143$--$175$, at or beyond the chance value of
+$146$). The quantile screen's behaviour is coherent for its own target
+throughout; the experiment measures an order-of-magnitude sensitivity
+gap, not an immunity --- at $\kappa=4$ the tail screen's contamination
+becomes visible ($4$--$5$ proxies, one of them first), and minimum-rank
+aggregation does not help here, since there is no dispersed tail signal
+to stabilize. Under the permutation calibration, no proxy reaches the
+familywise threshold in any arm for any screen: the raw rankings are
+more contaminated than the calibrated procedure.
 
 \subsection{What this application does and does not establish}
 

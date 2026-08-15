@@ -66,12 +66,8 @@ are equicontinuous on $\I$, uniformly over coordinates and over $n$,
 \]
 and satisfy the grid-scale regularity condition
 $\omega_\xi(1/n)=o(\Delta_{\min})$.
-\item[(E2)] \emph{Uniform tail regularity.} By
-Proposition~\ref{prop:projection} and inversion
-(Lemma~\ref{lem:app-quantile-rv}), $Q_j(\cdot,u)$ is regularly varying
-with index $\xi_j(u)$, so it admits the representation
-$Q_j(s,u)=s^{\xi_j(u)}\ell_j(s,u)$ with $\ell_j(\cdot,u)$ slowly
-varying; we require
+\item[(E2)] \emph{Uniform tail regularity.} Writing
+$Q_j(s,u)=s^{\xi_j(u)}\ell_j(s,u)$ with $\ell_j(\cdot,u)$ slowly varying,
 \[
  \max_{j\le p}\,\sup_{u\in\I}\,
  \sup_{s\ge(3\alpha)^{-1},\,t>1}
@@ -175,18 +171,13 @@ roadmap: (i) a Dvoretzky--Kiefer--Wolfowitz event per coordinate controls
 all empirical-rank displacements simultaneously, contributing the
 $\log(pn)=o(nh^2)$ requirement; (ii) rank windows have deterministic
 local counts and pass through at most $4n+1$ membership states per
-coordinate; (iii) the $pn$ conditional probability-integral transforms
-are truncated to $[\tau_n,1-\tau_n]$ at probability cost $2pn\tau_n$,
-which is what fixes $\tau_n=(pn)^{-2}$ in (E3); (iv) conditionally on a
-covariate column, the R\'enyi representation turns each local Hill
-statistic into a mean of i.i.d.\ exponentials built from about
-$n\alpha h$ extremes, plus a slowly varying remainder bounded through
-(E2); (v) a union bound over the $p(4n+1)$ states yields the
-$\log(pn)$ factor; (vi) a deterministic quadrature step converts
-profile accuracy into score accuracy at cost
-$\omega_\xi(1/n)+O(1/n)$; (vii) uniform score accuracy below
-$\Delta_{\min}/2$ gives deterministic separation of active from
-inactive scores. \citet[Theorem~3]{gardesPodgorny2025}
+coordinate; (iii) conditionally on a covariate column, the R\'enyi
+representation turns each local Hill statistic into a mean of
+i.i.d.\ exponentials built from about $n\alpha h$ extremes, plus a
+slowly varying remainder bounded through (E2); (iv) a union bound over
+the $p(4n+1)$ states yields the $\log(pn)$ factor; (v) uniform score
+accuracy below $\Delta_{\min}/2$ gives deterministic separation of
+active from inactive scores. \citet[Theorem~3]{gardesPodgorny2025}
 establishes the corresponding uniform consistency in fixed dimension
 over a compact class of projection matrices; their covering-number
 argument and density assumptions are replaced here by the rank
@@ -196,9 +187,8 @@ Condition \eqref{eq:sis-cond} quantifies the cost of dimension:
 screening $p$ coordinates costs $\log p$ against the effective local
 extreme count $n\alpha h$, deflated by the squared gap. With
 $\alpha=n^{-a}$ and $h=n^{-b}/2$ and $b\le a$, dimensions up to
-$\log p=o(n^{1-a-b}\Delta_{\min}^2)$ are admissible --- a range of $p$
-growing as $\exp\{o(n^{1-a-b}\Delta_{\min}^2)\}$, nearly exponential in
-a power of $n$ for fixed gaps; for $b>a$ the rank-displacement condition
+$\log p=o(n^{1-a-b}\Delta_{\min}^2)$ are admissible, a polynomial range
+of $p$ for fixed gaps; for $b>a$ the rank-displacement condition
 $\log(pn)=o(nh^2)=o(n^{1-2b})$ binds first. These ranges treat (E3) as given; a spatial modulus of order
 $h\log(1/\tau_n)$, the natural benchmark, adds the constraint
 $\log(pn)=o(n^{b})$.

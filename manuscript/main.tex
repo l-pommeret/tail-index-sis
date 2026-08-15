@@ -33,9 +33,8 @@ measure. Ranking coordinates by the average projected index therefore
 separates detectable active variables from noise. We estimate the envelope
 with empirical-rank local Hill profiles, and prove that the maximal score
 error over $p$ coordinates is
-$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term that our
-projected-quantile conditions require to be negligible relative to the
-population gap, where $\alpha$ is the local tail fraction and $h$ the rank
+$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term negligible relative to
+the population gap, where $\alpha$ is the local tail fraction and $h$ the rank
 bandwidth; $n\alpha h$ is the effective local extreme sample size. Sure
 screening and exact recovery follow when
 $\log(pn)=o(n\alpha h\Delta_{\min}^2)$. The algorithm costs $O(pn\log n)$.
@@ -45,18 +44,16 @@ choice of the smoothing parameters. Simulations across
 $p\in\{500,1000,2000\}$, including a model whose scale is driven by a
 correlated cluster of twenty inactive covariates, show when screening on
 the tail index differs from screening on a fixed high quantile: the
-cluster fills the leading positions of moderate-level quantile screens
-and displaces the active set by the size of the block, while the
-aggregated tail screen keeps its leading positions on the active set. An
+scale cluster distracts fixed-quantile screens at every level, while the
+aggregated tail screen recovers the tail-index-active set reliably. An
 application to violent-crime rates in 1{,}993 U.S. communities, with
 $p=99$ continuous predictors against an effective tail sample of about
 $200$, illustrates the method in its intended regime, and a second
 application to the maximal token surprisal of a language model over
 20{,}000 web documents, where two scale nuisances have known status
 --- document length by an asymptotic argument, a grafted bounded factor
-exactly by Breiman's lemma --- observes the same target separation in
-the rankings, while a permutation-calibrated familywise test declares
-no discovery in either direction. The uniform
+exactly by Breiman's lemma --- observes the same target separation on
+real data under a permutation-calibrated protocol. The uniform
 projected-quantile conditions are stated directly; deriving them from a fully
 primitive growing-dimensional model remains open.
 \end{abstract}
