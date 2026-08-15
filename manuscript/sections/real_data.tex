@@ -69,9 +69,8 @@ $1$--$5$), and both are also leading variables for the quantile screen
 at every level (\texttt{pctKids2Par} is first at all three $\tau$)
 and for Yoshida--Umezu (ranks $3$--$7$). The related
 \texttt{pctKids4w2Par} and \texttt{pct12to17w2Par} complete the
-consensus block at aggregated ranks $7$--$8$. For these variables the
-body and the tail of the crime distribution point at the same
-covariates, and every method agrees.
+consensus block at aggregated ranks $7$--$8$. The high-quantile and
+tail-index rankings share these leading predictors.
 
 The informative disagreements are the tail-specific candidates. The
 share of workers using public transportation
@@ -92,15 +91,20 @@ $1$--$9$, quantile ranks $28$--$35$) sits between the consensus block
 and the tail-specific pair. We report all three as candidate
 tail-specific predictors for a second-stage analysis.
 
-The minimum aggregation also exhibits its known failure mode, and the
-per-setting ranks make it visible: \texttt{pctLargHous} (aggregated
-rank $9$) and \texttt{pctHousWOplumb} (rank $10$) owe their positions
-to a single favourable setting each (per-setting ranks $6$--$74$ and
-$6$--$55$; selected-pair ranks $46$ and $36$). With $95$ competitors, a
-coordinate promoted by one setting out of nine warrants no
-interpretation, and we draw none. The consensus block and the
-tail-specific candidates, by contrast, hold their positions across the
-whole block.
+Minimum-rank aggregation is deliberately conservative: a predictor is
+promoted whenever at least one tuning in the prespecified neighbourhood
+ranks it highly, which suits a first-stage sure screen, where false
+exclusion is more costly than retaining additional candidates.
+\texttt{pctLargHous} (aggregated rank $9$) and \texttt{pctHousWOplumb}
+(rank $10$) illustrate the resulting behaviour: their positions rest on
+one favourable setting each (per-setting ranks $6$--$74$ and $6$--$55$;
+selected-pair ranks $46$ and $36$), so their rankings are markedly more
+tuning-sensitive than those of the consensus block or of the
+tail-specific candidates, which hold their positions across the whole
+block. The conservative screen retains them intentionally; the
+per-setting ranks describe this sensitivity, and discrimination among
+the retained predictors is left to the subsequent multivariate
+analysis.
 
 We do not interpret any ranking causally: the screen identifies
 covariates along which the conditional tail index varies marginally,

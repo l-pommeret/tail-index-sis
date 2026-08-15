@@ -41,14 +41,17 @@ fraction trades Hill bias against variance; the bandwidth additionally
 determines how often near-maximizing configurations of the other active
 coordinates enter a window. We recommend the workflow of
 Sections~\ref{sec:simulation} and~\ref{sec:realdata}: run the screen on
-the block of nine neighbouring tunings, rank by the aggregated minimum
-rank, read the per-setting ranks as the stability diagnostic --- a
-variable promoted by a single setting warrants no interpretation, one
-holding its rank across the block does --- retain a generous $d$, and
-reserve interpretation for variables that survive. Dependence deserves
-the same caution: it can help, by concentrating active configurations,
-or hurt, by promoting inactive neighbours, and the direction is
-design-specific.
+the block of nine neighbouring tunings and rank by the aggregated
+minimum rank. The aggregation is deliberately conservative --- a
+predictor is retained when at least one reasonable tuning finds
+evidence for it --- which is the right direction of error for a
+first-stage sure screen: false exclusion is final, while false
+retention is corrected by the second-stage multivariate analysis. The
+per-setting ranks describe tuning sensitivity and should accompany the
+ranking as a diagnostic, not act as a second screening threshold.
+Dependence deserves caution of its own: it can help, by concentrating
+active configurations, or hurt, by promoting inactive neighbours, and
+the direction is design-specific.
 
 Projection turns a tail-index surface into an upper envelope. Variation
 of that envelope is a scalable marginal signal for tail-index activity,
