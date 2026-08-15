@@ -1,0 +1,74 @@
+DIAGNOSTICS  results/llm/main_fixe.parquet  n = 20000 documents
+mode : T_scored median = 512 tokens notes
+
+=== 1. PLAFOND ===
+max_t S : min 2.35, med 13.89, q99 19.36, max 27.92 nats
+  part des documents a moins de 0.10 nats du maximum global : 0.0001
+  part des documents a moins de 0.25 nats du maximum global : 0.0001
+  part des documents a moins de 0.50 nats du maximum global : 0.0001
+  part des documents a moins de 1.00 nats du maximum global : 0.0001
+  ecarts entre les 20 plus grands maxima : med 0.143, min 0.010 nats
+  lecture : une accumulation contre une borne se verrait comme une part
+  elevee juste sous le maximum et des ecarts qui s'effondrent.
+
+=== 2. GAMMA > 0 (marginal) ===
+
+--- Y = exp(max S) du petit modele (n=20000) ---
+  Hill (= exces moyen de max_t S) :
+    k=  400 (2%)  gamma_hat = 1.2412
+    k= 1000 (5%)  gamma_hat = 1.2280
+    k= 2000 (10%)  gamma_hat = 1.2758
+    k= 4000 (20%)  gamma_hat = 1.3497
+  GPD au seuil 10% (u=16.51 nats, 2000 exces) : xi = 1.1588, IC95 profile [1.0725, 1.2506]  -> gamma > 0
+  GPD au seuil 20% (u=15.53 nats, 4000 exces) : xi = 1.2188, IC95 profile [1.1530, 1.2831]  -> gamma > 0
+
+--- Y = exp(max S) du grand modele (n=20000) ---
+  Hill (= exces moyen de max_t S) :
+    k=  400 (2%)  gamma_hat = 1.2523
+    k= 1000 (5%)  gamma_hat = 1.2522
+    k= 2000 (10%)  gamma_hat = 1.2910
+    k= 4000 (20%)  gamma_hat = 1.3737
+  GPD au seuil 10% (u=16.20 nats, 2000 exces) : xi = 1.2064, IC95 profile [1.1133, 1.3051]  -> gamma > 0
+  GPD au seuil 20% (u=15.19 nats, 4000 exces) : xi = 1.2291, IC95 profile [1.1634, 1.2935]  -> gamma > 0
+
+--- Y_delta = exp(max (S_petit - S_grand)) (n=20000) ---
+  Hill (= exces moyen de max_t S) :
+    k=  400 (2%)  gamma_hat = 1.2240
+    k= 1000 (5%)  gamma_hat = 1.2304
+    k= 2000 (10%)  gamma_hat = 1.2773
+    k= 4000 (20%)  gamma_hat = 1.3070
+  GPD au seuil 10% (u=7.21 nats, 2000 exces) : xi = 1.1954, IC95 profile [1.1091, 1.2941]  -> gamma > 0
+  GPD au seuil 20% (u=6.28 nats, 4000 exces) : xi = 1.2495, IC95 profile [1.1837, 1.3207]  -> gamma > 0
+
+=== 3. GAMMA > 0 PAR STRATES (test conditionnel de (C1)) ===
+
+  strates par gzip_ratio :
+    Q1 (n=5000) : Hill 1.4449, xi +1.2661, IC95 [+1.1387, +1.4127]
+    Q2 (n=5000) : Hill 1.3922, xi +1.1544, IC95 [+1.0270, +1.2941]
+    Q3 (n=5000) : Hill 1.3593, xi +1.2937, IC95 [+1.1595, +1.4403]
+    Q4 (n=5000) : Hill 1.2844, xi +1.1432, IC95 [+1.0158, +1.2830]
+
+  strates par rate_digit :
+    Q1 (n=5000) : Hill 1.4133, xi +1.2526, IC95 [+1.1184, +1.3992]
+    Q2 (n=5000) : Hill 1.3648, xi +1.2776, IC95 [+1.1502, +1.4242]
+    Q3 (n=5000) : Hill 1.3516, xi +1.2067, IC95 [+1.0793, +1.3533]
+    Q4 (n=5000) : Hill 1.2882, xi +1.1650, IC95 [+1.0376, +1.3048]
+
+  strates par ttr :
+    Q1 (n=5000) : Hill 1.3987, xi +1.1830, IC95 [+1.0556, +1.3227]
+    Q2 (n=4999) : Hill 1.3884, xi +1.2690, IC95 [+1.1348, +1.4156]
+    Q3 (n=5001) : Hill 1.3631, xi +1.2268, IC95 [+1.0994, +1.3665]
+    Q4 (n=5000) : Hill 1.2882, xi +1.1753, IC95 [+1.0479, +1.3150]
+
+  strates par byte_entropy :
+    Q1 (n=5000) : Hill 1.3786, xi +1.2141, IC95 [+1.0867, +1.3538]
+    Q2 (n=5000) : Hill 1.3149, xi +1.1464, IC95 [+1.0259, +1.2862]
+    Q3 (n=5000) : Hill 1.3698, xi +1.1900, IC95 [+1.0626, +1.3297]
+    Q4 (n=5000) : Hill 1.3622, xi +1.2769, IC95 [+1.1426, +1.4234]
+
+=== 4. LONGUEUR : echelle ou indice ? ===
+  (mode fixe) T_scored constant = 512, aucun confondant de longueur par construction.
+  correlations residuelles avec les proxys de longueur du document :
+    len_chars    rho = -0.048
+    len_words    rho = -0.027
+    len_gzip     rho = -0.000

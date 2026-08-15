@@ -97,7 +97,13 @@ for (rp in RESP) {
   colnames(S) <- sprintf("a%.2f_b%.2f", rep(AGRID, each = 3), rep(BGRID, 3))
   base <- S[, sprintf("a%.2f_b%.2f", ASTAR, BSTAR)]
   R <- apply(S, 2L, rank, ties.method = "first")
+  ## Deux agregations. Le rang MINIMUM promeut une coordonnee des qu'un seul
+  ## reglage la classe bien : valide derriere une preselection, ou il ne reste
+  ## qu'une vingtaine de concurrentes, il promeut les nulles chanceuses quand on
+  ## l'applique seul a plusieurs centaines de coordonnees. La MEDIANE est la
+  ## regle appropriee ici, et les deux sont rapportees.
   agg <- apply(R, 1L, min)
+  agg_med <- apply(R, 1L, median)
   cat(sprintf("  9 passes du score en %.0f s\n", proc.time()[3] - t0))
 
   qs <- lapply(TAUS, function(tt) qa_sis_scores(Xr / (n + 1), y, tau = tt))
@@ -135,7 +141,7 @@ for (rp in RESP) {
   }, mc.cores = CORES)) / NSUB
 
   out <- data.frame(covariate = cand, score = base, rank_base = rank(base),
-                    rank_agg = rank(agg), agg_minrank = agg,
+                    rank_agg_med = rank(agg_med), rank_agg_min = rank(agg),
                     freq_top20 = freq,
                     below_thr05 = base < thr05, below_thr01 = base < thr01,
                     below_mrg05 = base < mrg05, below_mrg01 = base < mrg01,
@@ -143,7 +149,7 @@ for (rp in RESP) {
                       mean(null_pool <= v), numeric(1)))
   for (k in names(qs))
     out[[paste0("rank_", k)]] <- rank(-qs[[k]], ties.method = "first")
-  out <- out[order(out$rank_agg), ]
+  out <- out[order(out$rank_agg_med), ]
   write.csv(out, file.path(OUTDIR, paste0("screen_", rp, ".csv")), row.names = FALSE)
   saveRDS(list(scores = S, null_min = null_min, null_pool = null_pool,
                thr = c(thr05, thr01, mrg05, mrg01),
@@ -159,8 +165,9 @@ for (rp in RESP) {
                      " sous le seuil par covariable : %d a 5%%, %d a 1%%\n"),
               sum(out$below_thr05), sum(out$below_thr01),
               sum(out$below_mrg05), sum(out$below_mrg01)))
-  cat("  dix premieres par rang agrege :\n")
-  print(head(out[, c("covariate", "rank_agg", "rank_base", "freq_top20",
+  cat("  dix premieres par rang median agrege :\n")
+  print(head(out[, c("covariate", "rank_agg_med", "rank_agg_min", "rank_base",
+                     "freq_top20",
                      paste0("rank_q", TAUS * 100))], 10), row.names = FALSE)
   res[[rp]] <- out
 }
