@@ -1,0 +1,10 @@
+CC-MAIN-2013-20                704
+CC-MAIN-2015-14                565
+CC-MAIN-2016-30                435
+CC-MAIN-2017-34                522
+CC-MAIN-2018-34                356
+CC-MAIN-2019-35                432
+CC-MAIN-2020-45                416
+CC-MAIN-2022-21                571
+
+longueur texte : med 1734, q90 6054, max 116723

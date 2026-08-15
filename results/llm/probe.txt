@@ -1,0 +1,8 @@
+OK   codeparrot/codeparrot-clean-valid      cfg=None                   champs=['repo_name', 'path', 'copies', 'size', 'content'] len0=2892
+NON  togethercomputer/RedPajama-Data-1T-Sample DatasetNotFoundError: Dataset 'togethercomputer/RedPajama-Data-1T-Sample' doesn't exist on the Hub or 
+OK   HuggingFaceFW/fineweb                  cfg=sample-10BT            champs=['text', 'id', 'dump', 'url', 'date'] len0=414
+NON  EleutherAI/proof-pile-2                RuntimeError: Dataset scripts are no longer supported, but found proof-pile-2.py
+OK   wikimedia/wikipedia                    cfg=20231101.fr            champs=['id', 'url', 'title', 'text'] len0=6856
+NON  bigcode/starcoderdata                  DatasetNotFoundError: Dataset 'bigcode/starcoderdata' is a gated dataset on the Hub. You must be authe
+OK   allenai/c4                             cfg=en                     champs=['text', 'timestamp', 'url'] len0=747
+OK   Salesforce/wikitext                    cfg=wikitext-103-raw-v1    champs=['text'] len0=0

@@ -1,0 +1,33 @@
+LA LONGUEUR EST-ELLE UNE NUISANCE D'ECHELLE ?
+
+mode libre : n=2000, T de 128 a 1983 (med 521)
+mode fixe  : n=2000, T = 512 constant
+
+=== (a) et (b) : mediane de M et indice, par strate de longueur ===
+
+  strates par T_scored (mode libre) :
+     strate     n    T med   log T   med M   sd M    Hill      xi               IC95
+         Q1   398      182   5.204  12.840  1.820  1.2530 +1.2273 [+0.860,+1.737]
+         Q2   401      322   5.775  13.343  1.739  1.2664 +0.8787 [+0.573,+1.306]
+         Q3   400      520   6.254  14.055  1.939  1.3613 +1.0063 [+0.673,+1.468]
+         Q4   401      877   6.777  14.565  2.096  1.5787 +1.4839 [+1.069,+2.048]
+         Q5   400     1759   7.473  15.079  1.825  1.2395 +1.3280 [+0.940,+1.865]
+
+  (a) regression de med(M) sur log T : pente = 1.022 nats/nat, ordonnee 7.544, residu max 0.121
+      gamma estime par ailleurs : Hill moyen 1.340, xi moyen 1.185
+      la theorie predit pente = gamma. Ecart pente - Hill = -0.318
+
+  (b) gamma par strate : Hill de 1.240 a 1.579 (etendue 0.339), xi de 0.879 a 1.484
+      a comparer a la variation de med(M) sur les memes strates : 2.239 nats
+
+=== (c) dispersion de M par strate ===
+  sd(M) par strate : 1.820, 1.739, 1.939, 2.096, 1.825
+  gamma deduit de sd = pi gamma / sqrt(6) : 1.469
+  (borne basse attendue : la variance inter-documents s'ajoute a celle de Gumbel)
+
+=== comparaison des deux modes ===
+  libre  : med(M) 13.995, Hill(20%) 1.2996, rho(M, len_words) +0.404
+  fixe   : med(M) 13.881, Hill(20%) 1.3831, rho(M, len_words) -0.043
+
+  lecture : l'indice doit etre le meme dans les deux modes,
+  la correlation avec la longueur ne doit survivre qu'en mode libre.
