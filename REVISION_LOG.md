@@ -289,3 +289,50 @@
   §3.2 logarithmic discussion instead of A.6.
 - Abstract and roadmap updated (aggregated screen, p-range, scale
   cluster); no pilot or model-selection narrative appears in §4.1.
+
+# Revision log — Draft 4 → Draft 5 (consolidation)
+
+## Models
+- Renamed M1/M2/M3/M4 → A1/A2/A3/B1 throughout (code, results, manuscript):
+  family A (A1 reference, A2 weak signal, A3 interactions) shares the AR(1)
+  design, ell_1 and A_gamma = {1,2,3,4}; family B (B1) isolates the
+  finite-quantile scale contamination.
+- A3 prefactor 0.55 → 0.50 (common maximum gamma* = 0.5 across all four
+  models); trimmed gap recomputed: 0.158.
+- B1 scale coefficient simplified to the literal 0.5 (no kappa notation);
+  scale factor in [e^-0.25, e^0.25]; proxy-count denoted q_scale = 20
+  (s reserved for |A|); B1 covariate construction described explicitly
+  (base AR(1), proxy block overwrite, base-chain continuation).
+
+## Generator correction
+- Draft-4 streaming generator propagated the latent factor into
+  coordinates 25+ (chain continued from the overwritten proxy 24); fixed
+  by preserving the base AR(1) state before the overwrite. Unit checks
+  (tests/test_generate5.R) verify the signature correlations and
+  full/streaming distributional agreement.
+
+## Simulations
+- Tuning study rerun at 200 common-random-number replications per model
+  (tuning6): each model's 200 datasets generated once, all 42 cells
+  evaluated on the same data. Plateau a ∈ {0.30,0.35} × b ∈ {0.10,0.20};
+  (a*, b*) = (0.30, 0.15) kept as representative; N9 unchanged; robust-
+  region language, no cell-level optimality claim.
+- Comparison rerun for A3 and B1 at 1000 replications (campaign6, seed
+  layout of campaign5); A1/A2 rows reused from campaign5 after an exact
+  equivalence check (tests/test_campaign_equivalence.R: identical rmax at
+  common seeds, all p). Cross-machine reproducibility verified bitwise on
+  duplicated tuning blocks (local laptop vs 96-CPU cluster).
+- (E1)–(E3) discussion removed from the simulation section; the open
+  problem remains stated in Sections 3 and 6.
+- Minimum-rank aggregation presented as conservative first-stage
+  retention (Sections 4, 5, 6); per-setting ranks are a tuning-
+  sensitivity diagnostic, not an exclusion rule.
+
+## Appendices
+- Reorganized into Appendix A (auxiliary results: elementary lemmas;
+  projection lemmas; empirical-rank geometry with the K_n ≍ nαh lemma;
+  local Hill representation with the finite-sample uniform profile bound,
+  now a Proposition; profiles→scores with quadrature, score bound and a
+  deterministic separation lemma) and Appendix B (proofs of Propositions
+  2.1–2.3, Theorem 3.1, Theorem 3.2 + Corollary 3.3, each citing the
+  A-tools). Main-text proof sketch reduced to a five-point roadmap.
