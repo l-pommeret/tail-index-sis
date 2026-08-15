@@ -1,0 +1,32 @@
+config c06 : n = 50000, p = 1024
+alpha = 0.03893, h = 0.09866, 2 n alpha h = 384, n/p = 48.8
+barre de competition a p = 1024 : 3.10 sigma
+  9 passes en 13 s
+  1000 permutations en 362 s
+  seuil familial 5% = 1.17416 ; score minimal observe = 1.18010 -> non significatif
+  sous seuil familial : 0 ; sous seuil par covariable : 49 a 5%, 10 a 1%
+  attendu par hasard au seuil par covariable : 51 a 5%, 10 a 1%
+  frequence de selection : med 0.00, max 0.15, nb a 1.00 : 0
+  dix premieres :
+ covariate    score rank_base rank_agg_med freq_top20 below_fam05 below_mrg05
+  h06_0716 1.180104         1          1.5       0.10       FALSE        TRUE
+  h06_0728 1.182474         2          3.0       0.00       FALSE        TRUE
+  h06_0208 1.182649         3          4.0       0.15       FALSE        TRUE
+  h06_0516 1.182971         4          6.0       0.05       FALSE        TRUE
+  h06_0025 1.183141         5          1.5       0.15       FALSE        TRUE
+  h06_0316 1.183506         6         91.0       0.00       FALSE        TRUE
+  h06_0697 1.183771         7        115.0       0.05       FALSE        TRUE
+  h06_0569 1.184359         8         14.0       0.00       FALSE        TRUE
+  h06_0520 1.184643         9        159.0       0.00       FALSE        TRUE
+  h06_0323 1.185270        10         36.0       0.05       FALSE        TRUE
+ below_mrg01
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE

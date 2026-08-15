@@ -1,0 +1,16 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 55.60it/s]
+200/2000 docs (468 lus) 57s [3.5 doc/s]
+400/2000 docs (1027 lus) 112s [3.6 doc/s]
+600/2000 docs (1512 lus) 164s [3.6 doc/s]
+800/2000 docs (2009 lus) 219s [3.7 doc/s]
+1000/2000 docs (2532 lus) 275s [3.6 doc/s]
+1200/2000 docs (3064 lus) 327s [3.7 doc/s]
+1400/2000 docs (3586 lus) 378s [3.7 doc/s]
+1600/2000 docs (4086 lus) 435s [3.7 doc/s]
+1800/2000 docs (4577 lus) 492s [3.7 doc/s]
+2000/2000 docs (5064 lus) 544s [3.7 doc/s]
+
+ECRIT results/llm/pilot_fixe.parquet : 2000 documents, 35 colonnes
+documents lus pour en retenir 2000 : 5064
+max_S_small : med 13.88, q99 19.48, max 24.24 nats
+max_delta   : med 4.92, max 14.10 nats

@@ -1,0 +1,4 @@
+config c3 : n = 50000, p = 3072
+alpha = 0.03893, h = 0.09866, 2 n alpha h = 384, n/p = 16.3
+barre de competition a p = 3072 : 3.41 sigma
+  9 passes en 35 s

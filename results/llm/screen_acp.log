@@ -1,0 +1,32 @@
+config acp : n = 50000, p = 1024
+alpha = 0.03893, h = 0.09866, 2 n alpha h = 384, n/p = 48.8
+barre de competition a p = 1024 : 3.10 sigma
+  9 passes en 14 s
+  1000 permutations en 362 s
+  seuil familial 5% = 1.17399 ; score minimal observe = 1.17876 -> non significatif
+  sous seuil familial : 0 ; sous seuil par covariable : 58 a 5%, 12 a 1%
+  attendu par hasard au seuil par covariable : 51 a 5%, 10 a 1%
+  frequence de selection : med 0.00, max 0.15, nb a 1.00 : 0
+  dix premieres :
+ covariate    score rank_base rank_agg_med freq_top20 below_fam05 below_mrg05
+   pc_0988 1.178760         1          3.0       0.00       FALSE        TRUE
+   pc_0881 1.179314         2          4.0       0.05       FALSE        TRUE
+   pc_0113 1.180286         3          1.0       0.10       FALSE        TRUE
+   pc_0401 1.180788         4         91.0       0.05       FALSE        TRUE
+   pc_0215 1.181460         5          8.0       0.05       FALSE        TRUE
+   pc_0851 1.181875         6         19.5       0.05       FALSE        TRUE
+   pc_0642 1.182693         7        167.0       0.05       FALSE        TRUE
+   pc_0012 1.183309         8          5.5       0.10       FALSE        TRUE
+   pc_0673 1.183406         9         16.5       0.00       FALSE        TRUE
+   pc_0811 1.183675        10        255.5       0.00       FALSE        TRUE
+ below_mrg01
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE

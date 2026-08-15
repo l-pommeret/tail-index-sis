@@ -1,0 +1,25 @@
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config c03 : 1024 colonnes brutes
+ECRIT results/llm/ranks/c03_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config c06 : 1024 colonnes brutes
+ECRIT results/llm/ranks/c06_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config c18 : 1024 colonnes brutes
+ECRIT results/llm/ranks/c18_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config c24 : 1024 colonnes brutes
+ECRIT results/llm/ranks/c24_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config c3 : 1024 colonnes brutes
+ECRIT results/llm/ranks/c3_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma
+50000 documents, 8192 activations, couches ['03', '06', '09', '12', '15', '18', '21', '24']
+config acp : 8192 colonnes brutes
+ACP 1024 composantes, variance expliquee 0.9903
+ECRIT results/llm/ranks/acp_ranks.bin (0.41 Go), 1024 coordonnees
+seuil de competition a p=1024 : 3.12 sigma

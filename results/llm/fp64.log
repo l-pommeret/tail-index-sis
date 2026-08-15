@@ -1,0 +1,14 @@
+200 documents de plus grand max_t S, de 16.49 a 24.24 nats
+modeles charges en fp32 et fp64
+  50/200 recalcules (1274 lus)
+  100/200 recalcules (2368 lus)
+  150/200 recalcules (3771 lus)
+  200/200 recalcules (5037 lus)
+
+200 documents recalcules
+reproduction du stockage fp32 : ecart max 0.00e+00
+ecart fp64 - fp32 : med -3.601e-06, max abs 8.122e-04 nats
+correlation de rang fp32 vs fp64 : Kendall 0.999799, Spearman 0.999997
+rangs identiques : 196/200
+meme document en tete : True
+intersection des 20 premiers : 20/20

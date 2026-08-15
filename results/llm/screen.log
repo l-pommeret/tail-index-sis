@@ -1,0 +1,44 @@
+lecture de results/llm/main_fixe.csv 
+n = 20000 documents, 278 covariables candidates
+filtre de continuite : 272 retenues sur 278 ; ecartees : len_sents, len_paras, len_lines, rate_digit, rate_nonascii, max_word_len
+reglage : alpha = 0.0512, h = 0.1132, 2 n alpha h = 232
+
+=== reponse max_S_small ===
+  9 passes du score en 7 s
+  1000 permutations en 32 s
+  seuil de permutation : 5% = 1.19056, 1% = 1.18437 ; score minimal observe = 1.19729
+  seuil par covariable : 5% = 1.21250, 1% = 1.20505
+  sous le seuil familial : 0 a 5%, 0 a 1% ; sous le seuil par covariable : 31 a 5%, 10 a 1%
+  dix premieres par rang agrege :
+    covariate rank_agg rank_base freq_top20 rank_q90 rank_q95 rank_q99
+ byte_entropy      3.0        45       0.05        5        2        4
+      emb_000      3.0       229       0.05        1        1        1
+      emb_003      3.0         6       0.10        9        9       21
+      emb_008      3.0         1       0.20       17       11        3
+      emb_060      3.0         4       0.15      105       28       19
+      emb_029      7.5         9       0.05       26       27      154
+      emb_113      7.5         2       0.20       33       92      163
+      emb_201      7.5        17       0.25      190      164        7
+      emb_227      7.5       153       0.05      155      126       17
+   rate_upper     11.5        14       0.20       11        8       20
+
+=== reponse max_delta ===
+  9 passes du score en 9 s
+  1000 permutations en 32 s
+  seuil de permutation : 5% = 1.19202, 1% = 1.18931 ; score minimal observe = 1.19711
+  seuil par covariable : 5% = 1.21124, 1% = 1.20486
+  sous le seuil familial : 0 a 5%, 0 a 1% ; sous le seuil par covariable : 23 a 5%, 7 a 1%
+  dix premieres par rang agrege :
+ covariate rank_agg rank_base freq_top20 rank_q90 rank_q95 rank_q99
+   emb_002      3.5       122       0.25        5        5        9
+   emb_059      3.5       140       0.10       60      212       39
+   emb_130      3.5         6       0.15      142      172      111
+   emb_144      3.5         1       0.05      105       14        2
+   emb_222      3.5         2       0.10      143      111      105
+   emb_246      3.5        28       0.20      121      135        5
+   emb_134      7.5        32       0.20      120       13        3
+   emb_207      7.5        64       0.10      168      136       29
+       ttr     10.0        23       0.15       10       18       12
+   emb_228     10.0         5       0.20      129       96       14
+
+ECRIT dans results/llm/screen 

@@ -1,0 +1,15 @@
+Some weights of RobertaModel were not initialized from the model checkpoint at roberta-large and are newly initialized: ['pooler.dense.bias', 'pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+  2000/20000
+  4000/20000
+  6000/20000
+  8000/20000
+  10000/20000
+  12000/20000
+  14000/20000
+  16000/20000
+  18000/20000
+  20000/20000
+embeddings bruts : (20000, 1024)
+ACP 256 composantes, variance expliquee 0.920
+ECRIT results/llm/main_embed.parquet : 20000 documents, 256 composantes
