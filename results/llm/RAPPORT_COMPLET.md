@@ -379,8 +379,16 @@ nombre effectif de configurations indépendantes.
 | couche 18 | 1 024 | 1,17399 | non signif. | 65 (51) | 0,15 |
 | couche 24 | 1 024 | 1,17945 | non signif. | 52 (51) | 0,20 |
 | ACP 1 024 | 1 024 | 1,17876 | non signif. | 58 (51) | 0,15 |
+| **3 couches (6/12/18)** | **3 072** | 1,17836 | non signif. | **154 (154)** | 0,15 |
 
-**Aucune profondeur, aucune base.** Que l'ACP ne trouve pas plus que le brut
+**Aucune profondeur, aucune base.** La configuration a trois couches est
+exactement au niveau du hasard — 154 covariables sous le seuil par covariable
+pour 154 attendues, 32 sous 1 % pour 31 attendues — alors que les couches
+isolees montraient de legers exces (62 pour 51 a la couche 12). Regrouper trois
+couches dilue donc l'exces au lieu de le renforcer, ce qui est la signature du
+bruit et non d'un signal disperse.
+
+Que l'ACP ne trouve pas plus que le brut
 répond à une question précise : il ne s'agit pas d'un signal réel mal aligné sur
 la base des neurones — il n'y a pas de direction, privilégiée ou non.
 

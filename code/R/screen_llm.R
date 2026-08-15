@@ -43,7 +43,8 @@ NSUB <- 20L                       # sous-echantillons pour les frequences
 
 cat("lecture de", DATA, "\n"); flush.console()
 D <- read.csv(DATA, stringsAsFactors = FALSE)
-RESP <- c("max_S_small", "max_delta")
+RESP <- strsplit(Sys.getenv("RESP", "max_S_small,max_delta"), ",")[[1]]
+RESP <- intersect(RESP, names(D))
 meta <- c("doc_id", "url", "dump", "date", "argmax_tok", "top_S",
           "n_tok_doc", "T_scored", "max_S_small", "max_S_large",
           "max_delta", "mean_S_small", "mean_S_large")
