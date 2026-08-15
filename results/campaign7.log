@@ -1,0 +1,61 @@
+20:24:52 A1 500 reps 1-270 done
+20:25:05 A1 500 reps 271-540 done
+20:25:18 A1 500 reps 541-810 done
+20:25:28 A1 500 reps 811-1000 done
+20:25:41 A2 500 reps 1-270 done
+20:25:54 A2 500 reps 271-540 done
+20:26:06 A2 500 reps 541-810 done
+20:26:17 A2 500 reps 811-1000 done
+20:26:29 A3 500 reps 1-270 done
+20:26:42 A3 500 reps 271-540 done
+20:26:55 A3 500 reps 541-810 done
+20:27:05 A3 500 reps 811-1000 done
+20:27:18 B1 500 reps 1-270 done
+20:27:31 B1 500 reps 271-540 done
+20:27:44 B1 500 reps 541-810 done
+20:27:54 B1 500 reps 811-1000 done
+20:28:19 A1 1000 reps 1-270 done
+20:28:44 A1 1000 reps 271-540 done
+20:29:09 A1 1000 reps 541-810 done
+20:29:30 A1 1000 reps 811-1000 done
+20:29:55 A2 1000 reps 1-270 done
+20:30:20 A2 1000 reps 271-540 done
+20:30:45 A2 1000 reps 541-810 done
+20:31:06 A2 1000 reps 811-1000 done
+20:31:31 A3 1000 reps 1-270 done
+20:31:56 A3 1000 reps 271-540 done
+20:32:21 A3 1000 reps 541-810 done
+20:32:42 A3 1000 reps 811-1000 done
+20:33:07 B1 1000 reps 1-270 done
+20:33:32 B1 1000 reps 271-540 done
+20:33:58 B1 1000 reps 541-810 done
+20:34:18 B1 1000 reps 811-1000 done
+20:35:08 A1 2000 reps 1-270 done
+20:35:58 A1 2000 reps 271-540 done
+20:36:47 A1 2000 reps 541-810 done
+20:37:28 A1 2000 reps 811-1000 done
+20:38:18 A2 2000 reps 1-270 done
+20:39:08 A2 2000 reps 271-540 done
+20:39:58 A2 2000 reps 541-810 done
+20:40:38 A2 2000 reps 811-1000 done
+20:41:28 A3 2000 reps 1-270 done
+20:42:18 A3 2000 reps 271-540 done
+20:43:08 A3 2000 reps 541-810 done
+20:43:49 A3 2000 reps 811-1000 done
+20:44:39 B1 2000 reps 1-270 done
+20:45:29 B1 2000 reps 271-540 done
+20:46:19 B1 2000 reps 541-810 done
+20:47:00 B1 2000 reps 811-1000 done
+crosscheck A3 p=500 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck A3 p=1000 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck A3 p=2000 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck B1 p=500 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck B1 p=1000 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck B1 p=2000 vs campaign6: 1000 common reps, max|diff| = 0
+crosscheck A1 p=500 vs campaign5: 1000 common reps, max|diff| = 0
+crosscheck A1 p=1000 vs campaign5: 1000 common reps, max|diff| = 0
+crosscheck A1 p=2000 vs campaign5: 1000 common reps, max|diff| = 0
+crosscheck A2 p=500 vs campaign5: 1000 common reps, max|diff| = 0
+crosscheck A2 p=1000 vs campaign5: 1000 common reps, max|diff| = 0
+crosscheck A2 p=2000 vs campaign5: 1000 common reps, max|diff| = 0
+CAMPAIGN7 DONE: 12000 replications summarized

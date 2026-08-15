@@ -1,0 +1,44 @@
+== OLD (index tie-break) leaders ==
+         variable rank min9 med9 max9
+1      pctPoverty    1    1    2    6
+2   pctMaleNevMar    2    1    4    9
+3         pct2Par    3    1    3    5
+4     pctKids2Par    4    1    2    4
+5  pctUsePubTrans    5    1    5   15
+6        pctWfarm    6    2    7   47
+7   pctKids4w2Par    7    4    6    9
+8  pct12to17w2Par    8    4    8    8
+9     pctLargHous    9    6   21   74
+10 pctHousWOplumb   10    6   18   55
+== NEW (invariant) leaders ==
+         variable rank min9 med9 max9
+1     pctKids2Par    1    1    2    4
+2      pctPoverty    2    1    2    6
+3         pct2Par    3    1    3    5
+4   pctMaleNevMar    4    1    4    9
+5  pctUsePubTrans    5    1    5   15
+6        pctWfarm    6    2    7   47
+7   pctKids4w2Par    7    4    6    9
+8  pct12to17w2Par    8    4    8    8
+9  pctHousWOplumb    9    6   18   55
+10    pctLargHous   10    6   21   74
+
+42 of 99 variables change rank; max |shift| = 3
+              variable old new
+11          pctPoverty   1   2
+19         pctKids2Par   4   1
+17       pctMaleNevMar   2   4
+28         pctLargHous   9  10
+34      pctHousWOplumb  10   9
+5            medIncome  11  12
+22 pctKidsBornNevrMarr  12  11
+2             pctBlack  17  18
+7         medFamIncome  18  17
+6           pctPubAsst  24  26
+18        pctFemDivorc  26  24
+29  persPerRenterOccup  27  28
+39          rentQrange  28  27
+8          whitePerCap  33  35
+30     pctPersOwnOccup  35  33
+amin ties: 76 of 99 coordinates share their aggregated value
+WROTE results/draft5_real_crime_rankfix.rds 

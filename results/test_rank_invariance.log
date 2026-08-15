@@ -1,0 +1,5 @@
+PASS A1: new rule invariant over 2 permutations
+PASS A2: new rule invariant over 2 permutations
+PASS B1: new rule invariant over 2 permutations
+OLD rule label-dependent on these datasets: TRUE
+ALL RANK-INVARIANCE CHECKS PASS
