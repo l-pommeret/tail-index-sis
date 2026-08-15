@@ -2,3 +2,31 @@ config c3 : n = 50000, p = 3072
 alpha = 0.03893, h = 0.09866, 2 n alpha h = 384, n/p = 16.3
 barre de competition a p = 3072 : 3.41 sigma
   9 passes en 35 s
+  1000 permutations en 1141 s
+  seuil familial 5% = 1.17147 ; score minimal observe = 1.17836 -> non significatif
+  sous seuil familial : 0 ; sous seuil par covariable : 154 a 5%, 32 a 1%
+  attendu par hasard au seuil par covariable : 154 a 5%, 31 a 1%
+  frequence de selection : med 0.00, max 0.15, nb a 1.00 : 0
+  dix premieres :
+ covariate    score rank_base rank_agg_med freq_top20 below_fam05 below_mrg05
+  h12_0942 1.178364         1        144.5       0.05       FALSE        TRUE
+  h06_0011 1.179472         2          4.5       0.05       FALSE        TRUE
+  h12_0048 1.180106         3         92.0       0.00       FALSE        TRUE
+  h18_0619 1.180635         4          1.0       0.00       FALSE        TRUE
+  h06_0002 1.180769         5        228.5       0.00       FALSE        TRUE
+  h12_0053 1.180891         6         36.0       0.00       FALSE        TRUE
+  h06_0652 1.180915         7         67.0       0.00       FALSE        TRUE
+  h18_0953 1.181222         8         44.0       0.05       FALSE        TRUE
+  h12_0602 1.182099         9          6.0       0.05       FALSE        TRUE
+  h18_0987 1.182286        10         20.5       0.00       FALSE        TRUE
+ below_mrg01
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
+        TRUE
