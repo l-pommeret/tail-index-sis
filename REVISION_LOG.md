@@ -413,3 +413,29 @@ Compilation : 27 pages, 0 référence indéfinie.
 Différé (à discuter, non exécuté) : modèle B0 (A1 + amas sans échange
 de ℓ) pour isoler le confound ; grille (h,k) pour Yoshida–Umezu ;
 nouvelle application LLM (souhait d'Alex).
+
+## Audit du départage d'ex æquo (2026-08-15, résultats calculateur)
+
+Biais confirmé : l'agrégation min-rank départageait par indice de colonne,
+et coïncide avec le départage LE PLUS FAVORABLE aux actives (old_is_
+favourable = 1 dans les 12 cellules du diagnostic). ~73 % des coordonnées
+partagent leur valeur agrégée ; groupe mixte actif/inactif à cheval sur la
+position 4 dans 31-52 % des réplications. Règle corrigée (rank_rules.R) :
+clé lexicographique (min, méd, moy, max) des 9 rangs + départage résiduel
+seedé. Test d'invariance par permutation : PASS (scores équivariants au
+bit près ; ancienne règle confirmée dépendante des labels).
+
+Effet (1000 reps appariées, mêmes datasets) — règle agrégée seule :
+Sure-4 −0.025 à −0.075 (5 à 9 SE appariées), Sure-20 0 à −0.019 (A2
+seul net), E(Rmax) +0.09 à +0.88, Med +1 dans 4 cellules. Règle
+sélectionnée et 4 concurrents : strictement inchangés (0 ex æquo exact
+sur 300 reps de contrôle). Bras permutation de colonnes ≡ nouvelle règle
+(à 0.001 près). Crime : même top-10, ordre interne 1-4 remanié
+(pctKids2Par 4→1, pctPoverty 1→2, pctMaleNevMar 2→4), 42/99 variables
+bougent, décalage max 3.
+
+Conséquence rédactionnelle principale : le gain de Sure-4 de l'agrégation
+sur A1/A3 disparaît (A1 +3.5/+1.4/+5.1, A3 +1.5/−4.1/+0.7 points) ; le
+bénéfice est entièrement sur l'inclusion (Sure-20 meilleur dans les 12
+cellules, E(Rmax) divisé par 3 à 4.8 sur B1). Tables cmp* et b1comp
+(ligne aggregated), §4.2-4.3 et §5 (leaders) à mettre à jour.
