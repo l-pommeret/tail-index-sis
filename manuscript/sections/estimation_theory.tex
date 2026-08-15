@@ -25,13 +25,14 @@ $G=\{r/(n+1):r=1,\ldots,n\}\cap\I$,
  \qquad
  G_j^{\rm val}=\{u\in G:\alpha M_j(u)>1\},
 \end{equation}
-with $\widehat\Psi_j=+\infty$ when no grid point is usable, so that
-underpopulation can never favour a coordinate. Because the window counts
-$M_j(u)$ depend on the ranks only through the grid position, $G_j^{\rm
-val}$ is in fact the same set for every $j$; under the conditions of
-Theorem~\ref{thm:score} every grid point is usable and $G_j^{\rm
-val}=G$. The screened set $\widehat\A_d$ collects the $d$ smallest
-scores, ties broken by coordinate index.
+Because the window counts $M_j(u)$ depend on the ranks only through
+the grid position, $G_j^{\rm val}$ is the same set for every $j$, and
+under the conditions of Theorem~\ref{thm:score} every grid point is
+usable, so $G_j^{\rm val}=G$; the convention $\widehat\Psi_j=+\infty$
+when no grid point is usable is an implementation safeguard that is
+provably never triggered when $K_n\ge2$. The screened set
+$\widehat\A_d$ collects the $d$ smallest scores, ties broken by
+coordinate index.
 
 The two localization parameters play different roles: $h$ fixes how many
 observations resemble the target rank position, roughly $2nh$ of them, and
@@ -88,6 +89,21 @@ The theorems use only this one $C_0$; under \eqref{eq:rate-cond} any
 $C_0>1$ suffices.
 \end{itemize}
 
+\begin{remark}[Scale nuisances enter through (E3)]\label{rem:scale}
+A covariate that shifts the conditional scale of $Y$ without touching
+the index makes the projected quantiles move multiplicatively with $u$
+at every finite level: $\omega_n(C_0h,\tau_n)$ is then of the order of
+the log-scale amplitude, a constant, and (E3) fails at any fixed
+amplitude. For the scale factor of model B1 in
+Section~\ref{sec:simulation}, $\exp\{0.5(\Phi(F)-0.5)\}$, the log-scale
+amplitude is bounded by $0.5$, larger than the population gap
+$\Delta_{\min}=0.186$; the condition is recovered only as the local
+extreme count grows and the Hill statistic escapes the finite-level
+region where the scale acts. Scale robustness is therefore an
+asymptotic property of the screen, with a finite-sample onset that
+Section~\ref{sec:comparison} measures.
+\end{remark}
+
 (E1) asks for continuity only; strict monotonicity of the conditional
 distribution function is not needed, because flat pieces are visited with
 probability zero. (E2) is the analogue of condition (H.4) in
@@ -124,9 +140,9 @@ $h\le1-\varepsilon$, and
  \log(pn)=o(n\alpha h).
 \end{equation}
 Then there are deterministic sequences
-$a_n=O(\sqrt{\log(pn)/(n\alpha h)})$ and $b_n=o(\Delta_{\min})$ with
+$a_n=O(\sqrt{\log(pn)/(n\alpha h)})$ and $\beta_n=o(\Delta_{\min})$ with
 \[
- \Pp\Bigl(\max_{j\le p}\,|\widehat\Psi_j-\Psi_j|\le a_n+b_n\Bigr)
+ \Pp\Bigl(\max_{j\le p}\,|\widehat\Psi_j-\Psi_j|\le a_n+\beta_n\Bigr)
  \longrightarrow1;
 \]
 in shorthand,
@@ -191,4 +207,4 @@ $\log p=o(n^{1-a-b}\Delta_{\min}^2)$ are admissible, a polynomial range
 of $p$ for fixed gaps; for $b>a$ the rank-displacement condition
 $\log(pn)=o(nh^2)=o(n^{1-2b})$ binds first. These ranges treat (E3) as given; a spatial modulus of order
 $h\log(1/\tau_n)$, the natural benchmark, adds the constraint
-$\log(pn)=o(n^{b})$.
+$\log(pn)=o(n^{b}\Delta_{\min})$.

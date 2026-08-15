@@ -104,10 +104,10 @@ $\xi=\esssup(T\mid\mathcal G)$, the smallest $\mathcal G$-measurable random
 variable dominating $T$ almost surely.
 
 \begin{lemma}[Uniform remainder replacement]\label{lem:app-remainder}
-Define $M(y)=\E\{c(U)y^{-1/T}\mid\mathcal G\}$.  Under (C1)--(C2), almost
+Define $N(y)=\E\{c(U)y^{-1/T}\mid\mathcal G\}$.  Under (C1)--(C2), almost
 surely,
 \begin{equation}
- \left|\frac{\Pp(Y>y\mid\mathcal G)}{M(y)}-1\right|
+ \left|\frac{\Pp(Y>y\mid\mathcal G)}{N(y)}-1\right|
  \le\rho(y):=\sup_u\left|\frac{L(y,u)}{c(u)}-1\right|\longrightarrow0.
  \label{eq:A1}
 \end{equation}
@@ -118,9 +118,9 @@ By the tower property,
 $\Pp(Y>y\mid\mathcal G)=\E\{y^{-1/T}L(y,U)\mid\mathcal G\}$.  Writing
 $L(y,U)=c(U)\{1+r(y,U)\}$ with $|r(y,U)|\le\rho(y)$,
 \[
- |\Pp(Y>y\mid\mathcal G)-M(y)|
+ |\Pp(Y>y\mid\mathcal G)-N(y)|
  =\bigl|\E\{c(U)y^{-1/T}r(y,U)\mid\mathcal G\}\bigr|
- \le\rho(y)M(y),
+ \le\rho(y)N(y),
 \]
 and $\rho(y)\to0$ is (C2).
 \end{proof}
@@ -137,7 +137,7 @@ and constant-index null models.
 For $y>1$ define the random probability measure
 \[
  K_y^\star(A)=
- \frac{\E\{c(U)y^{-1/T}\mathbf 1_{\{T\in A\}}\mid\mathcal G\}}{M(y)},
+ \frac{\E\{c(U)y^{-1/T}\mathbf 1_{\{T\in A\}}\mid\mathcal G\}}{N(y)},
  \qquad A\in\mathcal B([\underline\gamma,\Gamma]).
 \]
 On a common probability-one event, $K_y^\star\Rightarrow\delta_\xi$ weakly
@@ -174,8 +174,9 @@ a common probability-one event.
 \end{proof}
 
 \begin{lemma}[Continuity of the envelope]\label{lem:app-envelope-cont}
-Under (C1), each $\xi_j(u)=\max_v\gamma(u,v)$ is continuous on $[0,1]$,
-with modulus bounded by the modulus of continuity of $\gamma$.
+Under (C1) and (S), so that $\xi_j(u)$ equals the fibre maximum
+$\max_v\gamma(u,v)$, each $\xi_j$ is continuous on $[0,1]$, with
+modulus bounded by the modulus of continuity of $\gamma$.
 \end{lemma}
 
 \begin{proof}
@@ -263,16 +264,15 @@ constancy intervals plus the $2n$ breakpoint states.
 \begin{lemma}[Local extreme count]\label{lem:app-kn}
 If $nh\ge4$ and $\alpha m_n^-\ge2$, then $m_n^-\ge nh/2$ and
 \[
- \frac{n\alpha h}{4}\;\le\;K_n\;\le\;2n\alpha h .
+ \frac{n\alpha h}{4}\;\le\;K_n\;\le\;2n\alpha h+1 .
 \]
 \end{lemma}
 
 \begin{proof}
 $m_n^-\ge\lfloor h(n+1)\rfloor-1\ge h n-2\ge nh/2$ for $nh\ge4$, and
 $K_n=\lfloor\alpha m_n^-\rfloor\ge\alpha m_n^-/2\ge n\alpha h/4$ when
-$\alpha m_n^-\ge2$ (since $\lfloor x\rfloor\ge x/2$ for $x\ge2$).  The
-upper bound follows from $m_n^-\le2h(n+1)\le2hn+2$ and
-$K_n\le\alpha m_n^-$.
+$\alpha m_n^-\ge2$ (since $\lfloor x\rfloor\ge x/2$ for $x\ge2$).  For the upper bound, $m_n^-\le2h(n+1)-1\le2hn+2h-1\le2hn+1$, so
+$K_n\le\alpha m_n^-\le2n\alpha h+\alpha\le2n\alpha h+1$.
 \end{proof}
 
 The rate conditions \eqref{eq:rate-cond} force $nh\to\infty$ and
@@ -523,7 +523,8 @@ $\widehat\A_s=\A$.
 
 \begin{proof}
 Inactive coordinates have $\Psi_j=\gmax$
-(Proposition~\ref{prop:geometry}), hence
+(Proposition~\ref{prop:geometry}, proved independently of this lemma
+in Appendix~B), hence
 $\widehat\Psi_j>\gmax-\Delta_{\min}/2$; active coordinates have
 $\Psi_j\le\gmax-\Delta_{\min}$, hence
 $\widehat\Psi_j<\gmax-\Delta_{\min}/2$.  Every active score therefore

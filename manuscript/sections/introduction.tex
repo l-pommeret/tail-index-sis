@@ -63,10 +63,12 @@ The main result bounds the maximal score error by
 \[
  O_{\Pp}\!\left(\sqrt{\frac{\log(pn)}{n\alpha h}}\right)+o(\Delta_{\min}),
 \]
-where $\Delta_{\min}$ is the weakest population gap, and yields sure
-screening when $\log(pn)=o(n\alpha h\Delta_{\min}^2)$: ultra-high dimension
-is affordable exactly when the local extreme count dominates the logarithm of
-the dimension. A blockwise implementation costs $O(pn\log n)$ time.
+where $\Delta_{\min}$ is the weakest population gap and the second term
+collects biases that our projected-quantile conditions assume
+negligible, and yields sure screening when
+$\log(pn)=o(n\alpha h\Delta_{\min}^2)$: high dimension is affordable
+exactly when the local extreme count dominates the logarithm of the
+dimension. A blockwise implementation costs $O(pn\log n)$ time.
 
 Our construction adapts the projected-tail framework of
 \citet{gardesPodgorny2025}, who estimate a low-dimensional central tail-index
@@ -104,9 +106,6 @@ screens at $p\in\{500,1000,2000\}$ that covers, in the same tables, the
 sensitivity to the dimension and to the quantile level of fixed-quantile
 screening. Section~\ref{sec:realdata} applies the aggregated screen to
 violent-crime rates in U.S. communities.
-Section~\ref{sec:llm} builds a second application, on the maximal token
-surprisal of a language model, in which two scale-nuisance clusters
-have known status and the screening is calibrated by permutation.
 Section~\ref{sec:discussion} discusses limitations. Proofs are in
 Appendix~\ref{app:proofs}, supported by the auxiliary results of
 Appendix~\ref{app:aux}.

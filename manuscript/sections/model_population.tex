@@ -173,20 +173,20 @@ coordinate stays flat.}
 \end{figure}
 
 \begin{proposition}[Quantitative margin]\label{prop:margin}
-Assume (C1)--(C2), (S), and that for some $u^\star_{\A}\in[0,1]^{\A}$,
-$c>0$, $\nu>0$,
+Assume (C1)--(C2), (S), and that for some $u^\star_{\A}\in[0,1]^{\A}$ and $\nu>0$,
 \[
- \gamma(u)\le\gmax-c\,\|u_{\A}-u^\star_{\A}\|^\nu \qquad\text{for all }u.
+ \gamma(u)\le\gmax-c_1\,\|u_{\A}-u^\star_{\A}\|^\nu
+ \qquad\text{for all }u,
 \]
-Then, for $j\in\A$,
+for some constant $c_1>0$. Then, for $j\in\A$,
 \[
- \gmax-\xi_j(u)\ge c\,|u-u_j^\star|^\nu,
+ \gmax-\xi_j(u)\ge c_1\,|u-u_j^\star|^\nu,
  \qquad
- \Delta_j\ge c\,\E\bigl(|V-u_j^\star|^\nu\bigr),\quad
- V\sim\mathrm{Unif}(\I).
+ \Delta_j\ge c_1\,\E\bigl(|W-u_j^\star|^\nu\bigr),\quad
+ W\sim\mathrm{Unif}(\I).
 \]
 For $\nu=2$ the right-hand side is at least
-$c\{(1-2\varepsilon)^2/12+(1/2-u_j^\star)^2\}$.
+$c_1\{(1-2\varepsilon)^2/12+(1/2-u_j^\star)^2\}$.
 \end{proposition}
 
 Two consequences of \eqref{eq:fibre} help with examples. If

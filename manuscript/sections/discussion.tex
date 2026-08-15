@@ -6,8 +6,8 @@ method --- the central tail-index subspace of \citet{gardesPodgorny2025}, a
 structured tail regression \citep{wangTsai2009,sasakiTaoWang2026}, or
 multivariate local estimation --- can resolve interactions and correlated
 neighbours among the retained variables. The two stages solve different
-problems: rapid elimination of evidently irrelevant coordinates scales to
-$p\gg n$, while accurate joint tail inference does not.
+problems: rapid elimination of evidently irrelevant coordinates scales
+to large $p$, while accurate joint tail inference does not.
 
 Three limitations are intrinsic. First, activity without marginal
 detectability: when every fibre of an active coordinate meets the global
@@ -18,8 +18,9 @@ iterative or grouped extensions would require new identification arguments.
 Second, mixture bias: when the projected slowly varying factor decays
 logarithmically, condition (E2) restricts the detectable gaps to
 $\Delta_{\min}\gg1/\log n$, and the continuous-mixture example of
-Section~\ref{sec:estimation} shows the restriction is intrinsic rather
-than an artifact of the proofs. Third, rare favourable configurations:
+Section~\ref{sec:estimation} shows that (E2) cannot be weakened as
+stated for continuous mixtures; whether gaps of order $1/\log n$ are
+undetectable by this or any estimator is not settled here. Third, rare favourable configurations:
 even with a comfortable population gap, the envelope near its maximum is
 estimable only from observations whose remaining active coordinates are
 simultaneously near their maximizing values, and the mass of such

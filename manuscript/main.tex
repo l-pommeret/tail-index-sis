@@ -13,10 +13,10 @@
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \newcommand{\A}{A}\newcommand{\I}{I_\varepsilon}
-\newcommand{\M}{M}\newcommand{\Pp}{\mathbb P}
+\newcommand{\M}{\mathcal{M}}\newcommand{\Pp}{\mathbb P}
 \newcommand{\E}{\mathbb E}\newcommand{\R}{\mathbb R}
 \newcommand{\gmax}{\gamma^\star}
-\title{Tail-Index Sure Independence Screening for\\Ultra-High-Dimensional Heavy-Tailed Regression}
+\title{Tail-Index Sure Independence Screening for\\High-Dimensional Heavy-Tailed Regression}
 \author{Anonymous manuscript}\date{}
 \begin{document}\maketitle
 \begin{abstract}
@@ -33,8 +33,9 @@ measure. Ranking coordinates by the average projected index therefore
 separates detectable active variables from noise. We estimate the envelope
 with empirical-rank local Hill profiles, and prove that the maximal score
 error over $p$ coordinates is
-$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term negligible relative to
-the population gap, where $\alpha$ is the local tail fraction and $h$ the rank
+$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term that our
+projected-quantile conditions require to be negligible relative to the
+population gap, where $\alpha$ is the local tail fraction and $h$ the rank
 bandwidth; $n\alpha h$ is the effective local extreme sample size. Sure
 screening and exact recovery follow when
 $\log(pn)=o(n\alpha h\Delta_{\min}^2)$. The algorithm costs $O(pn\log n)$.
@@ -44,16 +45,14 @@ choice of the smoothing parameters. Simulations across
 $p\in\{500,1000,2000\}$, including a model whose scale is driven by a
 correlated cluster of twenty inactive covariates, show when screening on
 the tail index differs from screening on a fixed high quantile: the
-scale cluster distracts fixed-quantile screens at every level, while the
-aggregated tail screen recovers the tail-index-active set reliably. An
-application to violent-crime rates in 1{,}993 U.S. communities, with
-$p=99$ continuous predictors against an effective tail sample of about
-$200$, illustrates the method in its intended regime, and a second
-application to the maximal token surprisal of a language model over
-20{,}000 web documents, where two scale nuisances have known status
---- document length by an asymptotic argument, a grafted bounded factor
-exactly by Breiman's lemma --- observes the same target separation on
-real data under a permutation-calibrated protocol. The uniform
+cluster fills the leading positions of moderate-level quantile screens,
+whose contamination clears at extreme levels only at a severe variance
+cost, while the leading positions of the aggregated tail screen remain
+on the active set. An application to violent-crime rates in 1{,}993
+U.S. communities, with $p=99$ continuous predictors against an
+effective tail sample of about $200$, illustrates the method in the
+regime it is designed for, where the dimension is comparable to the
+number of observations informative about the tail. The uniform
 projected-quantile conditions are stated directly; deriving them from a fully
 primitive growing-dimensional model remains open.
 \end{abstract}
@@ -64,7 +63,6 @@ primitive growing-dimensional model remains open.
 \FloatBarrier
 \input{sections/real_data}
 \FloatBarrier
-\input{sections/llm_application}
 \input{sections/discussion}
 \appendix\input{sections/appendix_aux}\input{sections/appendix_proofs}
 \bibliographystyle{plainnat}

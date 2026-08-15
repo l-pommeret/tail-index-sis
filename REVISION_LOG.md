@@ -362,3 +362,54 @@
 - Honest scope: an external gamma-dispersion criterion shows both
   families rank index-modulating covariates equally well; the section
   claims specificity, not power, matching the simulation message.
+
+## Version finale (2026-08-15) — décisions collaborateur + corrections panel article-only
+
+Décisions d'Alex Podgorny (relayées par Luc) :
+- Section 6 (application LLM) retirée entièrement : pas de résultat
+  positif, hors sujet de l'article. Le travail reste dans results/llm/
+  (RAPPORT_COMPLET.md, AMAS_ECHELLE.md) pour une future application.
+- Pas de calibration par permutation ajoutée à la Section 5 (crime).
+
+Corrections du panel article-only (2 × Opus 5, accès manuscrit seul) :
+- Titre : « Ultra-High-Dimensional » → « High-Dimensional » (aucune
+  expérience p > n) ; idem intro et discussion (« scales to large p »).
+- Abstract : le biais n'est pas « prouvé négligeable », il est supposé
+  négligeable via les conditions projetées ; réécriture de la phrase B1.
+- §3 : convention +infini = garde-fou d'implémentation jamais déclenché
+  (K_n ≥ 2), répétition retirée du §4 ; nouveau Remark 3.x (rem:scale) —
+  une nuisance d'échelle viole (E3) à amplitude fixe (B1 : amplitude
+  log-échelle ≤ 0,5 > Δ_min = 0,186), récupérée seulement quand le
+  nombre d'extrêmes locaux croît ; contrainte modulus spatial corrigée
+  en log(pn) = o(n^b Δ_min).
+- §4.1 : B1 REMPLACE ℓ1 par ℓ2 (dit explicitement) + aveu du confound
+  (différences A1–B1 = effet joint amas + échange de facteur) ;
+  renvoi vers rem:scale.
+- §4.2 : « plateau commun à erreur Monte Carlo près » remplacé par les
+  chiffres (argmax 0,780, bloc 0,718–0,773, A2 0,555 → 0,360) + caveat
+  d'optimisme de sélection + asymétrie de tuning vs concurrents ;
+  « row » → « column » (orientation des axes) ; 2nαh = n^{1-a-b} ≈ 65.
+- §4.1 nouveau paragraphe « Relation to the asymptotic theory » :
+  nαh ≈ 33, log(pn) ≈ 14,5, nαh Δ²_min ≈ 1,1 — conditions suffisantes
+  non satisfaites numériquement ; les simulations mesurent le régime
+  fini hors théorème.
+- §4.3 : nouvelle Table b1comp (composition des têtes de liste B1 :
+  proxys dans le top 4 / top 24 par méthode et dimension) qui étaye les
+  chiffres 3,8 / 2,4–2,5 / 0,2–0,4 ; plages corrigées (.234–.891 à
+  τ=.95 ; gains d'agrégation +2 à +10 points, exacts par cellule ;
+  22,1 → 22,0) ; monotonie en τ restreinte à la famille A (B1 p=500
+  est monotone) ; « only rule that recovers reliably » → chiffré et
+  « degraded, not immune » (~40 points de Sure-4 perdus vs A1) ;
+  transplantation YU explicitée, concurrents non re-réglés (dit).
+- Annexes : borne haute Lemma A.8 corrigée K_n ≤ 2nαh + 1 (preuve via
+  m_n^- ≤ 2h(n+1) − 1) ; lemme de continuité de l'enveloppe énoncé
+  sous (C1) + (S) ; note de non-circularité dans le lemme de
+  séparation ; collisions de symboles levées : \M → 𝓜, normalisateur
+  de tilt M(y) → N(y), biais du Thm 3.1 b_n → β_n, marge Prop 2.3
+  V → W et c → c_1.
+
+Compilation : 27 pages, 0 référence indéfinie.
+
+Différé (à discuter, non exécuté) : modèle B0 (A1 + amas sans échange
+de ℓ) pour isoler le confound ; grille (h,k) pour Yoshida–Umezu ;
+nouvelle application LLM (souhait d'Alex).

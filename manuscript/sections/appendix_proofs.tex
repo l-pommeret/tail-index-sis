@@ -9,16 +9,16 @@ results of Appendix~\ref{app:aux}.
 
 \subsection{Proof of Proposition~\ref{prop:projection}}
 
-For fixed $t>0$, with $M$ and $K_y^\star$ as in
+For fixed $t>0$, with $N$ and $K_y^\star$ as in
 Lemmas~\ref{lem:app-remainder} and~\ref{lem:app-tilt} applied to
 $\mathcal G$,
 \[
- \frac{M(ty)}{M(y)}
+ \frac{N(ty)}{N(y)}
  =\int_{[\underline\gamma,\Gamma]}t^{-1/g}\,K_y^\star(dg)
  \longrightarrow t^{-1/\xi}
 \]
-almost surely, by Lemma~\ref{lem:app-tilt} and boundedness and continuity
-of $g\mapsto t^{-1/g}$ on $[\underline\gamma,\Gamma]$.
+almost surely, by Lemma~\ref{lem:app-tilt} and boundedness and
+continuity of $g\mapsto t^{-1/g}$ on $[\underline\gamma,\Gamma]$.
 Lemma~\ref{lem:app-remainder} transfers the limit to
 $\Pp(Y>ty\mid\mathcal G)/\Pp(Y>y\mid\mathcal G)$.  Convergence
 simultaneously for all $t>0$ follows from rational $t$, monotonicity of
@@ -61,10 +61,10 @@ finite; its intersection with $\I$ is Lebesgue-null and Claim~3 applies.
 Every $x$ on the fibre $x_j=u$ has
 $\|x_{\A}-u^\star_{\A}\|\ge|u-u^\star_j|$, so every point of the fibre
 satisfies
-$\gamma(x)\le\gmax-c\,|u-u^\star_j|^\nu$; taking the fibre maximum gives
-$\xi_j(u)\le\gmax-c\,|u-u^\star_j|^\nu$.  Averaging
+$\gamma(x)\le\gmax-c_1\,|u-u^\star_j|^\nu$; taking the fibre maximum
+gives $\xi_j(u)\le\gmax-c_1\,|u-u^\star_j|^\nu$.  Averaging
 over $u\in\I$ gives the score bound.  For $\nu=2$,
-$\E(V-u_j^\star)^2=\mathrm{Var}(V)+(1/2-u_j^\star)^2
+$\E(W-u_j^\star)^2=\mathrm{Var}(W)+(1/2-u_j^\star)^2
 =(1-2\varepsilon)^2/12+(1/2-u_j^\star)^2$.  \qed
 
 \subsection{Proof of Theorem~\ref{thm:score}}
@@ -96,9 +96,9 @@ the second part is absorbed into the stochastic rate.  Collecting terms,
 outside a vanishing probability,
 \[
  \max_{j\le p}|\widehat\Psi_j-\Psi_j|
- \le a_n+b_n',\qquad
+ \le a_n+\beta_n,\qquad
  a_n=O\Bigl(\sqrt{\log(pn)/(n\alpha h)}\Bigr),\quad
- b_n'=o(\Delta_{\min}),
+ \beta_n=o(\Delta_{\min}),
 \]
 which is the assertion.  \qed
 
