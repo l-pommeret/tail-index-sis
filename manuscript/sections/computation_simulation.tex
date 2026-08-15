@@ -49,10 +49,13 @@ keeping a reasonably strong signal, with gap $0.158$. All three share
 the maximum $\gmax=0.5$.
 
 \paragraph{Family B: finite-quantile scale contamination.}
-Model B1 has the same tail-index function as A1,
-$\gamma_{B1}=\gamma_{A1}$, hence the same active set
-$\A_\gamma=\{1,2,3,4\}$ and the same gap $0.186$, and differs through a
-latent scale factor. Let $F_i\sim N(0,1)$ be independent of the active
+Model B1 keeps the tail-index function of A1,
+$\gamma_{B1}=\gamma_{A1}$, hence the same active set and gap, and
+\emph{replaces} $\ell_1$ by a scale factor that persists at every
+finite quantile (the coordinates $\ell_1$ would read are overwritten by
+the proxy block below, so B1 carries no $\ell_1$).
+
+Let $F_i\sim N(0,1)$ be independent of the active
 coordinates and of the base AR(1) innovations. The response uses
 \[
  \log\ell_2(s,F)=-\frac1{2s}+0.5\,\bigl\{\Phi(F)-0.5\bigr\},
@@ -122,19 +125,27 @@ moderate $s$, deforms the projected distributions. B1, whose bounded
 scale factor produces no such deformation, degrades only mildly there
 (up to $.580$). Performance also falls toward large $a$ and large $b$
 together, where the local extreme count collapses, and the degenerate
-bandwidth $b=0$ is never competitive. In between, the region
-$a\in\{0.30,0.35\}$, $b\in\{0.10,0.15,0.20\}$ forms a common plateau on
-which the four-model means move within Monte Carlo error of one
-another; we keep
+bandwidth $b=0$ is never competitive. In between, the six cells
+$a\in\{0.30,0.35\}$, $b\in\{0.10,0.15,0.20\}$ contain every model's
+best or near-best performance, with four-model means between $0.718$
+and $0.780$; the pair
 \[
  (a^\star,b^\star)=(0.30,\ 0.15)
 \]
-as the representative single setting, with per-model Sure-20
-$.935$, $.555$, $.955$ and $.675$, and note that neighbouring cells
-are practically indistinguishable. At $n=2000$ this gives
-$\alpha\approx0.10$, $h\approx0.16$, and about $2n\alpha h\approx64$
-effective local extremes per interior window. No model is given its own
-tuning.
+maximizes the four-model mean on the grid ($0.780$), with per-model
+Sure-20 $.935$, $.555$, $.955$ and $.675$, and we adopt it as the
+single setting. The region is one of good rather than uniform
+performance: A1, A3 and B1 move little across the six cells, while the
+weak-signal A2 drops from $.555$ to $.360$ between $(0.30,0.15)$ and
+$(0.35,0.20)$, a paired difference well outside Monte Carlo error
+under the common-random-number design. Because the same 200
+replications select the pair and describe the grid, the reported
+per-cell values carry the usual selection optimism at the margin; the
+comparison of Section~\ref{sec:comparison} uses an independent
+1{,}000-replication stream. At $n=2000$ the selected pair gives
+$\alpha\approx0.10$, $h\approx0.16$, and about
+$2n\alpha h=n^{1-a^\star-b^\star}\approx65$ effective local extremes
+per interior window. No model is given its own tuning.
 
 \begin{figure}[t]
 \centering
@@ -154,8 +165,8 @@ of settings
 \[
  \mathcal N_9=\{0.30,0.35,0.40\}\times\{0.10,0.15,0.20\},
 \]
-the neighbourhood of $(a^\star,b^\star)$ inside the well-behaved region
-of the grid. For each setting $(a,b)\in\mathcal N_9$ and each
+the $3\times3$ window anchored at $(a^\star,b^\star)$ and extended
+away from the collapsed row $a=0.25$. For each setting $(a,b)\in\mathcal N_9$ and each
 coordinate $j$, compute the score $\widehat\Psi_j(a,b)$ and its rank
 $r_j(a,b)$ among the $p$ coordinates, ranks increasing with the score;
 aggregate by
@@ -192,8 +203,10 @@ the levels $\tau\in\{.90,.95,.99\}$, using cubic B-spline marginal
 quantile regression with three degrees of freedom, identical at every
 level. The competitors rank large utilities first; ours ranks small
 scores first. Tables~\ref{tab:cmp500}--\ref{tab:cmp2000} report, for
-each model and method, Sure-4 (exact recovery), Sure-20, and the mean
-and median of the worst active rank.
+each model and method, Sure-$d$ at $d\in\{4,20,30,50\}$ and the mean
+and median of the worst active rank; on B1, where the proxy block has
+size $q_{\rm scale}=20$, the values at $d=30$ and $d=50$ separate two
+different failure structures that Sure-20 alone conflates.
 
 \input{tables/cmp500.tex}
 \input{tables/cmp1000.tex}
@@ -221,33 +234,44 @@ The quantile screen is non-monotone in $\tau$ within every table, in
 opposite directions on either side of $\tau=.95$, and its behaviour on
 B1 tracks its target. At $\tau=.90$ its top four contain on average
 $3.8$ of the twenty scale proxies, and all twenty fill its top 24;
-exact recovery is zero to three decimals at every $p$.  This is
+exact recovery is zero to three decimals at every $p$. This is
 coherent behaviour for a $.90$-quantile target, which the proxies
-genuinely move, and it is fatal for tail-index recovery. At
-$\tau=.95$ the contamination remains substantial ($2.4$--$2.5$ proxies
-in the top four, median worst active rank $20$--$21$, the signature of
-the proxy block occupying the leading positions). At $\tau=.99$ the
-contamination largely clears ($0.2$--$0.4$ proxies in the top four)
-because the quantile target approaches the tail index, but the
-variance cost is severe everywhere: on the A family, Sure-4 falls from
-$.758$--$.891$ at $\tau=.95$ to at most $.125$ at $\tau=.99$, and on
-B1 the level $.99$ never reaches Sure-4 $.04$. The direction of the
-$\tau$-sensitivity does not depend on $p$; its amplitude grows with
-$p$ on the weak-signal A2. Yoshida--Umezu, built on Pickands-type
-quantile differences at its own fixed levels, is dominated on all
-models and dimensions here, with $6.8$--$9.8$ of the twenty B1 proxies
-in its top 24.
+genuinely move. The contamination is, however, \emph{structured}: the
+active set is displaced behind the proxy block rather than lost, so
+Sure-30 jumps to $.963$--$.990$ and Sure-50 to $.984$--$.997$ ---
+above the aggregated tail screen at the same $d$ ($.869$--$.934$ and
+$.919$--$.971$). A practitioner who knew the size of the scale block
+could repair the quantile screen by retaining $d>q_{\rm scale}$
+variables; one who reads the leading positions, or must exactly
+recover, cannot. At $\tau=.95$ the picture is the same with smaller
+displacement ($2.4$--$2.5$ proxies in the top four, median worst
+active rank $20$--$21$). At $\tau=.99$ the contamination largely
+clears ($0.2$--$0.4$ proxies in the top four) because the quantile
+target approaches the tail index, but the variance cost is severe
+everywhere: Sure-4 at $\tau=.95$ ranges from $.234$ (A2, $p=2000$) to
+$.891$ (A1, $p=500$) across the A family and falls to at most $.125$
+at $\tau=.99$, and on B1 the level $.99$ never reaches Sure-4 $.04$.
+The direction of the $\tau$-sensitivity does not depend on $p$; its
+amplitude grows with $p$ on the weak-signal A2. Yoshida--Umezu trails
+on all models and dimensions \emph{as configured here}: its bandwidth
+$h=1$ on the rank scale makes every evaluation point use nearly the
+whole sample, so its localization is weak, and our transplant of the
+tuning from their numerical work may not do it justice; a bandwidth
+sweep matched to the rank scale is left to future work, and no claim
+of dominance over a tuned version is made. It places $6.8$--$9.8$ of
+the twenty B1 proxies in its top 24.
 
 \paragraph{Effect of the aggregation.}
 Aggregation improves the tail screen most where failures are worst. On
 B1 it lifts exact recovery from $.308/.249/.234$ to $.523/.439/.402$
 across the three dimensions, divides $\E(R_{\max})$ by three to five,
-and brings $\mathrm{Med}(R_{\max})$ to $4$--$5$; on A1 and A3 it adds
-five to ten points of Sure-4 and compresses the rank tail; Sure-20
-improves in all twelve model--dimension cells. On the weak-signal A2 it
-trades a little exact recovery ($.256\to.245$ at $p=500$,
-$.149\to.113$ at $p=2000$) for substantially better inclusion
-(Sure-20 $.463\to.580$ at $p=2000$; $\E(R_{\max})$ $144.8\to76.0$).
+and brings $\mathrm{Med}(R_{\max})$ to $4$--$5$; on A1 and A3 it adds two to ten points of Sure-4 and compresses the
+rank tail; Sure-20 improves in all twelve model--dimension cells. On A1 and A3 the Sure-4 gains are
+$7.3/7.3/10.0$ and $6.4/2.1/7.3$ points across the three dimensions.
+On the weak-signal A2 aggregation trades a little exact recovery
+($.256\to.245$ at $p=500$, $.149\to.113$ at $p=2000$) for
+substantially better inclusion (Sure-20 $.463\to.580$ at $p=2000$;
+$\E(R_{\max})$ $144.8\to76.0$).
 The trade is the intended one: promotion by a single reasonable tuning
 occasionally admits a lucky null into the top four when the signal is
 weak, and reliably rescues active coordinates from single-setting
@@ -256,10 +280,17 @@ the sure-screening objective --- rather than exact selection.
 
 The quantile screen at a moderate level remains the strongest detector
 when high quantiles and the limiting exponent share their covariates
-and the signal is weak (A2); the aggregated tail screen is competitive
-or better on A1 and A3 and is the only rule that recovers the
-tail-index-active set reliably under the B1 scale cluster, which
-distracts every fixed-quantile rule at every level. For a question
-about the limiting exponent itself, the two rankings are best read
-side by side, as in Section~\ref{sec:realdata}: variables high on one
-list and low on the other are where the two targets part ways.
+and the signal is weak (A2), and even under the B1 cluster it recovers
+the active set at any budget exceeding the block size. The aggregated
+tail screen is competitive or better on A1 and A3, and on B1 it is the
+rule whose \emph{leading} positions stay clean: at every $d$ up to the
+block size it dominates, its top four contain $0.14$--$0.19$ proxies
+against $2.1$--$3.8$ for the quantile levels $.95$ and $.90$, and its
+median worst rank stays at $4$--$5$ against $20$--$24$. Which failure
+structure matters depends on the use: for exact recovery or for
+reading the leading variables, the tail screen; for inclusion at a
+generous budget known to exceed any scale block, a moderate-level
+quantile screen. For a question about the limiting exponent itself,
+the two rankings are best read side by side, as in
+Section~\ref{sec:realdata}: variables high on one list and low on the
+other are where the two targets part ways.

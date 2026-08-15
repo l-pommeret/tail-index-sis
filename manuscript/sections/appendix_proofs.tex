@@ -69,7 +69,14 @@ $\E(V-u_j^\star)^2=\mathrm{Var}(V)+(1/2-u_j^\star)^2
 
 \subsection{Proof of Theorem~\ref{thm:score}}
 
-Choose $\eta_n=\sqrt{\log(pn)/n}$, $\tau=\tau_n=(pn)^{-2}$, and
+First, the standing hypotheses of
+Propositions~\ref{thm:app-rank-profile} and~\ref{thm:app-score} hold
+for $n$ large: $\log(pn)=o(nh^2)$ with $h\le1$ forces $nh\to\infty$,
+hence $m_n^-\ge nh/2\to\infty$ and $L_n\ge1$;
+$\log(pn)=o(n\alpha h)$ then forces
+$\alpha m_n^-\ge n\alpha h/2\to\infty$, hence $K_n\ge2$; and
+$\omega_\xi(\delta_n)<\infty$ by (E1).  Choose
+$\eta_n=\sqrt{\log(pn)/n}$, $\tau=\tau_n=(pn)^{-2}$, and
 $t_n=\sqrt{(4/K_n)\log\{pS_n(pn)\}}$.  The four probability terms in
 \eqref{eq:A6app} are then each $o(1)$: the first is
 $2pe^{-2\log(pn)}=2p(pn)^{-2}\to0$; the second is $2pn(pn)^{-2}\to0$; the
