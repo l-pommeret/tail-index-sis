@@ -51,3 +51,8 @@ docs/
 
 # local conda environment for R (ephemeral, ~1.6 GB)
 .renv/
+
+# intermediaires derives des parquet (regenerables)
+results/llm/*.csv
+!results/llm/screen*/*.csv
+!results/llm/*_fp64.csv
