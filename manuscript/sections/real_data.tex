@@ -61,13 +61,13 @@ quantile screen at $\tau\in\{.90,.95,.99\}$.
 \subsection{Results}
 
 Poverty and family structure dominate the aggregated ranking, and they
-dominate every competing ranking as well. The poverty rate
-(\texttt{pctPoverty}) is first, with per-setting ranks between $1$ and
-$6$ across the nine settings; the two-parent household variables
-\texttt{pct2Par} and \texttt{pctKids2Par} are third and fourth (ranks
-$1$--$5$), and both are also leading variables for the quantile screen
-at every level (\texttt{pctKids2Par} is first at all three $\tau$)
-and for Yoshida--Umezu (ranks $3$--$7$). The related
+dominate every competing ranking as well. The two-parent household
+variable \texttt{pctKids2Par} is first (per-setting ranks $1$--$4$
+across the nine settings), the poverty rate \texttt{pctPoverty} second
+(ranks $1$--$6$) and \texttt{pct2Par} third (ranks $1$--$5$); the two
+family-structure variables are also leading variables for the quantile
+screen at every level (\texttt{pctKids2Par} is first at all three
+$\tau$) and for Yoshida--Umezu (ranks $3$--$7$). The related
 \texttt{pctKids4w2Par} and \texttt{pct12to17w2Par} complete the
 consensus block at aggregated ranks $7$--$8$. The high-quantile and
 tail-index rankings share these leading predictors.
@@ -86,7 +86,7 @@ The two variables differ in stability across the aggregation block:
 \texttt{pctUsePubTrans} ranks within the top $15$ at every one of the
 nine settings, while \texttt{pctWfarm} moves between $2$ and $47$
 (right panel of Figure~\ref{fig:crime}). The never-married male rate
-(\texttt{pctMaleNevMar}, aggregated rank $2$, per-setting ranks
+(\texttt{pctMaleNevMar}, aggregated rank $4$, per-setting ranks
 $1$--$9$, quantile ranks $28$--$35$) sits between the consensus block
 and the tail-specific pair. We report all three as candidate
 tail-specific predictors for a second-stage analysis.
@@ -95,10 +95,10 @@ Minimum-rank aggregation is deliberately conservative: a predictor is
 promoted whenever at least one tuning in the prespecified neighbourhood
 ranks it highly, which suits a first-stage sure screen, where false
 exclusion is more costly than retaining additional candidates.
-\texttt{pctLargHous} (aggregated rank $9$) and \texttt{pctHousWOplumb}
+\texttt{pctHousWOplumb} (aggregated rank $9$) and \texttt{pctLargHous}
 (rank $10$) illustrate the resulting behaviour: their positions rest on
-one favourable setting each (per-setting ranks $6$--$74$ and $6$--$55$;
-selected-pair ranks $46$ and $36$), so their rankings are markedly more
+one favourable setting each (per-setting ranks $6$--$55$ and $6$--$74$;
+selected-pair ranks $36$ and $46$), so their rankings are markedly more
 tuning-sensitive than those of the consensus block or of the
 tail-specific candidates, which hold their positions across the whole
 block. The conservative screen retains them intentionally; the

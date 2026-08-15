@@ -6,7 +6,7 @@ are maintained by a Fenwick tree indexed by global response ranks.
 Covariates are generated and processed in blocks, so the total cost is
 $O(pn\log n)$ time and $O(n)$ working memory beyond the scores. At
 $(n,p)=(2000,1000)$ one complete screen takes under a second on a laptop
-core. Scores are sorted increasingly, ties broken by coordinate index.
+core. Scores are sorted increasingly.
 
 \subsection{Simulation models}\label{sec:models}
 
@@ -191,8 +191,10 @@ aggregate by
 \[
  r_j^{\rm agg}=\min_{(a,b)\in\mathcal N_9}r_j(a,b),
 \]
-and rank the coordinates by increasing $r_j^{\rm agg}$, ties broken by
-coordinate index. A coordinate is thus retained early whenever at least
+and rank the coordinates by increasing $r_j^{\rm agg}$; coordinates
+sharing the same minimum are ordered by the median, then the mean, then
+the maximum of their nine ranks, and any remaining ties by a seeded
+auxiliary randomization. A coordinate is thus retained early whenever at least
 one reasonable tuning finds evidence for it. This direction of
 conservatism matches the purpose of a sure-screening first stage: false
 exclusion is final, while false retention is corrected by the
@@ -243,12 +245,12 @@ $p=500$ and $p=2000$ while $\mathrm{Med}(R_{\max})$ stays at $4$: the
 typical replication is unaffected, and the loss is carried by a
 minority of replications in which an active coordinate falls into the
 null range, where its rank scales with $p$. Aggregation compresses that
-tail on every model ($\E(R_{\max})$ $4.6\to6.1$ on A1, $9.3\to22.0$
-against $29.8\to108.7$ on B1, $4.9\to7.9$ against $7.0\to22.0$ on A3).
+tail on every model ($\E(R_{\max})$ $4.6\to6.2$ on A1, $9.8\to22.6$
+against $29.8\to108.7$ on B1, $5.1\to8.1$ against $7.0\to22.0$ on A3).
 The quantile screen at $\tau=.95$ is the least dimension-sensitive rule
 on the A family ($\E(R_{\max})$ $4.2\to4.8$ on A1). A2 is the most
 dimension-sensitive model for every method (aggregated Sure-20
-$.813\to.580$, quantile $.95$ $.930\to.782$): a weak signal loses the
+$.797\to.561$, quantile $.95$ $.930\to.782$): a weak signal loses the
 most from added competition. Yoshida--Umezu degrades from a low base
 throughout ($\mathrm{Med}(R_{\max})$ $29\to168$ on A1).
 
@@ -275,15 +277,15 @@ twenty B1 proxies in its top 24 (Table~\ref{tab:b1comp}).
 
 \paragraph{Effect of the aggregation.}
 Aggregation improves the tail screen most where failures are worst. On
-B1 it lifts exact recovery from $.308/.249/.234$ to $.523/.439/.402$
+B1 it lifts exact recovery from $.308/.249/.234$ to $.448/.368/.339$
 across the three dimensions, divides $\E(R_{\max})$ by three to five,
-and brings $\mathrm{Med}(R_{\max})$ to $4$--$5$; on A1 and A3 it adds
-two to ten points of Sure-4 ($+7.3$, $+7.3$, $+10.0$ on A1 and $+6.4$,
-$+2.1$, $+7.3$ on A3 across the three dimensions) and compresses the
+and brings $\mathrm{Med}(R_{\max})$ to $5$--$6$; on A1 and A3 it moves
+Sure-4 by a few points in either direction ($+3.5$, $+1.4$, $+5.1$ on
+A1; $+1.5$, $-4.1$, $+0.7$ on A3) while compressing the
 rank tail; Sure-20 improves in all twelve model--dimension cells. On the weak-signal A2 it
-trades a little exact recovery ($.256\to.245$ at $p=500$,
-$.149\to.113$ at $p=2000$) for substantially better inclusion
-(Sure-20 $.463\to.580$ at $p=2000$; $\E(R_{\max})$ $144.8\to76.0$).
+trades exact recovery ($.256\to.196$ at $p=500$,
+$.149\to.088$ at $p=2000$) for substantially better inclusion
+(Sure-20 $.463\to.561$ at $p=2000$; $\E(R_{\max})$ $144.8\to76.9$).
 The trade is the intended one: promotion by a single reasonable tuning
 occasionally admits a lucky null into the top four when the signal is
 weak, and reliably rescues active coordinates from single-setting
@@ -294,13 +296,13 @@ The quantile screen at a moderate level remains the strongest detector
 when high quantiles and the limiting exponent share their covariates
 and the signal is weak (A2); the aggregated tail screen is competitive
 or better on A1 and A3, and on B1 it is the only rule whose leading
-positions stay on the active set --- Sure-4 $.523/.439/.402$ and
-Sure-20 $.911/.851/.813$ across the three dimensions, against at most
-$.038$ and $.665$ for any fixed-quantile level, with $0.15$--$0.19$
+positions stay on the active set --- Sure-4 $.448/.368/.339$ and
+Sure-20 $.907/.849/.805$ across the three dimensions, against at most
+$.038$ and $.665$ for any fixed-quantile level, with $0.12$--$0.19$
 proxies in its top four (Table~\ref{tab:b1comp}). It is degraded, not
-immune: the same rule reaches Sure-4 $.922/.882/.851$ on A1, so the
+immune: the same rule reaches Sure-4 $.884/.823/.802$ on A1, so the
 scale cluster, jointly with the exchange of slowly varying factors,
-costs it about forty points of exact recovery. For a question
+costs it about forty-five points of exact recovery. For a question
 about the limiting exponent itself, the two rankings are best read
 side by side, as in Section~\ref{sec:realdata}: variables high on one
 list and low on the other are where the two targets part ways.

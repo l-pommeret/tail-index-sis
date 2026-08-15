@@ -439,3 +439,18 @@ sur A1/A3 disparaît (A1 +3.5/+1.4/+5.1, A3 +1.5/−4.1/+0.7 points) ; le
 bénéfice est entièrement sur l'inclusion (Sure-20 meilleur dans les 12
 cellules, E(Rmax) divisé par 3 à 4.8 sur B1). Tables cmp* et b1comp
 (ligne aggregated), §4.2-4.3 et §5 (leaders) à mettre à jour.
+
+## Mise à jour post-audit (2026-08-15, décision collaborateur)
+
+Manuscrit : valeurs de la règle agrégée remplacées par celles de
+campaign7 (tables cmp500/1000/2000 et b1comp, §4.3 trois paragraphes,
+§5 leaders — pctKids2Par 1er, pctPoverty 2e, pct2Par 3e, pctMaleNevMar
+4e, pctHousWOplumb/pctLargHous permutés) ; phrase succincte sur le
+départage en §4.2 (médiane, moyenne, maximum des neuf rangs, puis
+randomisation auxiliaire seedée) et §3 ; aucune mention de l'ancienne
+règle. Le gain de Sure-4 de l'agrégation sur A1/A3 disparaît du texte
+(remplacé par « a few points in either direction ») ; écart A1-B1
+porté à ~45 points. draft5_outputs.R lit désormais les métriques
+agrégées dans results/campaign7/summary.csv ; nouvelle figure crime
+générée par code/R/crime_figure5.R (script auparavant absent du dépôt).
+Compilation : 27 pages, 0 référence indéfinie.

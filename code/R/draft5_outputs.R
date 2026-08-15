@@ -44,6 +44,20 @@ if (what == "tuning") {
   ## align columns (campaign5 has identical metric columns)
   common <- intersect(names(c6), names(c5))
   all <- rbind(c6[, common], c5[, common])
+  ## Aggregated rule: metrics from campaign7 (same datasets and
+  ## replications), whose ranking refines equal minima by the median,
+  ## mean and maximum of the nine per-setting ranks, residual ties by a
+  ## seeded auxiliary draw (code/R/rank_rules.R).
+  c7 <- read.csv("results/campaign7/summary.csv")
+  c7 <- c7[c7$arm == "new_agg", ]
+  mc <- c("sure4", "sure10", "sure20", "sure30", "sure50", "ermax",
+          "medmax", "top4_gamma", "top4_scale", "top24_scale")
+  for (i in seq_len(nrow(c7))) {
+    sel <- all$model == c7$model[i] & all$p == c7$p[i] &
+      all$rule == "tail aggregated"
+    stopifnot(sum(sel) == 1L)
+    all[sel, mc] <- c7[i, mc]
+  }
   write.csv(all, "results/draft5_comparison_summary.csv", row.names = FALSE)
   lab <- c("tail selected" = "Tail-index SIS, selected $(a^\\star,b^\\star)$",
            "tail aggregated" = "Tail-index SIS, aggregated",
