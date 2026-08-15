@@ -48,7 +48,12 @@ scale cluster distracts fixed-quantile screens at every level, while the
 aggregated tail screen recovers the tail-index-active set reliably. An
 application to violent-crime rates in 1{,}993 U.S. communities, with
 $p=99$ continuous predictors against an effective tail sample of about
-$200$, illustrates the method in its intended regime. The uniform
+$200$, illustrates the method in its intended regime, and a second
+application to the maximal token surprisal of a language model over
+20{,}000 web documents, where two scale nuisances have known status
+--- document length by an asymptotic argument, a grafted bounded factor
+exactly by Breiman's lemma --- observes the same target separation on
+real data under a permutation-calibrated protocol. The uniform
 projected-quantile conditions are stated directly; deriving them from a fully
 primitive growing-dimensional model remains open.
 \end{abstract}
@@ -59,6 +64,7 @@ primitive growing-dimensional model remains open.
 \FloatBarrier
 \input{sections/real_data}
 \FloatBarrier
+\input{sections/llm_application}
 \input{sections/discussion}
 \appendix\input{sections/appendix_aux}\input{sections/appendix_proofs}
 \bibliographystyle{plainnat}

@@ -1,0 +1,132 @@
+\section{Application with known nuisance structure: token-surprisal tails
+of a language model}\label{sec:llm}
+
+The crime application reads screening ranks without ground truth. This
+section builds a second application in which the status of a family of
+covariates is known --- in one case exactly --- so that the target
+separation demonstrated by model B1 can be observed on real data.
+
+\subsection{Response, data, and regime}
+
+For a document $w_1,\ldots,w_T$ scored by a language model $\theta$, let
+$S_t=-\log p_\theta(w_t\mid w_{<t})$ be the token surprisal and take
+\[
+ Y=\exp\Bigl(\max_{t\le T}S_t\Bigr)
+ =\Bigl\{\min_{t\le T}p_\theta(w_t\mid w_{<t})\Bigr\}^{-1}.
+\]
+If the conditional surprisal tail is exponential,
+$\Pp(S>s\mid x)\sim c(x)e^{-s/\gamma(x)}$ --- the behaviour a Zipfian
+vocabulary produces --- then
+$\Pp(Y>y\mid x)\sim c(x)y^{-1/\gamma(x)}$: conditional regular variation
+with $\gamma(x)>0$ holds by the exponential mechanism, and the
+subexponential factor becomes the slowly varying factor of (C1). Mean
+log-perplexity, by contrast, concentrates and lands in the Gumbel
+domain; its marginal can look heavy-tailed by mixture while every
+conditional law is light, which would invalidate (C1) silently. The
+maximum, not the mean, is the object this framework applies to.
+
+The corpus is a 2025 Common Crawl snapshot (FineWeb), chosen because its
+filtering is heuristic: corpora filtered by perplexity or by quality
+classifiers truncate the upper tail of $Y$, a selection on the response.
+The model is Pythia-410m (fp32 throughout; the reference model of the
+likelihood-ratio variant is Pythia-1.4b), whose public training corpus
+predates the crawl. The primary analysis scores exactly $T=512$ tokens
+per document after a 64-token burn-in, so document length is fixed by
+construction; a secondary analysis leaves $T$ free. Covariates are never
+computed from the forward pass that produces $Y$: $p=272$ surface and
+frozen-encoder-embedding covariates survive a continuity filter, with
+$n=20{,}000$ documents, and at the tuning of
+Section~\ref{sec:tuning} the regime is $2n\alpha h\approx232$ local
+extremes per interior window. Marginal and stratified generalized
+Pareto fits give $\gamma\approx1.24$ with profile confidence intervals
+excluding $0$ in all sixteen strata examined --- the conditional
+positivity that (C1) requires and that a marginal Hill plot cannot
+establish. Numerical saturation, degenerate document classes, and
+fp32 rounding are ruled out by direct checks in the replication
+material.
+
+\subsection{Calibrated screening and a null result}
+
+Ranks alone never refuse to answer: a ranking exists whether or not any
+signal does. The screening here is therefore calibrated by permutation:
+responses are permuted against covariates, the full screen is rerun, and
+the familywise $5\%$ threshold is the appropriate quantile of the
+best null score. On the primary analysis, no covariate of the $272$
+crosses the familywise threshold, for either response variant; per-covariate
+exceedances match their expected counts. The same holds for
+$1{,}024$-dimensional blocks of internal model activations (residual-stream
+averages over a past prefix, screened against $Y$ computed on the
+disjoint future suffix, at $n=50{,}000$): every layer configuration is
+at or near chance level. An uncalibrated reading of the raw rankings
+would have produced discussable leaders in every one of these
+experiments; the calibration is what makes the null legible, and we
+regard it as part of the method's proper use.
+
+\subsection{Two scale clusters with known status}
+
+\paragraph{Document length: a natural nuisance, asymptotic truth.}
+For weakly dependent regularly varying surprisals,
+$\E[\max_{t\le T}S_t\mid x]=\gamma(x)\log T+O(1)$: length enters the
+scale of $Y$ and never its index. On nested prefixes of the same
+documents --- composition held fixed --- the measured slope of
+$\E[\max S]$ against $\log T$ is $1.23$ with intra-document confidence
+interval $[1.15,1.31]$, containing the independent Hill estimates of
+$\gamma$; across free-length strata the Hill intervals overlap while
+the location moves by $2.24$ nats. When $T$ is left free, the length
+cluster --- eight correlated proxies from character count to gzip
+size --- fills the top five positions of the quantile screen at every
+level $\tau\in\{.90,.95,.99\}$ ($5/5$; the chance probability of this
+configuration is about $2\times10^{-4}$), while the tail-index screen
+places none of them in its top five and ranks the block in its bottom
+quartile. This is the B1 dissociation on real data, with a nuisance an
+order of magnitude stronger than the simulated one.
+
+The same experiment locates a boundary of validity: at $n=2{,}000$
+($2n\alpha h\approx65$) the tail screen itself ranks the length block
+first --- the second-order bias of the local Hill statistic responds to
+a scale shift of this amplitude --- and the artefact disappears at
+$n=20{,}000$ ($2n\alpha h\approx232$). Specificity against scale is an
+asymptotic property with a measurable finite-sample onset.
+
+\paragraph{A grafted cluster: exact truth.}
+By Breiman's lemma, if $V>0$ is bounded and independent of $Y$, then
+$YV$ is regularly varying with the same index, and only the scale
+constant changes. Grafting
+$V=\exp\{\kappa(\Phi(F)-1/2)\}$ with a latent $F\sim N(0,1)$ and
+$q_{\rm scale}=20$ observed proxies of $F$ (loading $0.7$, as in B1)
+onto the real responses produces twenty covariates that provably carry
+no information about the index while shifting every finite quantile,
+inside the real correlation structure of the $272$ genuine covariates.
+Across the paired strength sweep $\kappa\in\{0,0.5,1,2,4\}$, the number
+of proxies among the twenty leading positions grows for the quantile
+screen from $1$ ($\kappa=.5$) to $19$ ($\kappa=2$) and $20$
+($\kappa=4$, all three levels; median proxy rank $10.5$ of $292$),
+while the tail-index screen retains $2$ to $4$ across the entire sweep
+(median proxy rank $143$--$175$, at or beyond the chance value of
+$146$). The quantile screen's behaviour is coherent for its own target
+throughout; the experiment measures an order-of-magnitude sensitivity
+gap, not an immunity --- at $\kappa=4$ the tail screen's contamination
+becomes visible ($4$--$5$ proxies, one of them first), and minimum-rank
+aggregation does not help here, since there is no dispersed tail signal
+to stabilize. Under the permutation calibration, no proxy reaches the
+familywise threshold in any arm for any screen: the raw rankings are
+more contaminated than the calibrated procedure.
+
+\subsection{What this application does and does not establish}
+
+An external criterion, computed without any screen --- the dispersion of
+stratified $\gamma$ estimates per covariate, calibrated against random
+strata --- identifies which covariates actually modulate the index in
+these data (a single clear case, the whitespace rate, with
+non-overlapping quartile intervals). Both screening families rank
+$\gamma$-modulating covariates equally well by this criterion, the
+quantile screen at $\tau=.95$ marginally better. The evidence of this
+section is therefore evidence of \emph{specificity}: covariates that
+move finite quantiles without touching the index --- whether by
+asymptotic argument (length) or by exact construction (the grafted
+cluster) --- capture every fixed-quantile ranking and not the
+tail-index ranking. It is not evidence of superior power for finding
+index-active covariates, and the simulations of
+Section~\ref{sec:comparison} say the same: the advantage of the
+tail-index screen is what its leading positions contain, not how often
+it finds a shared signal first.

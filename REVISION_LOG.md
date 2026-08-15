@@ -336,3 +336,29 @@
   deterministic separation lemma) and Appendix B (proofs of Propositions
   2.1–2.3, Theorem 3.1, Theorem 3.2 + Corollary 3.3, each citing the
   A-tools). Main-text proof sketch reduced to a five-point roadmap.
+
+## Draft 5b — LLM application integrated (new Section 6)
+- Response: Y = exp(max token surprisal), Pythia-410m fp32 on 20,000
+  FineWeb documents (T = 512 fixed, 64-token burn-in); exponential
+  surprisal tails give conditional regular variation by mechanism, and
+  stratified GPD intervals exclude gamma = 0 in all sixteen strata (the
+  test that a marginal Hill plot cannot provide). p = 272 covariates
+  never computed from the forward pass producing Y.
+- Permutation-calibrated screening: familywise 5% threshold from
+  permuted-response reruns; null on all 272 covariates, on both response
+  variants, and on internal-activation blocks (n = 50,000, past/future
+  split) at chance level. The calibration is presented as part of proper
+  use; the crime section now states its ranks are uncalibrated and
+  points to the port.
+- Two scale clusters with known status: document length (natural,
+  E[max S] = gamma log T + O(1); nested-prefix slope 1.23 within the
+  Hill interval; quantile screens capture 5/5 length proxies in top-5 in
+  free-T mode, tail screen 0/5, with a measured validity onset between
+  2nαh = 65 and 232) and a grafted bounded factor (exact by Breiman's
+  lemma; paired kappa-sweep: quantile screens go from 1 to 19-20 of 20
+  proxies in their top-20, tail screen stays at 2-4; contamination
+  becomes visible at kappa = 4; aggregation does not help absent a tail
+  signal; no proxy ever crosses the familywise threshold).
+- Honest scope: an external gamma-dispersion criterion shows both
+  families rank index-modulating covariates equally well; the section
+  claims specificity, not power, matching the simulation message.
