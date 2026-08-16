@@ -1,0 +1,36 @@
+lecture de results/llm/cluster/k020.csv 
+n = 20000 documents, 298 covariables candidates
+filtre de continuite : 292 retenues sur 298 ; ecartees : len_sents, len_paras, len_lines, rate_digit, rate_nonascii, max_word_len
+reglage : alpha = 0.0512, h = 0.1132, 2 n alpha h = 232
+
+=== reponse max_S_small ===
+  9 passes du score en 9 s
+  1000 permutations en 46 s
+  seuil de permutation : 5% = 1.19681, 1% = 1.19253 ; score minimal observe = 1.20286
+  seuil par covariable : 5% = 1.21549, 1% = 1.20879
+  sous le seuil familial : 0 a 5%, 0 a 1% ; sous le seuil par covariable : 24 a 5%, 5 a 1%
+  dix premieres par rang median agrege :
+    covariate rank_agg_med rank_agg_min rank_base freq_top20 rank_q90 rank_q95
+      emb_060          1.0          3.5         9       0.20       86       65
+     scale_13          2.0         13.5        65       0.15       13        7
+      emb_082          4.0          3.5         4       0.15      203       46
+      emb_163          4.0         17.5         6       0.05      132      200
+     scale_16          4.0         13.5         3       0.25       18        5
+      emb_185          6.0         17.5         8       0.00      275      187
+   rate_upper          7.0          3.5        14       0.15       32       26
+ byte_entropy          8.5          3.5        13       0.10       27       25
+      emb_113          8.5         29.5        16       0.20       45       81
+      emb_123         10.0          9.0        50       0.10      104       50
+ rank_q99
+       37
+        5
+       17
+      285
+       12
+       76
+       49
+       26
+      151
+       21
+
+ECRIT dans results/llm/cluster_screen_k020 
