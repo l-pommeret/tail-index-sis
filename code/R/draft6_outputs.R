@@ -8,8 +8,12 @@
 args <- commandArgs(trailingOnly = TRUE)
 what <- if (length(args)) args[1L] else "comparison"
 
-OUT_TAB <- "article_light_2/tables"
-OUT_FIG <- "article_light_2/figures"
+## Target article directory: second argument, or $D6_ARTICLE, defaulting to
+## article_light_2.  Both live versions share the same tables and figure.
+ART <- if (length(args) >= 2) args[2L] else
+  Sys.getenv("D6_ARTICLE", "article_light_2")
+OUT_TAB <- file.path(ART, "tables")
+OUT_FIG <- file.path(ART, "figures")
 dir.create(OUT_TAB, recursive = TRUE, showWarnings = FALSE)
 dir.create(OUT_FIG, recursive = TRUE, showWarnings = FALSE)
 
@@ -91,6 +95,29 @@ if (what == "tuning") {
     z <- c(z, "\\bottomrule", "\\end{tabular}", "\\end{table}")
     writeLines(z, file.path(OUT_TAB, sprintf("cmp%d.tex", pp)))
   }
+  ## Table: composition of the leading positions on B1.  Regenerated here
+  ## as well; it was previously carried over by hand and so kept the
+  ## numbers of an earlier campaign.
+  z <- c("\\begin{table}[t]", "\\centering",
+    "\\caption{Model B1: average number of the twenty scale proxies among the top 4 and top 24 positions of each ranking, by dimension (same $1{,}000$ replications as Tables~\\ref{tab:cmp500}--\\ref{tab:cmp2000}). A perfectly specific screen scores $0$; ranking the proxies first scores $4$ and $20$.}",
+    "\\label{tab:b1comp}", "\\begin{tabular}{lrrrrrr}", "\\toprule",
+    " & \\multicolumn{2}{c}{$p=500$} & \\multicolumn{2}{c}{$p=1000$}",
+    " & \\multicolumn{2}{c}{$p=2000$}\\\\",
+    "Method & top 4 & top 24 & top 4 & top 24 & top 4 & top 24\\\\",
+    "\\midrule")
+  for (k in names(lab)) {
+    w <- lapply(c(500, 1000, 2000), function(pp)
+      all[all$p == pp & all$model == "B1" & all$rule == k, ])
+    if (any(vapply(w, nrow, 0L) != 1L)) stop("missing B1 cell: ", k)
+    z <- c(z, sprintf("%s & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f\\\\",
+      lab[k],
+      w[[1]]$top4_scale, w[[1]]$top24_scale,
+      w[[2]]$top4_scale, w[[2]]$top24_scale,
+      w[[3]]$top4_scale, w[[3]]$top24_scale))
+  }
+  z <- c(z, "\\bottomrule", "\\end{tabular}", "\\end{table}")
+  writeLines(z, file.path(OUT_TAB, "b1comp.tex"))
+
   ## What the competitor's grid search bought it.
   d <- merge(all[all$rule == "Yoshida-Umezu paper",
                  c("model", "p", "sure4", "sure20", "ermax")],

@@ -141,14 +141,15 @@ rather than the argmax. The three leading cells span $0.017$ on the
 four-model mean, of the order of one paired standard error, so they are
 not separated by the evidence available here; and they do not trade
 uniformly, but along a line that matters for what this paper is about.
-Moving from $a=0.30$ to
-$a=0.35$ costs Sure-20 on the three tail-index models, $.935\to.960$ on
-A1, $.555\to.475$ on A2 and $.955\to.885$ on A3, and buys it back on B1,
-$.675\to.730$. The $1{,}000$-replication comparison of
-Section~\ref{sec:comparison} reproduces the same pattern on independent
-data and at all three dimensions: at $p=2000$ the change costs
-$.013$, $.138$ and $.027$ of Sure-20 on A1, A2 and A3, and gains $.069$
-on B1.
+On these $200$ replications, moving from
+$a=0.30$ to $a=0.35$ costs Sure-20 on the two hardest tail-index models,
+$.555\to.475$ on A2 and $.955\to.885$ on A3, and gains on A1,
+$.935\to.960$, and on B1, $.675\to.730$. The $1{,}000$-replication
+comparison of Section~\ref{sec:comparison} is the stronger evidence and
+sharpens the picture: on independent data and at all three dimensions the
+change costs Sure-20 on \emph{all three} A models and gains on B1, by
+$.013$, $.138$ and $.027$ against $.069$ at $p=2000$. The gain on A1 in
+the tuning study is within its standard error and does not survive.
 
 That direction is not an accident. A larger $a$ is a smaller tail
 fraction, so the local Hill statistics reach less far down into the
@@ -377,7 +378,14 @@ screen is the only rule whose leading positions stay on the active set
 --- Sure-4 $.448/.368/.339$ and Sure-20 $.907/.849/.805$ across the
 three dimensions, against at most $.038$ and $.665$ for any
 fixed-quantile level, with $0.12$--$0.18$ proxies in its top four
-(Table~\ref{tab:b1comp}). It is degraded, not
+(Table~\ref{tab:b1comp}). The competitor's grid search is worth a
+remark here, because it cuts the other way: retuning the
+conditional-Pickands screen for Sure-20 raises the number of scale
+proxies in its top four on B1 from $1.78$--$1.35$ to $2.35$--$2.09$
+across the three dimensions. What the retuning buys in breadth of
+screening it gives back in specificity against the finite-quantile
+cluster, which is the discrimination at issue in this model. It is
+degraded, not
 immune: the same rule reaches Sure-4 $.884/.823/.802$ on A1, so the
 scale cluster, jointly with the exchange of slowly varying factors,
 costs it about forty-five points of exact recovery. For a question
