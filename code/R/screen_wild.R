@@ -31,8 +31,15 @@ BPERM <- if (length(args) >= 4L) as.integer(args[4L]) else 1000L
 dir.create(OUTDIR, recursive = TRUE, showWarnings = FALSE)
 
 EPS <- 0.05
-ASTAR <- 0.35; BSTAR <- 0.15          # reglage retenu par le manuscrit courant
-AGRID <- c(0.30, 0.35, 0.40); BGRID <- c(0.10, 0.15, 0.20)
+## Le reglage a* = 0.35 a ete choisi a n = 2000, ou il donne alpha = 0.070.
+## Comme alpha = n^(-a), garder a fixe fait CHUTER alpha quand n grandit :
+## 0.018 a n = 1e5, soit un tout autre point de fonctionnement. La theorie
+## demande n*alpha*h*Delta^2 >> log(pn), donc un alpha qui ne s'effondre pas.
+## WILD_A permet de tenir alpha ~ 0.1 : a = log(10)/log(n).
+ASTAR <- as.numeric(Sys.getenv("WILD_A", "0.35"))
+BSTAR <- as.numeric(Sys.getenv("WILD_B", "0.15"))
+AGRID <- sort(ASTAR + c(-0.05, 0, 0.05)); BGRID <- c(0.10, 0.15, 0.20)
+stopifnot(BSTAR %in% BGRID)
 SEED_TIE <- 811000033L
 
 base <- file.path(INDIR, "wild")
@@ -42,6 +49,13 @@ cols <- meta[3:(2L + p)]
 Xr <- matrix(readBin(paste0(base, "_ranks.bin"), "double", n * p), n, p)
 logY <- readBin(paste0(base, "_y.bin"), "double", n)
 y <- exp(logY)
+## Garde-fou : numpy.tofile ecrit en ordre C, matrix() lit en ordre Fortran.
+## Une lecture mal ordonnee donne une matrice brouillee et un criblage qui lit
+## du bruit -- silencieusement. On verifie donc que chaque colonne est bien une
+## permutation de 1..n avant de scorer quoi que ce soit.
+chk <- sample.int(p, min(5L, p))
+for (j in chk) stopifnot(length(unique(Xr[, j])) == n,
+                         min(Xr[, j]) == 1, max(Xr[, j]) == n)
 blocks <- read.csv(file.path(INDIR, "wild_blocks.csv"))
 stopifnot(nrow(blocks) == p, identical(blocks$name, cols))
 

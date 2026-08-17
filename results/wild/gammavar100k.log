@@ -1,0 +1,23 @@
+results/wild/ppl100k/ppl_cov.parquet
+n = 100000, 264 covariables, Q = 4 strates, k/strate = 5000
+
+sous H0 (500 decoupages aleatoires) : med 0.0163, q95 0.0298, q99 0.0393
+  gamma global = 1.3485 ; prediction gamma/sqrt(k) = 0.0191
+
+264 covariables evaluees
+  dispersion observee : med 0.0340, max 0.2171  (H0 med 0.0163)
+  p < 0.05 : 154 sur 264 (attendu 13)
+  p < 0.01 : 99 sur 264 (attendu 3)
+
+  dix plus fortes dispersions :
+  covariate  sd_inter  p_perm   gmin   gmax
+  s160m_max    0.2171  0.0000 0.9003 1.3731
+   s70m_max    0.1792  0.0000 0.9976 1.4040
+ s160m_kurt    0.1444  0.0000 1.1800 1.5149
+ s160m_skew    0.1346  0.0000 1.2288 1.5322
+  s70m_kurt    0.1303  0.0000 1.2290 1.5204
+  s70m_skew    0.1141  0.0000 1.2376 1.5063
+  s160m_q20    0.0679  0.0000 1.2845 1.4434
+d70_160_min    0.0646  0.0000 1.2796 1.4273
+  s160m_q16    0.0633  0.0000 1.2778 1.4297
+d70_160_q02    0.0628  0.0000 1.2760 1.4160

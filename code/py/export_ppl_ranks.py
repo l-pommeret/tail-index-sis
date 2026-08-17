@@ -41,7 +41,7 @@ for j in range(p):
     noise = rng.random(n) * 1e-12 * (np.abs(X[:, j]).max() + 1e-12)
     R[:, j] = np.argsort(np.argsort(X[:, j] + noise)) + 1.0
 
-R.tofile(os.path.join(OUTDIR, "wild_ranks.bin"))
+np.ascontiguousarray(R.T).tofile(os.path.join(OUTDIR, "wild_ranks.bin"))
 M.tofile(os.path.join(OUTDIR, "wild_y.bin"))
 with open(os.path.join(OUTDIR, "wild_meta.txt"), "w") as f:
     f.write(f"{n}\n{p}\n" + "\n".join(cols) + "\n")

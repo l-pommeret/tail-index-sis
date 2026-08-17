@@ -68,7 +68,7 @@ for j in range(X.shape[1]):
     R[:, j] = np.argsort(np.argsort(X[:, j] + noise)) + 1.0
 
 base = os.path.join(OUTDIR, CONFIG)
-R.astype(np.float64).tofile(base + "_ranks.bin")
+np.ascontiguousarray(R.astype(np.float64).T).tofile(base + "_ranks.bin")
 y.astype(np.float64).tofile(base + "_y.bin")
 with open(base + "_meta.txt", "w") as f:
     f.write(f"{n}\n{R.shape[1]}\n")

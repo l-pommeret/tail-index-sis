@@ -1,0 +1,38 @@
+n = 100000, p = 264
+  blocs : d70 88, s160m 88, s70m 88
+  alpha = 0.10000, h = 0.08891, 2 n alpha h = 1778
+  barre de competition a p = 264 : 2.67 sigma
+  log(pn) = 17.09 ; n alpha h Delta^2 a Delta=0.186 : 30.76
+  9 passes en 5 s
+  1000 permutations en 290 s
+
+  seuil familial 5% = 1.26160 ; score minimal observe = 0.93896 -> SIGNIFICATIF
+  sous seuil familial : 52 ; par covariable : 142 a 5% (attendu 13), 106 a 1% (attendu 3)
+
+  composition des 20 premiers (regle selectionnee) :
+
+  d70 s160m  s70m 
+    5     8     7 
+
+  composition des 20 premiers (quantile .95) :
+
+s160m  s70m 
+   10    10 
+
+  quinze premieres (regle selectionnee) :
+   covariate block rank_sel rank_agg rank_q95 freq_top20 p_marginal
+   s160m_max s160m        1        1        1       1.00          0
+    s70m_max  s70m        2        2        2       1.00          0
+  s160m_kurt s160m        3        3        3       0.90          0
+   s70m_kurt  s70m        4        4       10       0.75          0
+  s160m_skew s160m        5        7       42       0.35          0
+    s160m_sd s160m        6        5        4       0.55          0
+     s70m_sd  s70m        7        6        5       0.45          0
+ d70_160_q02   d70        8       10       65       0.30          0
+   s70m_skew  s70m        9        8      160       0.40          0
+ d70_160_min   d70       10       11      124       0.20          0
+ d70_160_q04   d70       11       15       68       0.30          0
+  s160m_bs00 s160m       12       13       82       0.20          0
+   s70m_bs15  s70m       13       18      130       0.15          0
+ d70_160_q06   d70       14       12       67       0.15          0
+   s70m_bs00  s70m       15       23      135       0.05          0

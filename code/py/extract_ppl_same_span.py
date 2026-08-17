@@ -58,16 +58,31 @@ def nll_all(mn):
 
 SY = nll_all(MODEL_Y)
 Ylog = SY.max(axis=1)
+del SY
 tid = Tk[:, BURN:BURN+NSPAN]   # out[:,BURN-1:] couvre x[BURN..NEED-1]
-feats = [{} for _ in range(n)]; store = {}
-for mn in MODELS_X:
-    S = nll_all(mn); store[mn] = S
-    tag = "s" + mn.split("-")[-1]
-    for i in range(n): feats[i].update(profile(S[i].astype(np.float64), tid[i], tag))
-D = store[MODELS_X[0]] - store[MODELS_X[1]]
-for i in range(n): feats[i].update(profile(D[i].astype(np.float64), tid[i], "d70_160"))
 
-F = pd.DataFrame(feats); F.insert(0, "doc_id", ids); F["Ylog"] = Ylog
+# accumulation dans un tableau prealloue : n dictionnaires de 270 entrees
+# coutent plusieurs Go a n = 1e5, un tableau float32 coute 100 Mo
+store, cols, blocks_out = {}, None, []
+for mn in MODELS_X:
+    store[mn] = nll_all(mn)
+D = store[MODELS_X[0]] - store[MODELS_X[1]]
+sources = [("s" + MODELS_X[0].split("-")[-1], store[MODELS_X[0]]),
+           ("s" + MODELS_X[1].split("-")[-1], store[MODELS_X[1]]),
+           ("d70_160", D)]
+mats = []
+for tag, S in sources:
+    f0 = profile(S[0].astype(np.float64), tid[0], tag)
+    ks = list(f0.keys())
+    A = np.empty((n, len(ks)), dtype=np.float32)
+    A[0] = np.fromiter(f0.values(), dtype=np.float64, count=len(ks))
+    for i in range(1, n):
+        d_ = profile(S[i].astype(np.float64), tid[i], tag)
+        A[i] = np.fromiter((d_[k] for k in ks), dtype=np.float64, count=len(ks))
+    mats.append(A); blocks_out += ks
+    print(f"  profils {tag} : {A.shape[1]} covariables", flush=True)
+F = pd.DataFrame(np.concatenate(mats, axis=1), columns=blocks_out)
+F.insert(0, "doc_id", ids); F["Ylog"] = Ylog
 bad = F.isna().any(axis=0)
 if bad.any(): print(f"  colonnes a NaN ecartees : {int(bad.sum())}"); F = F.loc[:, ~bad]
 F.to_parquet(os.path.join(OUTDIR, "ppl_cov.parquet"), index=False)
