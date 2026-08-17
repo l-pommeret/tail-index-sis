@@ -1,0 +1,106 @@
+\section{Introduction}\label{sec:intro}
+
+Let $(X,Y)$ be a random pair with $Y>0$ and $X\in\R^p$, and suppose that,
+conditionally on $X=x$,
+\begin{equation}\label{eq:intro-rv}
+ \frac{\Pp(Y>ty\mid X=x)}{\Pp(Y>y\mid X=x)}
+ \longrightarrow t^{-1/\gamma(x)},\qquad y\to\infty,\quad t>0,
+\end{equation}
+for a positive function $\gamma$, the conditional tail index. Estimating
+$\gamma$ is the first step toward extreme conditional quantiles and tail
+probabilities \citep{deHaanFerreira2006,hill1975}, and it suffers from a
+particularly severe curse of dimensionality: local estimation must find
+observations near $x$ and then keep only an upper fraction of their
+responses. A one-dimensional window of width $h$ combined with a tail
+fraction $\alpha$ leaves an effective sample of order $n\alpha h$, not $n$
+\citep{daouiaEtAl2013,gardesStupfler2014}. When $p$ is large, even moderate
+sample sizes are effectively small.
+
+This paper asks the screening question: among $p$ candidate covariates,
+possibly with $p$ growing with $n$, which ones does $\gamma$ actually depend
+on? Sure independence screening \citep{fanLv2008} answers such questions by
+ranking coordinates through inexpensive marginal statistics and keeping a
+moderate number for subsequent joint analysis. Model-free variants exist for
+general dependence \citep{liZhongZhu2012} and for fixed conditional quantiles
+\citep{heWangHong2013}, but the limiting exponent in \eqref{eq:intro-rv} is a
+different target: a covariate can move the $0.95$ quantile of $Y$ without
+affecting $\gamma$, and conversely. Our simulations make this distinction
+concrete.
+
+The screen we propose rests on a single geometric mechanism. Transform each
+continuous covariate to $U_j=F_j(X_j)$ and let $\xi_j(u)$ denote the tail
+index of $Y$ given $U_j=u$ alone. Conditioning on one coordinate leaves the
+others free to range over the fibre $\{u\}\times[0,1]^{p-1}$, so the
+projected distribution is a mixture, and a mixture of heavy tails is governed
+by its heaviest component. Under a full-support condition,
+\begin{equation}\label{eq:intro-envelope}
+ \xi_j(u)=\max_{v\in[0,1]^{p-1}}\gamma(u,v):
+\end{equation}
+the projected index is the upper envelope of the tail-index surface along the
+fibre. If coordinate $j$ is inactive, every fibre reaches the global maximum
+$\gmax=\max_x\gamma(x)$ and the envelope is flat at $\gmax$. If coordinate
+$j$ is active and some of its fibres miss the global argmax set, the envelope
+dips below $\gmax$ there. Averaging the envelope over a trimmed interval
+gives a score $\Psi_j$ whose gap $\Delta_j=\gmax-\Psi_j$ is zero for every
+inactive coordinate and positive for every detectable active one. Ranking
+coordinates by increasing $\Psi_j$ is the screen.
+
+The same geometry states the method's limitation. An active coordinate is
+invisible when every one of its fibres still meets the global argmax set;
+this happens, for instance, for $\gamma(u_1,u_2)=\gamma_0-(u_1-u_2)^2$,
+whose argmax is the diagonal. Detectability is a property of the argmax
+projections, and we characterize it exactly rather than assuming a generic
+signal-strength condition.
+
+Estimation follows the envelope. For each coordinate we slide a window over
+the empirical marginal ranks, apply a Hill statistic to the upper
+$\alpha$-fraction of the responses in the window, and average the resulting
+profile. Empirical ranks give every coordinate the same deterministic window
+geometry and remove the marginal scales. The price is a rank-displacement
+term, which we control simultaneously over $p$ coordinates by a
+Dvoretzky--Kiefer--Wolfowitz bound; it is negligible when $\log(pn)=o(nh^2)$.
+The main result bounds the maximal score error by
+\[
+ O_{\Pp}\!\left(\sqrt{\frac{\log(pn)}{n\alpha h}}\right)+o(\Delta_{\min}),
+\]
+where $\Delta_{\min}$ is the weakest population gap and the second term
+collects biases that our projected-quantile conditions assume
+negligible, and yields sure screening when
+$\log(pn)=o(n\alpha h\Delta_{\min}^2)$: high dimension is affordable
+exactly when the local extreme count dominates the logarithm of the
+dimension. A blockwise implementation costs $O(pn\log n)$ time.
+
+Our construction adapts the projected-tail framework of
+\citet{gardesPodgorny2025}, who estimate a low-dimensional central tail-index
+subspace by minimizing an average of projected local Hill estimates over
+projection matrices, in fixed dimension. We keep their projection semantics
+and local Hill estimator, and change what is needed for screening: the
+projections are the $p$ coordinates themselves, $p$ may diverge, windows are
+built from empirical ranks with deterministic local counts, and uniformity
+over a compact matrix class is replaced by union bounds over coordinates and
+window states. 
+
+Among screening
+proposals, the closest is \citet{yoshidaUmezu2026} screen on covariate-dependent
+extreme-value indices through kernel conditional Pickands contrasts in a
+large-bandwidth regime. Parametric tail-index regression \citep{wangTsai2009}, extended to
+high dimensions with regularization by \citet{sasakiTaoWang2026},
+exploits a parametric link when one is available. Tail dimension reduction methods
+\citep{gardes2018,aghbalouEtAl2024,bousebataEtAl2023,arbelEtAl2024} target
+related but distinct conditional-tail objects. 
+
+Our method is deliberately restricted to the heavy-tailed regime, where the conditional tail index is positive, whereas Yoshida and Umezu~\cite{yoshidaUmezu2026} formulate their screening procedure for a general extreme-value index, allowing positive, zero, and negative values through a conditional Pickands construction. This broader tail-domain coverage is accompanied by a substantially different screening mechanism. Yoshida and Umezu use a large-bandwidth regime, $h\to\infty$, in which the kernel-based conditional Pickands estimator is not intended to estimate the marginal conditional extreme-value-index curve itself, but rather to generate a stable contrast with the unconditional extreme-value index. Their sure-screening result then requires a minimum-signal condition on the resulting population marginal utilities. In contrast, our heavy-tail restriction allows us to identify explicitly the population quantity produced by marginalization: the tail index conditional on a single covariate is the essential supremum of the original conditional tail-index surface over the corresponding fibre, and, under full fibre support, its upper envelope. This projection identity yields an exact characterization of marginal detectability in terms of the projections of the global argmax set: an active coordinate is detectable if and only if a positive-measure set of its fibres fails to intersect that set. Thus, rather than imposing marginal detectability through a generic signal-strength assumption, our approach derives when such a signal exists directly from the geometry of the underlying conditional tail-index function. The two procedures also operate in opposite smoothing regimes: Yoshida and Umezu deliberately increase the bandwidth to construct a stable screening contrast, whereas our empirical-rank local Hill profiles retain localization in the covariate direction in order to estimate the projected tail-index envelope.
+
+
+Section~\ref{sec:population} develops the population theory.
+Section~\ref{sec:estimation} defines the estimator and states the screening
+results. Section~\ref{sec:simulation} presents the simulation models, the tuning
+study together with a rank-aggregated version of the screen built on a
+block of nine neighbouring tunings, and a comparison with competing
+screens at $p\in\{500,1000,2000\}$ that covers, in the same tables, the
+sensitivity to the dimension and to the quantile level of fixed-quantile
+screening. Section~\ref{sec:realdata} applies the aggregated screen to
+violent-crime rates in U.S. communities.
+Section~\ref{sec:discussion} discusses limitations. Proofs are in
+Appendix~\ref{app:proofs}, supported by the auxiliary results of
+Appendix~\ref{app:aux}.

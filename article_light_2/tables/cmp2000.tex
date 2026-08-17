@@ -1,0 +1,38 @@
+\begin{table}[t]
+\centering
+\caption{Method comparison at $n=2000$, $p=2000$, $\rho=0.25$, on the same 1{,}000 replications per model. Sure-$d$ is the probability that all four tail-index-active variables rank among the $d$ smallest scores ($d=4$ is exact recovery); $\mathbb{E}(R_{\max})$ and $\mathrm{Med}(R_{\max})$ are the mean and median of the worst active rank $R_{\max}=\max_{j\in\A_\gamma}\mathrm{rank}(j)$. Standard errors of the probabilities are at most $0.016$.}
+\label{tab:cmp2000}
+\begin{tabular}{llrrrr}
+\toprule
+Model & Method & Sure-4 & Sure-20 & $\mathbb{E}(R_{\max})$ & $\mathrm{Med}(R_{\max})$\\
+\midrule
+A1 & Tail-index SIS, selected $(a^\star,b^\star)$ & 0.751 & 0.941 & 12.9 & 4\\
+ & Tail-index SIS, aggregated & 0.851 & 0.983 & 6.1 & 4\\
+ & Yoshida--Umezu & 0.125 & 0.305 & 432.2 & 168\\
+ & Quantile SIS ($\tau=.90$) & 0.161 & 0.665 & 36.6 & 11\\
+ & Quantile SIS ($\tau=.95$) & 0.758 & 0.992 & 4.8 & 4\\
+ & Quantile SIS ($\tau=.99$) & 0.025 & 0.406 & 40.2 & 25\\
+\addlinespace
+A2 & Tail-index SIS, selected $(a^\star,b^\star)$ & 0.149 & 0.463 & 144.8 & 27\\
+ & Tail-index SIS, aggregated & 0.113 & 0.580 & 76.0 & 14\\
+ & Yoshida--Umezu & 0.015 & 0.084 & 640.2 & 545\\
+ & Quantile SIS ($\tau=.90$) & 0.039 & 0.328 & 122.2 & 42\\
+ & Quantile SIS ($\tau=.95$) & 0.234 & 0.782 & 24.7 & 7\\
+ & Quantile SIS ($\tau=.99$) & 0.000 & 0.022 & 245.7 & 154\\
+\addlinespace
+A3 & Tail-index SIS, selected $(a^\star,b^\star)$ & 0.650 & 0.892 & 22.0 & 4\\
+ & Tail-index SIS, aggregated & 0.723 & 0.964 & 7.9 & 4\\
+ & Yoshida--Umezu & 0.142 & 0.379 & 336.7 & 67\\
+ & Quantile SIS ($\tau=.90$) & 0.171 & 0.723 & 36.4 & 9\\
+ & Quantile SIS ($\tau=.95$) & 0.698 & 0.988 & 5.4 & 4\\
+ & Quantile SIS ($\tau=.99$) & 0.023 & 0.328 & 56.2 & 34\\
+\addlinespace
+B1 & Tail-index SIS, selected $(a^\star,b^\star)$ & 0.234 & 0.599 & 108.7 & 11\\
+ & Tail-index SIS, aggregated & 0.402 & 0.813 & 22.0 & 5\\
+ & Yoshida--Umezu & 0.008 & 0.057 & 494.5 & 380\\
+ & Quantile SIS ($\tau=.90$) & 0.000 & 0.012 & 25.1 & 24\\
+ & Quantile SIS ($\tau=.95$) & 0.038 & 0.482 & 19.0 & 21\\
+ & Quantile SIS ($\tau=.99$) & 0.008 & 0.254 & 61.7 & 39\\
+\bottomrule
+\end{tabular}
+\end{table}

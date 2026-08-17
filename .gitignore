@@ -56,3 +56,12 @@ docs/
 results/llm/*.csv
 !results/llm/screen*/*.csv
 !results/llm/*_fp64.csv
+
+# article_light_2 LaTeX build artefacts
+article_light_2/*.aux
+article_light_2/*.bbl
+article_light_2/*.blg
+article_light_2/*.log
+article_light_2/*.out
+article_light_2/*.fls
+article_light_2/*.fdb_latexmk
