@@ -1,0 +1,8 @@
+YU per-model tuning in force:
+  model   h   k
+1    A1 0.5 120
+2    A2 2.0 120
+3    A3 0.5 120
+4    B1 2.0 100
+CAMPAIGN8 DONE: 12000 replications summarized
+selected pair (a*,b*) = ( 0.35 , 0.15 )

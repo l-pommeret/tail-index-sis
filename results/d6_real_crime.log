@@ -1,0 +1,12 @@
+         variable agg pub min max9 yu q95
+1      pctPoverty   1   2   1    6 14   2
+2   pctMaleNevMar   2   6   1    9 47  33
+3         pct2Par   3   3   1    5  7   5
+4     pctKids2Par   4   1   1    4  3   1
+5  pctUsePubTrans   5   4   1   15 57  53
+6        pctWfarm   6   7   2   47 60  59
+7   pctKids4w2Par   7   5   4    9  6   3
+8  pct12to17w2Par   8   8   4    8 11   8
+9     pctLargHous   9  46   6   74 40  41
+10 pctHousWOplumb  10  36   6   55 30  30
+WROTE results/draft4_real_crime.rds 

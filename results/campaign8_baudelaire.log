@@ -1,0 +1,68 @@
+YU per-model tuning in force:
+  model   h   k
+1    A1 0.5 120
+2    A2 2.0 120
+3    A3 0.5 120
+4    B1 2.0 100
+14:00:06 A1 1000 reps 851-900 done
+14:01:23 A1 1000 reps 901-950 done
+14:02:42 A1 1000 reps 951-1000 done
+14:03:59 A3 1000 reps 151-200 done
+14:05:16 A3 1000 reps 201-250 done
+14:06:34 A3 1000 reps 251-300 done
+14:07:51 A3 1000 reps 301-350 done
+14:09:08 A3 1000 reps 351-400 done
+14:10:25 A3 1000 reps 401-450 done
+14:11:42 A3 1000 reps 451-500 done
+14:13:00 A3 1000 reps 501-550 done
+14:14:17 A3 1000 reps 551-600 done
+14:15:35 A3 1000 reps 601-650 done
+14:16:53 A3 1000 reps 651-700 done
+14:18:10 A3 1000 reps 701-750 done
+14:19:27 A3 1000 reps 751-800 done
+14:20:44 A3 1000 reps 801-850 done
+14:22:02 A3 1000 reps 851-900 done
+14:23:20 A3 1000 reps 901-950 done
+14:24:37 A3 1000 reps 951-1000 done
+14:27:08 A1 2000 reps 1-50 done
+14:29:40 A1 2000 reps 51-100 done
+14:32:11 A1 2000 reps 101-150 done
+14:34:41 A1 2000 reps 151-200 done
+14:37:12 A1 2000 reps 201-250 done
+14:39:44 A1 2000 reps 251-300 done
+14:42:16 A1 2000 reps 301-350 done
+14:44:48 A1 2000 reps 351-400 done
+14:47:19 A1 2000 reps 401-450 done
+14:49:48 A1 2000 reps 451-500 done
+14:52:20 A1 2000 reps 501-550 done
+14:54:50 A1 2000 reps 551-600 done
+14:57:23 A1 2000 reps 601-650 done
+14:59:55 A1 2000 reps 651-700 done
+15:02:27 A1 2000 reps 701-750 done
+15:04:57 A1 2000 reps 751-800 done
+15:07:28 A1 2000 reps 801-850 done
+15:09:57 A1 2000 reps 851-900 done
+15:12:28 A1 2000 reps 901-950 done
+15:14:59 A1 2000 reps 951-1000 done
+15:17:33 A3 2000 reps 1-50 done
+15:20:04 A3 2000 reps 51-100 done
+15:22:36 A3 2000 reps 101-150 done
+15:25:08 A3 2000 reps 151-200 done
+15:27:40 A3 2000 reps 201-250 done
+15:30:12 A3 2000 reps 251-300 done
+15:32:44 A3 2000 reps 301-350 done
+15:35:14 A3 2000 reps 351-400 done
+15:37:44 A3 2000 reps 401-450 done
+15:40:15 A3 2000 reps 451-500 done
+15:42:46 A3 2000 reps 501-550 done
+15:45:16 A3 2000 reps 551-600 done
+15:47:48 A3 2000 reps 601-650 done
+15:50:21 A3 2000 reps 651-700 done
+15:52:52 A3 2000 reps 701-750 done
+15:55:24 A3 2000 reps 751-800 done
+15:57:56 A3 2000 reps 801-850 done
+16:00:29 A3 2000 reps 851-900 done
+16:02:59 A3 2000 reps 901-950 done
+16:05:31 A3 2000 reps 951-1000 done
+CAMPAIGN8 DONE: 11900 replications summarized
+selected pair (a*,b*) = ( 0.35 , 0.15 )
