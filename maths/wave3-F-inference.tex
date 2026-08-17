@@ -1,0 +1,1172 @@
+% ============================================================
+% STATUT D'AUDIT — ce fichier est dans sa version D'ORIGINE.
+% Les reparations demandees par les audits n'y sont PAS appliquees.
+% Voir maths/JOURNAL.md, section correspondante, avant tout usage.
+% ============================================================
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\I}{I_\varepsilon}
+\newcommand{\DU}{\mathcal D_U}
+\newcommand{\TV}{\operatorname{TV}}
+\begin{document}
+
+\section{Simultaneous gap inference, honest tuning, and contamination}
+\label{sec:wave3}
+
+\subsection{The identifiable gap and an estimable baseline}
+
+Let $U\in[0,1]^p$ have uniform one-dimensional marginals, with arbitrary
+cross-coordinate dependence.  The structural tail-index surface is only
+identified on $\operatorname{supp}(U)$, so the global baseline is
+\begin{equation}
+ \gamma_U^\star=\esssup\gamma(U)
+ =\max_{x\in\operatorname{supp}(U)}\gamma(x).
+ \label{eq:w3-gammastar}
+\end{equation}
+For a pointwise conditional support
+$C_j(u)=\operatorname{supp}\{U_{-j}\mid U_j=u\}$, put
+\begin{equation}
+ \xi_j(u)=\max_{v\in C_j(u)}\gamma\{\iota_j(u,v)\},
+ \qquad
+ \Psi_j=\frac1{|\I|}\int_{\I}\xi_j(u)\,du,
+ \qquad
+ \Delta_j=\gamma_U^\star-\Psi_j,
+ \label{eq:w3-gaps}
+\end{equation}
+and
+\begin{equation}
+ \DU=\{j\le p:\Delta_j>0\}.
+ \label{eq:w3-DU}
+\end{equation}
+The projection theorem applied to the trivial sigma-field shows that the
+unconditional law of $Y$ has tail index $\gamma_U^\star$.  Thus the baseline
+in \eqref{eq:w3-gaps} can be estimated directly from the response sample; no
+zero-gap coordinate is needed.
+
+Let
+\begin{equation}
+ Q_0(s)=F_Y^{-1}(1-s^{-1})=s^{\gamma_U^\star}\ell_0(s),
+ \qquad s>1,
+ \label{eq:w3-global-quantile}
+\end{equation}
+and, for $0<a\le1/3$, define the unconditional tail remainder
+\begin{equation}
+ b_0(a)=\sup_{s\ge(3a)^{-1}}\sup_{t>1}
+ \frac{|\log\{\ell_0(ts)/\ell_0(s)\}|}{\log t}.
+ \label{eq:w3-b0}
+\end{equation}
+The upper bound $\gamma_U^\star\le\Gamma$ is retained from the manuscript.
+Atoms are allowed throughout; the randomized conditional distributional
+transform supplies the uniform probability-integral-transform variables used
+below.
+
+\subsection{The two finite-sample ingredients}
+
+The first ingredient is the score-level concentration theorem already proved
+for the original sliding-window statistic.  We record it in a form convenient
+for post-selection inference.  Let $\Lambda$ be a finite collection of score
+tunings $\lambda=(\alpha_\lambda,h_\lambda)$.  For each $\lambda$, let
+$\widehat\Psi_j^\lambda$ be the original empirical-rank sliding score and let
+$L_n=|\{r:r/(n+1)\in\I\}|$.  Put
+\begin{align}
+ d_\lambda&=\lfloor h_\lambda(n+1)\rfloor,
+ &\chi_\lambda&=2d_\lambda+1,\nonumber\\
+ W_{\lambda r}&=\{q\in\{1,\ldots,n\}:|q-r|\le d_\lambda\},
+ &m_{\lambda r}&=|W_{\lambda r}|,\nonumber\\
+ k_{\lambda r}&=\lfloor\alpha_\lambda m_{\lambda r}\rfloor,
+ &K_\lambda&=\min_{r:r/(n+1)\in\I}k_{\lambda r},
+ \label{eq:w3-rank-geometry}
+\end{align}
+\begin{equation}
+ v_\lambda=\frac{\chi_\lambda}{L_n^2}
+ \sum_{r:r/(n+1)\in\I}\frac1{k_{\lambda r}},
+ \qquad
+ c_\lambda=\frac{\chi_\lambda}{L_nK_\lambda},
+ \qquad
+ \rho_\lambda(x)=\sqrt{2v_\lambda x}+c_\lambda x.
+ \label{eq:w3-rho}
+\end{equation}
+Choose $\eta_\lambda>0$, $x_\lambda>0$, and
+$0<\tau_\lambda\le3\alpha_\lambda$.  Suppose deterministic certificates
+$\bar q_\lambda,\bar\omega_\lambda,\bar b_\lambda$ satisfy
+\begin{align}
+ \max_{j\le p}\left|
+ \frac1{L_n}\sum_{r:r/(n+1)\in\I}\xi_j\{r/(n+1)\}-\Psi_j
+ \right|&\le\bar q_\lambda,
+ \label{eq:w3-qcert}\\
+ \omega_{n,\lambda}^{\uparrow}
+ \{h_\lambda+\eta_\lambda+(n+1)^{-1},
+       \tau_\lambda,\alpha_\lambda\}&\le\bar\omega_\lambda,
+ \label{eq:w3-omegacert}\\
+ b_{n,\lambda}(3\alpha_\lambda)&\le\bar b_\lambda.
+ \label{eq:w3-bcert}
+\end{align}
+Then the completed sliding-score argument gives
+\begin{equation}
+ \Pp\left(
+ \max_{j\le p}|\widehat\Psi_j^\lambda-\Psi_j|>r_\lambda
+ \right)\le\pi_\lambda,
+ \label{eq:w3-score-band}
+\end{equation}
+where
+\begin{align}
+ r_\lambda
+ &=\bar q_\lambda+2\bar\omega_\lambda+\bar b_\lambda
+   +(\Gamma+\bar b_\lambda)\rho_\lambda(x_\lambda),
+ \label{eq:w3-rscore}\\
+ \pi_\lambda
+ &=2p e^{-2n\eta_\lambda^2}+pn\tau_\lambda
+   +pL_ne^{-(K_\lambda+1)/4}+4pe^{-x_\lambda}.
+ \label{eq:w3-piscore}
+\end{align}
+No independence across coordinates or across tunings is asserted or needed.
+The role of \eqref{eq:w3-qcert}--\eqref{eq:w3-bcert} is solely to turn the
+already proved theoretical radius into an honest numerical certificate.
+
+The second ingredient, which is new, is a finite-sample band for the global
+baseline.
+
+\begin{lemma}[Finite-sample global-Hill band]
+\label{lem:w3-global-hill}
+Let $Y_1,\ldots,Y_n$ be iid with upper quantile
+\eqref{eq:w3-global-quantile}.  Fix $0<a\le1/3$, put
+$k=\lfloor an\rfloor\ge1$, and define
+\begin{equation}
+ \widehat\gamma_0(a)=\frac1k\sum_{r=1}^k
+ \log\frac{Y_{(n-r+1)}}{Y_{(n-k)}}.
+ \label{eq:w3-global-hill}
+\end{equation}
+For every $0<t\le1$,
+\begin{equation}
+ \Pp\left\{|\widehat\gamma_0(a)-\gamma_U^\star|
+ >s_0(a,t)\right\}
+ \le 2e^{-kt^2/4}+e^{-(k+1)/4},
+ \label{eq:w3-global-band}
+\end{equation}
+where
+\begin{equation}
+ s_0(a,t)=\Gamma t+(1+t)b_0(a).
+ \label{eq:w3-global-radius}
+\end{equation}
+Equivalently, if $x\le k/4$ and $t=2\sqrt{x/k}$, then the first probability
+term on the right of \eqref{eq:w3-global-band} is $2e^{-x}$.
+\end{lemma}
+
+\begin{proof}
+Use the randomized distributional transform to construct iid standard
+uniform variables $V_1,\ldots,V_n$ such that
+$Y_i=Q_0(V_i^{-1})$ almost surely.  Let
+$V_{(1)}<\cdots<V_{(n)}$ be their order statistics and set
+\begin{equation}
+ G_k=\frac1k\sum_{r=1}^k
+ \log\frac{V_{(k+1)}}{V_{(r)}}.
+ \label{eq:w3-Gk}
+\end{equation}
+The R\'enyi representation gives that $G_k$ is the mean of $k$ iid standard
+exponentials.  Therefore
+\begin{equation}
+ \Pp(|G_k-1|>t)\le2e^{-kt^2/4},
+ \qquad 0<t\le1.
+ \label{eq:w3-Gk-tail}
+\end{equation}
+Moreover, the binomial Chernoff bound for the $(k+1)$st uniform order
+statistic gives
+\begin{equation}
+ \Pp\{V_{(k+1)}>3a\}\le e^{-(k+1)/4}.
+ \label{eq:w3-global-threshold}
+\end{equation}
+
+On the event in which $V_{(k+1)}\le3a$, quantile monotonicity and
+\eqref{eq:w3-global-quantile} yield the exact decomposition
+\begin{equation}
+ \widehat\gamma_0(a)=\gamma_U^\star G_k+R_k,
+ \label{eq:w3-global-decomp}
+\end{equation}
+where
+\begin{equation}
+ R_k=\frac1k\sum_{r=1}^k
+ \log\frac{\ell_0(V_{(r)}^{-1})}
+               {\ell_0(V_{(k+1)}^{-1})}.
+ \label{eq:w3-global-R}
+\end{equation}
+For every summand, the base point satisfies
+$V_{(k+1)}^{-1}\ge(3a)^{-1}$ and the multiplicative increment is
+$V_{(k+1)}/V_{(r)}>1$.  Hence \eqref{eq:w3-b0} implies
+\begin{equation}
+ |R_k|\le b_0(a)G_k.
+ \label{eq:w3-global-Rbound}
+\end{equation}
+On $|G_k-1|\le t$,
+\begin{align*}
+ |\widehat\gamma_0(a)-\gamma_U^\star|
+ &\le\gamma_U^\star|G_k-1|+|R_k|\\
+ &\le\Gamma t+(1+t)b_0(a).
+\end{align*}
+The union of the two exceptional events in
+\eqref{eq:w3-Gk-tail} and \eqref{eq:w3-global-threshold} proves
+\eqref{eq:w3-global-band}.
+\end{proof}
+
+\subsection{Simultaneous confidence intervals and coordinatewise oracle tuning}
+
+Let $\mathcal K$ be a finite collection of global tail fractions.  For
+$\kappa\in\mathcal K$, write
+$a_\kappa$ for the fraction, $k_\kappa=\lfloor a_\kappa n\rfloor$, choose
+$0<t_\kappa\le1$, and put
+\begin{equation}
+ \widehat\gamma^\kappa=\widehat\gamma_0(a_\kappa),
+ \qquad
+ s_\kappa=\Gamma t_\kappa+(1+t_\kappa)b_0(a_\kappa),
+ \qquad
+ \pi_\kappa^0=2e^{-k_\kappa t_\kappa^2/4}
+                  +e^{-(k_\kappa+1)/4}.
+ \label{eq:w3-global-candidates}
+\end{equation}
+The score and baseline estimators may all be computed from the same sample.
+
+\begin{theorem}[Post-selection simultaneous gap inference]
+\label{thm:w3-simultaneous}
+Assume \eqref{eq:w3-score-band} for every $\lambda\in\Lambda$ and
+Lemma~\ref{lem:w3-global-hill} for every $\kappa\in\mathcal K$.  Define
+\begin{equation}
+ \Pi=\sum_{\lambda\in\Lambda}\pi_\lambda
+     +\sum_{\kappa\in\mathcal K}\pi_\kappa^0.
+ \label{eq:w3-total-failure}
+\end{equation}
+For $j\le p$, set
+\begin{align}
+ \underline\Delta_j
+ &=\left[
+   \max_{\lambda\in\Lambda,\,\kappa\in\mathcal K}
+   \left\{
+    \widehat\gamma^\kappa-\widehat\Psi_j^\lambda
+    -s_\kappa-r_\lambda
+   \right\}
+   \right]_+,
+ \label{eq:w3-lower-gap}\\
+ \overline\Delta_j
+ &=\left[
+   \min_{\lambda\in\Lambda,\,\kappa\in\mathcal K}
+   \left\{
+    \widehat\gamma^\kappa-\widehat\Psi_j^\lambda
+    +s_\kappa+r_\lambda
+   \right\}
+   \right]_+.
+ \label{eq:w3-upper-gap}
+\end{align}
+Then
+\begin{equation}
+ \Pp\left\{
+ \underline\Delta_j\le\Delta_j\le\overline\Delta_j
+ \text{ for every }j\le p
+ \right\}\ge1-\Pi.
+ \label{eq:w3-simultaneous-coverage}
+\end{equation}
+Consequently, for every deterministic threshold $z\ge0$, with probability at
+least $1-\Pi$,
+\begin{equation}
+ \{j:\underline\Delta_j>z\}
+ \subseteq
+ \{j:\Delta_j>z\}
+ \subseteq
+ \{j:\overline\Delta_j>z\}.
+ \label{eq:w3-levelset-sandwich}
+\end{equation}
+The maximizer in \eqref{eq:w3-lower-gap} may be selected after seeing the
+entire data set and may be different for different coordinates.
+\end{theorem}
+
+\begin{proof}
+Let
+\begin{equation}
+ \mathcal E=
+ \bigcap_{\lambda\in\Lambda}
+ \left\{\max_{j\le p}
+ |\widehat\Psi_j^\lambda-\Psi_j|\le r_\lambda\right\}
+ \cap
+ \bigcap_{\kappa\in\mathcal K}
+ \left\{|\widehat\gamma^\kappa-\gamma_U^\star|
+ \le s_\kappa\right\}.
+ \label{eq:w3-good-event}
+\end{equation}
+A union bound gives $\Pp(\mathcal E)\ge1-\Pi$; no independence is used.
+On $\mathcal E$, for every $j,\lambda,\kappa$,
+\begin{align}
+ \widehat\gamma^\kappa-\widehat\Psi_j^\lambda
+ -(s_\kappa+r_\lambda)
+ &\le \gamma_U^\star-\Psi_j=\Delta_j,
+ \label{eq:w3-pair-lower}\\
+ \widehat\gamma^\kappa-\widehat\Psi_j^\lambda
+ +(s_\kappa+r_\lambda)
+ &\ge \gamma_U^\star-\Psi_j=\Delta_j.
+ \label{eq:w3-pair-upper}
+\end{align}
+Taking the maximum of the lower endpoints and the minimum of the upper
+endpoints preserves the two inequalities.  Since $\Delta_j\ge0$, applying the
+positive-part map does not alter coverage.  This proves
+\eqref{eq:w3-simultaneous-coverage}.  The set inclusions in
+\eqref{eq:w3-levelset-sandwich} are deterministic consequences of simultaneous
+coverage.
+\end{proof}
+
+\begin{corollary}[Finite-sample FWER, sure coverage, exact recovery, and an oracle property]
+\label{cor:w3-fwer-oracle}
+Define the inner and outer data-driven sets
+\begin{equation}
+ \widehat{\mathcal D}_{\rm in}
+ =\{j:\underline\Delta_j>0\},
+ \qquad
+ \widehat{\mathcal D}_{\rm out}
+ =\{j:\overline\Delta_j>0\},
+ \label{eq:w3-inner-outer}
+\end{equation}
+and their data-driven cardinalities
+$\widehat d_{\rm in}=|\widehat{\mathcal D}_{\rm in}|$ and
+$\widehat d_{\rm out}=|\widehat{\mathcal D}_{\rm out}|$.  Then
+\begin{align}
+ \Pp\{\widehat{\mathcal D}_{\rm in}\not\subseteq\DU\}
+ &\le\Pi,
+ \label{eq:w3-fwer}\\
+ \Pp\{\DU\not\subseteq\widehat{\mathcal D}_{\rm out}\}
+ &\le\Pi.
+ \label{eq:w3-sure-outer}
+\end{align}
+Thus the inner set controls the familywise probability of even one false
+positive, while the outer set is an honest sure-screening set.  Neither rule
+uses $|\DU|$, $\Delta_{\min}$, or a common good tuning.
+
+Moreover, on the event \eqref{eq:w3-good-event}, a coordinate $j\in\DU$ is
+confirmed by the inner set whenever there exists a pair
+$(\lambda_j,\kappa_j)\in\Lambda\times\mathcal K$ such that
+\begin{equation}
+ \Delta_j>2\{r_{\lambda_j}+s_{\kappa_j}\}.
+ \label{eq:w3-coordinate-oracle}
+\end{equation}
+If \eqref{eq:w3-coordinate-oracle} holds for every $j\in\DU$, then
+\begin{equation}
+ \Pp(\widehat{\mathcal D}_{\rm in}=\DU)\ge1-\Pi.
+ \label{eq:w3-exact-adaptive}
+\end{equation}
+Different positive-gap coordinates may use different oracle pairs.  In
+particular, $\widehat d_{\rm in}$ consistently estimates $|\DU|$ under this
+separation condition.
+\end{corollary}
+
+\begin{proof}
+For $j\notin\DU$, $\Delta_j=0$.  Simultaneous coverage implies
+$\underline\Delta_j\le0$, while by definition
+$\underline\Delta_j\ge0$, so $\underline\Delta_j=0$.  Hence no null coordinate
+is selected by the inner set on \eqref{eq:w3-good-event}, proving
+\eqref{eq:w3-fwer}.  For $j\in\DU$, simultaneous coverage gives
+$\overline\Delta_j\ge\Delta_j>0$, hence $j\in\widehat{\mathcal D}_{\rm out}$;
+this proves \eqref{eq:w3-sure-outer}.
+
+Fix $j\in\DU$ and a pair satisfying
+\eqref{eq:w3-coordinate-oracle}.  On \eqref{eq:w3-good-event},
+\begin{align*}
+ \widehat\gamma^{\kappa_j}-\widehat\Psi_j^{\lambda_j}
+ -s_{\kappa_j}-r_{\lambda_j}
+ &\ge
+ \Delta_j-2\{s_{\kappa_j}+r_{\lambda_j}\}>0.
+\end{align*}
+Therefore the maximum in \eqref{eq:w3-lower-gap} is positive and $j$ is
+confirmed.  If the condition holds for all positive-gap coordinates, there
+are neither false positives nor false negatives in the inner set on the good
+event, which proves \eqref{eq:w3-exact-adaptive}.
+\end{proof}
+
+\begin{corollary}[Explicit level-$\delta$ calibration]
+\label{cor:w3-explicit-calibration}
+Let $M=|\Lambda|$, $M_0=|\mathcal K|$, and fix $0<\delta<1$.  For every
+$\lambda\in\Lambda$, choose
+\begin{equation}
+ \eta_\lambda=
+ \sqrt{\frac{\log(16pM/\delta)}{2n}},
+ \qquad
+ \tau_\lambda=\frac{\delta}{8Mpn},
+ \qquad
+ x_\lambda=\log(32pM/\delta),
+ \label{eq:w3-explicit-score-calibration}
+\end{equation}
+provided $\tau_\lambda\le3\alpha_\lambda$, and require
+\begin{equation}
+ K_\lambda+1\ge4\log(8MpL_n/\delta).
+ \label{eq:w3-explicit-local-count}
+\end{equation}
+For every $\kappa\in\mathcal K$, choose
+\begin{equation}
+ t_\kappa=2\sqrt{\frac{\log(8M_0/\delta)}{k_\kappa}},
+ \label{eq:w3-explicit-global-calibration}
+\end{equation}
+provided $t_\kappa\le1$, and require
+\begin{equation}
+ k_\kappa+1\ge4\log(4M_0/\delta).
+ \label{eq:w3-explicit-global-count}
+\end{equation}
+Then $\Pi\le\delta$, so all conclusions of
+Theorem~\ref{thm:w3-simultaneous} and
+Corollary~\ref{cor:w3-fwer-oracle} hold with confidence at least $1-\delta$.
+\end{corollary}
+
+\begin{proof}
+For a fixed score tuning, the four terms in \eqref{eq:w3-piscore} are,
+respectively, at most
+$\delta/(8M)$, $\delta/(8M)$, $\delta/(8M)$, and $\delta/(8M)$ under
+\eqref{eq:w3-explicit-score-calibration}--\eqref{eq:w3-explicit-local-count}.
+Thus $\sum_{\lambda}\pi_\lambda\le\delta/2$.  For a fixed global tuning,
+the two terms in \eqref{eq:w3-global-candidates} are each at most
+$\delta/(4M_0)$ under
+\eqref{eq:w3-explicit-global-calibration}--\eqref{eq:w3-explicit-global-count},
+so $\sum_\kappa\pi_\kappa^0\le\delta/2$.
+\end{proof}
+
+\begin{remark}[Why this is a genuine tuning theorem]
+The rule chooses $(\alpha,h)$ and the global tail fraction after seeing the
+data, coordinate by coordinate, by maximizing a lower confidence bound.  The
+multiplicity cost is explicit in $\Pi$, and no stochastic independence across
+coordinates, tunings, or the baseline estimate is invoked.  The structural
+bias certificates in \eqref{eq:w3-qcert}--\eqref{eq:w3-bcert} cannot be deleted
+uniformly over bare conditional regular variation: the delayed-tail-onset
+construction already proves that two models with a gap of order $1/\log n$
+can have asymptotically indistinguishable samples.  What is adaptive here is
+the tuning and the retained size, not an impossible adaptation to an
+unquantified tail onset.
+\end{remark}
+
+\begin{theorem}[Arbitrary pilot tuning by honest sample splitting]
+\label{thm:w3-split}
+Split the observations into an independent pilot sample $\mathcal T$ and an
+inference sample $\mathcal I$.  The pilot may choose, by an arbitrary
+measurable rule, one global tuning $\widehat\kappa$ and coordinate-specific
+score tunings $\widehat\lambda_1,\ldots,\widehat\lambda_p$; it may also choose
+any preliminary retained size or ranking.
+
+Suppose that, conditionally on $\mathcal T$, the inference-sample estimators
+satisfy
+\begin{align}
+ \Pp\left(
+ |\widehat\gamma^{\widehat\kappa}-\gamma_U^\star|>
+ s_{\widehat\kappa}
+ \mid\mathcal T\right)&\le\pi_0,
+ \label{eq:w3-split-global}\\
+ \Pp\left(
+ |\widehat\Psi_j^{\widehat\lambda_j}-\Psi_j|>
+ r_{j,\widehat\lambda_j}
+ \mid\mathcal T\right)&\le\pi_j,
+ \qquad j\le p,
+ \label{eq:w3-split-score}
+\end{align}
+where the conditional failure budgets obey
+$\pi_0+\sum_{j=1}^p\pi_j\le\delta$ almost surely.  Define
+\begin{equation}
+ \underline\Delta_j^{\rm split}
+ =\left[
+ \widehat\gamma^{\widehat\kappa}
+ -\widehat\Psi_j^{\widehat\lambda_j}
+ -s_{\widehat\kappa}-r_{j,\widehat\lambda_j}
+ \right]_+.
+ \label{eq:w3-split-lower}
+\end{equation}
+Then
+\begin{equation}
+ \Pp\left\{
+ \{j:\underline\Delta_j^{\rm split}>0\}
+ \not\subseteq\DU
+ \right\}\le\delta.
+ \label{eq:w3-split-fwer}
+\end{equation}
+If every $j\in\DU$ satisfies, almost surely with respect to the pilot,
+\begin{equation}
+ \Delta_j>
+ 2\{s_{\widehat\kappa}+r_{j,\widehat\lambda_j}\},
+ \label{eq:w3-split-power}
+\end{equation}
+then the split selector equals $\DU$ with probability at least $1-\delta$.
+No cardinality penalty for the pilot search space appears.
+\end{theorem}
+
+\begin{proof}
+Condition on $\mathcal T$.  The selected tunings are then fixed.  By the union
+bound, the event on which all inequalities in
+\eqref{eq:w3-split-global}--\eqref{eq:w3-split-score} hold has conditional
+probability at least $1-\delta$.  On that event, the deterministic argument of
+Corollary~\ref{cor:w3-fwer-oracle} applies coordinate by coordinate.  Integrate
+the conditional probability with respect to the pilot sample.  The power
+claim follows from the same inequality used in
+\eqref{eq:w3-coordinate-oracle}.
+\end{proof}
+
+\subsection{Temporal dependence by dependence-safe thinning}
+
+The preceding results permit arbitrary dependence among coordinates within one
+observation, but so far the rows are iid.  A completely rigorous extension to
+absolutely regular time series is obtained by thinning.  It sacrifices sample
+size, but it introduces no new local-Hill argument and makes the degradation
+explicit.
+
+Let $Z_i=(U_i,Y_i)$ be a strictly stationary sequence with one-observation law
+$P$.  Write $\mathcal F_t=\sigma(Z_s:s\le t)$ and define the absolute-regularity
+coefficient, with the total-variation convention used below, by
+\begin{equation}
+ \beta(q)=\sup_t
+ \E\left[
+  \TV\left(
+   \mathcal L((Z_{t+q},Z_{t+q+1},\ldots)\mid\mathcal F_t),
+   \mathcal L(Z_{t+q},Z_{t+q+1},\ldots)
+  \right)
+ \right].
+ \label{eq:w3-beta}
+\end{equation}
+
+\begin{lemma}[Product approximation for a thinned absolutely regular sample]
+\label{lem:w3-beta-thinning}
+For an integer $q\ge1$, put
+\begin{equation}
+ t_r=1+(r-1)q,
+ \qquad
+ N=1+\left\lfloor\frac{n-1}{q}\right\rfloor,
+ \qquad 1\le r\le N.
+ \label{eq:w3-thinned-indices}
+\end{equation}
+Then
+\begin{equation}
+ \TV\left(
+  \mathcal L(Z_{t_1},\ldots,Z_{t_N}),
+  P^{\otimes N}
+ \right)
+ \le (N-1)\beta(q).
+ \label{eq:w3-product-TV}
+\end{equation}
+Consequently, for every event $A$ measurable with respect to the thinned
+sample,
+\begin{equation}
+ \left|
+ \Pp\{(Z_{t_1},\ldots,Z_{t_N})\in A\}
+ -P^{\otimes N}(A)
+ \right|
+ \le(N-1)\beta(q).
+ \label{eq:w3-event-transfer}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We first record a chain inequality.  Let $X_1,\ldots,X_N$ have common marginal
+$P$, and let $K_r(x_1,\ldots,x_{r-1};\cdot)$ be a regular conditional law of
+$X_r$ given its predecessors.  If $\mu_r=\mathcal L(X_1,\ldots,X_r)$, then
+\begin{align}
+ \TV(\mu_r,P^{\otimes r})
+ &\le
+ \TV\{\mu_{r-1}K_r,\mu_{r-1}P\}
+ +\TV\{\mu_{r-1}P,P^{\otimes(r-1)}P\}\\
+ &\le
+ \int\TV\{K_r(x_{1:r-1};\cdot),P\}\,
+       \mu_{r-1}(d x_{1:r-1})
+ +\TV(\mu_{r-1},P^{\otimes(r-1)}).
+ \label{eq:w3-chain-TV}
+\end{align}
+The second inequality follows directly from the variational definition of
+$\TV$: adjoining a common product kernel preserves total variation, while
+integrating two kernels against the same measure bounds total variation by the
+average of their pointwise distances.  Iterating
+\eqref{eq:w3-chain-TV} yields
+\begin{equation}
+ \TV\{\mathcal L(X_1,\ldots,X_N),P^{\otimes N}\}
+ \le\sum_{r=2}^N
+ \E\left[
+  \TV\{\mathcal L(X_r\mid X_1,\ldots,X_{r-1}),P\}
+ \right].
+ \label{eq:w3-chain-sum}
+\end{equation}
+
+Apply this with $X_r=Z_{t_r}$.  The sigma-field generated by
+$X_1,\ldots,X_{r-1}$ is contained in $\mathcal F_{t_{r-1}}$, and
+$t_r-t_{r-1}=q$.  Conditional expectation of probability kernels and convexity
+of total variation give
+\begin{align*}
+ &\E\left[
+  \TV\{\mathcal L(Z_{t_r}\mid Z_{t_1},\ldots,Z_{t_{r-1}}),P\}
+ \right]\\
+ &\qquad\le
+ \E\left[
+  \TV\{\mathcal L(Z_{t_r}\mid\mathcal F_{t_{r-1}}),P\}
+ \right]
+ \le\beta(q).
+\end{align*}
+The last inequality follows from \eqref{eq:w3-beta} by projecting the future
+sequence onto its first coordinate, because measurable maps cannot increase
+total variation.  Substitution in \eqref{eq:w3-chain-sum} proves
+\eqref{eq:w3-product-TV}; \eqref{eq:w3-event-transfer} is the defining event
+bound for total variation.
+\end{proof}
+
+\begin{theorem}[Simultaneous inference under temporal dependence]
+\label{thm:w3-beta-inference}
+Assume the one-observation law $P$ satisfies the population and projected-tail
+conditions used in Theorem~\ref{thm:w3-simultaneous}.  Compute every global
+Hill estimate, every sliding rank score, and the confidence bounds
+\eqref{eq:w3-lower-gap}--\eqref{eq:w3-upper-gap} using only the thinned
+observations in \eqref{eq:w3-thinned-indices}, with $N$ replacing $n$ in all
+radii and rank geometry.  Let $\Pi_N$ be the resulting iid failure bound.
+Then
+\begin{equation}
+ \Pp\left\{
+  \underline\Delta_j\le\Delta_j\le\overline\Delta_j
+  \text{ for every }j\le p
+ \right\}
+ \ge1-\Pi_N-(N-1)\beta(q).
+ \label{eq:w3-beta-coverage}
+\end{equation}
+Every FWER, sure-coverage, oracle, and exact-recovery conclusion of
+Corollary~\ref{cor:w3-fwer-oracle} remains valid after replacing $\Pi$ by
+$\Pi_N+(N-1)\beta(q)$.
+\end{theorem}
+
+\begin{proof}
+Under the product law $P^{\otimes N}$, the entire thinned-sample construction
+is exactly the iid construction of Theorem~\ref{thm:w3-simultaneous}, so its
+good event has probability at least $1-\Pi_N$.  The probability of that same
+measurable event under the dependent thinned sample differs by at most
+$(N-1)\beta(q)$ by Lemma~\ref{lem:w3-beta-thinning}.  Once the good event holds,
+all selection conclusions are deterministic and therefore transfer with the
+same additive error.
+\end{proof}
+
+\begin{corollary}[Explicit effective sample sizes]
+\label{cor:w3-beta-rates}
+If $\beta(q)\le C e^{-cq}$, taking
+$q_n=\lceil2c^{-1}\log n\rceil$ gives
+\begin{equation}
+ N_n\asymp\frac{n}{\log n},
+ \qquad
+ (N_n-1)\beta(q_n)=O\{(n\log n)^{-1}\}.
+ \label{eq:w3-geometric-mixing-rate}
+\end{equation}
+If $\beta(q)\le Cq^{-r}$ for some $r>0$, taking
+\begin{equation}
+ q_n=\left\lceil n^{1/(r+1)}\ell_n\right\rceil,
+ \qquad \ell_n\longrightarrow\infty,
+ \qquad \ell_n=o\{n^{r/(r+1)}\},
+ \label{eq:w3-polynomial-spacing}
+\end{equation}
+gives
+\begin{equation}
+ N_n\asymp\frac{n^{r/(r+1)}}{\ell_n},
+ \qquad
+ (N_n-1)\beta(q_n)=O(\ell_n^{-(r+1)}).
+ \label{eq:w3-polynomial-mixing-rate}
+\end{equation}
+Thus every iid occurrence of $n\alpha$ or $n\alpha h$ in the stochastic and
+local-feasibility conditions is replaced by $N_n\alpha$ or $N_n\alpha h$.
+\end{corollary}
+
+\begin{proof}
+For geometric mixing, $e^{-cq_n}\le n^{-2}$ and
+$N_n\le n/q_n+1$, which gives \eqref{eq:w3-geometric-mixing-rate}.  For
+polynomial mixing,
+\begin{equation*}
+ (N_n-1)\beta(q_n)
+ \le C\frac{n}{q_n^{r+1}}
+ =O(\ell_n^{-(r+1)}),
+\end{equation*}
+and $N_n\asymp n/q_n$ gives the displayed effective sample size.
+\end{proof}
+
+\subsection{Contamination: breakdown and the sharp $\epsilon/\alpha$ floor}
+
+We now distinguish the trimming constant $\varepsilon$ in $\I$ from a rowwise
+contamination fraction, denoted $\epsilon_{\rm c}$.
+
+\begin{proposition}[One-row replacement breakdown of the sliding Hill score]
+\label{prop:w3-breakdown}
+Fix a coordinate $j$ and a realized sample for which at least one trimmed rank
+window is valid.  Keep the covariates fixed and replace a single response
+$Y_i$ by $M$.  If observation $i$ belongs to at least one valid trimmed window,
+then
+\begin{equation}
+ \widehat\Psi_j(M)\longrightarrow+\infty
+ \qquad(M\to\infty).
+ \label{eq:w3-breakdown}
+\end{equation}
+Consequently the finite-sample replacement breakdown point of every
+nondegenerate sliding Hill score is at most $1/n$.
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal R_i$ be the nonempty set of trimmed grid centres whose rank
+windows contain observation $i$.  For a centre $r\in\mathcal R_i$, let
+$k_r\ge1$ be its number of upper order statistics.  Once $M$ exceeds every
+unchanged response in that window, the replaced response is its largest order
+statistic, while the other upper order statistics and the threshold are
+independent of $M$.  Hence
+\begin{equation}
+ \widehat\xi_j\{r/(n+1);M\}
+ =\frac{\log M}{k_r}+C_r,
+ \label{eq:w3-local-breakdown}
+\end{equation}
+where $C_r$ is finite and does not depend on $M$.  Averaging over all trimmed
+centres gives
+\begin{equation}
+ \widehat\Psi_j(M)
+ =\left\{\frac1{L_n}\sum_{r\in\mathcal R_i}\frac1{k_r}\right\}
+ \log M+C,
+ \label{eq:w3-score-breakdown}
+\end{equation}
+with a strictly positive coefficient.  This proves
+\eqref{eq:w3-breakdown}.
+\end{proof}
+
+The next lemma gives the exact geometry of Huber contamination neighborhoods.
+For a probability measure $P$ and $0\le\epsilon<1$, write
+\begin{equation}
+ \mathcal H_\epsilon(P)
+ =\{(1-\epsilon)P+\epsilon R:R\text{ is a probability measure}\}.
+ \label{eq:w3-huber-neighborhood}
+\end{equation}
+
+\begin{lemma}[Intersection of Huber neighborhoods]
+\label{lem:w3-huber-intersection}
+For probability measures $P,Q$,
+\begin{equation}
+ \mathcal H_\epsilon(P)\cap\mathcal H_\epsilon(Q)\ne\varnothing
+ \quad\Longleftrightarrow\quad
+ \TV(P,Q)\le\frac{\epsilon}{1-\epsilon}.
+ \label{eq:w3-huber-intersection}
+\end{equation}
+Here $\TV(P,Q)=\sup_A|P(A)-Q(A)|$.
+\end{lemma}
+
+\begin{proof}
+Let $\mu=P+Q$ and write $p=dP/d\mu$, $q=dQ/d\mu$.  The least finite measure
+that dominates both $(1-\epsilon)P$ and $(1-\epsilon)Q$ has density
+$(1-\epsilon)\max(p,q)$ and total mass
+\begin{equation}
+ (1-\epsilon)\int\max(p,q)\,d\mu
+ =(1-\epsilon)\{1+\TV(P,Q)\}.
+ \label{eq:w3-upper-envelope-mass}
+\end{equation}
+If a probability measure $M$ belongs to both Huber neighborhoods, then $M$
+dominates both subprobability measures, so the quantity in
+\eqref{eq:w3-upper-envelope-mass} is at most one.  This proves necessity.
+
+Conversely, suppose that the quantity in
+\eqref{eq:w3-upper-envelope-mass} is at most one.  Let $M_0$ be the measure
+with density $(1-\epsilon)\max(p,q)$ and add an arbitrary nonnegative measure
+of mass $1-M_0(\Omega)$ to obtain a probability measure $M$.  Then
+$M-(1-\epsilon)P$ and $M-(1-\epsilon)Q$ are nonnegative and each has total mass
+$\epsilon$.  Dividing them by $\epsilon$ gives probability measures $R_P,R_Q$
+such that
+\begin{equation*}
+ M=(1-\epsilon)P+\epsilon R_P
+  =(1-\epsilon)Q+\epsilon R_Q.
+\end{equation*}
+Thus the two neighborhoods intersect.
+\end{proof}
+
+We use the exact tail submodel already embedded in the screening class.  Fix
+$q\in(0,1/2)$, $\gamma_0>0$, and $0<\delta\le\gamma_0/2$, and put
+$T=q^{-\gamma_0}$.  Let $U\sim\operatorname{Unif}([0,1]^p)$,
+$B\sim\operatorname{Bernoulli}(q)$, and $E\sim\operatorname{Exp}(1)$ be
+independent.  If $B=0$, draw $Y$ from one fixed continuous law supported in
+$(T/4,T/2)$.  If $B=1$, define
+\begin{align}
+ P_0:\quad&Y=T\exp(\gamma_0E),
+ \label{eq:w3-submodel-null}\\
+ P_j:\quad&Y=T\exp\{(\gamma_0-\delta U_j)E\},
+ \qquad 1\le j\le p.
+ \label{eq:w3-submodel-alt}
+\end{align}
+For fixed parameters, these laws satisfy the primitive tail assumptions and
+full fibre support.  Along triangular arrays, the usual uniform coefficient
+bound holds whenever
+$\delta\log(1/q)/\gamma_0=O(1)$.  Under $P_j$,
+\begin{equation}
+ \gamma(u)=\gamma_0-\delta u_j,
+ \qquad
+ \gamma_U^\star=\gamma_0,
+ \qquad
+ \Delta_j=\delta/2,
+ \qquad
+ \Delta_\ell=0\quad(\ell\ne j).
+ \label{eq:w3-submodel-gap}
+\end{equation}
+
+\begin{theorem}[Infinite-sample contamination lower bound]
+\label{thm:w3-contam-lower}
+Let $0\le\epsilon_{\rm c}<1/2$.  If
+\begin{equation}
+ \frac{q\delta}{2\gamma_0}
+ \le\frac{\epsilon_{\rm c}}{1-\epsilon_{\rm c}},
+ \label{eq:w3-contam-overlap-condition}
+\end{equation}
+then
+\begin{equation}
+ \mathcal H_{\epsilon_{\rm c}}(P_0)
+ \cap
+ \mathcal H_{\epsilon_{\rm c}}(P_j)
+ \ne\varnothing.
+ \label{eq:w3-contam-overlap}
+\end{equation}
+Consequently, for every sample size $n$ and every possibly randomized selector
+$\widehat S$ based on the full contaminated sample, there exist
+$\widetilde P_0\in\mathcal H_{\epsilon_{\rm c}}(P_0)$ and
+$\widetilde P_j\in\mathcal H_{\epsilon_{\rm c}}(P_j)$ such that
+\begin{equation}
+ \widetilde P_0^{\otimes n}\{j\in\widehat S\}
+ +\widetilde P_j^{\otimes n}\{j\notin\widehat S\}=1.
+ \label{eq:w3-contam-risk}
+\end{equation}
+In terms of the positive gap, the nonidentifiable region contains
+\begin{equation}
+ \Delta_j\le
+ \frac{\gamma_0\epsilon_{\rm c}}
+      {q(1-\epsilon_{\rm c})}.
+ \label{eq:w3-contam-gap-floor}
+\end{equation}
+Thus, when $q$ is proportional to the working tail fraction $\alpha$, the
+contamination floor is of order $\epsilon_{\rm c}/\alpha$ and persists even
+with infinitely many observations.
+\end{theorem}
+
+\begin{proof}
+The laws $P_0$ and $P_j$ coincide on $\{B=0\}$ and have the same laws of
+$(U,B)$.  Conditional on $B=1$ and $U=u$, the excess
+$X=\log(Y/T)$ is exponential with mean $\gamma_0$ under $P_0$ and mean
+$\theta(u)=\gamma_0-\delta u_j$ under $P_j$.  Therefore
+\begin{equation}
+ \TV(P_j,P_0)
+ =q\,\E\left[
+ \TV\{\operatorname{Exp}(\theta(U)),
+       \operatorname{Exp}(\gamma_0)\}
+ \right].
+ \label{eq:w3-TV-mixture}
+\end{equation}
+For $z=\delta u_j/\gamma_0\in[0,1/2]$, the Kullback--Leibler divergence is
+\begin{align}
+ D\{\operatorname{Exp}(\gamma_0(1-z))\|
+    \operatorname{Exp}(\gamma_0)\}
+ &=-\log(1-z)-z\nonumber\\
+ &=\sum_{m=2}^\infty\frac{z^m}{m}
+ \le\frac{z^2}{2(1-z)}\le z^2.
+ \label{eq:w3-exp-KL}
+\end{align}
+Pinsker's inequality gives a total variation distance at most $z/\sqrt2$,
+and hence at most $z$.  Using $\E U_j=1/2$ in
+\eqref{eq:w3-TV-mixture},
+\begin{equation}
+ \TV(P_j,P_0)\le\frac{q\delta}{2\gamma_0}.
+ \label{eq:w3-TV-bound}
+\end{equation}
+Condition \eqref{eq:w3-contam-overlap-condition} and
+Lemma~\ref{lem:w3-huber-intersection} prove
+\eqref{eq:w3-contam-overlap}.  Choose a common law
+$M\in\mathcal H_{\epsilon_{\rm c}}(P_0)
+\cap\mathcal H_{\epsilon_{\rm c}}(P_j)$ and set
+$\widetilde P_0=\widetilde P_j=M$.  The distribution of the selector is then
+identical under the two experiments.  If its common probability of including
+$j$ is $r$, the two terms in \eqref{eq:w3-contam-risk} are $r$ and $1-r$.
+Finally, substitute $\delta=2\Delta_j$ into
+\eqref{eq:w3-contam-overlap-condition} to obtain
+\eqref{eq:w3-contam-gap-floor}.
+\end{proof}
+
+\begin{corollary}[Strong-replacement lower bound]
+\label{cor:w3-strong-contam-lower}
+Fix $0<\epsilon_{\rm c}<1$ and let a strong adversary be allowed to replace at
+most $m_n=\lceil n\epsilon_{\rm c}\rceil$ complete rows.  If
+\begin{equation}
+ \frac{q\delta}{2\gamma_0}
+ \le\frac{\epsilon_{\rm c}}{2-\epsilon_{\rm c}},
+ \label{eq:w3-strong-overlap-condition}
+\end{equation}
+then for every selector $\widehat S$ there are possibly randomized legal
+replacement strategies under $P_0$ and $P_j$ whose induced laws
+$Q_{0,n}^{\rm adv}$ and $Q_{j,n}^{\rm adv}$ satisfy
+\begin{equation}
+ Q_{0,n}^{\rm adv}\{j\in\widehat S\}
+ +Q_{j,n}^{\rm adv}\{j\notin\widehat S\}
+ \ge1-2\exp(-n\epsilon_{\rm c}/6).
+ \label{eq:w3-strong-contam-risk}
+\end{equation}
+Equivalently, strong replacement contamination makes gaps
+\begin{equation}
+ \Delta_j\le
+ \frac{\gamma_0\epsilon_{\rm c}}
+      {q(2-\epsilon_{\rm c})}
+ \label{eq:w3-strong-gap-floor}
+\end{equation}
+nonidentifiable up to an error tending exponentially to zero.
+\end{corollary}
+
+\begin{proof}
+Set $\epsilon_0=\epsilon_{\rm c}/2$.  By
+\eqref{eq:w3-TV-bound} and \eqref{eq:w3-strong-overlap-condition},
+\begin{equation*}
+ \TV(P_j,P_0)\le\frac{\epsilon_0}{1-\epsilon_0}.
+\end{equation*}
+Lemma~\ref{lem:w3-huber-intersection} therefore supplies a common probability
+measure $M$ and probability measures $R_0,R_j$ such that
+\begin{equation}
+ M=(1-\epsilon_0)P_0+\epsilon_0R_0
+  =(1-\epsilon_0)P_j+\epsilon_0R_j.
+ \label{eq:w3-common-M}
+\end{equation}
+Under clean law $P_r$, $r\in\{0,j\}$, generate iid clean rows $X_i\sim P_r$,
+iid indicators $C_i\sim\operatorname{Bernoulli}(\epsilon_0)$, and iid
+replacement rows $R_i\sim R_r$, all independent.  Let
+$N=\sum_iC_i$.  If $N\le m_n$, replace precisely the rows with $C_i=1$ by
+$R_i$; if $N>m_n$, make no replacements.  This strategy is legal on every
+sample path.  Without the truncation on $N$, the output rows would be iid with
+law $M$ by \eqref{eq:w3-common-M}.  Coupling the truncated and untruncated
+outputs on the same variables therefore gives
+\begin{equation}
+ \TV(Q_{r,n}^{\rm adv},M^{\otimes n})
+ \le\Pp(N>m_n).
+ \label{eq:w3-truncated-TV}
+\end{equation}
+Here $\E N=n\epsilon_0=n\epsilon_{\rm c}/2$ and
+$m_n\ge2\E N$.  The multiplicative Chernoff inequality yields
+\begin{equation}
+ \Pp(N>m_n)\le\Pp(N>2\E N)
+ \le\exp(-\E N/3)=\exp(-n\epsilon_{\rm c}/6).
+ \label{eq:w3-binomial-truncation}
+\end{equation}
+The triangle inequality gives
+$\TV(Q_{0,n}^{\rm adv},Q_{j,n}^{\rm adv})
+\le2e^{-n\epsilon_{\rm c}/6}$.  The testing inequality
+$Q_0(A)+Q_1(A^c)\ge1-\TV(Q_0,Q_1)$, with
+$A=\{j\in\widehat S\}$, proves \eqref{eq:w3-strong-contam-risk}.  Finally
+substitute $\delta=2\Delta_j$ into
+\eqref{eq:w3-strong-overlap-condition}.
+\end{proof}
+
+The lower bound is attained in order on the same submodel by a bounded
+statistic.  The next theorem uses the stronger deterministic replacement
+model: an adversary may inspect a clean iid sample and replace at most
+$\lfloor n\epsilon_{\rm c}\rfloor$ complete rows by arbitrary points of
+$[0,1]^p\times(0,\infty)$.
+
+\begin{theorem}[Replacement-robust matching upper bound]
+\label{thm:w3-contam-upper}
+Let a clean sample be iid from $P_j$ in
+\eqref{eq:w3-submodel-alt}.  After at most
+$\lfloor n\epsilon_{\rm c}\rfloor$ arbitrary row replacements, denote the
+observations by $(\widetilde U_i,\widetilde Y_i)$.  Define, for
+$\ell\le p$,
+\begin{equation}
+ S_\ell=\frac1n\sum_{i=1}^n
+ \left(\widetilde U_{i\ell}-\frac12\right)
+ \mathbf 1_{\{\widetilde Y_i>Te^{\gamma_0}\}},
+ \qquad
+ \widehat J\in\argmin_{\ell\le p}S_\ell.
+ \label{eq:w3-robust-stat}
+\end{equation}
+For $x>0$, put
+\begin{equation}
+ r_n(x)=\sqrt{\frac{qx}{2n}}+\frac{x}{3n}.
+ \label{eq:w3-robust-radius}
+\end{equation}
+If
+\begin{equation}
+ \frac{q e^{-2}}{12}\frac{\delta}{\gamma_0}
+ >2\{\epsilon_{\rm c}+r_n(x)\},
+ \label{eq:w3-robust-signal}
+\end{equation}
+then, uniformly over all such replacement strategies,
+\begin{equation}
+ \Pp_j(\widehat J\ne j)\le2pe^{-x}.
+ \label{eq:w3-robust-error}
+\end{equation}
+In particular, with $x=\log(2p/\eta)$, exact recovery has probability at least
+$1-\eta$ whenever
+\begin{equation}
+ \frac{\delta}{\gamma_0}
+ >24e^2\left\{
+ \frac{\epsilon_{\rm c}}q
+ +\sqrt{\frac{\log(2p/\eta)}{2nq}}
+ +\frac{\log(2p/\eta)}{3nq}
+ \right\}.
+ \label{eq:w3-robust-rate}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+First work with the clean sample and define
+\begin{equation}
+ Z_{i\ell}
+ =\left(U_{i\ell}-\frac12\right)
+ \mathbf 1_{\{Y_i>Te^{\gamma_0}\}},
+ \qquad
+ \mu_\ell=\E_j Z_{i\ell}.
+ \label{eq:w3-clean-Z}
+\end{equation}
+For $\ell\ne j$, the event in the indicator depends only on
+$(B,E,U_j)$ and is independent of $U_\ell$, so
+\begin{equation}
+ \mu_\ell=0,
+ \qquad \ell\ne j.
+ \label{eq:w3-null-mean}
+\end{equation}
+For the active coordinate, write $a=\delta/\gamma_0\in(0,1/2]$ and
+\begin{equation}
+ f_a(u)=\exp\left\{-\frac1{1-au}\right\}.
+ \label{eq:w3-fa}
+\end{equation}
+Conditional on $B=1$ and $U_j=u$, the event
+$Y>Te^{\gamma_0}$ is equivalent to
+$E>\gamma_0/(\gamma_0-\delta u)$, so
+\begin{equation}
+ \mu_j=q\int_0^1\left(u-\frac12\right)f_a(u)\,du.
+ \label{eq:w3-active-mean}
+\end{equation}
+Now
+\begin{equation}
+ f_a'(u)=-\frac{a}{(1-au)^2}
+ \exp\left\{-\frac1{1-au}\right\}
+ \le-ae^{-2},
+ \qquad 0\le u\le1,
+ \label{eq:w3-fa-derivative}
+\end{equation}
+because $1/(1-au)\le2$.  If $U,U'$ are iid uniform variables, then
+\begin{align}
+ \int_0^1\left(u-\frac12\right)f_a(u)\,du
+ &=\operatorname{Cov}\{U,f_a(U)\}\nonumber\\
+ &=\frac12\E[(U-U')\{f_a(U)-f_a(U')\}]\nonumber\\
+ &\le-\frac{ae^{-2}}2\E(U-U')^2
+ =-\frac{ae^{-2}}{12}.
+ \label{eq:w3-cov-bound}
+\end{align}
+Thus
+\begin{equation}
+ \mu_j\le-\frac{q e^{-2}}{12}\frac{\delta}{\gamma_0}.
+ \label{eq:w3-active-signal}
+\end{equation}
+
+For every $\ell$, $Z_{i\ell}\in[-1/2,1/2]$ and
+\begin{equation}
+ \operatorname{Var}(Z_{i\ell})
+ \le\E Z_{i\ell}^2
+ \le\frac14\Pp_j(Y>Te^{\gamma_0})
+ \le\frac q4.
+ \label{eq:w3-Z-variance}
+\end{equation}
+Also $|Z_{i\ell}-\mu_\ell|\le1$.  Bernstein's inequality therefore gives
+\begin{equation}
+ \Pp_j\left\{
+ \left|\frac1n\sum_{i=1}^nZ_{i\ell}-\mu_\ell\right|>r_n(x)
+ \right\}\le2e^{-x}.
+ \label{eq:w3-Bernstein}
+\end{equation}
+A union bound over $\ell\le p$ shows that, outside probability $2pe^{-x}$,
+\begin{equation}
+ \max_{\ell\le p}
+ \left|\frac1n\sum_{i=1}^nZ_{i\ell}-\mu_\ell\right|
+ \le r_n(x).
+ \label{eq:w3-clean-uniform}
+\end{equation}
+
+Each summand in \eqref{eq:w3-robust-stat} lies in $[-1/2,1/2]$.  Replacing one
+row can therefore change any coordinate average by at most $1/n$, and replacing
+at most $n\epsilon_{\rm c}$ rows changes it by at most
+$\epsilon_{\rm c}$.  Hence, on \eqref{eq:w3-clean-uniform}, every replacement
+strategy satisfies
+\begin{align}
+ S_j
+ &\le-\frac{q e^{-2}}{12}\frac{\delta}{\gamma_0}
+      +r_n(x)+\epsilon_{\rm c},
+ \label{eq:w3-active-after-contam}\\
+ S_\ell
+ &\ge-r_n(x)-\epsilon_{\rm c},
+ \qquad \ell\ne j.
+ \label{eq:w3-null-after-contam}
+\end{align}
+Condition \eqref{eq:w3-robust-signal} makes the first upper bound strictly
+smaller than every null lower bound, so $\widehat J=j$ for every adversarial
+replacement on the clean event.  This proves \eqref{eq:w3-robust-error}.
+Substituting $x=\log(2p/\eta)$ and rearranging
+\eqref{eq:w3-robust-signal} gives \eqref{eq:w3-robust-rate}.
+\end{proof}
+
+\begin{corollary}[Sharp stochastic--contamination transition on the embedded submodel]
+\label{cor:w3-sharp-contam}
+Take $q=3\alpha$ and consider one-sparse exact recovery under strong row
+replacement contamination.  Work in the admissible triangular-array regime
+\begin{equation}
+ 0<\Delta\le\gamma_0/4,
+ \qquad
+ \frac{\Delta}{\gamma_0}\log(1/\alpha)=O(1),
+ \label{eq:w3-submodel-admissible}
+\end{equation}
+which keeps the tail coefficient of the embedded primitive model uniformly
+bounded.  Along sequences with $n\epsilon_{\rm c}\to\infty$, combining
+Corollary~\ref{cor:w3-strong-contam-lower}, the list-Fano lower bound for the
+same clean submodel, and Theorem~\ref{thm:w3-contam-upper}, the minimax
+separation scale is, up to universal constants and the lower-order Bernstein
+term,
+\begin{equation}
+ \frac{\Delta}{\gamma_0}
+ \asymp
+ \frac{\epsilon_{\rm c}}{\alpha}
+ +\sqrt{\frac{\log p}{n\alpha}}.
+ \label{eq:w3-sharp-boundary}
+\end{equation}
+The first term is a contamination identification floor; the second is the
+clean high-dimensional stochastic boundary.  Neither contains the bandwidth
+$h$.
+\end{corollary}
+
+\begin{proof}
+Corollary~\ref{cor:w3-strong-contam-lower} gives the necessary scale
+$\Delta/\gamma_0\gtrsim\epsilon_{\rm c}/q$; its testing lower bound tends to one
+under $n\epsilon_{\rm c}\to\infty$.  The list-Fano theorem gives the separate
+necessary scale
+$\Delta/\gamma_0\gtrsim\sqrt{\log p/(nq)}$ for one-sparse exact recovery.
+Their maximum is equivalent, within a factor two, to their sum.
+Theorem~\ref{thm:w3-contam-upper}, with $\delta=2\Delta$, succeeds when that
+sum, plus $\log p/(nq)$, is smaller than a universal constant times
+$\Delta/\gamma_0$.  Since $q=3\alpha$, this proves
+\eqref{eq:w3-sharp-boundary} up to constants.
+\end{proof}
+
+\subsection{What these results close}
+
+The confidence construction supplies simultaneous, finite-sample inference
+for all $p$ corrected gaps, a familywise-valid inner set, an honest
+sure-screening outer set, a data-driven retained size, and coordinate-specific
+tuning with an oracle guarantee.  It does not need a zero-gap coordinate
+because the unconditional response tail estimates $\gamma_U^\star$ directly.
+Arbitrary cross-coordinate dependence and arbitrary dependence across the
+candidate tunings are harmless for validity.  Under temporal absolute
+regularity, thinning transfers the whole construction with the explicit
+additive error $(N-1)\beta(q)$ and replaces the iid sample size by $N$.
+
+The tuning statements are honest only for candidate estimators carrying valid
+fixed-tuning radii, including their tail, spatial, and quadrature bias
+certificates.  The maximization of lower confidence bounds and the pilot choice
+are fully data driven; uniform adaptation to a completely unquantified tail
+onset is not claimed, because the delayed-onset impossibility theorem rules it
+out over bare (C1)--(C2).
+
+The contamination results show both sides of the robustness question.  The
+implemented sliding Hill score has one-row replacement breakdown.  More
+fundamentally, no method can beat an $\epsilon_{\rm c}/\alpha$ gap floor under
+Huber or strong replacement contamination, while a bounded tail statistic
+attains that order, together with the clean
+$\sqrt{\log p/(n\alpha)}$ boundary, on the exact tail submodel.  Extending the
+matching robust upper bound from that submodel to the full projected-quantile
+class requires a robust local threshold construction; that problem is not
+resolved here.
+
+\end{document}

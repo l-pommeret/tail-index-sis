@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\TV}{TV}
+\DeclareMathOperator{\diam}{diam}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\R}{\mathbb R}
+\newcommand{\I}{I_\varepsilon}
+\newcommand{\DU}{\mathcal D_U}
+\newcommand{\gU}{\gamma_U^\star}
+\newcommand{\cI}{|I_\varepsilon|}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\ph}{\varphi}
+\newcommand{\calH}{\mathcal H}
+\title{Unified corrected theory for high-dimensional tail-index screening}
+\author{Self-contained reconstruction}
+\date{}
+
+\begin{document}
+\maketitle
+\emergencystretch=3em
+
+\begin{abstract}
+This document states the theory in the form that survives all of the
+adversarial audits. The identifiable population target is the positive-gap
+set relative to the support of the observed covariate law, not a structural
+active set defined off that support. The stochastic size of an integrated
+sliding score is $n\alpha$, whereas $n\alpha h$ controls only local
+feasibility, local profile fluctuations, and spatial bias. Honest inference
+requires deterministic tail-bias certificates. Under complete-row
+replacement, the bounded sliding-rank score remains robust, but its proof is a
+rank-edit telescoping proof, not the false assertion that one changed row
+alters only $O(nh)$ windows. A fixed-bin annular construction attains the same
+minimax rates when its bin boundaries are externally fixed or otherwise
+trusted; fixed bins are not necessary.
+\end{abstract}
+
+\section{What is retained and what is not}
+
+The main clean estimator is the empirical-rank sliding local-Hill score,
+because direct averaging of its signed R\'enyi expansion removes the spurious
+factor $h$ without changing the implemented procedure. A disjoint-block
+version is retained only for the fixed-coordinate central limit theorem,
+where literal independence gives the shortest proof. The main robust
+estimator is the winsorized pairwise-spacing score on the same sliding rank
+windows, because it preserves marginal-scale invariance and avoids density
+assumptions. The annular pair-trimmed fixed-bin score is retained as an
+alternative when genuine fixed bins are available and as a direct estimator
+of the untransformed gap. No statement below claims that one good tuning
+places all signals in the top $s$ positions of a minimum-rank aggregate, that
+unrestricted covariate dependence permits recovery of an off-support active
+set, that bare regular variation yields computable finite-threshold bias, or
+that a growing winsorization cap has a contamination constant independent of
+that cap.
+
+\section{Population target on the observed support}
+
+Let $U=(U_1,\ldots,U_p)\in[0,1]^p$ have uniform one-dimensional
+marginals, with arbitrary dependence, and let $Y>0$. All objects may form a
+triangular array. Put $S_U=\supp(P_U)$ and assume initially only that
+$\gamma:S_U\to(0,\infty)$ is measurable and
+\begin{equation}
+0<\underline\gamma\le \gamma(x)\le\Gamma<\infty,
+\qquad x\in S_U. \tag{2.1}
+\end{equation}
+For a sub-$\sigma$-field $\mathcal G\subseteq\sigma(U)$, write
+$T=\gamma(U)$ and $\xi_{\mathcal G}=\esssup(T\mid\mathcal G)$.
+
+\subsection{The weakest mixture condition used by projection}
+
+Assume that, for $P_U$-almost every $x$,
+\begin{equation}
+\Pp(Y>y\mid U=x)=c(x)y^{-1/\gamma(x)}\{1+r(y,x)\}, \tag{AR.1}
+\end{equation}
+where $0<c_-\le c(x)\le c_+<\infty$. For every
+$\mathcal G$ used below, namely the trivial $\sigma$-field and
+$\sigma(U_j)$, assume the averaged relative remainder condition
+\begin{equation}
+\rho_{\mathcal G}(y):=
+\frac{\E[c(U)y^{-1/T}|r(y,U)|\mid\mathcal G]}
+{\E[c(U)y^{-1/T}\mid\mathcal G]}
+\longrightarrow0\quad\text{a.s.} \tag{AR.2}
+\end{equation}
+This is strictly weaker than a uniform bound
+$\sup_x|r(y,x)|\to0$ and is exactly what the projection proof uses.
+
+\begin{theorem}[Conditional projection by exponential tilting]
+\label{thm:projection}
+Under \emph{(AR.1)--(AR.2)}, for every admitted $\mathcal G$,
+\begin{equation}
+\frac{\Pp(Y>ty\mid\mathcal G)}{\Pp(Y>y\mid\mathcal G)}
+\longrightarrow t^{-1/\xi_{\mathcal G}},
+\qquad t>0, \tag{2.2}
+\end{equation}
+almost surely. In particular, the unconditional tail index is
+\begin{equation}
+\gU=\esssup\gamma(U). \tag{2.3}
+\end{equation}
+If $\gamma$ is continuous on the compact support $S_U$, then the essential
+supremum in (2.3) equals $\max_{x\in S_U}\gamma(x)$. The tail index of
+$Y\mid U_j=u$ is
+\begin{equation}
+\xi_j(u)=\esssup\{\gamma(U)\mid U_j=u\} \tag{2.4}
+\end{equation}
+for almost every $u$.
+\end{theorem}
+
+%% PIECE 1/30 END

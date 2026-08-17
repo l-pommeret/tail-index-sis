@@ -1,0 +1,2017 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\theoremstyle{plain}
+\newtheorem{theoreme}{Théorème}[section]
+\newtheorem{proposition}[theoreme]{Proposition}
+\newtheorem{lemme}[theoreme]{Lemme}
+\newtheorem{corollaire}[theoreme]{Corollaire}
+\theoremstyle{definition}
+\newtheorem{definition}[theoreme]{Définition}
+\newtheorem{exemple}[theoreme]{Exemple}
+\theoremstyle{remark}
+\newtheorem{remarque}[theoreme]{Remarque}
+
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\essinf}{ess\,inf}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\RV}{RV}
+\DeclareMathOperator{\TV}{TV}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\R}{\mathbb R}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\I}{I_\varepsilon}
+\newcommand{\D}{\mathcal D_U}
+\newcommand{\gU}{\gamma^\star_U}
+
+%% --- présentation ---
+\definecolor{gris}{gray}{0.45}
+\definecolor{bleu}{RGB}{20,70,130}
+
+\newcommand{\statut}[1]{%
+  \nopagebreak\par\nopagebreak
+  \hfill{\normalfont\footnotesize\textcolor{gris}{statut~: #1}}%
+  \par\nopagebreak\vspace{-2pt}}
+
+\newenvironment{idee}
+  {\par\medskip\noindent\textcolor{bleu}{\textbf{L'idée.}}\ \itshape}
+  {\par\medskip}
+
+\newenvironment{apport}
+  {\par\medskip\noindent\begingroup\color{bleu}\rule{\linewidth}{0.6pt}\par
+   \nobreak\vspace{2pt}\noindent\textbf{Ce que cela apporte à l'article.}\ \normalcolor}
+  {\par\vspace{2pt}\noindent\textcolor{bleu}{\rule{\linewidth}{0.6pt}}\endgroup\par\medskip}
+
+\title{\bfseries Dossier de preuves\\[4pt]
+\large Renforcement mathématique du criblage par indice de queue\\
+\large en grande dimension}
+\author{L.~Pommeret}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Ce dossier rassemble, sous forme démontrée et pédagogique, les résultats
+obtenus au cours d'une campagne de renforcement du manuscrit
+\emph{Tail-Index Sure Independence Screening for High-Dimensional
+Heavy-Tailed Regression}. Chaque résultat est présenté selon le même
+schéma~: l'énoncé, l'idée en langage ordinaire, la démonstration, puis
+un encadré indiquant ce qu'il apporte à l'article --- ce qu'il remplace,
+ce qu'il supprime, ou ce qu'il rend possible.
+
+\smallskip\noindent
+Trois acquis dominent. D'abord, \textbf{le facteur de largeur de bande
+disparaît de l'échelle stochastique du score}~: celle-ci est $n\alpha$ et
+non $n\alpha h$, ce qui améliore directement la condition de dimension
+admissible du papier. Ensuite, \textbf{l'annexe des hypothèses primitives
+peut être réellement primitive} sur une sous-classe qui contient les
+quatre modèles de simulation, alors qu'on la croyait condamnée à porter
+des conditions énoncées sur les objets projetés. Enfin, et c'est le
+résultat central, \textbf{le score effectivement implémenté admet une
+représentation linéaire par ligne}, ce qui autorise une valeur critique
+calibrée sur le maximum --- sans changer d'estimateur, sans scission
+d'échantillon, et sur une région de réglages qui contient les neuf
+réglages du manuscrit.
+
+\smallskip\noindent
+Le dossier signale aussi, avec la même précision, ce qui est
+\emph{impossible}~: une barrière de biais logarithmique interdit tout
+théorème à écarts polynomialement rétrécissants dans la classe actuelle.
+\end{abstract}
+
+\tableofcontents
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{Avant-propos : comment lire ce dossier}
+\addcontentsline{toc}{section}{Avant-propos : comment lire ce dossier}
+
+\paragraph{La règle de la campagne.} Aucun résultat n'a été retenu sur sa
+seule apparence. Chaque énoncé produit a été soumis à une lecture
+adverse, dont l'objet exclusif était de le mettre en défaut. Ce dossier
+enregistre donc autant de \emph{rétrécissements} que de gains~: plusieurs
+résultats annoncés comme «~exacts~» ne le sont que
+conditionnellement, et le dire fait partie du résultat. Trois valeurs
+numériques ont par ailleurs été recalculées indépendamment et sont
+signalées comme telles.
+
+\paragraph{Étiquettes de statut.} Chaque résultat porte une étiquette.
+
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item[\textbf{A}] \emph{Acquis} --- preuve complète, audit adverse rendu,
+réparations intégrées à l'énoncé ci-dessous.
+\item[\textbf{A$^-$}] \emph{Acquis sous réserve} --- preuve complète,
+audit rendu, mais une clause reste à écrire proprement.
+\item[\textbf{V}] \emph{En vérification} --- preuve complète, audit
+adverse lancé, verdict non rendu à la date de ce dossier.
+\item[\textbf{S}] \emph{Schéma} --- l'architecture de la preuve est
+établie et chaque étape est nommée, mais la rédaction complète reste à
+faire.
+\item[\textbf{I}] \emph{Impossibilité} --- résultat négatif démontré.
+\end{itemize}
+
+\noindent
+Cette distinction est importante~: un résultat marqué \textbf{S} ne doit
+pas entrer dans l'article sans rédaction complète, même si son énoncé
+est juste.
+
+\paragraph{Conventions de notation.} Trois dérives ont été relevées au
+cours de la campagne et sont closes par les conventions suivantes, qui
+sont respectées partout dans ce dossier.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbole & Sens \emph{unique} \\
+\midrule
+$\gU$ & $\esssup\gamma(U)$, maximum sur le \emph{support observé}.
+        Jamais le maximum sur le cube. \\
+$\xi_j(u)$ & $\esssup\{\gamma(U)\mid U_j=u\}$, profil projeté
+             (indice de queue de $Y\mid U_j=u$). \\
+$\Psi_j$ & $|\I|^{-1}\int_{\I}\xi_j(u)\,du$, profil intégré tronqué. \\
+$\Delta_j$ & $\gU-\Psi_j\ \ (\ge 0)$, écart tronqué et défini
+             sur le support. \\
+$\D$ & $\{j:\Delta_j>0\}$, \emph{cible identifiable} du criblage
+       marginal. \\
+$s_D$ & $|\D|$. Distinct de $s_A$, taille d'une représentation
+        structurelle minimale. \\
+$\Delta_{\min}$ & $\min_{j\in\D}\Delta_j$. \\
+$\alpha,h$ & fraction de queue locale et largeur de bande de rang~;
+             $\alpha=n^{-a}$, $h=n^{-b}/2$. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+La distinction entre $\D$ et l'ensemble structurel $A$ n'est pas
+cosmétique~: c'est elle qui rend le problème identifiable. Le
+chapitre~\ref{ch:cible} l'établit.
+
+\paragraph{Ce que ce dossier ne fait pas.} Il ne réécrit pas l'article.
+Il fournit la matière démontrée, et le chapitre~\ref{ch:changements}
+indique section par section ce qu'il faudrait y changer. La rédaction
+finale, en anglais et dans le style du manuscrit, reste à faire.
+
+\clearpage
+
+\section{La cible de population}\label{ch:cible}
+
+Ce chapitre répond à une question que le manuscrit traitait trop vite~:
+\emph{que vise exactement un criblage marginal par indice de queue~?}
+La réponse n'est pas «~l'ensemble des variables dont dépend $\gamma$~».
+Elle ne peut pas l'être, et le dire précisément est le premier acquis de
+la campagne.
+
+\subsection{L'identité de projection}
+
+Tout repose sur un fait géométrique~: après projection sur une
+coordonnée, la loi conditionnelle est un \emph{mélange}, et la queue d'un
+mélange est gouvernée par sa composante la plus lourde. Le profil projeté
+est donc une \emph{enveloppe supérieure}, pas une moyenne. Encore
+faut-il le démontrer, et sous quelles hypothèses exactement.
+
+Fixons le cadre. Soit $U$ à valeurs dans un espace borélien standard
+$\mathcal X$, $Y>0$, et
+\[
+ \bar F_x(y)=\Pp(Y>y\mid U=x)
+\]
+une version régulière de la survie conditionnelle. Pour $c>1$, posons
+\[
+ \rho_c(g)=
+ \begin{cases}
+  c^{-1/g}, & g>0,\\
+  0, & g=0,
+ \end{cases}
+\]
+de sorte que la condition de variation régulière conditionnelle s'écrit
+d'un seul tenant, indices nuls compris~:
+\begin{equation}
+ \frac{\bar F_x(cy)}{\bar F_x(y)}\longrightarrow\rho_c\{\gamma(x)\},
+ \qquad c>1.
+ \label{eq:rvc}
+\end{equation}
+La valeur $\rho_c(0)=0$ correspond à une queue à variation rapide.
+
+Soit $K$ une loi de mélange quelconque sur $\mathcal X$ --- ce sera tour à
+tour la loi de $U$ (queue inconditionnelle), la loi conditionnelle
+$K_j(u,\cdot)$ de $U$ sachant $U_j=u$ (fibre), ou la loi conditionnelle à
+$U_j$ dans une fenêtre de rangs. Écrivons
+$\bar F_K(y)=\int\bar F_x(y)\,K(dx)$.
+
+\begin{definition}[Loi inclinée par excès]
+Lorsque $\bar F_K(y)>0$, la \emph{loi de mélange inclinée par excès} est
+\begin{equation}
+ \Pi_y(dx)=\frac{\bar F_x(y)\,K(dx)}{\bar F_K(y)}.
+ \label{eq:tilt}
+\end{equation}
+\end{definition}
+
+\noindent
+C'est la loi de $U$ \emph{sachant que l'on observe un dépassement du
+niveau $y$}. Elle contient tout le problème, en raison de l'identité
+élémentaire
+\begin{equation}
+ \frac{\bar F_K(cy)}{\bar F_K(y)}
+ =\int\frac{\bar F_x(cy)}{\bar F_x(y)}\,\Pi_y(dx).
+ \label{eq:identite}
+\end{equation}
+
+\begin{idee}
+La convergence ponctuelle \eqref{eq:rvc} ne suffit pas à passer à la
+limite dans \eqref{eq:identite}, parce que la mesure d'intégration
+$\Pi_y$ \emph{bouge avec $y$}. C'est là, et nulle part ailleurs, que se
+niche toute la difficulté de la projection. Il faut donc deux clauses~:
+l'une qui empêche les dépassements de se concentrer là où la convergence
+n'a pas encore eu lieu, l'autre qui garantit qu'ils se concentrent bien
+sur les indices maximaux.
+\end{idee}
+
+\begin{theoreme}[Projection mesurable sous uniformité inclinée]
+\label{thm:projection}
+\statut{A}
+Soit $\gamma:\mathcal X\to[0,\Gamma]$ mesurable et
+$m=\esssup_{x\sim K}\gamma(x)$. Supposons que pour tout $c>1$
+\begin{equation}
+ \int\Bigl|\frac{\bar F_x(cy)}{\bar F_x(y)}-\rho_c\{\gamma(x)\}\Bigr|
+ \,\Pi_y(dx)\longrightarrow 0,
+ \tag{TU1}\label{eq:TU1}
+\end{equation}
+et, si $m>0$, que pour tout $\eta>0$
+\begin{equation}
+ \Pi_y\{\gamma\le m-\eta\}\longrightarrow 0 .
+ \tag{TU2}\label{eq:TU2}
+\end{equation}
+Alors
+\[
+ \frac{\bar F_K(cy)}{\bar F_K(y)}\longrightarrow c^{-1/m},
+ \qquad c>1,
+\]
+c'est-à-dire que le mélange a pour indice de queue $m$. Si $m=0$, alors
+$\gamma=0$ $K$-presque sûrement et \eqref{eq:TU1} seule donne
+$\bar F_K(cy)/\bar F_K(y)\to0$.
+
+Aucune continuité de $x\mapsto\gamma(x)$, aucune atteinte du supremum,
+aucune borne inférieure strictement positive sur $\gamma$ ne sont
+requises.
+\end{theoreme}
+
+\begin{proof}
+Par \eqref{eq:identite},
+\[
+ \Bigl|\frac{\bar F_K(cy)}{\bar F_K(y)}-\rho_c(m)\Bigr|
+ \le
+ \underbrace{\int\Bigl|\frac{\bar F_x(cy)}{\bar F_x(y)}
+   -\rho_c\{\gamma(x)\}\Bigr|\,\Pi_y(dx)}_{(\mathrm I)}
+ +\underbrace{\Bigl|\int\rho_c\{\gamma(x)\}\,\Pi_y(dx)-\rho_c(m)
+   \Bigr|}_{(\mathrm{II})}.
+\]
+Le terme $(\mathrm I)$ tend vers zéro par \eqref{eq:TU1}.
+
+Si $m>0$~: la fonction $g\mapsto\rho_c(g)=c^{-1/g}$ est bornée et
+continue sur $[0,\Gamma]$, et \eqref{eq:TU2} dit exactement que $\gamma$
+converge vers $m$ en $\Pi_y$-probabilité. Le théorème de convergence
+dominée pour la convergence en probabilité donne
+$(\mathrm{II})\to0$.
+
+Si $m=0$~: comme $\gamma\ge0$ et $\esssup_K\gamma=0$, on a $\gamma=0$
+$K$-presque sûrement, donc $\rho_c\{\gamma(x)\}=0$ pour $K$-presque tout
+$x$, et $\Pi_y\ll K$ entraîne que $(\mathrm{II})$ est identiquement
+nul.
+\end{proof}
+
+\begin{remarque}[Ce qui est exactement nécessaire]
+\label{rem:exactitude-projection}
+La condition littéralement nécessaire et suffisante est
+$\int \bar F_x(cy)/\bar F_x(y)\,\Pi_y(dx)\to\rho_c(m)$, puisque le membre
+de gauche \emph{est} le rapport de queue projeté. La paire
+\eqref{eq:TU1}--\eqref{eq:TU2} est suffisante, et \eqref{eq:TU2} est
+nécessaire \emph{conditionnellement} à \eqref{eq:TU1}~; mais la paire
+entière n'est pas nécessaire. Un audit a produit une loi projetée
+exactement de Pareto qui viole l'uniformité inclinée $L^1$. Il ne faut
+donc pas écrire que ces deux clauses caractérisent la projection.
+\end{remarque}
+
+\begin{apport}
+Le manuscrit démontrait l'identité de projection sous continuité de
+$\gamma$, support de fibre plein et non-atomicité. Le
+théorème~\ref{thm:projection} supprime les trois. Il autorise en outre
+les indices nuls dans le même énoncé, ce que la formulation en variation
+régulière ordinaire ne permettait pas. Concrètement~: l'hypothèse (S)
+telle qu'imprimée peut être retirée de cette étape, et la
+remarque~\ref{rem:exactitude-projection} doit être ajoutée pour ne pas
+surénoncer.
+\end{apport}
+
+\subsection{Le mélange Pareto exact : ni continuité, ni indices minorés}
+
+Le cas Pareto exact mérite un énoncé séparé, parce qu'il est celui où la
+suppression des hypothèses est la plus spectaculaire, et parce que sa
+preuve --- une inclinaison exponentielle suivie d'un argument de
+variation lente --- est le prototype de tout ce qui suit.
+
+\begin{theoreme}[Projection Pareto exacte, indices nuls autorisés]
+\label{thm:pareto}
+\statut{A}
+Supposons que pour $y\ge1$
+\[
+ \bar F_x(y)=
+ \begin{cases}
+  y^{-1/\gamma(x)}, & \gamma(x)>0,\\
+  0, & \gamma(x)=0,
+ \end{cases}
+\]
+et soit $m=\esssup_K\gamma$. Si $m>0$, alors
+\[
+ \bar F_K(y)=y^{-1/m}L_K(y),
+\]
+où $L_K$ est à variation lente. Le mélange a donc l'indice $m$, sans
+continuité de $\gamma$, sans que $m$ soit atteint, et sans borne
+inférieure strictement positive sur $\gamma$.
+\end{theoreme}
+
+\begin{idee}
+On soustrait l'indice maximal en exposant. Il reste une transformée de
+Laplace $B(t)=\E_K e^{-tZ}$ d'une variable positive $Z=1/\gamma-1/m$
+dont l'\emph{infimum essentiel est nul}. Une transformée de Laplace en un
+tel point est à variation lente~: c'est tout le contenu du théorème.
+\end{idee}
+
+\begin{proof}
+Avec la convention $1/0=+\infty$, posons
+$Z(x)=1/\gamma(x)-1/m\in[0,\infty]$. Alors
+\[
+ \bar F_K(y)=y^{-1/m}\,\E_K\bigl[e^{-(\log y)Z}\bigr],
+\]
+et l'on pose $B(t)=\E_K(e^{-tZ})$, $L_K(y)=B(\log y)$.
+
+Comme $m$ est le supremum essentiel de $\gamma$, l'infimum essentiel de
+$Z$ est nul. Introduisons la loi inclinée
+\[
+ \Pi^Z_t(A)=\frac{\E[e^{-tZ}\1\{Z\in A\}]}{B(t)} .
+\]
+Pour tout $\eta>0$,
+\[
+ \Pi^Z_t(Z>\eta)
+ \le\frac{e^{-t\eta}}{\E[e^{-tZ}\1\{Z\le\eta/2\}]}
+ \le\frac{e^{-t\eta}}{e^{-t\eta/2}\Pp(Z\le\eta/2)}
+ =\frac{e^{-t\eta/2}}{\Pp(Z\le\eta/2)}\longrightarrow0,
+\]
+le dénominateur étant strictement positif précisément parce que
+$\essinf Z=0$. Donc $Z\to0$ en $\Pi^Z_t$-probabilité. Il vient, pour
+tout $a>0$,
+\[
+ \frac{B(t+a)}{B(t)}=\E_{\Pi^Z_t}(e^{-aZ})\longrightarrow1,
+\]
+par convergence dominée ($0\le e^{-aZ}\le1$). Ainsi
+$L_K(cy)/L_K(y)=B(\log y+\log c)/B(\log y)\to1$ pour $c>1$, puis pour
+$0<c<1$ par inversion. Donc $L_K$ est à variation lente.
+\end{proof}
+
+\noindent
+Le théorème couvre~: $\gamma$ discontinue~; $\gamma=0$ sur un ensemble de
+mesure positive arbitraire~; $\gamma(x)\downarrow0$ au bord~; et un
+supremum approché mais jamais atteint. La partie d'indice nul ne
+contribue rien à la queue asymptotique dès que $m>0$.
+
+\subsection{Pourquoi la cible doit être définie sur le support}
+
+Le manuscrit écrivait, sous continuité de $\gamma$,
+$\gamma^\star=\max_{x\in\supp(P_U)}\gamma(x)$. Cette écriture n'est pas
+seulement inconfortable pour $\gamma$ mesurable~: elle est
+\emph{illégitime}, car ce n'est pas une fonctionnelle de la loi.
+
+\begin{proposition}[Le maximum sur le support n'est pas une fonctionnelle de la loi]
+\label{prop:pas-fonctionnelle}
+\statut{A}
+Soit $U\sim\mathrm{Unif}(0,1)$. Considérons deux versions de la fonction
+d'indice qui coïncident pour tout $u\ne0$ mais diffèrent en $u=0$~:
+\[
+ \gamma_0(u)=0,\qquad \gamma_1(u)=\1\{u=0\}.
+\]
+Les lois jointes de $(U,Y)$ engendrées sont \emph{identiques}, alors que
+\[
+ \max_{u\in[0,1]}\gamma_0(u)=0,
+ \qquad
+ \max_{u\in[0,1]}\gamma_1(u)=1 .
+\]
+En revanche les deux suprema essentiels valent $0$.
+\end{proposition}
+
+\begin{proof}
+Les deux versions diffèrent sur $\{0\}$, de mesure de Lebesgue nulle~;
+une version de la loi conditionnelle n'est définie qu'à un ensemble
+négligeable près, donc les lois jointes coïncident. Les deux maxima
+ponctuels se lisent directement.
+\end{proof}
+
+\noindent
+La seule définition invariante par changement de version est donc
+\begin{equation}
+ \boxed{\ \gU=\esssup_{P_U}\gamma(U).\ }
+ \label{eq:cible}
+\end{equation}
+
+\begin{apport}
+Il faut remplacer partout dans l'article $\max_{\supp}\gamma$ par
+$\esssup\gamma$, y compris là où la continuité rendait l'égalité vraie~:
+l'égalité est vraie, mais l'écriture par le maximum ne l'est pas si
+$\gamma$ n'est connue qu'à une version près, et c'est le cas dès qu'on ne
+suppose plus la continuité. C'est une correction de fond, pas de style.
+\end{apport}
+
+\subsection{L'enveloppe restreinte au support et la cible exacte}
+
+Sous continuité, on peut aller plus loin et caractériser exactement
+quelles coordonnées un criblage marginal peut voir. Soit
+$K_j(u,\cdot)$ une version ponctuelle de la loi de $U_{-j}$ sachant
+$U_j=u$, de support $C_j(u)\subseteq[0,1]^{p-1}$ (non vide, compact), et
+soit $\mathcal M=\argmax_{[0,1]^p}\gamma$. Définissons l'\emph{ensemble
+des argmax accessibles}
+\[
+ \mathcal H_j=\bigl\{u\in\I:(\{u\}\times C_j(u))\cap\mathcal M\ne\varnothing\bigr\}.
+\]
+
+\begin{theoreme}[Enveloppe restreinte au support et cible marginale exacte]
+\label{thm:enveloppe}
+\statut{A}
+Sous les hypothèses de variation régulière conditionnelle et $\gamma$
+continue --- \emph{sans aucune hypothèse de support plein} --- on a pour
+toute version ponctuelle
+\begin{equation}
+ \xi_j(u)=\esssup_{v\sim K_j(u,\cdot)}\gamma\{\iota_j(u,v)\}
+        =\max_{v\in C_j(u)}\gamma\{\iota_j(u,v)\},
+ \label{eq:env}
+\end{equation}
+et par conséquent
+\[
+ \xi_j(u)=\gamma^\star\iff u\in\mathcal H_j,
+ \qquad
+ \Delta_j>0\iff\lambda(\I\setminus\mathcal H_j)>0 .
+\]
+La dernière équivalence ne requiert aucune continuité de
+$u\mapsto\xi_j(u)$.
+\end{theoreme}
+
+\begin{proof}
+Le théorème de projection donne la première expression de \eqref{eq:env}.
+Fixons $j,u$ et abrégeons $K=K_j(u,\cdot)$, $C=C_j(u)$,
+$f(v)=\gamma\{\iota_j(u,v)\}$. Comme $C$ est compact et $f$ continue,
+$m=\max_Cf$ est atteint. Puisque $K(C)=1$, on a $f\le m$
+$K$-p.s., donc $\esssup_Kf\le m$. Soit $v_\star\in C$ atteignant $m$~:
+pour tout $\eta>0$, la continuité fournit un voisinage ouvert $O_\eta$ de
+$v_\star$ sur lequel $f>m-\eta$, et la propriété caractéristique du
+support donne $K(O_\eta)>0$, d'où $\esssup_Kf\ge m-\eta$. On conclut en
+faisant $\eta\downarrow0$.
+
+Le maximum dans \eqref{eq:env} vaut $\gamma^\star$ exactement lorsqu'il
+est atteint en un point de l'argmax global, ce qui est la deuxième
+assertion. Enfin $0\le\gamma^\star-\xi_j(u)$ et
+$\Delta_j=|\I|^{-1}\int_{\I}\{\gamma^\star-\xi_j(u)\}\,du$~; une fonction
+mesurable positive est d'intégrale nulle si et seulement si elle est
+nulle presque partout.
+\end{proof}
+
+\begin{corollaire}[Identification minimale]
+\label{cor:identification}
+\statut{A}
+La condition d'\emph{accessibilité nulle}
+\[
+ \lambda(\I\setminus\mathcal H_j)=0\quad\text{pour tout }j\notin A
+ \tag{NA}
+\]
+équivaut à $\D\subseteq A$. On a $\D=A$ si et seulement si, en outre,
+$\lambda(\I\setminus\mathcal H_j)>0$ pour tout $j\in A$. Le support de
+fibre plein est \emph{suffisant} pour ces conclusions, mais nullement
+nécessaire.
+\end{corollaire}
+
+\begin{remarque}[Pourquoi une variable inactive peut porter un vrai signal]
+Si (NA) échoue, une coordonnée inactive peut restreindre le support
+conditionnel des coordonnées actives de manière à supprimer les
+configurations presque maximisantes sur un ensemble de valeurs de mesure
+positive. Son indice projeté varie alors, \emph{bien que} $\gamma$ ne
+dépende pas d'elle. Ce n'est pas une erreur d'estimation~: la loi
+marginale de $(U_j,Y)$ contient réellement un signal d'indice de queue.
+Aucune méthode marginale coordonnée par coordonnée ne peut distinguer un
+tel relais d'une variable structurellement active sans hypothèse
+d'accessibilité ou d'indépendance conditionnelle.
+\end{remarque}
+
+\begin{apport}
+C'est le résultat qui rend le problème honnête. L'article visait $A$,
+l'ensemble structurel~; il doit viser $\D$, et présenter
+$\D=A$ comme une \emph{hypothèse d'accessibilité} explicite, non comme un
+acquis. Cela remplace toute «~condition de force de signal générique~» par
+une caractérisation exacte de ce qu'un criblage marginal peut voir, ce qui
+est à la fois plus faible en hypothèses et plus fort en conclusion.
+\end{apport}
+
+\subsection{Le cas sans maximiseur, et le cas d'indice nul}
+
+Deux dégénérescences doivent être traitées, car elles sont réelles.
+
+\paragraph{Pas de maximiseur.} Si $\gamma$ est seulement mesurable,
+l'ensemble $M=\{x:\gamma(x)=\gU\}$ peut être vide ou négligeable alors
+même que $\gU>0$. La caractérisation par contact avec l'argmax tombe. On
+la remplace par une version «~presque maximale~»~: pour $\eta>0$, soit
+$M_\eta=\{x:\gamma(x)>\gU-\eta\}$.
+
+\begin{theoreme}[Caractérisation mesurable par écart positif]
+\label{thm:gap-mesurable}
+\statut{A}
+Pour presque tout $u$,
+\[
+ \xi_j(u)=\gU
+ \iff
+ K_j(u,M_\eta)>0\ \text{ pour tout }\eta>0,
+\]
+et
+\[
+ \Delta_j>0
+ \iff
+ \exists\,\eta>0:\ \lambda\{u\in\I:K_j(u,M_\eta)=0\}>0 .
+\]
+\end{theoreme}
+
+\begin{proof}
+Si $K_j(u,M_\eta)>0$ pour tout $\eta>0$, alors
+$\xi_j(u)\ge\gU-\eta$ pour tout $\eta$, donc $\xi_j(u)\ge\gU$~;
+l'inégalité inverse est toujours vraie, d'où l'égalité. Réciproquement,
+si $K_j(u,M_\eta)=0$ pour un $\eta$, alors $\xi_j(u)\le\gU-\eta$.
+
+Pour la seconde équivalence~: si le membre de droite vaut, alors
+$\gU-\xi_j(u)\ge\eta$ sur un ensemble de mesure positive, donc
+$\Delta_j>0$. Réciproquement, si $\Delta_j>0$ alors
+$\lambda\{\xi_j<\gU\}>0$~; comme
+$\{\xi_j<\gU\}=\bigcup_{m\ge1}\{\xi_j\le\gU-1/m\}$, il existe $\delta>0$
+tel que $A_\delta=\{u:\xi_j(u)\le\gU-2\delta\}$ soit de mesure positive,
+et pour $u\in A_\delta$ on a $K_j(u,M_\delta)=0$.
+\end{proof}
+
+\begin{exemple}[L'ancienne formulation par contact échoue]
+Soit $U=(U_1,U_2)$ uniforme sur le carré et
+$\gamma(u_1,u_2)=u_2$ pour $u_2<1$, $\gamma(u_1,1)=0$. Alors $\gU=1$,
+mais $\gamma$ n'atteint jamais $1$, donc $M=\varnothing$. Pourtant
+$\xi_1(u_1)=\esssup_{u_2}u_2=1$ pour tout $u_1$, et $\Delta_1=0$. La
+formulation presque maximale est correcte~: toute fibre verticale a une
+masse strictement positive dans chaque $M_\eta$.
+\end{exemple}
+
+\paragraph{Indice nul.} Puisque $\gamma\ge0$,
+\[
+ \gU=0\ \Longrightarrow\ \gamma(U)=0\ \ P_U\text{-p.s.}
+ \ \Longrightarrow\ \xi_j\equiv0,\ \Psi_j=0,\ \Delta_j=0,\ \D=\varnothing .
+\]
+
+\begin{exemple}[La cible est aveugle aux queues légères]
+\label{ex:aveugle}
+Soit $p=1$, $U\sim\mathrm{Unif}(0,1)$ et
+\[
+ \Pp(Y>y\mid U=u)=
+ \begin{cases}
+  e^{-y}, & u\le1/2,\\
+  e^{-y^2}, & u>1/2 .
+ \end{cases}
+\]
+Les deux lois conditionnelles ont l'indice zéro. Leurs queues sont
+pourtant très différentes, mais
+$\gU=\xi_1(u)=\Delta_1=0$.
+\end{exemple}
+
+\begin{apport}
+Ce n'est pas un échec d'estimation, c'est une \emph{limite de la cible},
+et l'article doit l'énoncer. Conserver le score de Hill est une
+restriction assumée~: la théorie couvre les indices de Fréchet positifs,
+tandis que les procédures de type moment conditionnel couvrent Fréchet,
+Gumbel et Weibull. Puisque $\gU=0\Rightarrow\D=\varnothing$, la portée du
+papier doit être annoncée comme telle en introduction, plutôt que
+découverte par le lecteur.
+\end{apport}
+
+\subsection{Trois impossibilités, et leur portée exacte}
+
+La campagne a produit trois résultats négatifs. Ils sont utiles --- ils
+justifient des hypothèses au lieu de les subir --- à condition d'énoncer
+leur portée avec exactitude, car la première rédaction les avait tous
+trois surénoncés.
+
+\begin{theoreme}[Apparition retardée]
+\label{thm:retard}
+\statut{I, A}
+Il existe des suites de modèles, satisfaisant la variation régulière
+conditionnelle en chaque point, pour lesquelles aucune procédure ne peut
+séparer les coordonnées actives des inactives uniformément sur des
+tableaux triangulaires, l'onset de la régularité pouvant être retardé
+arbitrairement.
+\end{theoreme}
+
+\noindent
+\emph{Portée.} L'impossibilité est \textbf{uniforme sur tableaux
+triangulaires}, et non ponctuelle à loi fixée. Il faut écrire «~pas
+détectable uniformément~». Elle montre qu'\emph{une} restriction excluant
+l'apparition arbitrairement retardée est nécessaire --- \textbf{pas} que
+la condition (P2) du manuscrit soit \emph{la} condition nécessaire. Enfin
+$1/\log n$ et $1/\log(1/\alpha_n)$ ne coïncident que si
+$\log(1/\alpha_n)\asymp\log n$.
+
+Un témoin élémentaire du mécanisme~: soit $U\sim\mathrm{Unif}(0,1)$,
+$0<\beta<1$, et conditionnellement à $U=u$,
+$Y=P$ avec probabilité $1/2$ et $Y=u^{-1/\beta}$ avec probabilité $1/2$,
+où $P$ est Pareto standard indépendant. Pour chaque $u>0$,
+$\Pp(Y>y\mid U=u)\sim\tfrac12y^{-1}$, donc \emph{toute} loi
+conditionnelle a l'indice $1$. Mais
+\[
+ \Pp(Y>y)=\tfrac12y^{-1}+\tfrac12 y^{-\beta}\sim\tfrac12y^{-\beta},
+\]
+et le mélange a l'indice $1/\beta>1$. La variation régulière ponctuelle
+ne se transmet pas au mélange sans contrôle incliné.
+
+\begin{theoreme}[Invisibilité marginale]
+\label{thm:invisible}
+\statut{I, A}
+Il existe deux modèles d'ensembles actifs différents dont toutes les lois
+marginales bivariées $(U_j,Y)$ coïncident.
+\end{theoreme}
+
+\noindent
+\emph{Portée.} L'énoncé ne vaut que pour une décision mesurable par
+rapport au \textbf{seul couple} $(U_j,Y)$. Une procédure regardant une
+autre coordonnée distingue les modèles. Il est faux d'écrire que «~toute
+règle marginale a une erreur $\ge1/2$~». L'énoncé fort correct porte sur
+la \emph{liste complète} des marginales bivariées, et se réalise avec
+$p=3$ et des phases décalées.
+
+\begin{theoreme}[Non-identifiabilité sous dépendance libre]
+\label{thm:nonid}
+\statut{I, A}
+Sous dépendance non contrainte des covariables, $A$ n'est pas une
+fonctionnelle de la loi jointe.
+\end{theoreme}
+
+\noindent
+\emph{Portée.} Confirmée, et \emph{plus forte} que la version d'origine.
+La réparation consiste à viser $\D$, ou à exiger
+$\supp(U)=[0,1]^p$ \textbf{et} $A=\D$. L'hypothèse (S) telle
+qu'imprimée dans le papier ne suffit pas, non plus que (NS).
+
+\begin{apport}
+Ces trois énoncés remplacent, dans la discussion du papier, des phrases
+prudentes du type «~un criblage marginal peut échouer~» par des théorèmes.
+Leur rôle éditorial est de \emph{justifier} les hypothèses
+d'accessibilité et de régularité~: on montre qu'aucune hypothèse de ce
+type ne peut être supprimée, plutôt que de les poser sans commentaire.
+Il faut en revanche corriger les trois portées comme ci-dessus~: en
+l'état, le manuscrit les énoncerait trop fort, ce qu'un rapporteur
+attentif verrait.
+\end{apport}
+
+\clearpage
+
+\section{L'annulation de la largeur de bande}\label{ch:h}
+
+C'est le premier gain quantitatif de la campagne, et le plus directement
+lisible dans les énoncés du papier. Il a été obtenu, puis reconfirmé par
+trois routes indépendantes~: le coloriage présenté ici, un score par blocs
+disjoints, et un calcul par fonction d'influence.
+
+\subsection{Le problème}
+
+Le manuscrit énonce que l'erreur maximale du score sur $p$ coordonnées est
+d'ordre $\sqrt{\log(pn)/(n\alpha h)}$, où $n\alpha h$ est le nombre
+d'extrêmes locaux dans une fenêtre. Cette écriture est naturelle~: chaque
+profil local $\widehat\xi_j(u)$ repose sur environ $n\alpha h$ excès, donc
+fluctue à l'échelle $(n\alpha h)^{-1/2}$.
+
+\begin{idee}
+Mais le score n'est pas un profil local~: c'est une \emph{moyenne} de
+profils locaux sur toute la grille de centres. Or on ne moyenne pas des
+erreurs indépendantes de la même façon qu'on borne la pire d'entre elles.
+Les fenêtres se recouvrent, donc les profils ne sont pas indépendants~;
+mais deux fenêtres dont les centres sont assez éloignés sont
+\emph{disjointes}, donc indépendantes conditionnellement à la colonne de
+covariables. Il suffit alors de colorier la grille de manière que chaque
+classe de couleur ne contienne que des fenêtres disjointes. Le nombre de
+couleurs nécessaire est exactement la largeur d'une fenêtre --- et c'est
+ce facteur qui, en se compensant avec la taille de la grille, fait
+disparaître $h$.
+\end{idee}
+
+\noindent
+Le point crucial de rédaction~: il faut moyenner l'expansion
+\emph{signée}, puis prendre la valeur absolue. Le manuscrit prenait les
+valeurs absolues avant de moyenner, ce qui détruit toute compensation.
+
+\subsection{Mise en place}
+
+Écrivons
+\[
+ \mathcal R_n=\{r\le n:\ r/(n+1)\in\I\},\quad L_n=|\mathcal R_n|,\quad
+ d_n=\lfloor h(n+1)\rfloor .
+\]
+Pour un centre $r\in\mathcal R_n$, la fenêtre de rangs est
+$W_r=\{q:|q-r|\le d_n\}$, de cardinal $m_r$, et l'on garde
+$k_r=\lfloor\alpha m_r\rfloor$ excès. Posons
+$K_n=\min_r k_r$ et
+\[
+ \chi_n=2d_n+1,\qquad
+ v_n=\frac{\chi_n}{L_n^2}\sum_{r\in\mathcal R_n}\frac1{k_r},\qquad
+ c_n=\frac{\chi_n}{L_nK_n},\qquad
+ \rho_n(x)=\sqrt{2v_nx}+c_nx .
+\]
+
+\noindent
+La quantité $\chi_n$ est le \emph{nombre chromatique} du graphe de
+recouvrement des fenêtres~: deux centres de même résidu modulo $\chi_n$
+diffèrent d'au moins $2d_n+1$, donc leurs fenêtres sont disjointes.
+
+\subsection{Les deux lemmes}
+
+\begin{lemme}[Fonction génératrice des moyennes Gamma]
+\label{lem:gamma}
+\statut{A}
+Soit $G_k=k^{-1}\sum_{i\le k}E_i$ avec $E_i$ i.i.d.\ exponentielles
+standard. Alors pour $|\lambda|<k$,
+\[
+ \log\E\exp\{\lambda(G_k-1)\}\le\frac{\lambda^2}{2k\{1-|\lambda|/k\}} .
+\]
+\end{lemme}
+
+\begin{proof}
+Pour $0\le\lambda<k$, avec $x=\lambda/k$,
+\[
+ \log\E e^{\lambda(G_k-1)}=k\{-x-\log(1-x)\}\le\frac{kx^2}{2(1-x)},
+\]
+la dernière inégalité s'obtenant en intégrant $x/(1-x)\le x/(1-x_0)$ sur
+$[0,x_0]$, ou directement par la série entière. Pour $-k<\lambda<0$, on
+applique le même argument à $x=-\lambda/k$ et l'on utilise
+$x-\log(1+x)\le x^2/2$.
+\end{proof}
+
+\begin{lemme}[Concentration d'une moyenne d'espacements locaux recouvrants]
+\label{lem:coloriage}
+\statut{A}
+Fixons une coordonnée $j$ et conditionnons sur sa colonne de covariables.
+Pour $r\in\mathcal R_n$, soit $G_{jr}$ la variable de Rényi apparaissant
+dans le développement local de Hill à position gelée~; $G_{jr}$ suit donc
+la loi d'une moyenne de $k_r$ exponentielles standard indépendantes. Si
+$|a_r|\le A$ et
+\[
+ S_a=\frac1{L_n}\sum_{r\in\mathcal R_n}a_r(G_{jr}-1),
+\]
+alors pour tout $x>0$,
+\[
+ \Pp\{|S_a|>A\rho_n(x)\mid\bm U_j\}\le2e^{-x} .
+\]
+\end{lemme}
+
+\begin{proof}
+Partitionnons $\mathcal R_n$ selon les résidus modulo $\chi_n=2d_n+1$.
+Deux centres d'une même classe diffèrent d'au moins $2d_n+1$, donc leurs
+fenêtres de rangs sont disjointes. Conditionnellement à la colonne de
+covariables, les variables issues de fenêtres disjointes sont
+indépendantes~; les $G_{jr}$ d'une même classe de couleur le sont donc.
+
+Soient $S_1,\dots,S_{\chi_n}$ les sommes par couleur. L'inégalité de
+Hölder et le lemme~\ref{lem:gamma} donnent, dès que
+$A\chi_n|\theta|/(L_nK_n)<1$,
+\[
+ \log\E(e^{\theta S_a}\mid\bm U_j)
+ \le\frac1{\chi_n}\sum_{c=1}^{\chi_n}\log\E(e^{\chi_n\theta S_c}\mid\bm U_j)
+ \le\frac{A^2\theta^2v_n}{2\{1-Ac_n|\theta|\}} .
+\]
+Ainsi $S_a$ est sous-gamma bilatère de facteur de variance $A^2v_n$ et de
+facteur d'échelle $Ac_n$~; l'optimisation de Chernoff donne la borne.
+\end{proof}
+
+\begin{remarque}[Où passe le facteur $h$]
+Le coloriage coûte un facteur $\chi_n\asymp nh$ dans la borne de Hölder,
+mais le nombre de termes moyennés est $L_n\asymp n$ et chacun apporte
+$1/k_r\asymp1/(n\alpha h)$. Le produit
+$\chi_n\cdot\frac1{L_n}\cdot\frac1{n\alpha h}\asymp\frac{1}{n\alpha}$~:
+les deux $h$ se compensent \emph{exactement}. C'est toute l'affaire.
+\end{remarque}
+
+\subsection{Le théorème de concentration}
+
+\begin{theoreme}[Concentration à échantillon fini du score glissant d'origine]
+\label{thm:score}
+\statut{A}
+Sous les hypothèses du développement à position gelée du manuscrit, avec
+$K_n\ge2$, $0<\alpha\le1/3$, $\eta>0$, $0<\tau\le3\alpha$ et $x>0$~:
+\begin{align*}
+ \Pp\Bigl\{\max_{j\le p}|\widehat\Psi_j-\Psi_j|
+ &>q_n+2\omega_n(\eta,\tau)+b_n+(\Gamma+b_n)\rho_n(x)\Bigr\}\\
+ &\le 2pe^{-2n\eta^2}+pn\tau+pL_ne^{-(K_n+1)/4}+4pe^{-x} .
+\end{align*}
+Le terme stochastique est gouverné par $v_n$ et $c_n$, et \emph{non} par
+$K_n^{-1}$ seul.
+\end{theoreme}
+
+\begin{proof}
+Fixons $j$ et un centre $r$. Sur l'événement de déplacement de rangs,
+l'événement de troncature globale, et l'événement que la
+$(k_r+1)$-ième statistique d'ordre de chaque fenêtre est au plus
+$3\alpha$, le calcul à position gelée s'écrit \emph{sous forme signée}
+\[
+ \widehat\xi_j(r/(n+1))-\xi_j(r/(n+1))
+ =e_{jr}+\xi_j(r/(n+1))(G_{jr}-1)+R_{jr},
+\]
+avec $|e_{jr}|\le2\omega_n(\eta,\tau)$ et $|R_{jr}|\le b_nG_{jr}$. C'est
+la décomposition du manuscrit~; le seul changement est qu'elle est
+moyennée \emph{avant} passage aux valeurs absolues.
+
+Posons
+$A_j=L_n^{-1}\sum_r\xi_j(r/(n+1))(G_{jr}-1)$ et
+$C_j=L_n^{-1}\sum_r(G_{jr}-1)$. En moyennant l'expansion signée puis en
+appliquant le lemme de quadrature, on obtient trajectoire par
+trajectoire
+\[
+ |\widehat\Psi_j-\Psi_j|\le q_n+2\omega_n(\eta,\tau)+|A_j|+b_n(1+|C_j|).
+\]
+Le lemme~\ref{lem:coloriage}, appliqué d'abord avec
+$a_r=\xi_j(r/(n+1))$ puis avec $a_r=1$, donne
+$\Pp\{|A_j|>\Gamma\rho_n(x)\mid\bm U_j\}\le2e^{-x}$ et
+$\Pp\{|C_j|>\rho_n(x)\mid\bm U_j\}\le2e^{-x}$~; l'union sur $j$ contribue
+$4pe^{-x}$.
+
+L'événement de déplacement de rangs échoue avec probabilité au plus
+$2pe^{-2n\eta^2}$, la troncature globale avec probabilité au plus
+$pn\tau$, et, conditionnellement à une colonne,
+$\Pp\{V_{(k_r+1)}>3\alpha\mid\bm U_j\}\le e^{-(k_r+1)/4}\le e^{-(K_n+1)/4}$,
+d'où le troisième terme par union sur les $pL_n$ fenêtres.
+\end{proof}
+
+\begin{corollaire}[La largeur de bande disparaît du taux stochastique]
+\label{cor:h}
+\statut{A}
+Si $nh\ge4$, $\alpha m_n^-\ge2$ et $L_n\ge c_\varepsilon n$, alors
+\[
+ v_n\vee c_n\le\frac{C_\varepsilon}{n\alpha},
+\]
+et donc, pourvu que $K_n\gg\log(pn)$,
+\[
+ \max_{j\le p}|\widehat\Psi_j-\Psi_j|
+ =O_{\Pp}\!\left(\sqrt{\frac{\log p}{n\alpha}}+\frac{\log p}{n\alpha}\right)
+ +q_n+2\omega_n(\eta_n,\tau_n)+b_n .
+\]
+Si le biais déterministe est $o(\Delta_{\min})$, le criblage sûr découle
+de
+\[
+ \boxed{\ \log p=o(n\alpha\,\Delta_{\min}^2)\ }
+\]
+jointement aux conditions séparées de faisabilité locale et de
+localisation.
+\end{corollaire}
+
+\begin{proof}
+La géométrie déterministe des rangs donne $K_n\ge n\alpha h/4$, et
+$\chi_n=2\lfloor h(n+1)\rfloor+1\le Cnh$ pour $n$ grand. Donc
+\[
+ v_n\le\frac{\chi_n}{L_nK_n}\le\frac{C_\varepsilon\,nh}{n\cdot n\alpha h/4}
+ =\frac{C_\varepsilon'}{n\alpha},
+\]
+et de même pour $c_n$. On prend ensuite $x$ proportionnel à $\log p$ dans
+le théorème~\ref{thm:score}, et l'on conclut par le lemme déterministe de
+séparation du score.
+\end{proof}
+
+\subsection{Où $n\alpha h$ survit malgré tout}
+
+Il serait faux d'en conclure que $h$ disparaît du papier. Il disparaît de
+\emph{l'échelle stochastique du score intégré}. Il reste indispensable
+dans trois rôles, et les confondre serait une erreur~:
+
+\begin{enumerate}[leftmargin=2em,itemsep=3pt]
+\item \textbf{Faisabilité locale}~: il faut $K_n\asymp n\alpha h\to\infty$,
+et même $n\alpha h\gg\log(pn)$, pour que chaque seuil local tombe
+effectivement dans la queue. C'est ce qui donne $a+b<1$.
+\item \textbf{Biais spatial}~: la fenêtre a une largeur, donc le profil
+qu'elle vise n'est pas $\xi_j(u)$ mais un supremum local. C'est l'objet du
+chapitre~\ref{ch:spatial}.
+\item \textbf{Concentration ponctuelle}~: si l'on veut une garantie sur
+$\widehat\xi_j(u)$ \emph{en un point}, et non sur la moyenne, l'échelle
+$(n\alpha h)^{-1/2}$ reste la bonne.
+\end{enumerate}
+
+\begin{apport}
+C'est l'amélioration la plus directement visible. La condition de
+criblage sûr du manuscrit,
+$\log(pn)=o(n\alpha h\,\Delta_{\min}^2)$, devient
+$\log p=o(n\alpha\,\Delta_{\min}^2)$~: on gagne un facteur $h^{-1}$, soit
+$n^{b}$, sur la dimension admissible. Le prix est nul --- ni hypothèse
+supplémentaire, ni changement d'estimateur~; il fallait seulement moyenner
+avant de majorer. Concrètement, il faut réécrire l'abrégé, l'énoncé du
+théorème de score, celui du théorème de criblage, et la discussion des
+taux. Il faut aussi \emph{conserver} $n\alpha h$ aux trois endroits
+ci-dessus, et le dire, faute de quoi la correction paraîtra trop belle.
+\end{apport}
+
+\clearpage
+
+\section{La couche spatiale}\label{ch:spatial}
+
+Le chapitre précédent a traité le hasard. Celui-ci traite la géométrie~:
+que vise exactement une fenêtre de largeur non nulle, et à quelle
+condition ce qu'elle vise est-il assez proche de ce qu'on veut~?
+
+\subsection{Les fenêtres visent un supremum mobile, pas une moyenne}
+
+C'est le point que le manuscrit passait sous silence. Sur une fenêtre
+$W_h(u)=[u-h,u+h]\cap[0,1]$, la loi de $Y$ sachant $U_j\in W_h(u)$ est
+encore un mélange. Par le théorème~\ref{thm:projection}, son indice est
+donc le \emph{supremum} de $\xi_j$ sur la fenêtre, et non la moyenne de
+$\xi_j$ sur la fenêtre~:
+\[
+ M_h\xi_j(u)=\sup_{v\in W_h(u)}\xi_j(v)\ \ge\ \xi_j(u).
+\]
+Le biais spatial est donc \emph{unilatéral et positif}. Une condition de
+continuité du profil ne suffit pas à le contrôler~: c'est une condition
+sur l'\emph{enveloppe supérieure} qu'il faut.
+
+\begin{definition}[Enveloppe essentielle supérieure]
+$\xi_j^\sharp(u)=\lim_{h\downarrow0}M_h\xi_j(u)$.
+\end{definition}
+
+\begin{proposition}[Condition spatiale exacte à loi fixe]
+\label{prop:EUR}
+\statut{A}
+À loi fixe, la convergence du score de fenêtre de population vers
+$\Psi_j$ quand $h\downarrow0$ équivaut \emph{exactement} à
+\[
+ \xi_j^\sharp=\xi_j\quad\text{presque partout.}
+ \tag{EUR}
+\]
+\end{proposition}
+
+\begin{remarque}[Un ensemble de Cantor gras comme borne de validité]
+La condition (EUR) n'est pas automatique~: si $\xi_j$ est modifiée sur un
+ensemble de Cantor gras (fermé, d'intérieur vide, de mesure positive),
+l'enveloppe supérieure diffère du profil sur un ensemble de mesure
+positive, et le score de fenêtre ne converge pas vers $\Psi_j$.
+\end{remarque}
+
+\subsection{Pourquoi (EUR) ne suffit pas en tableau triangulaire}
+
+C'est le défaut le plus sérieux découvert par la campagne, et il portait
+sur un résultat annoncé comme «~exact~».
+
+\begin{theoreme}[Insuffisance de la forme qualitative]
+\label{thm:damier}
+\statut{I, A}
+Il existe une suite de lois, indexée par $n$, telle que
+$\xi^\sharp_{j,n}=\xi_{j,n}$ presque partout \emph{pour chaque $n$}, et
+pourtant
+\[
+ \int_0^1 M_{h_n}f_n(u)\,du\longrightarrow1,
+ \qquad
+ \int_0^1 f_n(u)\,du\longrightarrow\tfrac12 .
+\]
+La condition (EUR) sous forme qualitative ne contrôle donc rien
+uniformément lorsque la loi varie avec $n$.
+\end{theoreme}
+
+\begin{idee}
+Le témoin est un \emph{damier de plus en plus fin}. À chaque $n$, le
+profil alterne entre deux valeurs sur des intervalles de longueur bien
+plus petite que $h_n$. En chaque point, l'enveloppe supérieure coïncide
+presque partout avec le profil --- l'égalité (EUR) est donc satisfaite,
+pour chaque $n$. Mais une fenêtre de largeur $h_n$ contient un grand
+nombre d'oscillations complètes, donc son supremum vaut la valeur haute
+partout, tandis que la moyenne du profil vaut la demi-somme. L'écart ne
+tend pas vers zéro. Une égalité \emph{presque partout} est insensible à
+la finesse~; c'est précisément ce que le régime triangulaire exploite.
+\end{idee}
+
+\noindent
+La condition correcte est \emph{quantitative}~:
+\begin{equation}
+ \Omega_n(h_n)=\max_{j\le p_n}\frac1{|\I|}\int_{\I}
+   \bigl\{M_{h_n}\xi_{j,n}(u)-\xi_{j,n}(u)\bigr\}\,du
+ \longrightarrow0,
+ \label{eq:omega}
+\end{equation}
+et, pour le criblage,
+\begin{equation}
+ \boxed{\ \Omega_n(h_n)=o(\Delta_{\min,n}).\ }
+ \label{eq:omega-screen}
+\end{equation}
+
+\begin{apport}
+Partout où le manuscrit --- ou une version antérieure de ce dossier ---
+énonce que (EUR) est «~la condition spatiale exacte~», il faut écrire~:
+(EUR) est exacte \emph{à loi fixe}~; en tableau triangulaire, c'est
+\eqref{eq:omega-screen} qui vaut. C'est une correction obligatoire, car
+le papier travaille en régime triangulaire ($p_n$ croît avec $n$).
+\end{apport}
+
+\subsection{Le rayon réellement utilisé par les fenêtres de rangs}
+
+Une subtilité supplémentaire, et elle est agréable~: les fenêtres sont
+construites sur des \emph{rangs empiriques}, donc leur extension en
+échelle uniforme n'est pas $h_n$ mais un rayon aléatoire légèrement plus
+grand.
+
+\begin{proposition}[Rayon de travail]
+\label{prop:rayon}
+\statut{A}
+La condition spatiale doit être imposée au rayon
+\[
+ r_n=h_n+2\sqrt{\frac{h_nx_n}{n}}+\frac{2x_n}{n},
+ \qquad x_n\asymp\log(p_nn),
+\]
+et non à $h_n$. Avec ce rayon, l'appartenance à une fenêtre de rangs
+n'introduit \emph{aucune} dépendance cachée, pourvu que la preuve soit
+recentrée sur l'ancre aléatoire $U_{(r)j}$ plutôt que sur $r/(n+1)$, que
+la condition soit posée sur un intervalle tronqué élargi, et que l'on
+ajoute l'événement négligeable «~toutes les ancres restent dans cet
+intervalle~».
+\end{proposition}
+
+\begin{idee}
+Pour un centre de rang $r$ et une demi-largeur $d=\lfloor h(n+1)\rfloor$,
+l'écart en échelle uniforme entre les extrémités de la fenêtre est
+$U_{(r+d)}-U_{(r)}\sim\mathrm{Beta}(d,n+1-d)$. L'identité
+bêta--binomiale fournit une borne exponentielle dont l'inversion donne
+exactement le rayon ci-dessus~: le terme $\sqrt{h_nx_n/n}$ est la
+fluctuation typique, le terme $x_n/n$ le régime de grandes déviations. Le
+recentrage sur l'ancre \emph{aléatoire} est ce qui supprime l'ancien
+déplacement global de type Dvoretzky--Kiefer--Wolfowitz.
+\end{idee}
+
+\subsection{Ce que coûte une largeur de bande dégénérée : le calcul explicite}
+
+Le manuscrit observe, sans l'expliquer, que la colonne $b=0$ de sa grille
+de réglages «~n'est jamais compétitive~». On peut maintenant le calculer.
+
+Pour les modèles de simulation, $\gamma$ décroît le long de chaque
+coordonnée active, de sorte que le profil projeté est explicitement
+$\xi_j(u)=\tfrac12e^{-cu}$, avec $c=1$ pour A1 et B1, $c=1/2$ pour A2,
+$c=4/5$ pour A3. La troncature est $\I=[0{,}05,\,0{,}95]$ --- valeur que
+l'on retrouve en reproduisant les écarts $0{,}186$, $0{,}107$, $0{,}158$
+annoncés par le manuscrit.
+
+À $b=0$ on a $h=1/2$, donc $M_h\xi_j(u)=\xi_j(\max(0,u-1/2))$ puisque
+$\xi_j$ décroît, et le module \eqref{eq:omega} se calcule en fermé.
+
+\begin{proposition}[Perte de gap à largeur de bande dégénérée]
+\label{prop:b0}
+\statut{A, recalculé indépendamment}
+\[
+ \Omega_{\mathrm{A1/B1}}(1/2)=0{,}137713026295563,\quad
+ \Omega_{\mathrm{A2}}(1/2)=0{,}081176584085900,\quad
+ \Omega_{\mathrm{A3}}(1/2)=0{,}117500459573997 .
+\]
+Rapportées aux écarts de population, ces valeurs consomment
+respectivement $73{,}88\,\%$, $75{,}65\,\%$ et $74{,}58\,\%$ du gap.
+Autrement dit, à $b=0$ les fenêtres de population ne conservent
+qu'environ \textbf{un quart} du gap nominal.
+\end{proposition}
+
+\noindent
+\emph{Vérification.} Ces trois valeurs ont été recalculées de façon
+indépendante à partir des définitions du manuscrit, par quadrature
+numérique~; l'accord porte sur les quinze chiffres significatifs.
+
+\begin{apport}
+Ceci transforme une observation empirique en explication. Le papier peut
+remplacer «~la largeur de bande dégénérée n'est jamais compétitive~» par
+une raison chiffrée. C'est aussi une justification \emph{a priori} du
+choix de grille, ce qui est toujours préférable à une justification
+\emph{a posteriori} par les résultats de simulation.
+\end{apport}
+
+\subsection{Les plages de largeur de bande qui survivent}
+
+\begin{proposition}[Région admissible pour le criblage]
+\label{prop:region-b}
+\statut{A}
+La condition spatiale et la faisabilité locale sont satisfaites dès que
+$h_n\to0$ et $n\alpha_nh_n/\log(p_nn)\to\infty$, soit
+\[
+ 0<b<1-a .
+\]
+En particulier la restriction $b<1/2$ du manuscrit est \emph{inutile}
+pour le criblage. Toute cellule à $b>0$ de la grille affichée
+($a\in\{.25,\dots,.50\}$, $b\in\{0,\dots,.40\}$, somme maximale
+$0{,}90<1$) est couverte, y compris les neuf réglages du bloc
+d'agrégation.
+\end{proposition}
+
+\noindent
+Trois régions sont perdues~: $b=0$ (proposition~\ref{prop:b0})~;
+$a+b\ge1$, où le compte d'extrêmes locaux cesse de diverger~; et, pour
+des gaps rétrécissants $\Delta_{\min,n}\asymp n^{-d}$, il faut de surcroît
+$r_n=o(\Delta_{\min,n})$, soit $d<b$.
+
+\begin{remarque}[Il y a deux conditions $b<1/2$ différentes]
+\label{rem:deux-b}
+La restriction $b<1/2$ du manuscrit provenait d'un argument global de
+type DKW, et elle est bien inutile pour le criblage. Mais une condition
+$b<1/2$ \emph{d'origine différente} réapparaîtra au
+chapitre~\ref{ch:inference}, issue du contrôle du reste de Hájek, et
+celle-là est nécessaire pour l'inférence calibrée sur le maximum. Il faut
+donc distinguer les deux dans le registre~: pour le criblage seul,
+$0<b<1-a$~; pour l'inférence simultanée, en outre $b<1/2$.
+\end{remarque}
+
+\clearpage
+
+\section{L'annexe des hypothèses primitives}\label{ch:primitif}
+
+Le manuscrit possède une annexe qui dérive les conditions utilisées par
+les théorèmes à partir d'hypothèses «~primitives~» portant sur $\gamma$,
+les queues conditionnelles et les noyaux de fibre. La question posée à la
+campagne était~: cette annexe peut-elle être \emph{réellement} primitive,
+ou doit-elle porter à jamais des conditions énoncées sur les objets
+projetés~? La réponse est nuancée, et instructive.
+
+\subsection{Le quotient minimal : tout passe par une intégrale scalaire}
+
+\begin{proposition}[Factorisation exacte de la queue projetée]
+\label{prop:factorisation}
+\statut{A}
+Sous la représentation primitive au niveau logarithmique
+\[
+ \Pp(Y>e^t\mid U=x)=c(x)\,e^{-t/\gamma(x)}\{1+r(t,x)\},
+\]
+posons, pour une coordonnée $j$ et une valeur $u$,
+$x=\iota_j(u,v)$, $\xi=\xi_j(u)$ et
+$D(v)=\frac1{\gamma(x)}-\frac1\xi\ \ge0$. Alors
+\begin{equation}
+ \bar F_{j,u}(e^t)=e^{-t/\xi_j(u)}\,A_{j,u}(t),
+ \qquad
+ A_{j,u}(t)=\int e^{-tD(v)}\,c\{\iota_j(u,v)\}\{1+r(t,\iota_j(u,v))\}\,K_j(u,dv).
+ \label{eq:facto}
+\end{equation}
+L'intégrale scalaire $A_{j,u}$ est le \textbf{quotient complet minimal}
+de la famille primitive~: à recodage bijectif près, c'est par elle seule
+que toute la famille de queues conditionnelles entre dans la queue
+projetée.
+\end{proposition}
+
+\begin{idee}
+Une fois l'indice projeté connu, la seule chose qui reste à savoir de la
+famille conditionnelle est \emph{comment la masse s'accumule près du
+déficit nul} --- c'est-à-dire près des configurations presque
+maximisantes --- pondérée par l'échelle $c$ et corrigée par le reste $r$.
+Rien d'autre ne survit à la projection. Ceci explique d'un coup pourquoi
+$(\gamma,K)$ ne peuvent pas suffire~: ils ignorent $c$ et $r$.
+\end{idee}
+
+\subsection{Une impossibilité, et sa portée exacte}
+
+\begin{theoreme}[Non-détermination par $(\gamma,K)$]
+\label{thm:nondet}
+\statut{I, A}
+Il n'existe aucune caractérisation nécessaire et suffisante de la
+variation régulière de second ordre projetée, ni de la régularité
+horizontale à seuil fini, qui soit fonction des seuls $(\gamma,K)$ sur la
+classe non restreinte des queues conditionnelles.
+\end{theoreme}
+
+\begin{proof}[Témoin]
+Prenons $p=1$, la même loi de $U$, le même noyau trivial, et
+$\gamma\equiv\xi>0$. Premier modèle~: $\bar F_1(e^t)=e^{-t/\xi}$ (Pareto
+exact). Second modèle, après un raccord fini anodin~:
+\[
+ \bar F_2(e^t)=\exp\{-t/\xi+t^{-1/2}\sin t\}.
+\]
+Pour $t$ assez grand, la dérivée logarithmique de $\bar F_2$ est
+négative, donc c'est bien une fonction de survie. Pour tout $a\in\R$
+fixé,
+\[
+ \log\frac{\bar F_2(e^{t+a})}{\bar F_2(e^{t})}
+ =-\frac a\xi+(t+a)^{-1/2}\sin(t+a)-t^{-1/2}\sin t
+ \longrightarrow-\frac a\xi,
+\]
+donc le \emph{premier} ordre est identique. Mais les incréments valent
+\[
+ (t+a)^{-1/2}\sin(t+a)-t^{-1/2}\sin t
+ =2t^{-1/2}\sin(a/2)\cos(t+a/2)+o(t^{-1/2}),
+\]
+qui \emph{oscillent}. Les incréments correspondant à $a=\pi$ et
+$a=\pi/2$ n'ont aucun rapport asymptotique stable~; aucun auxiliaire
+régulier éventuellement non nul ne peut donc convenir simultanément pour
+tout $a$ réel. Les deux modèles ont même $\gamma$ et mêmes noyaux, et
+appartiennent à des classes de second ordre différentes.
+\end{proof}
+
+\begin{remarque}[Ce que ce théorème ne dit pas]
+\label{rem:portee-nondet}
+Il exclut une caractérisation à partir du \emph{descripteur réduit}
+$(\gamma,K)$. Il n'exclut \emph{pas}~: que la variation régulière de
+second ordre projetée existe~; qu'on l'impose directement sur les
+quantiles projetés~; qu'on la déduise d'hypothèses primitives
+\emph{plus riches} faisant intervenir $c(x)$, $r(t,x)$, leurs dérivées et
+des couplages horizontaux~; qu'une condition suffisante utile existe~; ni
+qu'une procédure statistique puisse la tester sur données complètes.
+Confondre non-détermination et impossibilité serait une faute.
+\end{remarque}
+
+\subsection{L'enrichissement qui suffit, et il est vérifiable}
+
+\begin{theoreme}[Transfert primitif]
+\label{thm:transfert}
+\statut{A$^-$}
+Supposons, outre la variation régulière du premier ordre imposée en
+couche séparée~:
+\begin{align}
+ &\text{(P2-SO)}\quad R_0(t)\to0,\qquad tR_1(t)\to0,
+   \qquad\text{où } R_1(t)=\sup_x|\partial_tr(t,x)|,\notag\\
+ &\text{(P3-RV)}\quad H_{j,u}(z)=a_{j,u}\,z^{\kappa_{j,u}}L_{j,u}(1/z)\{1+o(1)\},
+   \qquad \kappa_{j,u}>0,\notag\\
+ &\text{(P4)}\quad \text{couplage horizontal de } 1/\gamma,\ \log c,\ \log(1+r),\notag
+\end{align}
+où $H_{j,u}$ désigne la masse de déficit réciproque pondérée par $c$.
+Alors le quantile projeté satisfait
+\[
+ Q_j(\cdot,u)\in2\mathrm{RV}_{\xi_j(u),\,0}
+ \Bigl(-\frac{\xi_j(u)\kappa_{j,u}}{\log(\cdot)}\Bigr),
+\]
+uniformément sur les fibres utilisées par le score.
+\end{theoreme}
+
+\begin{idee}
+La factorisation \eqref{eq:facto} montre que $A_{j,u}$ est une
+transformée de Laplace de la masse de déficit. Un théorème taubérien de
+Karamata transforme la variation régulière de cette masse \emph{en zéro}
+en variation régulière de sa transformée \emph{à l'infini}. Il ne reste
+qu'à inverser pour passer de la survie au quantile.
+\end{idee}
+
+\subsection{Pourquoi \texorpdfstring{$\rho=0$}{rho=0} et non \texorpdfstring{$-\kappa$}{-kappa} : trois variables à ne pas confondre}
+
+C'est le point le plus facile à manquer, et il décide de toute la théorie
+en aval.
+
+\begin{proposition}[Le paramètre de second ordre vaut zéro]
+\label{prop:rho0}
+\statut{A}
+Sous (P3-RV) avec $\kappa>0$, la survie projetée et le quantile supérieur
+projeté ont pour paramètre de second ordre standard $\rho=0$, et non
+$-\kappa$. Le nombre $-\kappa$ est l'indice de variation régulière du
+facteur de Laplace $B(T)$ \emph{en la variable log-seuil} $T=\log y$,
+c'est-à-dire $B\in\RV_{-\kappa}$~; ce n'est pas le paramètre de second
+ordre relatif aux changements \emph{multiplicatifs} $y\mapsto\lambda y$.
+La codimension effective $\kappa$ ne survit que dans la constante de
+l'auxiliaire~:
+\[
+ A^S(y)\sim-\frac{\kappa}{\log y},
+ \qquad
+ A^Q(s)\sim-\frac{\xi\kappa}{\log s}.
+\]
+\end{proposition}
+
+\noindent
+Le tableau suivant est le meilleur garde-fou. Trois objets, trois
+variables, trois comportements~:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+objet & variable & comportement dominant\\
+\midrule
+$H(\delta)$, masse de déficit & $\delta\downarrow0$ &
+  $\delta^{\kappa}L(1/\delta)$ \quad --- \emph{polynomial}\\
+$B(T)$, facteur de Laplace & $T\to\infty$ & $T^{-\kappa}L(T)$\\
+$\bar F(y)$, survie projetée & $y\to\infty$ &
+  $y^{-1/\xi}(\log y)^{-\kappa}L(\log y)$ \quad --- \emph{logarithmique}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Un comportement \emph{polynomial} dans la variable de déficit devient
+donc un comportement \emph{logarithmique} dans la variable de réponse.
+C'est cette translation, et rien d'autre, qui condamne le régime diffus à
+$\rho=0$ --- ce qui aura les conséquences du chapitre~\ref{ch:biais}.
+
+\subsection{Vérification explicite pour A1}
+
+\begin{proposition}[Exposants de coin pour A1]
+\label{prop:kappa}
+\statut{A, recalculé indépendamment}
+Pour A1, avec $\gamma(u)=\tfrac12\exp(-\sum_{a\le4}u_a)$,
+$U_a=\Phi(Z_a)$ et bloc actif gaussien AR(1) de corrélation $1/4$~:
+en conditionnant sur $U_j=u$ et en posant
+$S=\sum_{a\le4,a\ne j}U_a$, le déficit réciproque exact est
+\[
+ D=2e^u(e^S-1)=2e^u\!\!\sum_{a\ne j}U_a+O(\|U_{-j}\|_1^2),
+\]
+donc le théorème de coin gaussien s'applique en dimension libre $3$, avec
+$\kappa_j=\bm1^\top\Omega_j\bm1$ où $\Omega_j$ est l'inverse de la
+covariance \textbf{conditionnelle} de $Z_{-j}$ sachant $Z_j$. Il vient
+\[
+ \kappa_j=\frac{34}{15}\ \ (j=1,4),
+ \qquad
+ \kappa_j=\frac{41}{15}\ \ (j=2,3),
+\]
+et les survies projetées
+\begin{align*}
+ \bar F_{1,u}(y)&\asymp y^{-1/\xi_1(u)}(\log y)^{-34/15}
+   (\log\log y)^{-11/30}\exp\{-\tfrac4{15}z_u\sqrt{2\log\log y}\},\\
+ \bar F_{2,u}(y)&\asymp y^{-1/\xi_2(u)}(\log y)^{-41/15}
+   (\log\log y)^{-2/15}\exp\{-\tfrac8{15}z_u\sqrt{2\log\log y}\}.
+\end{align*}
+\end{proposition}
+
+\noindent
+\emph{Vérification.} Les deux exposants ont été recalculés
+indépendamment~: $34/15=2{,}266667$ et $41/15=2{,}733333$, avec accord
+exact. Le point délicat est bien le conditionnement~: avec la covariance
+\emph{marginale} on obtiendrait $11/5=2{,}2$, ce qui serait faux.
+
+\begin{apport}
+La classe (P2-SO)/(P3-RV)/(P4) \emph{contient les quatre modèles de
+simulation}, avec vérification complète~: le théorème de coin gaussien
+fournit (P3-RV), les dérivées du reste satisfont (P2-SO), les couplages
+existants donnent (P4). L'annexe peut donc \emph{démontrer} au lieu de
+\emph{supposer}. La division éditoriale propre est~: théorème principal
+sous les conditions projetées directes les plus faibles~; annexe
+primitive comme théorème de transfert rigoureux pour une sous-classe
+naturelle large. Il ne faut pas la présenter comme une équivalence
+universelle --- elle ne l'est pas (remarque~\ref{rem:portee-nondet}).
+\end{apport}
+
+\subsection{La branche atomique : trois cas, pas deux}
+
+\begin{proposition}[Classification des coins]
+\label{prop:atome}
+\statut{A}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+cas & $H$ près de zéro & correction projetée dominante\\
+\midrule
+coin continu & $H(0)=0$, $H(z)\sim az^\kappa L(1/z)$ &
+  $A^Q(s)\sim-\xi\kappa/\log s$, \ $\rho=0$\\
+atome $+$ coin continu & $H(z)=h_0+az^\beta L(1/z)$ &
+  $A^Q(s)\asymp-(\log s)^{-\beta-1}L(\log s)$\\
+atome $+$ trou spectral & $H(z)=h_0$ sur $(0,\delta_0)$ &
+  $A^Q(s)\asymp s^{-\xi\delta_0}$, \ $\boxed{\rho=-\xi\delta_0<0}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Un mélange d'atome et de coin continu n'est \emph{pas} couvert par la
+condition sans atome, mais l'est en appliquant la variation régulière à
+$H(z)-H(0)$. Un mélange atomique \emph{non structuré}, pour lequel aucune
+forme n'est imposée à $H(z)-H(0)$, n'a aucune correction de second ordre
+identifiée et relève du seul premier ordre.
+\end{proposition}
+
+\begin{apport}
+L'ancienne condition de doublement du manuscrit autorisait les atomes,
+mais n'identifiait pas le taux résiduel, donc ne pouvait pas identifier
+l'auxiliaire. La nouvelle formulation répare exactement cela. La
+troisième ligne est à retenir~: c'est le seul endroit de toute la
+campagne qui produise un $\rho$ \emph{strictement négatif}, et donc le
+seul où la théorie classique de second ordre s'applique --- voir
+section~\ref{sec:trou}.
+\end{apport}
+
+\clearpage
+
+\section{La barrière du biais}\label{ch:biais}
+
+Ce chapitre contient le principal résultat négatif de la campagne. Il
+explique pourquoi tous les théorèmes du papier sont, et resteront,
+confinés aux écarts \emph{fixes}.
+
+\subsection{Pourquoi \texorpdfstring{$\rho=0$}{rho=0} interdit tout certificat polynomial}
+
+\begin{theoreme}[Impossibilité d'un certificat de biais polynomial]
+\label{thm:bias-imp}
+\statut{I, A}
+Sous la classe de second ordre projetée du manuscrit, il n'existe aucun
+certificat de biais de queue d'ordre $o(n^{-d})$ pour $d>0$. Aucun
+estimateur ne peut atteindre un taux polynomial uniforme sur cette
+classe.
+\end{theoreme}
+
+\begin{idee}
+Dans le régime de projection diffuse, $\rho=0$ et l'auxiliaire est
+d'ordre $1/\log t$. Or la variation régulière de second ordre à $\rho=0$
+affirme seulement que le reste est $o\{A(t)\}$~: elle \textbf{ne fournit
+aucun taux} pour ce petit-$o$. On peut donc construire, à l'intérieur de
+la même classe, un reste qui décroît plus lentement que \emph{toute}
+puissance $t^{-\beta}$. Les corrections logarithmiques finies ne réparent
+rien, puisque le défaut n'est pas dans le terme dominant mais dans
+l'absence de contrôle du reste.
+\end{idee}
+
+\noindent
+Le manuscrit énonce d'ailleurs déjà, sans en tirer la conséquence, une
+condition (E2) qui donne un biais d'ordre $1/\log(1/\alpha)$ et ne couvre
+que les écarts vérifiant $\Delta_{\min}\log(1/\alpha)\to\infty$~; avec
+$\alpha=n^{-a}$, cela s'écrit $\Delta_{\min}\log n\to\infty$. Aucun
+$\Delta_{\min}\asymp n^{-d}$ ne satisfait cela.
+
+\begin{apport}
+C'est une limite \emph{de la classe}, pas un défaut de preuve. L'article
+doit donc énoncer explicitement que ses théorèmes valent à écarts fixes,
+et \emph{pourquoi} --- au lieu de laisser croire que l'extension aux
+écarts rétrécissants serait un exercice de routine. C'est un
+renforcement de la rédaction, pas un aveu de faiblesse~: on remplace un
+silence par un théorème.
+\end{apport}
+
+\subsection{La classe renforcée, et la bonne construction}
+
+Un certificat polynomial redevient possible sous une hypothèse
+\emph{quantitative de troisième ordre}, que l'on notera $\mathrm{QLH}_\beta$~:
+tout le biais de projection non polynomial doit appartenir à une forme de
+nuisance unidimensionnelle connue, avec un reste polynomial.
+
+Sous $\mathrm{QLH}_\beta$, la construction statistiquement préférable
+n'est \emph{pas} la séparation en puissance des seuils.
+
+\begin{theoreme}[Extrapolation à rapport fixe]
+\label{thm:extrapolation}
+\statut{V}
+Sous $\mathrm{QLH}_\beta$, l'estimateur combinant deux fractions de queue
+différant d'un \emph{facteur constant} $\lambda$, avec des poids d'ordre
+$\log(1/\alpha)$, atteint
+\[
+ \text{biais de queue}=O\{\alpha^\beta\log(1/\alpha)\},
+ \qquad
+ \text{inflation de variance}=O\{\log^2(1/\alpha)\}.
+\]
+Précisément, pour une fenêtre Pareto exacte gelée avec
+$k_0/k_1\to\lambda$, la représentation de Rényi donne
+$\Var(H_{m,k_0})=\xi^2/k_0$, $\Var(H_{m,k_1})=\xi^2/k_1$ et
+$\Cov=\xi^2/k_0$, d'où
+\[
+ \Var(H^{\mathrm{BR}}_m)=\frac{\xi^2}{k_0}\{1+(\lambda-1)w_1^2\},
+ \qquad
+ v_{\lambda,\alpha}\sim\frac{\lambda-1}{(\log\lambda)^2}\log^2(1/\alpha).
+\]
+\end{theoreme}
+
+\begin{proposition}[Rapport optimal]
+\label{prop:lambda}
+\statut{A, recalculé indépendamment}
+La fonction $\lambda\mapsto(\lambda-1)/(\log\lambda)^2$ est minimisée en
+\[
+ \log\lambda^\star=1{,}59362,\qquad
+ \lambda^\star=4{,}92155,\qquad
+ \text{valeur minimale}=1{,}54414 .
+\]
+Le choix de $\lambda$ change les constantes, jamais la région
+d'exposants.
+\end{proposition}
+
+\noindent
+\emph{Vérification.} Ces trois valeurs ont été recalculées
+indépendamment, avec accord exact sur les six chiffres.
+
+\begin{idee}
+L'inflation logarithmique est le prix, incompressible, d'identifier
+\emph{faiblement} le coefficient d'un biais en $1/\log t$ à partir de
+deux seuils voisins. Deux seuils trop proches rendent le système mal
+conditionné (d'où $(\log\lambda)^{-2}$)~; deux seuils trop éloignés
+placent le second trop loin dans la queue (d'où $\lambda-1$). L'optimum
+est le compromis, et il vaut environ $5$.
+\end{idee}
+
+\subsection{La région admissible, et elle est non vide}
+
+\begin{theoreme}[Région $(a,b,d)$ sous $\mathrm{QLH}_\beta$]
+\label{thm:region}
+\statut{V}
+Avec $\alpha_n=n^{-a}$, $h_n=n^{-b}/2$, $p_n\le n^C$ et
+$\Delta_{\min,n}\asymp n^{-d}$, les quatre contraintes sont
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+contrainte & origine\\
+\midrule
+$a+b<1$ & faisabilité locale\\
+$2d<1-a$ & erreur stochastique\\
+$d<a\beta$ & certificat de biais de queue\\
+$d<b$ & biais spatial et horizontal\\
+\bottomrule
+\end{tabular}
+\end{center}
+Un $a$ admissible existe si et seulement si $d/\beta<a<1-2d$, c'est-à-dire
+si et seulement si
+\[
+ \boxed{\ d<\frac{\beta}{2\beta+1}\ }
+\]
+et l'on peut alors choisir $d<b<1-a$. La région est donc non vide~: pour
+$\beta=1$, tout $d<1/3$ est atteignable.
+\end{theoreme}
+
+\subsection{Le prix : les quatre modèles sont exclus}
+
+\begin{proposition}[A1--A3 et B1 ne satisfont pas $\mathrm{QLH}_\beta$]
+\label{prop:modeles-exclus}
+\statut{V}
+La masse de déficit en coin gaussien des quatre modèles engendre, après
+transformation de Laplace et inversion de quantile, des facteurs en
+$\sqrt{\log\log t}$, $\log\log t/\log t$ et puissances inverses de
+$\log\log t$. La correction par séparation en puissance y laisse des
+biais d'ordre
+\[
+ \frac1{\log t\,(\log\log t)^{3/2}}
+ \quad\text{ou}\quad
+ \frac1{\log t\,(\log\log t)^{2}},
+\]
+à coefficients génériquement non nuls. Comme
+$n^{d}/\{\log n(\log\log n)^\nu\}\to\infty$ pour tout $d>0$, ces résidus
+ne sont \emph{jamais} $o(n^{-d})$. Les quatre modèles ne supportent donc
+aucun théorème à écarts polynomialement rétrécissants.
+\end{proposition}
+
+\begin{remarque}[Compatibilité avec le chapitre~\ref{ch:primitif}]
+Il n'y a pas de contradiction avec la
+proposition~\ref{prop:kappa}, qui établit que ces mêmes modèles
+satisfont (P3-RV) avec $\kappa>0$. Les deux énoncés portent sur des
+variables différentes, comme le rappelle le tableau de la
+proposition~\ref{prop:rho0}~: le facteur à variation lente absorbe toute
+la structure en $\log\log$, qui est \emph{subordonnée} à l'auxiliaire
+dominante en $1/\log s$. Les deux résultats tiennent simultanément.
+\end{remarque}
+
+\begin{apport}
+Deux options honnêtes s'offrent à l'article. \emph{(i)} Énoncer le
+théorème à écarts rétrécissants sous $\mathrm{QLH}_\beta$ et dire
+franchement qu'aucun des quatre modèles ne l'illustre. \emph{(ii)}
+Ajouter un \textbf{cinquième modèle de simulation}, construit pour
+satisfaire $\mathrm{QLH}_\beta$ avec $\beta$ explicite, afin que le
+théorème ait un témoin numérique. La seconde est nettement préférable, et
+c'est un travail borné.
+\end{apport}
+
+\subsection{Une porte de sortie possible : le trou spectral}\label{sec:trou}
+
+\begin{remarque}[Piste ouverte]
+L'impossibilité du théorème~\ref{thm:bias-imp} porte sur la branche
+$\rho=0$. Or la troisième ligne de la
+proposition~\ref{prop:atome} --- atome au maximum avec trou spectral ---
+donne $\rho=-\xi\delta_0$ \emph{strictement négatif}, avec une auxiliaire
+qui est une vraie puissance. La théorie classique de second ordre s'y
+applique, et le certificat polynomial devrait donc y être disponible sans
+hypothèse de troisième ordre. Reste à déterminer la taille minimale
+d'atome requise, et surtout si un trou $\delta_0\to0$ avec $n$
+\emph{interpole} entre les deux régimes~: cela fournirait la frontière
+exacte entre biais logarithmique et biais polynomial, c'est-à-dire la
+condition structurelle précise sous laquelle le criblage à écarts
+rétrécissants est possible. Cette question est ouverte à la date de ce
+dossier.
+\end{remarque}
+
+\clearpage
+
+\section{L'inférence simultanée calibrée sur le maximum}\label{ch:inference}
+
+C'est le résultat central de la campagne, et celui qui a demandé le plus
+d'étapes~: la question a été ouverte très tôt, déclarée close par la
+négative, puis rouverte, puis résolue positivement.
+
+\subsection{Ce que l'on veut, et pourquoi ce n'est pas gratuit}
+
+L'article, en l'état, contrôle la multiplicité par Benjamini--Yekutieli,
+valide sous dépendance arbitraire mais conservateur d'un facteur
+$\log p$. Ce que l'on voudrait~: une valeur critique \emph{calibrée sur
+le maximum}, obtenue par bootstrap à multiplicateurs gaussiens, avec la
+vraie dépendance entre coordonnées.
+
+Le passage exige une \emph{représentation linéaire par ligne}~: écrire le
+score de chaque coordonnée comme une moyenne sur les lignes d'une
+fonction d'influence de cette ligne seule, plus un reste négligeable
+uniformément sur $p$ après multiplication par le taux d'approximation
+gaussienne. Les lignes étant alors indépendantes, un multiplicateur
+gaussien à \emph{ligne commune} rééchantillonne les $p$ scores
+simultanément, et une borne de Chernozhukov--Chetverikov--Kato sur les
+hyper-rectangles fournit la valeur critique.
+
+\begin{idee}
+La difficulté annoncée était que le score est bâti sur des \emph{rangs
+empiriques} --- une ligne déplace le rang de toutes les autres --- et sur
+une fenêtre dont l'appartenance est elle-même déterminée par les rangs.
+L'influence d'une ligne n'est donc pas locale. Il s'est avéré que ce
+n'était pas le vrai obstacle.
+\end{idee}
+
+\subsection{La fonction d'influence existe, et les rangs y contribuent deux termes de bord}
+
+\begin{proposition}[Influence de ligne du fonctionnel de rang]
+\label{prop:influence}
+\statut{A}
+Le fonctionnel de rang de population admet l'influence de ligne explicite
+\begin{multline}
+ \varphi_{j,n}(z)=\frac1{|\I|}\int_{\I}\frac1{2h_n}
+ \Bigl[\1\{u-h_n<v_j\le u+h_n\}\,\chi_{j,u}(x)\\
+ +\mu_{j,u}(u+h_n)\{u+h_n-\1(v_j\le u+h_n)\}
+ -\mu_{j,u}(u-h_n)\{u-h_n-\1(v_j\le u-h_n)\}\Bigr]du .
+ \label{eq:influence}
+\end{multline}
+Le premier terme est l'influence de Hill ordinaire~; les deux derniers
+sont la \emph{correction de rang linéaire}, engendrée par le déplacement
+des quantiles marginaux empiriques.
+\end{proposition}
+
+\noindent
+Autrement dit~: la perturbation non locale des rangs se linéarise
+parfaitement, et sa contribution est un couple de termes de bord. Ce
+n'était pas l'obstacle.
+
+\subsection{Une fausse impossibilité, et pourquoi elle était fausse}
+
+Un premier verdict concluait à l'impossibilité, au motif qu'aucune
+représentation ne peut avoir une influence \emph{bornée par une constante
+$O(1)$}~: dans le modèle nul Pareto exact, la variance de l'influence est
+d'ordre $1/\alpha_n$, et une influence bornée contredirait la borne
+inférieure de fluctuation $1/\sqrt{n\alpha_n}$ déjà démontrée.
+
+Ce raisonnement est valide, mais il vise une exigence dont personne n'a
+besoin. Les bornes de
+Chernozhukov--Chetverikov--Kato ne requièrent pas de sommants bornés~:
+elles valent pour des enveloppes non bornées sous condition de norme
+sous-exponentielle, au prix d'un taux explicite.
+
+\begin{proposition}[L'étape gaussienne a de la marge]
+\label{prop:cck}
+\statut{A}
+Après standardisation, l'influence de Hill a une enveloppe
+sous-exponentielle $B_n\lesssim\alpha_n^{-1/2}$. Avec $\alpha_n=n^{-a}$,
+$h_n=n^{-b}$, $p_n\le n^C$~:
+\[
+ \delta^{(6)}_{\mathrm{CCK},n}
+ =O\Bigl[\Bigl\{\frac{\log^7n}{n^{1-a}}\Bigr\}^{1/6}\Bigr],
+ \qquad
+ \delta^{(4)}_{\mathrm{CCK},n}
+ =O\Bigl[\Bigl\{\frac{\log^5(p_nn)}{n\alpha_n}\Bigr\}^{1/4}\Bigr],
+\]
+tous deux $o(1)$ si et seulement si $a<1$. La largeur de bande
+\textbf{n'entre pas} dans cette approximation à sommants linéaires~; elle
+ne revient que dans la faisabilité locale $n\alpha_nh_n\gg\log(p_nn)$,
+soit $a+b<1$.
+
+Pour une dimension véritablement sous-exponentielle,
+$\log p_n\asymp n^\kappa$, les bornes informatives sont
+$\kappa<(1-a)/7$ et, avec le théorème amélioré, $\kappa<(1-a)/5$.
+\end{proposition}
+
+\noindent
+Dans toute la région de criblage du manuscrit, l'étape gaussienne n'est
+donc pas l'étape limitante.
+
+\subsection{Le vrai obstacle, et un faux pas instructif}
+
+Restait un seul énoncé à prouver~: la négligeabilité de la somme de
+toutes les composantes de Hoeffding d'ordre $\ge2$ --- l'erreur de
+projection de Hájek. Le télescopage d'édition de rangs, déjà établi pour
+la robustesse, contrôle une différence de \emph{premier} remplacement, et
+ne dit rien des composantes dégénérées.
+
+\begin{remarque}[L'énoncé faux qu'il faut connaître]
+\label{rem:faux-pas}
+Une intuition naturelle --- et fausse --- consiste à dire~: toute
+différence seconde mixte gagne un facteur $(nh)^{-1}$ sur une différence
+première, puisque remplacer une ligne ne déplace le rang de chaque autre
+ligne que d'\emph{au plus une position}, de sorte que le second
+remplacement voit une fenêtre quasi inchangée.
+
+Cet énoncé est faux pour Hill, parce que \textbf{deux lignes peuvent
+déplacer conjointement le seuil local}. L'intuition est
+«~directionnellement juste mais fausse trajectoire par trajectoire~».
+Aucune borne \emph{déterministe} de différence mixte ne peut fonctionner
+ici, et il est utile de le savoir avant de perdre du temps à en chercher
+une.
+\end{remarque}
+
+\subsection{La preuve : cinq étapes, toutes probabilistes}
+
+\begin{theoreme}[Reste dégénéré uniformément négligeable]
+\label{thm:hajek}
+\statut{V}
+Pour le score glissant local de Hill sur rangs empiriques, la somme de
+toutes les composantes de Hoeffding d'ordre $\ge2$ est négligeable,
+uniformément sur les $p_n$ coordonnées, à l'échelle exigée par
+l'approximation gaussienne, sur la région
+\[
+ \boxed{\ 0<a<1,\qquad 0<b<\tfrac12,\qquad a+b<1 .\ }
+\]
+La représentation exacte par ligne a pour influence
+\[
+ \varphi_{j,n}(Z_i)=n\,b_{j,n}(U_{ij})\,
+   h_{m,k}\bigl[-\log\{1-F_{Y|j}(Y_i\mid U_{ij})\}\bigr].
+\]
+\end{theoreme}
+
+\begin{idee}
+Puisque aucune borne déterministe ne marche, il faut une preuve
+probabiliste. On linéarise chaque statistique de Hill locale à son
+quantile intermédiaire \emph{déterministe} --- et non au quantile
+empirique, ce qui serait circulaire --- puis on contrôle séparément deux
+restes~: celui de la linéarisation locale, et celui de l'assignation des
+rangs. Le coloriage du chapitre~\ref{ch:h} resert pour moyenner les
+restes locaux.
+\end{idee}
+
+\noindent
+\emph{Architecture de la preuve.}
+\begin{enumerate}[leftmargin=2em,itemsep=3pt]
+\item \textbf{Linéarisation conditionnelle} de chaque Hill local à son
+quantile intermédiaire déterministe.
+\item \textbf{Reste de Hájek local}~: on montre qu'il a une échelle de
+queue $k^{-3/4}$, où $k\asymp n\alpha h$. Cela se décompose en trois
+lemmes~: un reste de Bahadur local pour Hill~; la correction de
+projection, d'ordre $O(k^{-1})$~; et une queue \emph{exponentielle} pour
+le reste dégénéré local exact.
+\item \textbf{Moyennage} de ces restes locaux au moyen du coloriage de
+fenêtres disjointes.
+\item \textbf{Statistique de rang linéaire} restante~: linéarisation, et
+borne exponentielle sur son reste d'assignation de rang.
+\item \textbf{Combinaison} des deux bornes exponentielles, puis union sur
+$p_n$.
+\end{enumerate}
+
+\noindent
+\emph{Sur la région d'exposants.} Les cinq parties polynomiales de la
+borne sont respectivement d'ordre $n^{1-a-b}$, $n^{1-a+b}$, $n^{1-a}$,
+$n^{1-2b}$, $n^{2-a-2b}$~; toutes sont contrôlées dès que $a+b<1$ et
+$b<1/2$. Le repère $a+2b<1$ envisagé initialement est strictement plus
+fort, donc suffisant.
+
+\begin{remarque}[Les neuf réglages du manuscrit sont couverts]
+Pour $a\in\{0{,}30,\,0{,}35,\,0{,}40\}$ et
+$b\in\{0{,}10,\,0{,}15,\,0{,}20\}$, on a $\max(a+2b)=0{,}80<1$ et
+$\max b=0{,}20<1/2$. Ce sont exactement les neuf réglages du bloc
+d'agrégation. La théorie couvre donc la procédure telle qu'elle est
+employée dans les simulations, ce qui est rarement le cas.
+\end{remarque}
+
+\noindent
+Voir aussi la remarque~\ref{rem:deux-b}~: le $b<1/2$ qui apparaît ici est
+d'origine différente de celui qui a été éliminé au
+chapitre~\ref{ch:spatial}, et celui-ci est nécessaire.
+
+\subsection{La conséquence}
+
+\begin{corollaire}[Calibration sur le maximum, sans changer d'estimateur]
+\label{cor:calibration}
+\statut{V}
+Soit $\psi_{j,n}=\varphi_{0,n}-\varphi_{j,n}$ l'\emph{influence d'écart},
+différence entre l'influence de la ligne sur la ligne de base
+inconditionnelle et son influence sur la coordonnée $j$. Alors,
+uniformément en $j$,
+\[
+ \widehat\Delta_j-\Delta_{j,n}
+ =\frac1n\sum_{i=1}^n\psi_{j,n}(Z_i)
+ +o_\Pp\Bigl(\frac1{\sqrt{n\alpha\log p}}\Bigr),
+\]
+et la statistique à multiplicateur gaussien de \emph{ligne commune}
+\[
+ T^\ast_n=\max_{j\le p}\Bigl|\frac{\sqrt{\alpha}}{\widehat\sigma_j\sqrt n}
+ \sum_{i=1}^ne_i\{\widehat\psi_{ij,n}-\overline{\widehat\psi}_{j,n}\}\Bigr|,
+\]
+où un seul multiplicateur $e_i$ est partagé par toutes les coordonnées,
+a pour erreur d'approximation
+$O[\{\log^5(pn)/(n\alpha)\}^{1/4}]$ plus l'erreur d'estimation de
+covariance.
+\end{corollaire}
+
+\noindent
+Le partage de $e_i$ est essentiel~: c'est lui qui préserve intégralement
+la dépendance entre coordonnées, laquelle provient du fait que les mêmes
+lignes, et les mêmes réponses extrêmes, alimentent plusieurs coordonnées.
+
+\begin{apport}
+C'est le gain le plus important pour l'article, et il est de nature
+qualitative, non quantitative~: il fait passer d'un contrôle
+\emph{conservateur} de la multiplicité à une \emph{calibration exacte}.
+Trois points méritent d'être soulignés dans la rédaction.
+
+\smallskip
+\emph{Premièrement}, aucune scission d'échantillon n'est nécessaire. Une
+construction alternative par échantillon scindé avait été proposée~; elle
+a été retirée, car elle change l'estimateur, perd une fraction constante
+de l'échantillon, et n'est pas démontrablement préférable au score brut.
+
+\smallskip
+\emph{Deuxièmement}, l'estimateur ne change pas. Le score calibré est
+celui qui est déjà implémenté et déjà simulé.
+
+\smallskip
+\emph{Troisièmement}, la région couverte contient les réglages
+effectivement utilisés, ce qui permet d'écrire une phrase que peu
+d'articles peuvent écrire~: la théorie s'applique à la procédure telle
+qu'elle a été exécutée.
+\end{apport}
+
+\begin{remarque}[Ce qui reste à vérifier]
+Le théorème~\ref{thm:hajek} est marqué \textbf{V}~: l'audit adverse est
+lancé et porte sur six points --- l'origine de l'exposant $3/4$~; la
+légitimité de réutiliser le coloriage pour des restes \emph{dégénérés}
+(dans une classe de couleur, les fenêtres sont disjointes en positions de
+rang, mais les lignes sous-jacentes sont partagées entre coordonnées, de
+sorte que l'indépendance pourrait n'être qu'intra-coordonnée)~; l'erreur
+de transfert du quantile déterministe au quantile empirique~; la borne au
+bord de troncature, où une fenêtre est rognée~; l'origine du $b<1/2$~; et
+le caractère atteignable des conditions de cohérence de covariance.
+Aucun de ces points ne doit être considéré comme acquis avant verdict.
+\end{remarque}
+
+\clearpage
+
+\section{Robustesse, contamination, bornes inférieures}\label{ch:robust}
+
+Ce chapitre rassemble les résultats acquis lors des premières vagues, dont
+les preuves complètes figurent dans les documents annexes de la campagne.
+On en donne ici l'énoncé, l'idée, et l'apport.
+
+\subsection{Le télescopage d'édition de rangs}
+
+\begin{theoreme}[Robustesse sous remplacement de lignes complètes]
+\label{thm:telescopage}
+\statut{A}
+Sous remplacement adaptatif de lignes complètes, le score glissant borné
+sur rangs reste robuste.
+\end{theoreme}
+
+\begin{idee}
+La preuve initiale affirmait qu'une ligne modifiée n'altère que $O(nh)$
+fenêtres. C'est faux~: une ligne modifiée déplace le rang de \emph{toutes}
+les autres, donc affecte potentiellement toutes les fenêtres. La preuve
+correcte est un \emph{télescopage}~: on remplace les lignes contaminées
+une à une, et l'on borne chaque différence successive. Chaque
+remplacement individuel ne déplace chaque rang que d'une position, donc
+son effet sur le score est petit~; la somme des $\varepsilon_cn$
+différences donne la borne. Le résultat survit, la preuve devait être
+remplacée.
+\end{idee}
+
+\begin{apport}
+Le \emph{résultat} du manuscrit est conservé, mais sa \emph{preuve} doit
+être remplacée, avec deux ajustements~: plafond de winsorisation
+\textbf{fixe} (un plafond croissant n'a pas de constante de contamination
+indépendante de ce plafond), et départage déterministe des ex æquo. Il ne
+faut pas écrire qu'aucune preuve n'est à jeter.
+\end{apport}
+
+\subsection{Le plancher de contamination est linéaire}
+
+\begin{theoreme}[Plancher $\varepsilon_c/\alpha$]
+\label{thm:contamination}
+\statut{A}
+Le plancher de contamination du score est d'ordre
+$\varepsilon_c/\alpha$, \emph{linéaire} et non en racine.
+\end{theoreme}
+
+\begin{idee}
+Deux voisinages de Huber d'intensité $\varepsilon$ se coupent avec
+$\TV(P,Q)\le\varepsilon/(1-\varepsilon)$. Comme la distance en variation
+totale exacte entre deux exponentielles de rapport $z$ vaut
+$z(1-z)^{(1-z)/z}$, qui est du \emph{premier} ordre en $1-z$, le plancher
+hérite de cette linéarité. Une contamination de fraction $\varepsilon_c$
+concentrée dans la queue voit sa force amplifiée d'un facteur
+$1/\alpha$, puisque seule la fraction $\alpha$ des observations
+contribue.
+\end{idee}
+
+\begin{apport}
+Un plancher \emph{linéaire} est bien plus contraignant qu'un plancher en
+racine~: à $\alpha=n^{-0{,}3}$ et $n=2000$, le facteur d'amplification
+est d'environ $10$. C'est une correction importante, car une version
+antérieure de ce dossier annonçait $\sqrt{\varepsilon_c/\alpha}$, ce qui
+était trop optimiste.
+\end{apport}
+
+\subsection{Bornes inférieures}
+
+\begin{theoreme}[Transition en grande dimension par Fano avec liste]
+\label{thm:fano}
+\statut{A}
+Sur un sous-modèle de queue plongé, la frontière de détectabilité est
+\[
+ n\alpha\,\Delta^2\asymp\log(p/d),
+\]
+avec un sélecteur de type top-$d$. L'appariement avec la borne supérieure
+est \textbf{en taux, non en constante}.
+\end{theoreme}
+
+\begin{remarque}
+L'argmin ne suffisait que pour $d=1$~; il faut un sélecteur de liste. Et
+l'appariement à la constante près n'a pas été établi --- ne pas l'écrire.
+\end{remarque}
+
+\begin{proposition}[Agrégation par rang minimal]
+\label{prop:agregation}
+\statut{A}
+L'agrégation sur $M$ réglages voisins n'est \emph{ni} un oracle \emph{ni}
+une intersection~: c'est une couverture par \emph{union des tops}, avec
+inflation de liste. Si un seul réglage est bon, la garantie porte sur le
+top $M\cdot s_D$.
+\end{proposition}
+
+\begin{apport}
+Avec $M=9$ et $s_D=4$, la garantie porte sur le top $36$, et non sur le
+top $20$. Le manuscrit annonce «~Sure-20~»~: il faut soit rapporter
+Sure-36, soit énoncer explicitement que Sure-20 est une performance
+empirique et non la quantité couverte par le théorème. C'est le genre de
+décalage qu'un rapporteur relève systématiquement.
+\end{apport}
+
+\clearpage
+
+\section{Ce qu'il faudrait changer dans l'article}\label{ch:changements}
+
+Ce chapitre traduit le dossier en instructions de rédaction.
+
+\subsection{Corrections obligatoires}
+
+\begin{enumerate}[leftmargin=2em,itemsep=4pt]
+\item \textbf{Abrégé et théorème de score}~: remplacer
+$\sqrt{\log(pn)/(n\alpha h)}$ par $\sqrt{\log p/(n\alpha)}$, et la
+condition de criblage $\log(pn)=o(n\alpha h\Delta^2)$ par
+$\log p=o(n\alpha\Delta^2)$. Conserver $n\alpha h$ pour la faisabilité
+locale, le biais spatial et la concentration ponctuelle, en le disant.
+\item \textbf{Cible}~: remplacer $\max_{\supp}\gamma$ par
+$\esssup\gamma$ partout~; viser $\D$ et non $A$~; présenter $\D=A$ comme
+une hypothèse d'accessibilité explicite. L'hypothèse (S) telle
+qu'imprimée n'identifie pas $A$.
+\item \textbf{Condition spatiale}~: remplacer toute hypothèse de
+continuité du profil par la condition quantitative
+$\Omega_n(r_n)=o(\Delta_{\min})$, imposée au rayon gonflé $r_n$ et non à
+$h_n$~; signaler que les fenêtres visent un \emph{supremum essentiel
+mobile}, pas une moyenne.
+\item \textbf{Portée des impossibilités}~: écrire «~non détectable
+\emph{uniformément}~» pour l'apparition retardée~; restreindre
+l'invisibilité marginale aux décisions mesurables par rapport au seul
+couple $(U_j,Y)$~; ne pas présenter (P2) comme \emph{la} condition
+nécessaire.
+\item \textbf{Agrégation}~: top $M\cdot s_D=36$, pas $20$.
+\item \textbf{Écarts fixes}~: énoncer explicitement que les théorèmes
+valent à écarts fixes, et pourquoi (théorème~\ref{thm:bias-imp}).
+\item \textbf{Exposants}~: écrire $0<a<1$ (le zéro était omis) et
+$0<b<1-a$ pour le criblage~; ajouter $b<1/2$ pour l'inférence.
+\item \textbf{Robustesse}~: remplacer la preuve par le télescopage~;
+plafond de winsorisation fixe~; plancher $\varepsilon_c/\alpha$ linéaire.
+\item \textbf{Application}~: statut de criblage exploratoire, non de
+découverte certifiée~; hiérarchiser les prédicteurs en consensus /
+stables / sensibles au réglage / promus par un seul réglage.
+\item \textbf{Nombres}~: écrire systématiquement le design \emph{et} la
+formule à côté de chaque valeur numérique. Les valeurs $0{,}67$ et
+$0{,}611$ sont justes chacune pour son design (simulation et
+application)~; leur ressemblance après correction est trompeuse.
+\end{enumerate}
+
+\subsection{Ajouts recommandés}
+
+\begin{enumerate}[leftmargin=2em,itemsep=4pt]
+\item \textbf{Section d'inférence simultanée} fondée sur le
+chapitre~\ref{ch:inference}, remplaçant Benjamini--Yekutieli par une
+valeur critique calibrée sur le maximum. C'est l'ajout le plus
+substantiel.
+\item \textbf{Annexe primitive réécrite} sous (P2-SO)/(P3-RV)/(P4),
+démontrant au lieu de supposer, avec vérification pour les quatre
+modèles.
+\item \textbf{Explication de la colonne $b=0$} par la
+proposition~\ref{prop:b0}, qui transforme une observation empirique en
+raison chiffrée.
+\item \textbf{Cinquième modèle de simulation} satisfaisant
+$\mathrm{QLH}_\beta$, si l'on souhaite énoncer le théorème à écarts
+rétrécissants avec un témoin numérique.
+\item \textbf{Discussion des trois impossibilités}, qui justifient les
+hypothèses au lieu de les subir.
+\end{enumerate}
+
+\section{Ce qui reste ouvert}
+
+\begin{enumerate}[leftmargin=2em,itemsep=4pt]
+\item \textbf{Audit du théorème~\ref{thm:hajek}} --- six points listés
+en fin de chapitre~\ref{ch:inference}. C'est la priorité~: le résultat
+central ne doit pas entrer dans l'article avant verdict.
+\item \textbf{La branche à trou spectral} (section~\ref{sec:trou}) --- un
+trou $\delta_0\to0$ interpole-t-il entre biais logarithmique et biais
+polynomial~? Cela donnerait la frontière exacte du criblage à écarts
+rétrécissants.
+\item \textbf{Le régime intermédiaire} --- dans la classe primitive, le
+biais dominant est d'ordre exactement $1/\log t$, à coefficient
+\emph{identifié}. Peut-on l'estimer, le soustraire, et itérer jusqu'à
+$1/\log^J$~? Cela donnerait un régime d'écarts strictement entre les
+écarts fixes et les écarts polynomiaux.
+\item \textbf{Rédaction complète} des résultats marqués \textbf{S}.
+\item \textbf{Compression} --- réduire l'ensemble des preuves du papier
+sous une forme sensiblement plus courte, sans affaiblir aucun énoncé.
+\end{enumerate}
+
+\end{document}

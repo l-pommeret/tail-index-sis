@@ -1,0 +1,1174 @@
+% ============================================================
+% STATUT D'AUDIT — ce fichier est dans sa version D'ORIGINE.
+% Les reparations demandees par les audits n'y sont PAS appliquees.
+% Voir maths/JOURNAL.md, section correspondante, avant tout usage.
+% ============================================================
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\I}{I_\varepsilon}
+\newcommand{\gmax}{\gamma^\star}
+\newcommand{\A}{\mathcal A}
+\newcommand{\D}{\mathcal D}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\supp}{\operatorname{supp}}
+\title{Sharper Theory for Tail-Index Marginal Screening}
+\author{Mathematical addendum}
+\date{}
+
+\begin{document}
+\emergencystretch=3em
+\maketitle
+
+\section{What can be weakened, and what can be strengthened}
+
+This addendum uses the notation of the manuscript.  The main changes are:
+(i) continuity of the projected conditional distribution is removed by a
+randomized conditional probability integral transform; (ii) full fibre
+support is replaced by an exact argmax-accessibility condition; (iii) the
+screening theorem targets the identifiable set of positive-gap coordinates,
+without assuming that every active coordinate is marginally visible; (iv)
+the equicontinuity requirement on the projected-index profiles is replaced by
+the strictly weaker requirement that the actual quadrature error vanish; and
+(v) a disjoint-block rank-Hill score is introduced whose stochastic score
+error is of order $(n\alpha)^{-1/2}$, rather than $(n\alpha h)^{-1/2}$, while
+requiring only averaged tail and spatial moduli.
+
+Throughout, $\I=[\varepsilon,1-\varepsilon]$, $0<\varepsilon<1/2$, and
+$\lambda$ denotes Lebesgue measure.  The dimension, all tuning parameters,
+and all model objects may form a triangular array.
+
+\section{Population identification without full fibre support}
+
+For a pointwise regular conditional distribution $K_j(u,\mathrm dv)$ of
+$U_{-j}$ given $U_j=u$, put
+\[
+ C_j(u)=\supp K_j(u,\cdot)\subseteq[0,1]^{p-1}.
+\]
+The set $C_j(u)$ is nonempty and compact.  Let
+$\mathcal M=\arg\max_{x\in[0,1]^p}\gamma(x)$ and define the
+\emph{accessible-argmax set}
+\[
+ \mathcal H_j
+ =\bigl\{u\in\I:(\{u\}\times C_j(u))\cap\mathcal M\ne\varnothing\bigr\}.
+\]
+The notation $\{u\}\times C_j(u)$ is understood through the insertion map
+$\iota_j$.
+
+\begin{theorem}[Support-restricted envelope and exact marginal target]
+\label{thm:support-envelope}
+Assume the conditional regular-variation and uniform-tail assumptions
+(C1)--(C2), and assume that $\gamma$ is continuous.  No full-support
+assumption is imposed.  Then, for every pointwise version $K_j(u,\cdot)$,
+\begin{equation}
+ \xi_j(u)
+ =\esssup_{v\sim K_j(u,\cdot)}\gamma\{\iota_j(u,v)\}
+ =\max_{v\in C_j(u)}\gamma\{\iota_j(u,v)\}.
+ \label{eq:support-envelope}
+\end{equation}
+Consequently,
+\begin{equation}
+ \xi_j(u)=\gmax\quad\Longleftrightarrow\quad u\in\mathcal H_j.
+ \label{eq:accessible-iff}
+\end{equation}
+If
+\[
+ \Psi_j=\frac1{\lambda(\I)}\int_{\I}\xi_j(u)\,\mathrm du,
+ \qquad
+ \Delta_j=\gmax-\Psi_j,
+\]
+then
+\begin{equation}
+ \Delta_j>0
+ \quad\Longleftrightarrow\quad
+ \lambda(\I\setminus\mathcal H_j)>0.
+ \label{eq:gap-accessibility}
+\end{equation}
+No continuity of $u\mapsto\xi_j(u)$ is needed for
+\eqref{eq:gap-accessibility}.
+\end{theorem}
+
+\begin{proof}
+The projection theorem under (C1)--(C2) gives the first expression in
+\eqref{eq:support-envelope}.  Fix $j,u$ and abbreviate
+$K=K_j(u,\cdot)$, $C=C_j(u)$, and
+$f(v)=\gamma\{\iota_j(u,v)\}$.  Since $C$ is compact and $f$ is continuous,
+$m=\max_C f$ is attained.  Because $K(C)=1$, $f\le m$ $K$-almost surely, so
+$\esssup_K f\le m$.  Let $v_\star\in C$ attain $m$.  For every $\eta>0$,
+continuity gives an open neighbourhood $O_\eta$ of $v_\star$ on which
+$f>m-\eta$.  The defining property of the support gives
+$K(O_\eta)>0$, hence $\esssup_Kf\ge m-\eta$.  Letting $\eta\downarrow0$
+proves \eqref{eq:support-envelope}.
+
+The maximum in \eqref{eq:support-envelope} equals $\gmax$ exactly when it is
+attained at a point of the global argmax set, which is
+\eqref{eq:accessible-iff}.  Finally, $0\le\gmax-\xi_j(u)\le\gmax$ and
+\[
+ \Delta_j=\frac1{\lambda(\I)}\int_{\I}\{\gmax-\xi_j(u)\}\,\mathrm du.
+\]
+A nonnegative measurable function has zero integral if and only if it is zero
+almost everywhere.  Combining this fact with \eqref{eq:accessible-iff}
+gives \eqref{eq:gap-accessibility}.
+\end{proof}
+
+\begin{definition}[Null accessibility and the identifiable set]
+\label{def:identifiable}
+The model satisfies \emph{null argmax accessibility} when
+\begin{equation}
+ \lambda(\I\setminus\mathcal H_j)=0
+ \qquad\text{for every }j\notin\A.
+ \tag{NA}
+\end{equation}
+Define
+\begin{equation}
+ \D=\{j\le p:\Delta_j>0\},
+ \qquad
+ \Delta_{\D}=\min_{j\in\D}\Delta_j,
+ \label{eq:Dset}
+\end{equation}
+with the convention $\Delta_{\D}=+\infty$ when $\D=\varnothing$.
+\end{definition}
+
+\begin{corollary}[Minimal population identification]
+\label{cor:minimal-identification}
+Under the assumptions of Theorem~\ref{thm:support-envelope}, condition (NA)
+is equivalent to $\D\subseteq\A$.  Moreover $\D=\A$ if and only if, in
+addition to (NA),
+\[
+ \lambda(\I\setminus\mathcal H_j)>0
+ \qquad\text{for every }j\in\A.
+\]
+Full fibre support is sufficient for these conclusions but is not necessary.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:support-envelope}, $j\in\D$ is equivalent to
+$\lambda(\I\setminus\mathcal H_j)>0$.  Thus (NA) is exactly the statement
+that no inactive coordinate belongs to $\D$.  Equality $\D=\A$ requires and
+is implied by the additional positive-measure condition for every active
+coordinate.
+\end{proof}
+
+\begin{remark}[Why a dependent inactive proxy can have a genuine marginal signal]
+If (NA) fails, an inactive coordinate can restrict the conditional support of
+the active coordinates in a way that removes near-maximizing configurations
+on a positive-measure set of its values.  Its projected tail index then varies,
+even though the structural function $\gamma$ does not depend on that
+coordinate.  This is not an estimation error: the marginal law of $(U_j,Y)$
+genuinely contains a tail-index signal.  No coordinatewise marginal method
+can distinguish such a proxy from a structurally active variable without an
+accessibility or conditional-independence assumption.
+\end{remark}
+
+\section{Atoms are harmless: randomized conditional PIT}
+
+The continuity clause in (E1), and the atomlessness clause in (P1), are not
+needed.  They can be removed without changing the estimator.
+
+\begin{lemma}[Randomized conditional probability integral transform]
+\label{lem:randomized-pit}
+Let $F_j(\cdot\mid u)$ be an arbitrary conditional distribution function of
+$Y$ given $U_j=u$, possibly with atoms, and let
+$Q_j(s,u)=F_j^{-1}(1-s^{-1}\mid u)$.  Enlarge the probability space by iid
+$Z_{ij}\sim\mathrm{Unif}(0,1)$, independent of the data, and define
+\begin{align}
+ T_{ij}
+ &=F_j(Y_i^-\mid U_{ij})
+   +Z_{ij}\{F_j(Y_i\mid U_{ij})-F_j(Y_i^-\mid U_{ij})\},
+ \label{eq:randomized-transform}\\
+ V_{ij}&=1-T_{ij}.
+\end{align}
+For every fixed $j$, conditionally on
+$\bm U_j=(U_{1j},\ldots,U_{nj})$, the variables $V_{1j},\ldots,V_{nj}$ are
+iid standard uniforms and
+\begin{equation}
+ Y_i=Q_j(V_{ij}^{-1},U_{ij})
+ \qquad\text{almost surely.}
+ \label{eq:randomized-quantile-rep}
+\end{equation}
+Consequently every R\'enyi-spacings argument used by a local Hill proof
+remains valid without continuity of $F_j(\cdot\mid u)$.
+\end{lemma}
+
+\begin{proof}
+Fix $u$ and write $F=F_j(\cdot\mid u)$.  For $t\in(0,1)$ let
+$q=F^{-1}(t)$.  Then $F(q^-)\le t\le F(q)$.  Conditional on $Y<q$, the
+random variable in \eqref{eq:randomized-transform} is at most $t$; conditional
+on $Y>q$, it is larger than $t$, apart from null endpoint events.  If
+$\Delta F(q)=F(q)-F(q^-)>0$, then conditional on $Y=q$ the probability of
+being at most $t$ is
+\[
+ \frac{t-F(q^-)}{\Delta F(q)}.
+\]
+Hence
+\[
+ \Pp(T_{ij}\le t\mid U_{ij}=u)
+ =F(q^-)+\Delta F(q)
+   \frac{t-F(q^-)}{\Delta F(q)}=t.
+\]
+When $\Delta F(q)=0$, necessarily $F(q^-)=F(q)=t$ and the same identity
+holds.  Thus $T_{ij}$, and therefore $V_{ij}$, is conditionally uniform.
+Independence across $i$ follows from conditional independence of the data and
+of the auxiliary uniforms.
+
+The distributional transform also satisfies
+$F^{-1}(T_{ij}\mid U_{ij})=Y_i$ almost surely.  Indeed, on an atom at $Y_i$
+we have
+$F(Y_i^-\mid U_{ij})<T_{ij}<F(Y_i\mid U_{ij})$ almost surely, and the
+generalized inverse is exactly $Y_i$.  At continuity points the only possible
+failure would place $Y_i$ in an interval on which the conditional distribution
+is constant; the union of the relevant open intervals is countable and has
+conditional probability zero.  Since $T_{ij}=1-V_{ij}$,
+\eqref{eq:randomized-quantile-rep} follows.
+\end{proof}
+
+\section{Finite-sample screening of the identifiable set}
+
+Let $G=\{r/(n+1):1\le r\le n\}\cap\I$, $L_n=|G|$,
+$\delta_n=(n+1)^{-1}$, and retain the manuscript's empirical-rank local Hill
+score $\widehat\Psi_j$.  Put
+\begin{equation}
+ q_n^\circ
+ =\max_{j\le p}
+ \left|\frac1{L_n}\sum_{u\in G}\xi_j(u)-\Psi_j\right|.
+ \label{eq:direct-quadrature}
+\end{equation}
+This is the exact quadrature error.  Assuming $q_n^\circ=o(\Delta_{\D})$ is
+strictly weaker than imposing a common modulus of continuity on every
+profile.
+
+For the existing moduli, write
+\begin{align*}
+ b_n(3\alpha)
+ &=\max_{j\le p}\sup_{u\in\I}
+   \sup_{s\ge(3\alpha)^{-1},\,t>1}
+   \frac{|\log\{\ell_j(ts,u)/\ell_j(s,u)\}|}{\log t},\\
+ \omega_n^\uparrow(r,\tau,\alpha)
+ &=\max_{j\le p}\sup_{u\in\I}
+   \sup_{|v-u|\le r}\sup_{w\in[\tau,3\alpha]}
+   \left|\log\frac{Q_j(w^{-1},v)}{Q_j(w^{-1},u)}\right|.
+\end{align*}
+Let $K_n$ be the deterministic lower bound on the local number of upper order
+statistics and let $S_n=4n+1$ be the number of rank-window states.
+
+\begin{theorem}[Exact finite-sample score and ranking bound]
+\label{thm:finite-identifiable}
+Assume the quantile representation
+$Q_j(s,u)=s^{\xi_j(u)}\ell_j(s,u)$ and use the randomized PIT of
+Lemma~\ref{lem:randomized-pit}.  Suppose $K_n\ge2$, $0<\alpha\le1/3$, and
+$0<h\le1-\varepsilon$.  For every $\eta>0$, $0<t\le1$, and
+$0<\tau\le3\alpha$, define
+\begin{align}
+ e_n(\eta,t,\tau)
+ &=2\omega_n^\uparrow(h+\eta+\delta_n,\tau,\alpha)
+   +\Gamma t+(1+t)b_n(3\alpha)+q_n^\circ,
+ \label{eq:finite-en}\\
+ R_n(\eta,t,\tau)
+ &=2pe^{-2n\eta^2}+pn\tau
+   +2pS_ne^{-K_nt^2/4}+pS_ne^{-(K_n+1)/4}.
+ \label{eq:finite-Rn}
+\end{align}
+Then
+\begin{equation}
+ \Pp\left\{\max_{j\le p}|\widehat\Psi_j-\Psi_j|>
+ e_n(\eta,t,\tau)\right\}
+ \le R_n(\eta,t,\tau).
+ \label{eq:finite-score-main}
+\end{equation}
+On the complementary event, every pair $j,k$ satisfying
+\begin{equation}
+ \Delta_j-\Delta_k>2e_n(\eta,t,\tau)
+ \label{eq:pairwise-margin}
+\end{equation}
+obeys $\widehat\Psi_j<\widehat\Psi_k$.  In particular, if
+$e_n(\eta,t,\tau)<\Delta_{\D}/2$, then every coordinate in $\D$ precedes
+every coordinate in $\D^c$, and therefore
+\begin{equation}
+ \Pp(\D\subseteq\widehat\A_d)
+ \ge1-R_n(\eta,t,\tau),\qquad d\ge|\D|,
+ \label{eq:finite-sure-D}
+\end{equation}
+and
+\begin{equation}
+ \Pp(\widehat\A_{|\D|}=\D)
+ \ge1-R_n(\eta,t,\tau).
+ \label{eq:finite-exact-D}
+\end{equation}
+Under (NA), $\D\subseteq\A$; if also $\D=\A$, these are the usual sure
+screening and exact-recovery conclusions.
+\end{theorem}
+
+\begin{proof}
+Condition on a covariate column $\bm U_j$ and use
+Lemma~\ref{lem:randomized-pit}.  The rank windows are then deterministic and
+the randomized PIT variables are iid uniforms.  The sorting, tail-freezing,
+R\'enyi representation, and slowly varying remainder arguments are therefore
+unchanged.  A union bound over coordinates and the at most $S_n$ admissible
+window states gives the profile bound
+\[
+ \Pp\left\{\max_j\sup_{u\in\I}
+ |\widehat\xi_j(u)-\xi_j(u)|>
+ 2\omega_n^\uparrow(h+\eta+\delta_n,\tau,\alpha)
+ +\Gamma t+(1+t)b_n(3\alpha)\right\}
+ \le R_n(\eta,t,\tau).
+\]
+Pathwise,
+\[
+ |\widehat\Psi_j-\Psi_j|
+ \le\sup_{u\in\I}|\widehat\xi_j(u)-\xi_j(u)|+q_n^\circ,
+\]
+which proves \eqref{eq:finite-score-main}.
+
+Since $\Psi_j=\gmax-\Delta_j$, on the event in
+\eqref{eq:finite-score-main},
+\[
+ \widehat\Psi_j-\widehat\Psi_k
+ \le-(\Delta_j-\Delta_k)+2e_n(\eta,t,\tau).
+\]
+This is negative under \eqref{eq:pairwise-margin}.  For $j\in\D$ and
+$k\in\D^c$, $\Delta_j\ge\Delta_{\D}$ and $\Delta_k=0$, yielding strict
+separation when $e_n<\Delta_{\D}/2$.  The screening and recovery statements
+are then deterministic consequences of ranking.
+\end{proof}
+
+\begin{corollary}[Sharper asymptotic conditions for the implemented score]
+\label{cor:asymptotic-identifiable}
+Assume the hypotheses of Theorem~\ref{thm:finite-identifiable} and, with
+$\tau_n=(pn)^{-2}$,
+\begin{align}
+ \log(2p)&=o(nh^2),
+ \label{eq:rank-sharp}\\
+ \log(pn)&=o(n\alpha h),
+ \label{eq:state-feasible}\\
+ b_n(3\alpha)+\omega_n^\uparrow(C_0h,\tau_n,\alpha)+q_n^\circ
+ &=o(\Delta_{\D})
+ \label{eq:direct-bias-D}
+\end{align}
+for some $C_0>1$, and
+\begin{equation}
+ \log(pn)=o(n\alpha h\,\Delta_{\D}^2).
+ \label{eq:D-screen-rate}
+\end{equation}
+Then every coordinate in $\D$ precedes every coordinate in $\D^c$ with
+probability tending to one, so
+\[
+ \Pp(\D\subseteq\widehat\A_d)\to1\quad(d\ge|\D|),
+ \qquad
+ \Pp(\widehat\A_{|\D|}=\D)\to1.
+\]
+The rank-displacement condition is \eqref{eq:rank-sharp}, involving
+$\log p$ rather than $\log(pn)$.
+\end{corollary}
+
+\begin{proof}
+Condition \eqref{eq:rank-sharp} permits a sequence $r_n\to\infty$ such that
+$\log(2p)+r_n=o(nh^2)$.  Set
+\[
+ \eta_n=\sqrt{\frac{\log(2p)+r_n}{2n}}.
+\]
+Then $2pe^{-2n\eta_n^2}=e^{-r_n}$ and
+$\eta_n+\delta_n=o(h)$; the latter also uses
+$nh\to\infty$, which follows from \eqref{eq:state-feasible}.  Hence
+$h+\eta_n+\delta_n\le C_0h$ eventually.
+
+Similarly choose $s_n\to\infty$ with
+$\log(2pS_n)+s_n=o(K_n)$ and put
+\[
+ t_n=2\sqrt{\frac{\log(2pS_n)+s_n}{K_n}}.
+\]
+Then the spacings term in \eqref{eq:finite-Rn} tends to zero,
+$t_n=o(1)$, and
+\[
+ t_n=O\!\left(\sqrt{\frac{\log(pn)}{n\alpha h}}\right).
+\]
+The threshold term also vanishes because
+$\log(pS_n)=o(K_n)$, and $pn\tau_n=(pn)^{-1}\to0$.  By
+\eqref{eq:D-screen-rate}, the stochastic term is $o(\Delta_{\D})$; the
+remaining terms are $o(\Delta_{\D})$ by
+\eqref{eq:direct-bias-D}.  Theorem~\ref{thm:finite-identifiable} applies.
+\end{proof}
+
+\begin{proposition}[Bounded variation is enough for quadrature]
+\label{prop:BV-quadrature}
+Suppose $0\le\xi_j\le\Gamma$ and
+$\max_{j\le p}\TV_{\I}(\xi_j)\le V_n$.  Then the full-grid quadrature error
+in \eqref{eq:direct-quadrature} satisfies
+\begin{equation}
+ q_n^\circ\le C_\varepsilon\frac{V_n+\Gamma}{n}.
+ \label{eq:BV-full-grid}
+\end{equation}
+Thus no continuity or equicontinuity of $u\mapsto\xi_j(u)$ is required; a
+uniformly bounded number and size of jumps is allowed.
+\end{proposition}
+
+\begin{proof}
+Associate to each grid point in $G$ its Voronoi cell in $\I$.  Every cell has
+length $\delta_n$ except for two boundary perturbations of order $\delta_n$.
+On a cell $C$ with selected point $u_C$,
+\[
+ \int_C|\xi_j(u)-\xi_j(u_C)|\,\mathrm du
+ \le\lambda(C)\TV_C(\xi_j).
+\]
+Summing over disjoint cells gives at most $\delta_nV_n$.  The discrepancy
+between equal grid weights and normalized cell lengths is supported by the
+two boundary cells and is $O_\varepsilon(\delta_n)$; boundedness by $\Gamma$
+therefore contributes $O_\varepsilon(\Gamma\delta_n)$.  This proves
+\eqref{eq:BV-full-grid}.
+\end{proof}
+
+\section{Exact recovery without knowing the active-set size}
+
+The maximum population score is the null baseline whenever at least one
+zero-gap coordinate exists.  This gives a thresholded selector that does not
+need $s$ or $|\D|$.
+
+\begin{theorem}[Baseline thresholding]
+\label{thm:baseline-threshold}
+Assume $\D^c\ne\varnothing$ and define
+\[
+ \widehat\gamma_{\max}=\max_{1\le j\le p}\widehat\Psi_j,
+ \qquad
+ \widehat\Delta_j=\widehat\gamma_{\max}-\widehat\Psi_j.
+\]
+On any event on which
+$\max_j|\widehat\Psi_j-\Psi_j|\le e$, one has
+\begin{align}
+ \widehat\Delta_j&\le2e, &&j\in\D^c,
+ \label{eq:null-est-gap}\\
+ \widehat\Delta_j&\ge\Delta_j-2e, &&j\in\D.
+ \label{eq:active-est-gap}
+\end{align}
+Consequently, for every threshold $\lambda$ satisfying
+\begin{equation}
+ 2e<\lambda<\Delta_{\D}-2e,
+ \label{eq:threshold-window}
+\end{equation}
+\[
+ \{j:\widehat\Delta_j>\lambda\}=\D.
+\]
+Combining this with Theorem~\ref{thm:finite-identifiable} yields an explicit
+finite-sample recovery probability without assuming that $|\D|$ is known.
+\end{theorem}
+
+\begin{proof}
+All population scores are at most $\gmax$, and a coordinate in $\D^c$ has
+score exactly $\gmax$.  Hence on the stated event
+\[
+ \gmax-e\le\widehat\gamma_{\max}\le\gmax+e.
+\]
+For $j\in\D^c$, $\widehat\Psi_j\ge\gmax-e$, giving
+\eqref{eq:null-est-gap}.  For $j\in\D$,
+$\widehat\Psi_j\le\gmax-\Delta_j+e$, giving
+\eqref{eq:active-est-gap}.  The threshold conclusion follows immediately.
+\end{proof}
+
+\section{A disjoint-block score with an $(n\alpha)^{-1/2}$ stochastic rate}
+
+The implemented score averages $O(n)$ highly overlapping local Hill
+statistics and controls that average by the maximum profile error.  This loses
+the averaging gain.  The following rank-block construction uses disjoint
+local samples, so its score fluctuation is governed by the total number
+$n\alpha$ of extremes used across the trimmed interval.
+
+Write the rank indices in $G$ as
+$r_1<\cdots<r_{L_n}$.  Choose an integer $m=m_n$ with
+$2\le m\le L_n$ and put
+\[
+ B=B_n=\lfloor L_n/m\rfloor,
+ \qquad k=k_n=\lfloor\alpha m\rfloor\ge2.
+\]
+For $b=1,\ldots,B$, set
+\begin{align*}
+ \mathcal R_b&=\{r_{(b-1)m+1},\ldots,r_{bm}\},\\
+ u_b&=\frac{r_{(b-1)m+1}+r_{bm}}{2(n+1)},\\
+ \mathcal B_{jb}&=\{i:R_{ij}\in\mathcal R_b\}.
+\end{align*}
+The sets $\mathcal B_{j1},\ldots,\mathcal B_{jB}$ are disjoint and each has
+exactly $m$ observations.  Let $H_{jb}$ be the ordinary Hill statistic based
+on the largest $k$ responses in $\mathcal B_{jb}$, and define
+\begin{equation}
+ \widetilde\Psi_j=\frac1B\sum_{b=1}^B H_{jb}.
+ \label{eq:block-score}
+\end{equation}
+Put
+\begin{equation}
+ \bar h_m=\frac{m-1}{2(n+1)},
+ \qquad
+ q_{n,B}=\max_{j\le p}\left|
+ \frac1B\sum_{b=1}^B\xi_j(u_b)-\Psi_j\right|.
+ \label{eq:block-quadrature}
+\end{equation}
+For each block define the local tail and spatial moduli
+\begin{align}
+ b_{j,b}
+ &=\sup_{s\ge(3\alpha)^{-1},\,t>1}
+   \frac{|\log\{\ell_j(ts,u_b)/\ell_j(s,u_b)\}|}{\log t},
+ \label{eq:block-tail-modulus}\\
+ \omega_{j,b}(r,\tau,\alpha)
+ &=\sup_{\substack{v\in[0,1]\\|v-u_b|\le r}}
+   \sup_{w\in[\tau,3\alpha]}
+   \left|\log\frac{Q_j(w^{-1},v)}{Q_j(w^{-1},u_b)}\right|,
+ \label{eq:block-spatial-modulus}
+\end{align}
+and their averaged versions
+\begin{equation}
+ \bar b_n=\max_{j\le p}\frac1B\sum_{b=1}^B b_{j,b},
+ \qquad
+ \bar\omega_n(r,\tau,\alpha)
+ =\max_{j\le p}\frac1B\sum_{b=1}^B
+   \omega_{j,b}(r,\tau,\alpha).
+ \label{eq:average-moduli}
+\end{equation}
+These assumptions permit a small collection of rough locations, provided
+their average contribution is negligible.
+
+\begin{lemma}[Weighted exponential-means concentration]
+\label{lem:weighted-exp}
+Let $L_1,\ldots,L_B$ be independent, each distributed as the mean of $k$ iid
+standard exponentials, and let $a_b\ge0$.  Put
+\[
+ Z=\sum_{b=1}^B a_b(L_b-1),
+ \qquad
+ V=\frac1k\sum_{b=1}^B a_b^2,
+ \qquad
+ c=\frac1k\max_ba_b.
+\]
+Then, for every $x>0$,
+\begin{equation}
+ \Pp\{Z>\sqrt{2Vx}+cx\}\le e^{-x},
+ \qquad
+ \Pp\{Z<-\sqrt{2Vx}\}\le e^{-x}.
+ \label{eq:weighted-exp-tail}
+\end{equation}
+In particular, if $a_b\le\Gamma/B$, then
+\begin{equation}
+ \Pp\left\{|Z|>
+ \Gamma\left(\sqrt{\frac{2x}{Bk}}+\frac{x}{Bk}\right)\right\}
+ \le2e^{-x}.
+ \label{eq:weighted-exp-special}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For $0<\theta<c^{-1}$, with $z_b=\theta a_b/k$,
+\begin{align*}
+ \log\E e^{\theta Z}
+ &=\sum_{b=1}^B k\{-z_b-\log(1-z_b)\}\\
+ &\le\sum_{b=1}^B\frac{kz_b^2}{2(1-z_b)}
+ \le\frac{\theta^2V}{2(1-c\theta)}.
+\end{align*}
+The first inequality follows from
+$-z-\log(1-z)\le z^2/[2(1-z)]$ for $0\le z<1$.
+The standard Chernoff optimization for this sub-gamma bound gives the upper
+tail in \eqref{eq:weighted-exp-tail}.  For the lower tail,
+\[
+ \log\E e^{-\theta Z}
+ =\sum_bk\{z_b-\log(1+z_b)\}
+ \le\frac{\theta^2V}{2},
+\]
+which gives the stated sub-Gaussian lower tail.  If $a_b\le\Gamma/B$, then
+$V\le\Gamma^2/(Bk)$ and $c\le\Gamma/(Bk)$, proving
+\eqref{eq:weighted-exp-special}.
+\end{proof}
+
+\begin{theorem}[Finite-sample block-score concentration]
+\label{thm:block-finite}
+Assume the quantile representation
+$Q_j(s,u)=s^{\xi_j(u)}\ell_j(s,u)$ and use the randomized PIT of
+Lemma~\ref{lem:randomized-pit}.  Suppose $0<\alpha\le1/3$ and $k\ge2$.
+For every $\eta>0$, $x>0$, and $0<\tau\le3\alpha$, put
+\begin{align}
+ r_{n,B}(\eta,x,\tau)
+ &=2\bar\omega_n(\bar h_m+\eta+\delta_n,\tau,\alpha)
+   +2\bar b_n+q_{n,B}
+ \nonumber\\
+ &\quad+\Gamma\left(\sqrt{\frac{2x}{Bk}}+\frac{x}{Bk}\right).
+ \label{eq:block-radius}
+\end{align}
+Then
+\begin{align}
+ &\Pp\left\{\max_{j\le p}
+ |\widetilde\Psi_j-\Psi_j|>r_{n,B}(\eta,x,\tau)\right\}
+ \nonumber\\
+ &\qquad\le
+ 2pe^{-2n\eta^2}+pn\tau+3pB e^{-k/4}+2pe^{-x}.
+ \label{eq:block-finite-bound}
+\end{align}
+Thus the stochastic part of the score error depends on $Bk$, the total number
+of upper-order-statistic contributions across the disjoint blocks.
+\end{theorem}
+
+\begin{proof}
+Fix a coordinate $j$ and condition on $\bm U_j$.  The rank blocks are then
+deterministic and disjoint.  By Lemma~\ref{lem:randomized-pit}, their PIT
+collections are independent and standard uniform.  Let
+$V_{jb,(1)}<\cdots<V_{jb,(m)}$ be the PIT order statistics in block $b$ and
+put
+\[
+ L_{jb}=\frac1k\sum_{r=1}^k
+ \log\frac{V_{jb,(k+1)}}{V_{jb,(r)}}.
+\]
+The variables $L_{j1},\ldots,L_{jB}$ are conditionally independent and each
+is a mean of $k$ iid standard exponentials.
+
+Let $D_n(\eta)$ be the simultaneous rank-displacement event.  Its complement
+has probability at most $2pe^{-2n\eta^2}$.  On $D_n(\eta)$, every observation
+in block $b$ satisfies
+\[
+ |U_{ij}-u_b|\le\bar h_m+\eta+\delta_n.
+\]
+Outside the event that some randomized PIT is below $\tau$, whose probability
+is at most $pn\tau$, and outside the event
+$V_{jb,(k+1)}>3\alpha$, tail-only freezing gives
+\[
+ |H_{jb}-\check H_{jb}|
+ \le2\omega_{j,b}(\bar h_m+\eta+\delta_n,\tau,\alpha),
+\]
+where $\check H_{jb}$ freezes all block quantiles at $u_b$.  The threshold
+order-statistic inequality and a union bound give total failure probability
+at most $pB e^{-(k+1)/4}\le pBe^{-k/4}$.
+
+For the frozen statistic,
+\[
+ \check H_{jb}=\xi_j(u_b)L_{jb}+R_{jb},
+ \qquad
+ |R_{jb}|\le b_{j,b}L_{jb}.
+\]
+The exponential Chernoff bound gives
+$\Pp(L_{jb}>2\mid\bm U_j)\le2e^{-k/4}$.  Hence, outside an additional event
+of probability at most $2pBe^{-k/4}$,
+\[
+ \frac1B\sum_{b=1}^B|R_{jb}|
+ \le\frac2B\sum_{b=1}^Bb_{j,b}\le2\bar b_n
+\]
+for every $j$.
+
+It remains to control
+\[
+ Z_j=\frac1B\sum_{b=1}^B
+ \xi_j(u_b)(L_{jb}-1).
+\]
+Apply Lemma~\ref{lem:weighted-exp} conditionally with
+$a_b=\xi_j(u_b)/B\le\Gamma/B$, then take a union bound over $j$.  With
+conditional, and hence unconditional, probability at least $1-2pe^{-x}$,
+\[
+ \max_{j\le p}|Z_j|
+ \le\Gamma\left(\sqrt{\frac{2x}{Bk}}+\frac{x}{Bk}\right).
+\]
+Combining the spatial, tail, stochastic, and quadrature terms proves
+\eqref{eq:block-finite-bound}.
+\end{proof}
+
+\begin{corollary}[Block-score rate and screening]
+\label{cor:block-rate}
+Suppose
+\[
+ m_n\asymp nh_n,
+ \qquad B_n\asymp h_n^{-1},
+ \qquad k_n\asymp n\alpha_nh_n,
+\]
+so that $B_nk_n\asymp n\alpha_n$.  Assume
+\begin{align}
+ \log(2p)&=o(nh_n^2),
+ \label{eq:block-rank-cond}\\
+ \log(p/h_n)&=o(n\alpha_nh_n),
+ \label{eq:block-local-cond}\\
+ \bar\omega_n(C h_n,\tau_n,\alpha_n)+\bar b_n+q_{n,B}
+ &=o(\Delta_{\D}),
+ \qquad \tau_n=(pn)^{-2},
+ \label{eq:block-bias-cond}\\
+ \log(2p)&=o(n\alpha_n\Delta_{\D}^2).
+ \label{eq:block-screen-cond}
+\end{align}
+Then
+\begin{equation}
+ \max_{j\le p}|\widetilde\Psi_j-\Psi_j|
+ =O_{\Pp}\!\left(
+ \sqrt{\frac{\log(2p)}{n\alpha_n}}
+ +\frac{\log(2p)}{n\alpha_n}
+ \right)+o(\Delta_{\D}),
+ \label{eq:block-rate-final}
+\end{equation}
+and every coordinate in $\D$ precedes every coordinate in $\D^c$ with
+probability tending to one.  Hence the sure-screening, exact-recovery, and
+baseline-threshold conclusions of the previous section hold with
+$\widetilde\Psi$ in place of $\widehat\Psi$.
+\end{corollary}
+
+\begin{proof}
+Choose $\eta_n$ exactly as in
+Corollary~\ref{cor:asymptotic-identifiable};
+\eqref{eq:block-rank-cond} makes the rank term vanish and ensures that the
+spatial radius is at most $Ch_n$.  Since $B_n\asymp h_n^{-1}$,
+\eqref{eq:block-local-cond} gives $pB_ne^{-k_n/4}\to0$.  The PIT truncation
+term vanishes for $\tau_n=(pn)^{-2}$.  Finally choose
+$x_n=\log(2p)+r_n$, where $r_n\to\infty$ sufficiently slowly.  The last term
+in \eqref{eq:block-finite-bound} vanishes, and because
+$B_nk_n\asymp n\alpha_n$, the stochastic radius has the order displayed in
+\eqref{eq:block-rate-final}.  Conditions
+\eqref{eq:block-bias-cond}--\eqref{eq:block-screen-cond} make the total error
+$o_{\Pp}(\Delta_{\D})$, after which deterministic separation applies.
+\end{proof}
+
+\begin{proposition}[Block quadrature under bounded variation]
+\label{prop:block-BV}
+If $0\le\xi_j\le\Gamma$ and
+$\max_j\TV_{\I}(\xi_j)\le V_n$, then
+\begin{equation}
+ q_{n,B}\le C_\varepsilon(V_n+\Gamma)
+ \left(\frac{m_n}{n}+\frac1n\right).
+ \label{eq:block-BV-bound}
+\end{equation}
+In the usual choice $m_n\asymp nh_n$, the quadrature error is
+$O\{(V_n+\Gamma)h_n\}$, even for discontinuous profiles.
+\end{proposition}
+
+\begin{proof}
+Let $d_n=m_n/(n+1)$ and associate to every midpoint $u_b$ the interval of
+length $d_n$ centred at $u_b$.  These intervals are disjoint and contiguous.
+Their union differs from $\I$ only by the two grid-endpoint errors and by the
+unused final group of fewer than $m_n$ ranks; its symmetric-difference length
+is $O(d_n+\delta_n)$.  On each block interval $J_b$,
+\[
+ \int_{J_b}|\xi_j(u)-\xi_j(u_b)|\,\mathrm du
+ \le d_n\TV_{J_b}(\xi_j).
+\]
+Summing gives at most $d_nV_n$.  Normalizing by an interval length bounded
+away from zero, and controlling the omitted boundary set by $\Gamma$, yields
+\eqref{eq:block-BV-bound}.
+\end{proof}
+
+\section{The primitive doubling condition can be replaced}
+
+The manuscript's deficit-mass doubling assumption is a convenient route to a
+$1/t$ bound, but it is stronger than the transfer proof needs.  Define, with
+$D_{j,u}=1/\gamma-1/\xi_j(u)$,
+\begin{align*}
+ B_{j,u}(t)
+ &=\int e^{-tD_{j,u}(v)}c\{\iota_j(u,v)\}K_j(u,\mathrm dv),\\
+ M_{j,u}(t)
+ &=\int D_{j,u}(v)e^{-tD_{j,u}(v)}
+   c\{\iota_j(u,v)\}K_j(u,\mathrm dv),\\
+ \chi_n(T)
+ &=\max_{j\le p_n}\sup_{u\in I_{\varepsilon/2}}
+   \sup_{t\ge T}\frac{M_{j,u}(t)}{B_{j,u}(t)}.
+\end{align*}
+
+\begin{description}
+\item[(P3-L)] \emph{Uniform Laplace localization:}
+$\lim_{T\to\infty}\sup_n\chi_n(T)=0$.
+\end{description}
+
+This condition says exactly that the exponentially tilted fibre law
+concentrates near zero reciprocal-index deficit.  It imposes no doubling,
+regular variation, density, or polynomial margin.
+
+\begin{theorem}[Primitive transfer under uniform Laplace localization]
+\label{thm:laplace-transfer}
+Assume the geometry and Lipschitz clauses of (P1), but not atomlessness;
+assume (P2), (P4), and (P3-L).  Let
+$x_\alpha=\log\{(3\alpha_n)^{-1}\}$ and
+$c_\gamma=\underline\gamma/2$.  Then, after a common onset,
+\begin{equation}
+ b_n(3\alpha_n)
+ \le6\Gamma^2\chi_n(c_\gamma x_\alpha)
+   +4\Gamma^2\overline R_1(c_\gamma x_\alpha).
+ \label{eq:laplace-E2}
+\end{equation}
+The spatial transfer bound obtained from (P4) is unchanged, and the
+conditional-quantile representation follows from
+Lemma~\ref{lem:randomized-pit}; no atomlessness assumption is required.
+Consequently, the score and screening theorems apply whenever
+\begin{equation}
+ \chi_n(c_\gamma x_\alpha)
+ +\overline R_1(c_\gamma x_\alpha)
+ =o(\Delta_{\D}),
+ \label{eq:laplace-rate}
+\end{equation}
+together with the corresponding spatial and quadrature conditions.
+The original doubling assumption implies (P3-L) with
+$\chi_n(T)=O(T^{-1})$, but is not necessary.
+\end{theorem}
+
+\begin{proof}
+Suppress $(j,u)$.  Write
+\[
+ \mathcal A(t)=\int e^{-tD(v)}c(v)\{1+r(t,v)\}K(\mathrm dv).
+\]
+Then the projected survival function factors exactly as
+\[
+ \overline F_j(e^t\mid u)=e^{-t/\xi_j(u)}\mathcal A(t).
+\]
+For large $t$, $R_0(t)\le1/2$, and differentiation gives
+\[
+ \mathcal A'(t)
+ =-\int De^{-tD}c(1+r)\,\mathrm dK
+   +\int e^{-tD}c\,\partial_tr\,\mathrm dK.
+\]
+Since
+$(1-R_0)B\le\mathcal A\le(1+R_0)B$,
+\begin{equation}
+ \left|\frac{\mathcal A'(t)}{\mathcal A(t)}\right|
+ \le3\frac{M(t)}{B(t)}+2R_1(t)
+ \le3\chi_n(t)+2R_1(t)=:g_n(t).
+ \label{eq:A-derivative-L}
+\end{equation}
+In particular $g_n(t)\to0$ uniformly.
+
+It remains to justify a uniform lower linear bound for the log-quantile.
+Because $B'(t)=-M(t)$,
+\[
+ -\{\log B(t)\}'=\frac{M(t)}{B(t)}.
+\]
+Given $\eta>0$, (P3-L) gives a common $T_\eta$ such that this derivative is
+at most $\eta$ for $t\ge T_\eta$.  Also
+$B(T_\eta)\ge c_-e^{-T_\eta/\underline\gamma}$ uniformly.  Therefore
+\[
+ -\log B(t)\le C_\eta+\eta t,
+ \qquad t\ge T_\eta,
+\]
+and hence $|\log\mathcal A(t)|=o(t)$ uniformly.  If
+$T_{j,u}(x)=\log Q_j(e^x,u)$, quantile inversion gives
+\[
+ x=\frac{T_{j,u}(x)}{\xi_j(u)}
+   -\log\mathcal A\{T_{j,u}(x)\}.
+\]
+For all sufficiently large $x$, the $o(T)$ term is bounded in absolute value
+by $T/\underline\gamma$, so
+$T_{j,u}(x)\ge c_\gamma x$ uniformly.
+
+Let $a(t)=\mathcal A'(t)/\mathcal A(t)$.  Once
+$\Gamma|a(t)|\le1/2$, differentiation of the inverse relation yields
+\[
+ \frac{\mathrm d}{\mathrm dx}\log\ell_j(e^x,u)
+ =\frac{\xi_j(u)^2a\{T_{j,u}(x)\}}
+        {1-\xi_j(u)a\{T_{j,u}(x)\}}.
+\]
+Using \eqref{eq:A-derivative-L} and
+$T_{j,u}(x)\ge c_\gamma x$ gives
+\[
+ \sup_{j,u}\left|
+ \frac{\mathrm d}{\mathrm dx}\log\ell_j(e^x,u)
+ \right|
+ \le6\Gamma^2\chi_n(c_\gamma x)
+   +4\Gamma^2\overline R_1(c_\gamma x).
+\]
+The normalized increment defining $b_n(3\alpha_n)$ is an average of this
+derivative over an interval starting at $x\ge x_\alpha$, proving
+\eqref{eq:laplace-E2}.  The spatial argument uses only (P4) and the inverse
+slope bound, so it is unchanged.  Finally, the original doubling condition
+gives $M(t)/B(t)=O(1/t)$ by the tilted-deficit estimate, hence implies
+(P3-L).
+\end{proof}
+
+\begin{proposition}[A still weaker near-max mass criterion]
+\label{prop:nearmax-mass}
+Let
+\[
+ H_{j,u}(z)=\int\mathbf1_{\{D_{j,u}(v)\le z\}}
+ c\{\iota_j(u,v)\}K_j(u,\mathrm dv),
+ \qquad
+ h_n(z)=\inf_{j,u}H_{j,u}(z).
+\]
+For every $z>0$ and $T>0$,
+\begin{equation}
+ \chi_n(T)
+ \le z+\frac{D_{\max}c_+e^{-Tz/2}}{h_n(z/2)},
+ \qquad D_{\max}=\underline\gamma^{-1}.
+ \label{eq:nearmax-chi}
+\end{equation}
+In particular, if for every fixed $z>0$,
+$\inf_n h_n(z)>0$, then (P3-L) holds.  This requires only a uniformly
+positive amount of fibre mass in every fixed neighbourhood of the maximal
+tail index; it imposes no local shape as $z\downarrow0$.
+\end{proposition}
+
+\begin{proof}
+Again suppress $(j,u)$.  Split the tilted first moment at $z$:
+\[
+ M(T)
+ \le zB(T)+D_{\max}c_+e^{-Tz}.
+\]
+On the other hand,
+\[
+ B(T)\ge e^{-Tz/2}H(z/2).
+\]
+Dividing proves \eqref{eq:nearmax-chi}.  First choose $z$ small and then let
+$T\to\infty$ to obtain uniform Laplace localization under the stated fixed
+neighbourhood-mass condition.
+\end{proof}
+
+
+\section{An information-theoretic $1/\log n$ lower bound under (C1)--(C2)}
+
+The logarithmic scale in the manuscript is not merely an artefact of the Hill
+proof when the primitive class has no uniform tail onset.  The next result
+uses the full data, so it is stronger than a lower bound for marginal
+procedures.
+
+\begin{theorem}[Delayed-onset non-identifiability]
+\label{thm:delayed-onset}
+Fix $\gamma_0>0$ and $a>0$.  There are two triangular arrays of models
+$P_{0,n}$ and $P_{1,n}$ with $p=2$ which both satisfy (C1)--(C2), full fibre
+support, atomlessness, and uniform bounds
+$0<\underline\gamma\le\gamma\le\Gamma$ and
+$0<c_-\le c(u)\le c_+<\infty$, such that:
+\begin{enumerate}
+\item coordinate $1$ is inactive under $P_{0,n}$ and detectable under
+      $P_{1,n}$;
+\item under $P_{1,n}$ its population gap satisfies
+      \begin{equation}
+       \Delta_{1,n}=\frac{a}{4\gamma_0\log n};
+       \label{eq:lower-gap}
+      \end{equation}
+\item the total variation distance between the full $n$-sample experiments
+      satisfies
+      \begin{equation}
+       \|P_{0,n}^{\otimes n}-P_{1,n}^{\otimes n}\|_{\mathrm{TV}}
+       \le n^{-1}.
+       \label{eq:lower-TV}
+      \end{equation}
+\end{enumerate}
+Consequently, for every screening rule $\widehat\A_n$ based on the complete
+sample $(U_i,Y_i)_{i=1}^n$,
+\begin{equation}
+ P_{0,n}(1\in\widehat\A_n)
+ +P_{1,n}(1\notin\widehat\A_n)
+ \ge1-n^{-1}.
+ \label{eq:lower-risk}
+\end{equation}
+Thus no procedure can uniformly distinguish an inactive coordinate from a
+detectable coordinate with gap of order $1/\log n$ over the unquantified
+(C1)--(C2) class.
+\end{theorem}
+
+\begin{proof}
+Let $U_1,U_2$ be independent standard uniforms under both models and set
+\[
+ T_n=n^{2\gamma_0},
+ \qquad
+ \delta_n=\frac{a}{\log T_n}=\frac{a}{2\gamma_0\log n}.
+\]
+Under $P_{0,n}$, let $\gamma_{0,n}(u_1,u_2)=\gamma_0$ and let
+\[
+ \overline F_{0,n}(y\mid u)=y^{-1/\gamma_0},
+ \qquad y\ge1.
+\]
+Under $P_{1,n}$, let
+\[
+ \gamma_{1,n}(u_1,u_2)=\gamma_0+\delta_nu_1
+\]
+and define the conditional survival function by the delayed splice
+\begin{equation}
+ \overline F_{1,n}(y\mid u)=
+ \begin{cases}
+  y^{-1/\gamma_0}, & 1\le y\le T_n,\\[2mm]
+  T_n^{-1/\gamma_0}(y/T_n)^{-1/\gamma_{1,n}(u)},
+      & y>T_n.
+ \end{cases}
+ \label{eq:delayed-splice}
+\end{equation}
+This is continuous and decreasing.  For $y>T_n$ it can be written as
+\[
+ \overline F_{1,n}(y\mid u)
+ =c_n(u)y^{-1/\gamma_{1,n}(u)},
+ \qquad
+ c_n(u)=T_n^{1/\gamma_{1,n}(u)-1/\gamma_0}.
+\]
+Moreover $c_n(u)\le1$ and
+\[
+ \log c_n(u)
+ =-\frac{\delta_nu_1\log T_n}
+        {\gamma_0\{\gamma_0+\delta_nu_1\}}
+ \ge-\frac{a}{\gamma_0^2},
+\]
+so $e^{-a/\gamma_0^2}\le c_n(u)\le1$ uniformly.  The slowly varying factor
+is exactly equal to $c_n(u)$ beyond $T_n$, hence (C1)--(C2) hold.  For large
+$n$, the tail indices also obey any fixed positive lower and upper bounds
+containing $\gamma_0$.
+
+Under $P_{0,n}$ coordinate $1$ is inactive.  Under $P_{1,n}$ it is active and,
+by full support,
+\[
+ \xi_{1,n}(u)=\gamma_0+\delta_nu,
+ \qquad
+ \gmax_n=\gamma_0+\delta_n.
+\]
+Since the average of $u$ on $\I=[\varepsilon,1-\varepsilon]$ is $1/2$,
+\[
+ \Delta_{1,n}
+ =\delta_n\left(1-\frac12\right)
+ =\frac{a}{4\gamma_0\log n},
+\]
+which is \eqref{eq:lower-gap}.
+
+The two one-observation laws agree exactly on the event $\{Y\le T_n\}$,
+and under both models
+\[
+ \Pp(Y>T_n\mid U)=T_n^{-1/\gamma_0}=n^{-2}.
+\]
+Therefore the two product measures agree on
+$E_n=\{\max_{1\le i\le n}Y_i\le T_n\}$, which has the same probability under
+both, and
+\[
+ \|P_{0,n}^{\otimes n}-P_{1,n}^{\otimes n}\|_{\mathrm{TV}}
+ \le P_{0,n}(E_n^c)
+ \le n\,n^{-2}=n^{-1}.
+\]
+This proves \eqref{eq:lower-TV}.  Applying the elementary testing inequality
+$P_0(A)+P_1(A^c)\ge1-\|P_0-P_1\|_{\mathrm{TV}}$ to
+$A=\{1\in\widehat\A_n\}$ gives \eqref{eq:lower-risk}.
+\end{proof}
+
+\begin{remark}[What the lower bound does and does not settle]
+Theorem~\ref{thm:delayed-onset} shows that the order $1/\log n$ is
+information-theoretically inaccessible uniformly over (C1)--(C2), because
+those conditions permit the asymptotic tail regime to start after the sample
+has effectively ended.  It does not rule out detecting such gaps under a
+common quantitative onset condition such as (P2), or after an explicit
+second-order bias correction.  It identifies precisely why a quantified
+primitive tail condition is indispensable for any uniform theorem.
+\end{remark}
+
+\section{A sharp impossibility result for all coordinatewise marginal screens}
+
+Flatness of the projected tail index is not merely a weakness of the average
+score.  In general, even the entire marginal law of $(U_j,Y)$ can be
+identical under a model where $j$ is inactive and a model where it is active.
+
+\begin{theorem}[Exact marginal non-identifiability]
+\label{thm:marginal-impossibility}
+There exist two models satisfying (C1)--(C2), full fibre support, continuity of
+$\gamma$, and exact conditional Pareto tails, such that coordinate $1$ is
+inactive in the first model and active in the second, while the law of
+$(U_1,Y)$ is exactly the same in both models.  Consequently, for every
+possibly randomized decision rule
+$\phi_n=\phi_n\{(U_{i1},Y_i)_{i=1}^n\}\in\{0,1\}$,
+\begin{equation}
+ \Pp_0(\phi_n=1)+\Pp_1(\phi_n=0)=1,
+ \label{eq:impossibility-risk}
+\end{equation}
+so its worst-case error over the two models is at least $1/2$ for every $n$.
+\end{theorem}
+
+\begin{proof}
+Let $U_1,U_2$ be independent standard uniforms and choose
+\[
+ g(t)=\gamma_0+a\cos(2\pi t),
+ \qquad 0<a<\gamma_0.
+\]
+Under model $P_0$, set $\gamma_0(u_1,u_2)=g(u_2)$.  Under model $P_1$, set
+\[
+ \gamma_1(u_1,u_2)=g\{(u_1+u_2)\bmod1\}.
+\]
+Because $g$ is periodic, $\gamma_1$ is continuous on the square.  Generate
+$Y$ conditionally by
+\[
+ \Pp_r(Y>y\mid U_1=u_1,U_2=u_2)
+ =y^{-1/\gamma_r(u_1,u_2)},
+ \qquad y\ge1,
+ \quad r\in\{0,1\}.
+\]
+All stated regularity conditions hold with $c\equiv1$.  Coordinate $1$ is
+inactive under $P_0$ and active under $P_1$.
+
+For every $u_1$ and $y\ge1$,
+\begin{align*}
+ \Pp_1(Y>y\mid U_1=u_1)
+ &=\int_0^1y^{-1/g\{(u_1+v)\bmod1\}}\,\mathrm dv\\
+ &=\int_0^1y^{-1/g(v)}\,\mathrm dv
+ =\Pp_0(Y>y\mid U_1=u_1),
+\end{align*}
+where the middle identity is invariance of Lebesgue measure under rotation of
+the circle.  Hence the joint laws of $(U_1,Y)$ coincide.  The distribution of
+$\phi_n$ is therefore the same under $P_0$ and $P_1$; if its common
+probability of outputting one is $q$, the two errors are $q$ and $1-q$, whose
+sum is one.
+\end{proof}
+
+\section{Group order: the exact price of escaping marginal invisibility}
+
+For $J\subseteq\{1,\ldots,p\}$ define, under full support,
+\[
+ \xi_J(u_J)=\max_{v\in[0,1]^{p-|J|}}\gamma(u_J,v),
+ \qquad
+ \Delta_J=\gmax-\int_{[0,1]^{|J|}}\xi_J(u_J)\,\mathrm du_J.
+\]
+
+\begin{theorem}[Group detectability and minimal interaction order]
+\label{thm:group-order}
+Assume full fibre support and continuity of $\gamma$.  For every nonempty
+$J$,
+\begin{equation}
+ \Delta_J>0
+ \quad\Longleftrightarrow\quad
+ \lambda_{|J|}\bigl([0,1]^{|J|}\setminus\pi_J(\mathcal M)\bigr)>0.
+ \label{eq:group-geometry}
+\end{equation}
+For an active coordinate $j$, define
+\[
+ r_\star(j)=\min\bigl\{|J|:j\in J,\ \Delta_J>0\bigr\}.
+\]
+If $\A$ is the active set and $s=|\A|$, then $r_\star(j)\le s$ for every
+$j\in\A$.  The bound is sharp: for
+\[
+ \gamma(u)=g\{(u_1+\cdots+u_s)\bmod1\},
+\]
+with nonconstant positive periodic continuous $g$, one has
+$r_\star(j)=s$ for every $j\le s$.
+\end{theorem}
+
+\begin{proof}
+The proof of \eqref{eq:group-geometry} is identical to the one-coordinate
+argument: $\xi_J(u_J)=\gmax$ exactly when the $J$-fibre through $u_J$
+intersects $\mathcal M$, equivalently when $u_J\in\pi_J(\mathcal M)$; the
+integrated nonnegative deficit is positive exactly when the complement has
+positive measure.
+
+Take $J=\A$.  Then $\xi_\A(u_\A)=\gamma(u_\A)$ because no active coordinate
+is maximized out.  Since $j\in\A$, the continuous function $\gamma$ is not
+constant on $[0,1]^\A$, so the open set on which
+$\gamma<\gmax$ is nonempty and has positive measure.  Thus
+$\Delta_\A>0$ and $r_\star(j)\le s$.
+
+For the cyclic-sum example, fix any $J$ with $|J|<s$ and any value $u_J$.
+At least one active coordinate is omitted.  Choose that omitted coordinate,
+modulo one, so that the total sum is a maximizer of $g$; set the other omitted
+coordinates arbitrarily.  Hence every $u_J$ belongs to
+$\pi_J(\mathcal M)$, so $\Delta_J=0$.  For $J=\A$, the preceding paragraph
+gives $\Delta_\A>0$.  Therefore $r_\star(j)=s$.
+\end{proof}
+
+\section{Summary of the strengthened theorem chain}
+
+The exact population target is $\D$, the positive-gap set generated by the
+conditional supports.  Under null argmax accessibility, $\D\subseteq\A$; it
+equals $\A$ precisely when every active coordinate misses the accessible
+argmax on a positive-measure set.  Continuity of projected conditional laws
+is unnecessary.  The original empirical-rank score consistently recovers
+$\D$ under a direct quadrature condition, with the rank-displacement
+requirement weakened from $\log(pn)=o(nh^2)$ to
+$\log p=o(nh^2)$.  The disjoint-block score further improves the stochastic
+score rate from
+\[
+ \sqrt{\frac{\log(pn)}{n\alpha h}}
+ \quad\text{to}\quad
+ \sqrt{\frac{\log p}{n\alpha}},
+\]
+while replacing uniform-in-location tail and spatial assumptions by their
+block averages.  Finally, primitive deficit-mass doubling can be replaced by
+the strictly weaker uniform Laplace-localization condition, and the
+impossibility theorem shows that no purely coordinatewise marginal method can
+remove the remaining argmax-projection limitation.
+
+\end{document}

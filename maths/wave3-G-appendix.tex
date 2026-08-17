@@ -1,0 +1,1615 @@
+% ============================================================
+% STATUT D'AUDIT — ce fichier est dans sa version D'ORIGINE.
+% Les reparations demandees par les audits n'y sont PAS appliquees.
+% Voir maths/JOURNAL.md, section correspondante, avant tout usage.
+% ============================================================
+% =====================================================================
+% Publication-grade Gaussian-corner asymptotic and B1 horizontal coupling
+% =====================================================================
+
+\subsection{A uniform Gaussian-corner theorem}
+
+Write
+\[
+ \varphi(t)=(2\pi)^{-1/2}e^{-t^2/2},
+ \qquad
+ r_z=-\Phi^{-1}(z),\qquad 0<z<1/2.
+\]
+The next elementary lemma records the normal-tail estimates used below.
+
+\begin{lemma}[Uniform normal-tail coordinates]
+\label{lem:uniform-normal-coordinate}
+For \(q>0\), put
+\[
+ \eta(q)=\log\left\{\frac{q\Phi(-q)}{\varphi(q)}\right\}.
+\]
+Then
+\begin{equation}
+ -\log(1+q^{-2})\le \eta(q)\le0.
+ \label{eq:normal-mills-log}
+\end{equation}
+Consequently,
+\begin{equation}
+ \log\Phi(-q)
+ =
+ -\frac{q^2}{2}-\log(\sqrt{2\pi}q)+\eta(q).
+ \label{eq:normal-log-tail}
+\end{equation}
+
+Fix \(M<\infty\). For \(r>0\), \(z=\Phi(-r)\), and
+\(0<x\le M\), define
+\[
+ q_r(x)=-\Phi^{-1}(zx).
+\]
+There are constants \(r_0(M)\) and \(C_M<\infty\) such that, for
+\(r\ge r_0(M)\),
+
+\begin{enumerate}
+\item
+\begin{equation}
+ q_r(x)\ge r-\frac{C_M}{r},
+ \qquad 0<x\le M;
+ \label{eq:q-lower-uniform}
+\end{equation}
+
+\item whenever \(|\log x|\le\sqrt r\),
+\begin{equation}
+ q_r(x)
+ =
+ r-\frac{\log x}{r}+\epsilon_r(x),
+ \qquad
+ |\epsilon_r(x)|
+ \le
+ \frac{C_M\{1+|\log x|+(\log x)^2\}}{r^3}.
+ \label{eq:q-expansion-uniform}
+\end{equation}
+\end{enumerate}
+All constants are deterministic.
+\end{lemma}
+
+\begin{proof}
+The classical Mills inequalities
+\[
+ \frac{q}{1+q^2}\varphi(q)
+ \le \Phi(-q)
+ \le \frac{\varphi(q)}q
+\]
+give \eqref{eq:normal-mills-log} and
+\eqref{eq:normal-log-tail}.
+
+Let \(\ell=\log x\), \(q=q_r(x)\). Since
+\(\Phi(-q)=x\Phi(-r)\), \eqref{eq:normal-log-tail} gives
+\begin{equation}
+ \ell
+ =
+ -\frac{q^2-r^2}{2}
+ -\log\frac qr
+ +\eta(q)-\eta(r).
+ \label{eq:q-implicit}
+\end{equation}
+For fixed \(M\), Mills' inequalities imply
+\(\Phi(-r/2)/\Phi(-r)\to\infty\), so \(q_r(M)\ge r/2\) for
+large \(r\). By monotonicity, \(q_r(x)\ge q_r(M)\ge r/2\) for
+all \(x\le M\).
+
+Suppose now that \(|\ell|\le\sqrt r\), and put
+\[
+ q_0=r-\frac{\ell}{r}.
+\]
+Then
+\begin{align}
+ -\frac{q_0^2-r^2}{2}-\log\frac{q_0}{r}
+ &=
+ \ell-\frac{\ell^2}{2r^2}
+ -\log\left(1-\frac{\ell}{r^2}\right)
+ \nonumber\\
+ &=
+ \ell
+ +O\left(\frac{|\ell|+\ell^2}{r^2}\right).
+ \label{eq:q0-residual}
+\end{align}
+Moreover \(q_0\ge r/2\) for large \(r\), and
+\eqref{eq:normal-mills-log} gives
+\[
+ |\eta(q_0)-\eta(r)|\le \frac{C}{r^2}.
+\]
+Thus
+\[
+ \left|
+ \log\frac{\Phi(-q_0)}{\Phi(-r)}-\ell
+ \right|
+ \le
+ \frac{C_M\{1+|\ell|+\ell^2\}}{r^2}.
+\]
+The derivative of \(s\mapsto\log\Phi(-s)\) is
+\[
+ -\frac{\varphi(s)}{\Phi(-s)},
+\]
+whose absolute value is at least \(s\) by the upper Mills
+inequality. The entire interval between \(q\) and \(q_0\) lies
+above \(r/3\) for large \(r\). The mean-value theorem therefore
+gives
+\[
+ |q-q_0|
+ \le
+ \frac{C_M\{1+|\ell|+\ell^2\}}{r^3},
+\]
+which is \eqref{eq:q-expansion-uniform}.
+
+Taking \(x=M\) in \eqref{eq:q-expansion-uniform}, and using
+monotonicity \(q_r(x)\ge q_r(M)\), proves
+\eqref{eq:q-lower-uniform}.
+\end{proof}
+
+
+\begin{theorem}[Uniform Gaussian-corner asymptotic]
+\label{thm:uniform-gaussian-corner}
+Let \(1\le d\le d_0\), and let
+\[
+ X\sim N_d(\mu,\Sigma),
+ \qquad
+ \Omega=\Sigma^{-1},
+ \qquad
+ U=\Phi(X)
+\]
+with \(\Phi\) applied coordinatewise. Let the tuple
+\[
+ (d,\mu,\Sigma,D,a,w)
+\]
+range over a family satisfying the following uniform conditions.
+
+\begin{enumerate}
+\item[(G1)]
+There are constants
+\[
+ 0<\omega_-\le\omega_+<\infty,
+ \qquad M_\mu<\infty,
+ \qquad \nu_0>0,
+\]
+such that
+\[
+ \omega_-\le\lambda_{\min}(\Omega)
+ \le\lambda_{\max}(\Omega)\le\omega_+,
+ \qquad
+ \|\mu\|_2\le M_\mu,
+\]
+and, with
+\[
+ \nu=\Omega\mathbf 1,
+ \qquad
+ \kappa=\mathbf 1^\top\Omega\mathbf 1,
+ \qquad
+ b=\mathbf 1^\top\Omega\mu,
+\]
+one has
+\[
+ \min_{1\le i\le d}\nu_i\ge\nu_0.
+\]
+
+\item[(G2)]
+There are constants
+\[
+ \eta_0>0,\quad
+ M_D<\infty,\quad
+ 0<a_-\le a_+<\infty,\quad
+ 0<c_*\le C_*<\infty,\quad
+ d_*>0
+\]
+such that \(D:[0,1]^d\to[0,\infty)\) satisfies
+\[
+ D(0)=0,\qquad
+ \nabla D(0)=a=(a_1,\ldots,a_d),
+ \qquad
+ a_-\le a_i\le a_+,
+\]
+\[
+ \sup_{u\in[0,\eta_0]^d}
+ \|\nabla^2D(u)\|_{\mathrm{op}}\le M_D,
+\]
+\[
+ c_*\|u\|_1\le D(u)\le C_*\|u\|_1,
+ \qquad u\in[0,\eta_0]^d,
+\]
+and
+\[
+ \inf_{u\notin[0,\eta_0]^d}D(u)\ge d_*.
+\]
+
+\item[(G3)]
+The weight \(w\) is positive and measurable, and there are
+\(0<w_-\le w_+<\infty\) and \(L_w<\infty\) such that
+\[
+ w_-\le w(0)\le w_+,
+ \qquad
+ |w(u)-w(0)|\le L_w\|u\|_1,
+ \qquad u\in[0,\eta_0]^d.
+\]
+The unweighted case corresponds to \(w\equiv1\).
+\end{enumerate}
+
+Then, uniformly over this family, as \(z\downarrow0\),
+\begin{align}
+ &\E\left[
+   w\{\Phi(X)\}
+   \mathbf 1_{\{D(\Phi(X))\le z\}}
+ \right]
+ \nonumber\\
+ &\quad=
+ w(0)\,C(\mu,\Sigma,a)\,
+ z^\kappa
+ \{\sqrt{2\pi}r_z\}^{\kappa-d}
+ e^{-br_z}
+ \left\{1+O(r_z^{-1})\right\},
+ \label{eq:uniform-corner-main}
+\end{align}
+where
+\begin{equation}
+ C(\mu,\Sigma,a)
+ =
+ |\Sigma|^{-1/2}
+ e^{-\mu^\top\Omega\mu/2}
+ \frac{\prod_{i=1}^d\Gamma(\nu_i)a_i^{-\nu_i}}
+      {\Gamma(\kappa+1)}.
+ \label{eq:uniform-corner-constant}
+\end{equation}
+Equivalently, there are \(z_1>0\) and \(C<\infty\), depending
+only on the constants in (G1)--(G3), such that
+\[
+ \sup_{\text{family}}
+ r_z
+ \left|
+ \frac{
+  \E[w\{\Phi(X)\}\mathbf 1_{\{D(\Phi(X))\le z\}}]
+ }{
+  w(0)C(\mu,\Sigma,a)
+  z^\kappa(\sqrt{2\pi}r_z)^{\kappa-d}e^{-br_z}
+ }-1
+ \right|
+ \le C
+\]
+for \(0<z\le z_1\).
+
+In particular, if
+\[
+ H(z)
+ =
+ \E\left[
+  w\{\Phi(X)\}\mathbf 1_{\{D(\Phi(X))\le z\}}
+ \right],
+\]
+then there are uniform \(z_0,h_0,C_D>0\) such that
+\[
+ H(z_0)\ge h_0,
+ \qquad
+ H(2z)\le C_DH(z),
+ \qquad 0<z\le z_0/2.
+\]
+Thus the weighted deficit masses satisfy condition {\rm(P3)}.
+\end{theorem}
+
+\begin{proof}
+We divide the proof into five steps.
+
+\medskip
+\noindent
+\emph{Step 1: density after corner rescaling.}
+The density of \(U=\Phi(X)\) is
+\begin{equation}
+ f_U(u)
+ =
+ |\Sigma|^{-1/2}
+ \exp\left\{
+ -\frac12z(u)^\top(\Omega-I)z(u)
+ +z(u)^\top\Omega\mu
+ -\frac12\mu^\top\Omega\mu
+ \right\},
+ \label{eq:corner-U-density}
+\end{equation}
+where \(z_i(u)=\Phi^{-1}(u_i)\).
+
+Put \(r=r_z\), and, for \(x_i>0\),
+\[
+ q_i=-\Phi^{-1}(zx_i).
+\]
+Thus \(z(zx)=-q\). Define
+\begin{equation}
+ A_z
+ =
+ |\Sigma|^{-1/2}
+ e^{-\mu^\top\Omega\mu/2}
+ z^\kappa
+ (\sqrt{2\pi}r)^{\kappa-d}
+ e^{-br},
+ \label{eq:corner-normalizer}
+\end{equation}
+and
+\[
+ g_z(x)=\frac{z^df_U(zx)}{A_z}.
+\]
+By \eqref{eq:normal-log-tail},
+\[
+ \log z
+ =
+ -\frac{r^2}{2}
+ -\log(\sqrt{2\pi}r)
+ +\eta(r),
+ \qquad |\eta(r)|\le r^{-2}.
+\]
+Substitution into \eqref{eq:corner-U-density} gives the exact
+identity
+\begin{align}
+ \log g_z(x)
+ &=
+ -\frac12q^\top(\Omega-I)q
+ -q^\top\Omega\mu
+ +\frac12(\kappa-d)r^2
+ +br
+ +(d-\kappa)\eta(r).
+ \label{eq:corner-log-g}
+\end{align}
+
+\medskip
+\noindent
+\emph{Step 2: a uniform integrable envelope near all coordinate
+faces.}
+Choose
+\begin{equation}
+ 0<\vartheta<
+ \frac12\min\{1,\nu_0,\omega_-\}.
+ \label{eq:corner-theta}
+\end{equation}
+We prove that, for every fixed \(M<\infty\),
+\begin{equation}
+ g_z(x)\le C_M\prod_{i=1}^dx_i^{\vartheta-1},
+ \qquad
+ x\in(0,M]^d,
+ \label{eq:corner-envelope}
+\end{equation}
+uniformly for small \(z\).
+
+For each \(i\), \eqref{eq:q-implicit} gives
+\[
+ \log x_i
+ =
+ -\frac{q_i^2-r^2}{2}
+ -\log\frac{q_i}{r}
+ +\eta(q_i)-\eta(r).
+\]
+Since \(q_i\ge r-C_M/r\) by
+Lemma~\ref{lem:uniform-normal-coordinate}, both
+\(\eta(q_i)\) and \(\eta(r)\) are \(O(r^{-2})\), uniformly.
+Combining this identity with \eqref{eq:corner-log-g} yields
+\begin{align}
+ &\log g_z(x)
+ -(\vartheta-1)\sum_{i=1}^d\log x_i
+ \nonumber\\
+ &\quad=
+ -\frac12\left[
+ q^\top(\Omega-\vartheta I)q
+ -r^2\mathbf 1^\top(\Omega-\vartheta I)\mathbf 1
+ \right]
+ -(q-r\mathbf 1)^\top\Omega\mu
+ \nonumber\\
+ &\qquad
+ +(\vartheta-1)\sum_{i=1}^d\log\frac{q_i}{r}
+ +O(r^{-2}).
+ \label{eq:corner-envelope-log}
+\end{align}
+Write \(s=q-r\mathbf 1\) and \(B=\Omega-\vartheta I\).
+By \eqref{eq:corner-theta},
+\[
+ \lambda_{\min}(B)\ge\omega_-/2,
+ \qquad
+ (B\mathbf 1)_i=\nu_i-\vartheta\ge\nu_0/2.
+\]
+Hence
+\[
+ -\frac12\{q^\top Bq-r^2\mathbf 1^\top B\mathbf 1\}
+ =
+ -r(B\mathbf 1)^\top s-\frac12s^\top Bs.
+\]
+The negative parts of the \(s_i\)'s are bounded by \(C/r\),
+again by \eqref{eq:q-lower-uniform}. Therefore
+\[
+ -r(B\mathbf 1)^\top s
+ \le
+ -\frac{\nu_0r}{2}\sum_i s_i^+ +C.
+\]
+Also, by Young's inequality,
+\[
+ -\frac12s^\top Bs-s^\top\Omega\mu
+ \le
+ -\frac{\omega_-}{8}\|s\|_2^2+C.
+\]
+Finally, if \(q_i\ge r\), then
+\((\vartheta-1)\log(q_i/r)\le0\), whereas if \(q_i<r\),
+\[
+ \left|\log\frac{q_i}{r}\right|\le Cr^{-2}.
+\]
+Thus the right side of \eqref{eq:corner-envelope-log} is bounded
+above by a uniform constant. This proves
+\eqref{eq:corner-envelope}.
+
+In particular, on every fixed box,
+\(\prod_i x_i^{\vartheta-1}\) is integrable. Moreover,
+\begin{equation}
+ \int_{\substack{x\in[0,M]^d\\
+                 \min_i x_i<e^{-\sqrt r}}}
+ \prod_{i=1}^dx_i^{\vartheta-1}\,dx
+ \le Ce^{-\vartheta\sqrt r}
+ =o(r^{-1}).
+ \label{eq:corner-face-small}
+\end{equation}
+This proves uniform integrable domination at every coordinate
+face, including intersections of several faces.
+
+\medskip
+\noindent
+\emph{Step 3: the density expansion away from the thin face
+region.}
+Let
+\[
+ \mathcal E_r(M)
+ =
+ \left\{
+  x\in(0,M]^d:\min_i x_i\ge e^{-\sqrt r}
+ \right\},
+ \qquad
+ \ell_i=\log x_i.
+\]
+On this set,
+\[
+ -\sqrt r\le\ell_i\le\log M.
+\]
+Lemma~\ref{lem:uniform-normal-coordinate} gives
+\[
+ q
+ =
+ r\mathbf 1-\frac{\ell}{r}+e,
+ \qquad
+ |e_i|
+ \le
+ \frac{C_M(1+|\ell_i|+\ell_i^2)}{r^3}.
+\]
+Writing \(A=\Omega-I\) and expanding
+\eqref{eq:corner-log-g}, one obtains
+\begin{align}
+ \log g_z(x)
+ &=
+ \sum_{i=1}^d(\nu_i-1)\ell_i
+ +\frac{\ell^\top\Omega\mu}{r}
+ -\frac{\ell^\top A\ell}{2r^2}
+ +R_z(x),
+ \label{eq:corner-density-expansion}
+\end{align}
+where
+\begin{equation}
+ |R_z(x)|
+ \le
+ \frac{C_M}{r^2}
+ \left\{
+  1+\sum_i|\ell_i|+\sum_i\ell_i^2
+ \right\}.
+ \label{eq:corner-density-R}
+\end{equation}
+Indeed, the terms containing \(e\) are bounded by
+\[
+ Cr\sum_i|e_i|
+ +C\|e\|_2
+ +C\frac{\|\ell\|_2\|e\|_2}{r}
+ +C\|e\|_2^2,
+\]
+and \eqref{eq:corner-density-R} follows from \(d\le d_0\).
+
+Consequently,
+\begin{align}
+ \left|
+ \log\frac{g_z(x)}{\prod_ix_i^{\nu_i-1}}
+ \right|
+ &\le
+ C_M\left[
+ \frac{1+\sum_i|\log x_i|}{r}
+ +\frac{1+\sum_i(\log x_i)^2}{r^2}
+ \right].
+ \label{eq:corner-log-relative}
+\end{align}
+The right side is \(O(r^{-1/2})\) on
+\(\mathcal E_r(M)\). Hence, for large \(r\),
+\begin{align}
+ \left|
+ g_z(x)-\prod_ix_i^{\nu_i-1}
+ \right|
+ &\le
+ \frac{C_M}{r}
+ \prod_ix_i^{\nu_i-1}
+ \left\{
+  1+\sum_i|\log x_i|
+  +\sum_i(\log x_i)^2
+ \right\}.
+ \label{eq:corner-relative-error}
+\end{align}
+The parameters \(\nu_i\) range over a compact subset of
+\((0,\infty)\): their lower bound is \(\nu_0\), while their
+upper bound follows from \(d\le d_0\) and
+\(\|\Omega\|_{\mathrm{op}}\le\omega_+\). Therefore
+\[
+ \sup_{\text{family}}
+ \int_{[0,M]^d}
+ \prod_ix_i^{\nu_i-1}
+ \left\{
+  1+\sum_i|\log x_i|
+  +\sum_i(\log x_i)^2
+ \right\}dx
+ <\infty.
+\]
+Integrating \eqref{eq:corner-relative-error} and using
+\eqref{eq:corner-face-small} gives
+\begin{equation}
+ \int_Bg_z(x)\,dx
+ =
+ \int_B\prod_ix_i^{\nu_i-1}\,dx+O(r^{-1})
+ \label{eq:corner-integrated-density}
+\end{equation}
+uniformly for every measurable
+\(B\subseteq[0,M]^d\). This is the required integrated
+\(O(r^{-1})\) remainder.
+
+\medskip
+\noindent
+\emph{Step 4: the moving nonlinear boundary.}
+For sufficiently small \(z\), the event \(D(u)\le z\) is
+contained in \([0,\eta_0]^d\), by the uniform gap \(d_*\).
+On this event,
+\[
+ c_*\|u\|_1\le D(u)\le z,
+\]
+so after writing \(u=zx\),
+\[
+ \|x\|_1\le c_*^{-1}.
+\]
+Thus all rescaled domains lie in a common compact box.
+
+Taylor's theorem and the Hessian bound give, uniformly on that
+box,
+\begin{equation}
+ \frac{D(zx)}{z}
+ =
+ a^\top x+zR_D(z,x),
+ \qquad
+ |R_D(z,x)|\le C.
+ \label{eq:corner-D-Taylor}
+\end{equation}
+Hence, for a uniform \(C_0<\infty\),
+\begin{equation}
+ \{x\ge0:a^\top x\le1-C_0z\}
+ \subseteq
+ \left\{x\ge0:\frac{D(zx)}z\le1\right\}
+ \subseteq
+ \{x\ge0:a^\top x\le1+C_0z\}.
+ \label{eq:corner-domain-sandwich}
+\end{equation}
+
+Put
+\[
+ J(t)
+ =
+ \int_{\{x\ge0:a^\top x\le t\}}
+ \prod_ix_i^{\nu_i-1}\,dx.
+\]
+The change of variables \(x=ty\) gives
+\[
+ J(t)=t^\kappa J(1),
+\]
+where
+\begin{equation}
+ J(1)
+ =
+ \frac{\prod_i\Gamma(\nu_i)a_i^{-\nu_i}}
+      {\Gamma(\kappa+1)}.
+ \label{eq:corner-dirichlet-integral}
+\end{equation}
+The parameters \(\nu_i,a_i,\kappa\) range over compact sets, so
+\(J(1)\) is uniformly bounded above and away from zero.
+The sandwich \eqref{eq:corner-domain-sandwich} therefore gives
+\begin{equation}
+ \int_{\{D(zx)\le z\}}\prod_ix_i^{\nu_i-1}\,dx
+ =
+ J(1)+O(z)
+ \label{eq:corner-boundary-error}
+\end{equation}
+uniformly. This proves stability under the moving nonlinear
+boundary, including its intersections with the coordinate
+faces.
+
+Combining \eqref{eq:corner-integrated-density} and
+\eqref{eq:corner-boundary-error},
+\begin{equation}
+ \int_{\{D(zx)\le z\}}g_z(x)\,dx
+ =
+ J(1)+O(r^{-1}),
+ \label{eq:corner-unweighted-integral}
+\end{equation}
+because \(z=o(r^{-1})\).
+
+\medskip
+\noindent
+\emph{Step 5: the weight and the final constant.}
+On the rescaled event,
+\[
+ \|zx\|_1\le z/c_*,
+\]
+so (G3) gives
+\[
+ w(zx)=w(0)+O(z)
+\]
+uniformly. The envelope \eqref{eq:corner-envelope} is
+integrable, and \(w(0)\) is bounded above and away from zero.
+Thus
+\begin{align}
+ \int_{\{D(zx)\le z\}}w(zx)g_z(x)\,dx
+ &=
+ w(0)J(1)+O(r^{-1}).
+ \label{eq:corner-weighted-integral}
+\end{align}
+Multiplication by the normalizer \(A_z\) in
+\eqref{eq:corner-normalizer}, followed by
+\eqref{eq:corner-dirichlet-integral}, proves
+\eqref{eq:uniform-corner-main} and
+\eqref{eq:uniform-corner-constant}.
+
+It remains to prove uniform doubling. By
+Lemma~\ref{lem:uniform-normal-coordinate}, applied with fixed
+\(x=2\),
+\begin{equation}
+ r_{2z}
+ =
+ r_z-\frac{\log2}{r_z}+O(r_z^{-3}).
+ \label{eq:r2z-expansion}
+\end{equation}
+Therefore
+\[
+ \left(\frac{r_{2z}}{r_z}\right)^{\kappa-d}
+ \exp\{-b(r_{2z}-r_z)\}
+\]
+is uniformly bounded above and away from zero for small \(z\).
+Since \(\kappa\) is uniformly bounded,
+\[
+ \frac{H(2z)}{H(z)}
+ =
+ 2^\kappa
+ \left(\frac{r_{2z}}{r_z}\right)^{\kappa-d}
+ e^{-b(r_{2z}-r_z)}
+ \{1+O(r_z^{-1})\}
+\]
+is uniformly bounded. Choosing one sufficiently small \(z_0\)
+also makes the relative error in
+\eqref{eq:uniform-corner-main} smaller than \(1/2\). The leading
+constant at this fixed \(z_0\) has a positive uniform lower
+bound, proving \(H(z_0)\ge h_0\).
+\end{proof}
+
+
+\subsection{Uniform verification for the conditional Gaussian families}
+
+Let
+\[
+ R_4=(\rho^{|k-\ell|})_{1\le k,\ell\le4},
+ \qquad \rho=\frac14.
+\]
+Its precision matrix is
+\begin{equation}
+ Q=R_4^{-1}
+ =
+ \frac1{1-\rho^2}
+ \begin{pmatrix}
+ 1&-\rho&0&0\\
+ -\rho&1+\rho^2&-\rho&0\\
+ 0&-\rho&1+\rho^2&-\rho\\
+ 0&0&-\rho&1
+ \end{pmatrix},
+ \label{eq:R4-precision}
+\end{equation}
+and
+\begin{equation}
+ Q\mathbf 1
+ =
+ \left(\frac45,\frac35,\frac35,\frac45\right)^\top.
+ \label{eq:R4-row-sums}
+\end{equation}
+
+\begin{corollary}[The corner theorem applies uniformly to A1--A3 and B1]
+\label{cor:corner-model-families}
+Fix \(0<\varepsilon<1/2\). For every coordinate \(j\), every
+conditioning value
+\[
+ u\in I_{\varepsilon/2},
+\]
+and every model A1--A3 or B1, the conditional Gaussian family of
+the free active latent coordinates satisfies
+Theorem~\ref{thm:uniform-gaussian-corner}, with
+\[
+ \nu_0=\frac35.
+\]
+Its exponents are
+\begin{equation}
+ \kappa_j=
+ \begin{cases}
+  34/15,&j=1,4,\\
+  41/15,&j=2,3,\\
+  14/5+\lambda_j^2/(1-\lambda_j^2),
+       &j>4\text{ in the Gaussian AR block},\\
+  14/5,&j\in\{5,\ldots,24\}\text{ in B1},
+ \end{cases}
+ \label{eq:corner-kappas-rigorous}
+\end{equation}
+where
+\[
+ \lambda_j=\rho^{j-4}.
+\]
+In particular,
+\[
+ \frac{34}{15}\le\kappa_j\le\frac{43}{15}.
+\]
+The B1 deficit mass is a weighted Gaussian-corner mass whose
+weight satisfies (G3) uniformly.
+\end{corollary}
+
+\begin{proof}
+We first identify all conditional precision matrices.
+
+If \(j\in\{1,2,3,4\}\), the conditional precision matrix of
+\(Z_{\{1,2,3,4\}\setminus\{j\}}\) given \(Z_j\) is the principal
+submatrix \(Q_{-j,-j}\). For \(j=1\), its row-sum vector is
+\[
+ \left(\frac{13}{15},\frac35,\frac45\right)^\top,
+\]
+whose sum is \(34/15\). For \(j=2\), it is
+\[
+ \left(\frac{16}{15},\frac{13}{15},\frac45\right)^\top,
+\]
+whose sum is \(41/15\). The cases \(j=3,4\) are symmetric.
+Every component is at least \(3/5\).
+
+Now let \(j>4\) belong to the original Gaussian AR block.
+Writing \(\lambda=\rho^{j-4}\), the covariance between
+\((Z_1,\ldots,Z_4)\) and \(Z_j\) is
+\[
+ \lambda R_4e_4.
+\]
+The conditional covariance of the active block is therefore
+\[
+ \Sigma_\lambda
+ =
+ R_4-\lambda^2R_4e_4e_4^\top R_4.
+\]
+The Sherman--Morrison identity gives
+\begin{equation}
+ \Sigma_\lambda^{-1}
+ =
+ Q+\frac{\lambda^2}{1-\lambda^2}e_4e_4^\top.
+ \label{eq:inactive-conditional-precision}
+\end{equation}
+Hence
+\[
+ \Sigma_\lambda^{-1}\mathbf 1
+ =
+ \left(
+  \frac45,\frac35,\frac35,
+  \frac45+\frac{\lambda^2}{1-\lambda^2}
+ \right)^\top,
+\]
+and
+\[
+ \kappa
+ =
+ \frac{14}{5}+\frac{\lambda^2}{1-\lambda^2}.
+\]
+Since \(0\le\lambda\le\rho=1/4\),
+\[
+ \frac{\lambda^2}{1-\lambda^2}\le\frac1{15},
+\]
+which gives the upper bound \(43/15\).
+
+In B1, a proxy coordinate is independent of the active Gaussian
+block. Conditioning on that proxy leaves covariance \(R_4\),
+so the precision is \(Q\) and \(\kappa=14/5\). A background
+coordinate \(j\ge25\) gives the family
+\eqref{eq:inactive-conditional-precision}, with the still
+smaller range \(\lambda\le\rho^{21}\).
+
+The conditional means are also uniform. If \(j\le4\), the mean
+is a fixed covariance vector times
+\(\Phi^{-1}(u)\). If \(j>4\) is in the AR block, it is
+\[
+ \lambda R_4e_4\Phi^{-1}(u).
+\]
+Since \(u\in I_{\varepsilon/2}\),
+\(\Phi^{-1}(u)\) ranges over a bounded interval. The covariance
+families just displayed are compact and uniformly positive
+definite. Thus (G1) holds.
+
+It remains to verify the deficit functions. Write
+\[
+ \frac1{\gamma(x)}=2e^{\psi(x_1,\ldots,x_4)},
+\]
+where
+\[
+ \psi_{A1}(x)=\psi_{B1}(x)=\sum_{\ell=1}^4x_\ell,
+\]
+\[
+ \psi_{A2}(x)=\frac12\sum_{\ell=1}^4x_\ell,
+\]
+and
+\[
+ \psi_{A3}(x)
+ =
+ 0.8\sum_{\ell=1}^4x_\ell
+ +0.20x_1x_2+0.15x_3x_4.
+\]
+Fixing the conditioning coordinate and denoting the free active
+coordinates by \(y\), let
+\[
+ \psi_0=\psi\big|_{y=0}.
+\]
+Then the reciprocal-index deficit is
+\begin{equation}
+ D(y)
+ =
+ 2e^{\psi_0}
+ \left[
+  e^{\psi(y)-\psi_0}-1
+ \right].
+ \label{eq:model-deficit-form}
+\end{equation}
+For A1 and B1, every free-coordinate derivative of \(\psi\) is
+one. For A2 it is \(1/2\). For A3, every such derivative at the
+free corner lies in \([0.8,1]\): a derivative is either \(0.8\),
+\(0.8+0.20u\), or \(0.8+0.15u\). Thus every component of
+\(\nabla D(0)\) is uniformly bounded above and away from zero.
+The Hessians are uniformly bounded, and strict coordinatewise
+monotonicity shows that \(D(y)=0\) only at \(y=0\). Compactness
+of the remaining conditioning parameters gives the uniform
+two-sided corner comparison and the uniform gap outside a fixed
+corner neighbourhood. Hence (G2) holds.
+
+For A1--A3 the weight is one. For B1, let
+\[
+ A(F)=\frac{\Phi(F)-1/2}{2},
+ \qquad |A(F)|\le\frac14.
+\]
+The leading conditional tail coefficient is
+\[
+ c_B(x)=
+ \E\left[
+  e^{A(F)/\gamma(x)}
+  \,\middle|\,U=x
+ \right].
+\]
+For the deficit mass conditional only on \(U_j=u\), the tower
+property gives
+\begin{align}
+ &\E\left[
+  c_B(U)\mathbf 1_{\{D(U_{\mathcal A})\le z\}}
+  \,\middle|\,U_j=u
+ \right]
+ \nonumber\\
+ &\qquad=
+ \E\left[
+  e^{A(F)/\gamma(U)}
+  \mathbf 1_{\{D(U_{\mathcal A})\le z\}}
+  \,\middle|\,U_j=u
+ \right].
+ \label{eq:B1-weight-tower}
+\end{align}
+After conditioning on the free active vector \(y\), this is a
+Gaussian-corner integral with weight
+\[
+ w_{j,u}(y)
+ =
+ \E\left[
+  e^{h(y)A(F)}
+  \,\middle|\,U_j=u,\;U_{\mathcal A\setminus\{j\}}=y
+ \right],
+ \qquad
+ h(y)=\frac1{\gamma(y)}.
+\]
+If \(j\) is not a proxy, \(F\) is standard normal and independent
+of the conditioning variables. If \(j\) is a proxy and
+\(t=\Phi^{-1}(u)\), then
+\[
+ F\mid Z_j=t\sim N(0.7t,\,1-0.7^2).
+\]
+These means are uniformly bounded on \(I_{\varepsilon/2}\).
+
+For any Gaussian law of \(F\), define
+\[
+ W(h)=\E e^{hA(F)}.
+\]
+Differentiation under the expectation gives
+\[
+ \left|\frac{d}{dh}\log W(h)\right|
+ =
+ \left|
+ \frac{\E[A(F)e^{hA(F)}]}{\E e^{hA(F)}}
+ \right|
+ \le\frac14.
+\]
+In B1,
+\[
+ 2\le h(y)\le2e^4,
+\]
+and \(h\) has a uniform bounded derivative in the active PIT
+coordinates. Therefore
+\[
+ |\log w_{j,u}(y)-\log w_{j,u}(0)|
+ \le C\|y\|_1.
+\]
+Also
+\[
+ e^{-e^4/2}\le w_{j,u}(0)\le e^{e^4/2}.
+\]
+It follows that
+\[
+ |w_{j,u}(y)-w_{j,u}(0)|\le C\|y\|_1
+\]
+uniformly in \(j,u\). This is (G3), and the weighted conclusion
+of Theorem~\ref{thm:uniform-gaussian-corner} applies.
+\end{proof}
+
+
+\subsection{Exact primitive tail representation for B1}
+
+We now prove the horizontal-coupling assertion with explicit
+constants.
+
+Let
+\[
+ \lambda=0.7,\qquad
+ \sigma^2=1-\lambda^2=0.51,
+ \qquad
+ \mathcal P=\{5,\ldots,24\},
+ \qquad q=|\mathcal P|=20.
+\]
+The proxy coordinates are
+\[
+ Z_\ell=\lambda F+\sigma\epsilon_\ell,
+ \qquad \ell\in\mathcal P,
+\]
+where \(F,\epsilon_5,\ldots,\epsilon_{24}\) are independent
+standard normals. The proxy block is independent of the base
+Gaussian AR block.
+
+The B1 response is generated by
+\begin{equation}
+ Y
+ =
+ S^{\gamma(U)}
+ \exp\left\{
+  A(F)-\frac1{2S}
+ \right\},
+ \qquad
+ S=V^{-1},\quad V\sim{\rm Unif}(0,1),
+ \label{eq:B1-generator-rigorous}
+\end{equation}
+where
+\[
+ A(f)=\frac{\Phi(f)-1/2}{2}.
+\]
+Put
+\[
+ h(x)=\frac1{\gamma(x)}
+ =
+ 2\exp\left(\sum_{a=1}^4x_a\right),
+ \qquad
+ 2\le h(x)\le h_+:=2e^4.
+\]
+
+Conditioning on the complete observed Gaussian vector
+\(Z=z\), the posterior law of \(F\) is
+\begin{equation}
+ F\mid Z=z
+ \sim N\{m(z),s_*^2\},
+ \label{eq:B1-posterior}
+\end{equation}
+where
+\begin{equation}
+ s_*^2
+ =
+ \frac{\sigma^2}{\sigma^2+q\lambda^2},
+ \qquad
+ m(z)
+ =
+ \beta\sum_{\ell\in\mathcal P}z_\ell,
+ \qquad
+ \beta=
+ \frac{\lambda}{\sigma^2+q\lambda^2}.
+ \label{eq:B1-posterior-parameters}
+\end{equation}
+
+Let \(W_0\) denote the principal Lambert \(W\)-function and set
+\[
+ R(x)=
+ \begin{cases}
+  W_0(x)/x,&x>0,\\
+  1,&x=0.
+ \end{cases}
+\]
+Since \(x=W_0(x)e^{W_0(x)}\),
+\begin{equation}
+ R(x)=e^{-W_0(x)}.
+ \label{eq:Lambert-ratio}
+\end{equation}
+
+For \(h\in[2,h_+]\), \(a\in[-1/4,1/4]\), and \(t\ge1\), define
+\begin{equation}
+ x_t(h,a)
+ =
+ \frac h2e^{-h(t-a)}
+ \label{eq:B1-x}
+\end{equation}
+and
+\begin{equation}
+ G_t(h,a)
+ =
+ e^{ha}R\{x_t(h,a)\}
+ =
+ \exp\left[
+  ha-W_0\{x_t(h,a)\}
+ \right].
+ \label{eq:B1-G}
+\end{equation}
+Finally, for \(G\sim N(0,1)\), define
+\begin{align}
+ c(h,m)
+ &=
+ \E\exp\{hA(m+s_*G)\},
+ \label{eq:B1-c-hm}\\
+ H_t(h,m)
+ &=
+ \E G_t\{h,A(m+s_*G)\}.
+ \label{eq:B1-H-hm}
+\end{align}
+
+\begin{lemma}[Exact B1 tail factorization]
+\label{lem:B1-exact-tail}
+For every observed \(x\in(0,1)^p\), let
+\(z=\Phi^{-1}(x)\) coordinatewise and put
+\[
+ c_B(x)=c\{h(x),m(z)\},
+ \qquad
+ 1+r_B(t,x)
+ =
+ \frac{H_t\{h(x),m(z)\}}{c\{h(x),m(z)\}}.
+\]
+Then, for every \(t\ge1\),
+\begin{equation}
+ \Pp(Y>e^t\mid U=x)
+ =
+ c_B(x)e^{-t/\gamma(x)}
+ \{1+r_B(t,x)\}
+ \label{eq:B1-exact-factorization}
+\end{equation}
+exactly. Moreover,
+\begin{equation}
+ -e^{1/2-2t}\le r_B(t,x)\le0,
+ \label{eq:B1-r-bound}
+\end{equation}
+and, wherever the derivative is taken,
+\begin{equation}
+ |\partial_t r_B(t,x)|
+ \le h_+e^{1/2-2t}.
+ \label{eq:B1-r-derivative}
+\end{equation}
+Thus B1 satisfies (P2), with a remainder and log-level derivative
+of order \(O(e^{-2t})\), uniformly in \(p\) and \(x\).
+\end{lemma}
+
+\begin{proof}
+Fix \(x,F\), write \(g=\gamma(x)\), \(h=1/g\),
+\(a=A(F)\), and let \(p\) be the conditional survival
+probability at \(e^t\). By monotonicity of the generator,
+\(p\) is the unique solution in \((0,1)\) of
+\[
+ e^t=p^{-g}e^{a-p/2}.
+\]
+Equivalently,
+\[
+ p\,e^{hp/2}=e^{-h(t-a)}.
+\]
+Multiplying by \(h/2\) and applying \(W_0\),
+\[
+ p
+ =
+ \frac2hW_0\left\{\frac h2e^{-h(t-a)}\right\}.
+\]
+Using \eqref{eq:Lambert-ratio},
+\begin{align}
+ p
+ &=
+ e^{-h(t-a)}
+ R\left\{\frac h2e^{-h(t-a)}\right\}
+ \nonumber\\
+ &=
+ e^{-ht}G_t(h,a).
+ \label{eq:B1-p-exact}
+\end{align}
+Averaging \eqref{eq:B1-p-exact} under the posterior
+\eqref{eq:B1-posterior} gives
+\[
+ \Pp(Y>e^t\mid U=x)
+ =
+ e^{-h(x)t}H_t\{h(x),m(z)\},
+\]
+which is \eqref{eq:B1-exact-factorization}.
+
+For \(t\ge1\), \(a\le1/4\), and \(h\ge2\), put
+\(y=h(t-a)\). Then \(y\ge3/2\), and the function
+\(h\mapsto(h/2)e^{-h(t-a)}\) is decreasing on
+\([2,\infty)\). Hence
+\begin{equation}
+ 0\le x_t(h,a)\le e^{-2(t-1/4)}
+ =e^{1/2-2t}.
+ \label{eq:B1-x-bound}
+\end{equation}
+Since \(0\le W_0(x)\le x\),
+\[
+ 1-x\le e^{-W_0(x)}\le1.
+\]
+The quotient \(H_t/c\) is a weighted average of
+\(R(x_t)=e^{-W_0(x_t)}\), with weights proportional to
+\(e^{hA(F)}\). Therefore
+\[
+ 1-e^{1/2-2t}
+ \le \frac{H_t(h,m)}{c(h,m)}\le1,
+\]
+which proves \eqref{eq:B1-r-bound}.
+
+Finally,
+\[
+ \partial_t\log R\{x_t(h,a)\}
+ =
+ \frac{hW_0\{x_t(h,a)\}}
+      {1+W_0\{x_t(h,a)\}},
+\]
+so
+\[
+ 0\le\partial_tR\{x_t(h,a)\}
+ \le h\,x_t(h,a).
+\]
+Averaging with the same fixed weights gives
+\[
+ 0\le\partial_t r_B(t,x)
+ \le h_+\sup_{h,a}x_t(h,a)
+ \le h_+e^{1/2-2t}.
+\]
+\end{proof}
+
+
+\subsection{Uniform horizontal coupling for B1}
+
+Let
+\[
+ T_\varepsilon=\Phi^{-1}(1-\varepsilon/2),
+ \qquad
+ L_\varepsilon=\frac1{\varphi(T_\varepsilon)},
+ \qquad
+ \varphi_0=\varphi(0)=\frac1{\sqrt{2\pi}}.
+\]
+Also put
+\[
+ a_0=\frac14,
+ \qquad
+ a_1=\sup_f|A'(f)|
+ =\frac{\varphi_0}{2},
+\]
+and
+\begin{equation}
+ C_h
+ =
+ \frac14+\frac54e^{-3/2}.
+ \label{eq:B1-Ch}
+\end{equation}
+
+\begin{proposition}[Uniform B1 horizontal coupling]
+\label{prop:B1-horizontal-coupling}
+For every \(p\ge25\), every coordinate \(j\le p\),
+every
+\[
+ u\in I_\varepsilon,
+ \qquad
+ v\in I_{\varepsilon/2},
+ \qquad
+ |u-v|\le\varepsilon/2,
+\]
+the conditional kernels \(K_j(u,\cdot)\) and
+\(K_j(v,\cdot)\) admit a coupling
+\[
+ X_u\sim\mathcal L(U\mid U_j=u),
+ \qquad
+ X_v\sim\mathcal L(U\mid U_j=v)
+\]
+such that, almost surely,
+\begin{equation}
+ \|X_v-X_u\|_\infty
+ \le
+ \varphi_0L_\varepsilon|v-u|,
+ \label{eq:B1-U-coupling}
+\end{equation}
+and
+\begin{equation}
+ \left|
+ \frac1{\gamma(X_v)}-\frac1{\gamma(X_u)}
+ \right|
+ \le L_D|v-u|,
+ \label{eq:B1-LD}
+\end{equation}
+where
+\begin{equation}
+ L_D=8e^4\varphi_0L_\varepsilon.
+ \label{eq:B1-LD-constant}
+\end{equation}
+
+For the exact factorization
+\eqref{eq:B1-exact-factorization}, one also has, almost surely
+and for every \(t\ge1\),
+\begin{align}
+ &|\log c_B(X_v)-\log c_B(X_u)|
+ \nonumber\\
+ &\quad+
+ |\log\{1+r_B(t,X_v)\}
+   -\log\{1+r_B(t,X_u)\}|
+ \le L_H|v-u|,
+ \label{eq:B1-LH}
+\end{align}
+where the deterministic constant
+\begin{equation}
+ L_H
+ =
+ \left(
+  \frac34+\frac54e^{-3/2}
+ \right)L_D
+ +3e^4\varphi_0\lambda L_\varepsilon
+ \label{eq:B1-LH-constant}
+\end{equation}
+is independent of \(p,n,j,u,v,t\).
+
+Thus B1 satisfies condition {\rm(P4)} with
+\[
+ t_0=1,\qquad \zeta_n=0.
+\]
+\end{proposition}
+
+\begin{proof}
+We first construct the coupling, then prove deterministic
+Lipschitz bounds for the two tail factors.
+
+\medskip
+\noindent
+\emph{Step 1: common-residual Gaussian coupling.}
+Let \(R_p\) denote the correlation matrix of the observed
+Gaussian vector \(Z=(Z_1,\ldots,Z_p)\). It has two independent
+blocks:
+
+\begin{itemize}
+\item on
+\[
+ \mathcal B=\{1,2,3,4,25,\ldots,p\},
+\]
+\[
+ (R_p)_{k\ell}=\rho^{|k-\ell|};
+\]
+
+\item on the proxy block \(\mathcal P\),
+\[
+ (R_p)_{kk}=1,
+ \qquad
+ (R_p)_{k\ell}=\lambda^2
+ \quad(k\ne\ell);
+\]
+
+\item correlations between \(\mathcal B\) and \(\mathcal P\)
+are zero.
+\end{itemize}
+
+Put
+\[
+ t_u=\Phi^{-1}(u),
+ \qquad
+ t_v=\Phi^{-1}(v).
+\]
+Let \(r_j=(R_p)_{-j,j}\), and let
+\[
+ \eta_j\sim
+ N\left(
+  0,\,
+  (R_p)_{-j,-j}-r_jr_j^\top
+ \right).
+\]
+Using the same \(\eta_j\), define
+\[
+ Z^{(u)}_j=t_u,\qquad
+ Z^{(u)}_{-j}=r_jt_u+\eta_j,
+\]
+\[
+ Z^{(v)}_j=t_v,\qquad
+ Z^{(v)}_{-j}=r_jt_v+\eta_j.
+\]
+These are the correct conditional Gaussian laws given
+\(Z_j=t_u\) and \(Z_j=t_v\). Coordinatewise,
+\begin{equation}
+ Z^{(v)}_k-Z^{(u)}_k
+ =
+ (R_p)_{kj}(t_v-t_u).
+ \label{eq:B1-Z-difference}
+\end{equation}
+Every correlation has absolute value at most one. Since
+\(u,v\in I_{\varepsilon/2}\), the inverse-function theorem gives
+\begin{equation}
+ |t_v-t_u|
+ \le L_\varepsilon|v-u|.
+ \label{eq:B1-t-difference}
+\end{equation}
+Consequently,
+\[
+ \|Z^{(v)}-Z^{(u)}\|_\infty
+ \le L_\varepsilon|v-u|.
+\]
+Applying the global Lipschitz bound
+\(|\Phi(s)-\Phi(t)|\le\varphi_0|s-t|\) proves
+\eqref{eq:B1-U-coupling} for
+\[
+ X_u=\Phi\{Z^{(u)}\},
+ \qquad
+ X_v=\Phi\{Z^{(v)}\}.
+\]
+
+\medskip
+\noindent
+\emph{Step 2: reciprocal-index constant.}
+Writing \(z_a\) for the first four latent coordinates,
+\[
+ h(z)=\frac1{\gamma\{\Phi(z)\}}
+ =
+ 2\exp\left\{\sum_{a=1}^4\Phi(z_a)\right\}.
+\]
+For \(a\le4\),
+\[
+ \left|\frac{\partial h}{\partial z_a}\right|
+ =
+ h(z)\varphi(z_a)
+ \le2e^4\varphi_0.
+\]
+Therefore
+\begin{align}
+ |h\{Z^{(v)}\}-h\{Z^{(u)}\}|
+ &\le
+ 8e^4\varphi_0
+ \|Z_{\{1,\ldots,4\}}^{(v)}
+   -Z_{\{1,\ldots,4\}}^{(u)}\|_\infty
+ \nonumber\\
+ &\le
+ 8e^4\varphi_0L_\varepsilon|v-u|.
+\end{align}
+This is \eqref{eq:B1-LD}--\eqref{eq:B1-LD-constant}.
+
+\medskip
+\noindent
+\emph{Step 3: movement of the posterior mean of \(F\).}
+Recall
+\[
+ m(z)=\beta\sum_{\ell\in\mathcal P}z_\ell,
+ \qquad
+ \beta=\frac{\lambda}{\sigma^2+q\lambda^2}.
+\]
+Under the common-residual coupling,
+\[
+ m\{Z^{(v)}\}-m\{Z^{(u)}\}
+ =
+ \beta(t_v-t_u)
+ \sum_{\ell\in\mathcal P}(R_p)_{\ell j}.
+\]
+If \(j\notin\mathcal P\), the sum is zero. If
+\(j\in\mathcal P\), then
+\[
+ \sum_{\ell\in\mathcal P}(R_p)_{\ell j}
+ =
+ 1+(q-1)\lambda^2
+ =
+ \sigma^2+q\lambda^2.
+\]
+Hence, in all cases,
+\begin{equation}
+ |m\{Z^{(v)}\}-m\{Z^{(u)}\}|
+ \le
+ \lambda|t_v-t_u|
+ \le
+ \lambda L_\varepsilon|v-u|.
+ \label{eq:B1-m-difference}
+\end{equation}
+This is where the fact that the proxy-block size \(q=20\) is
+fixed enters. In fact its contribution cancels exactly in the
+posterior coefficient.
+
+\medskip
+\noindent
+\emph{Step 4: derivatives of \(c(h,m)\).}
+Write \(F_m=m+s_*G\), with \(G\sim N(0,1)\). Since
+\(|A|\le a_0\) and \(|A'|\le a_1\), differentiation under the
+expectation in \eqref{eq:B1-c-hm} gives
+\begin{equation}
+ \partial_h\log c(h,m)
+ =
+ \frac{\E[A(F_m)e^{hA(F_m)}]}
+      {\E e^{hA(F_m)}},
+ \qquad
+ |\partial_h\log c(h,m)|\le a_0,
+ \label{eq:B1-c-h-derivative}
+\end{equation}
+and
+\begin{equation}
+ \partial_m\log c(h,m)
+ =
+ \frac{\E[hA'(F_m)e^{hA(F_m)}]}
+      {\E e^{hA(F_m)}},
+ \qquad
+ |\partial_m\log c(h,m)|\le h_+a_1.
+ \label{eq:B1-c-m-derivative}
+\end{equation}
+Thus, for any two parameter pairs,
+\begin{equation}
+ |\log c(h_2,m_2)-\log c(h_1,m_1)|
+ \le
+ a_0|h_2-h_1|+h_+a_1|m_2-m_1|.
+ \label{eq:B1-c-Lipschitz}
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 5: derivatives of \(H_t(h,m)\).}
+For \(G_t\) in \eqref{eq:B1-G}, put
+\[
+ x=x_t(h,a),\qquad W=W_0(x).
+\]
+The identities
+\[
+ xW_0'(x)=\frac{W}{1+W},
+ \qquad
+ \partial_h\log x=\frac1h-(t-a),
+ \qquad
+ \partial_a\log x=h
+\]
+give
+\begin{equation}
+ \partial_h\log G_t(h,a)
+ =
+ a-\frac{W}{1+W}
+ \left\{\frac1h-(t-a)\right\},
+ \label{eq:B1-G-h}
+\end{equation}
+and
+\begin{equation}
+ \partial_a\log G_t(h,a)
+ =
+ \frac{h}{1+W}.
+ \label{eq:B1-G-a}
+\end{equation}
+As in the proof of Lemma~\ref{lem:B1-exact-tail}, let
+\(y=h(t-a)\ge3/2\). Since \(W\le x=(h/2)e^{-y}\),
+\begin{align}
+ |\partial_h\log G_t(h,a)|
+ &\le
+ a_0+\frac{x}{h}+x(t-a)
+ \nonumber\\
+ &=
+ a_0+\frac12e^{-y}+\frac y2e^{-y}
+ \nonumber\\
+ &\le
+ \frac14+\frac54e^{-3/2}
+ =C_h.
+ \label{eq:B1-G-h-bound}
+\end{align}
+Also
+\begin{equation}
+ |\partial_a\log G_t(h,a)|\le h_+.
+ \label{eq:B1-G-a-bound}
+\end{equation}
+
+Because \(H_t(h,m)\) is the expectation of the positive
+function \(G_t\{h,A(F_m)\}\), its logarithmic derivatives are
+weighted averages of the corresponding logarithmic derivatives
+of the integrand. Thus
+\begin{equation}
+ |\partial_h\log H_t(h,m)|\le C_h
+ \label{eq:B1-H-h-derivative}
+\end{equation}
+and
+\begin{equation}
+ |\partial_m\log H_t(h,m)|
+ \le h_+a_1.
+ \label{eq:B1-H-m-derivative}
+\end{equation}
+The bounds hold uniformly for every \(t\ge1\).
+
+Since
+\[
+ \log\{1+r_B(t,x)\}
+ =
+ \log H_t\{h(x),m(x)\}
+ -\log c\{h(x),m(x)\},
+\]
+we obtain
+\begin{align}
+ &|\log\{1+r_B(t,x_2)\}
+   -\log\{1+r_B(t,x_1)\}|
+ \nonumber\\
+ &\qquad\le
+ (C_h+a_0)|h_2-h_1|
+ +2h_+a_1|m_2-m_1|.
+ \label{eq:B1-r-Lipschitz}
+\end{align}
+Adding \eqref{eq:B1-c-Lipschitz} gives
+\begin{align}
+ &|\log c_2-\log c_1|
+ +|\log(1+r_2)-\log(1+r_1)|
+ \nonumber\\
+ &\qquad\le
+ (C_h+2a_0)|h_2-h_1|
+ +3h_+a_1|m_2-m_1|.
+ \label{eq:B1-combined-Lipschitz}
+\end{align}
+Now use
+\[
+ C_h+2a_0
+ =
+ \frac34+\frac54e^{-3/2},
+ \qquad
+ 3h_+a_1
+ =
+ 3e^4\varphi_0,
+\]
+together with \eqref{eq:B1-LD} and
+\eqref{eq:B1-m-difference}. This gives
+\[
+ |\log c_B(X_v)-\log c_B(X_u)|
+ +
+ |\log\{1+r_B(t,X_v)\}
+  -\log\{1+r_B(t,X_u)\}|
+ \le L_H|v-u|
+\]
+with \(L_H\) exactly as in
+\eqref{eq:B1-LH-constant}. No exceptional deterministic term is
+needed, so \(\zeta_n=0\).
+\end{proof}
+
+
+\begin{remark}[What has been repaired]
+\label{rem:corner-coupling-repairs}
+The preceding arguments make six points explicit.
+
+\begin{enumerate}
+\item The Gaussian density is dominated uniformly all the way to
+intersections of coordinate faces by
+\(\prod_i x_i^{\vartheta-1}\).
+
+\item The normal-quantile expansion is used only off a face region
+whose normalized mass is \(o(r_z^{-1})\).
+
+\item The pointwise density error need not be \(O(r_z^{-1})\):
+the mean term is proportional to
+\(r_z^{-1}\sum_i|\log x_i|\). Its integral is
+\(O(r_z^{-1})\), which is the statement actually required.
+
+\item The nonlinear boundary contributes only \(O(z)\), because it
+is trapped between two homothetic simplices. Since
+\(z=o(r_z^{-1})\), it is negligible at the announced order.
+
+\item A weight \(w\) changes the leading constant to
+\(w(0)C(\mu,\Sigma,a)\). Omitting \(w(0)\) would be incorrect.
+
+\item For B1, the horizontal constants are independent of the
+ambient dimension. The common-residual coupling moves every
+latent Gaussian coordinate by at most
+\(L_\varepsilon|u-v|\); the only apparent sum over the twenty
+proxies cancels exactly in the posterior mean coefficient.
+\end{enumerate}
+\end{remark}

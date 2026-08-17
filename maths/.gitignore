@@ -1,0 +1,13 @@
+# Transmission bundles: concatenations of the manuscript and the journal,
+# regenerable and of no value once a wave is recorded in JOURNAL.md.
+paste-wave*.txt
+# Copies of the manuscript kept only in order to build those bundles.
+paper-v2-full.tex
+paper-v2-math.tex
+journal-only.txt
+# LaTeX build artefacts and editor backups.
+*.aux
+*.log
+*.out
+*.toc
+*.bak

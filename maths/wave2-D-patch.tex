@@ -1,0 +1,654 @@
+% ============================================================
+% STATUT D'AUDIT — ce fichier est dans sa version D'ORIGINE.
+% Les reparations demandees par les audits n'y sont PAS appliquees.
+% Voir maths/JOURNAL.md, section correspondante, avant tout usage.
+% ============================================================
+% New results for Tail-Index Sure Independence Screening
+% Wave 2: score-level concentration, matched lower bounds, and rank aggregation.
+
+\section{Score-level concentration without the spurious bandwidth factor}
+\label{sec:new-score-rate}
+
+Write
+\[
+ \mathcal R_n=\{r\in\{1,\ldots,n\}:r/(n+1)\in I_\varepsilon\},
+ \qquad L_n=|\mathcal R_n|,
+ \qquad d_n=\lfloor h(n+1)\rfloor .
+\]
+For a grid centre $r\in\mathcal R_n$, the rank window consists of the rank
+positions
+\[
+ W_r=\{q\in\{1,\ldots,n\}:|q-r|\le d_n\},
+ \qquad m_r=|W_r|,
+ \qquad k_r=\lfloor\alpha m_r\rfloor .
+\]
+Put
+\[
+ K_n=\min_{r\in\mathcal R_n}k_r,
+ \qquad \chi_n=2d_n+1,
+\]
+\[
+ v_n=\frac{\chi_n}{L_n^2}\sum_{r\in\mathcal R_n}\frac1{k_r},
+ \qquad
+ c_n=\frac{\chi_n}{L_nK_n},
+ \qquad
+ \rho_n(x)=\sqrt{2v_nx}+c_nx .
+\]
+The quantity $\chi_n$ is the chromatic number of the overlap graph of the
+rank windows: windows whose centres have the same residue modulo $\chi_n$
+are disjoint.
+
+Recall
+\[
+ b_n=b_n(3\alpha),
+ \qquad
+ \omega_n(\eta,\tau)
+ =\omega_n^{\uparrow}(h+\eta+(n+1)^{-1},\tau,\alpha),
+\]
+and let
+\[
+ q_n=\omega_\xi((n+1)^{-1})+
+ \frac{4\Gamma}{(1-2\varepsilon)(n+1)}
+\]
+be the quadrature error used in the manuscript. The statement below only
+needs the conditional quantile representation used in the local-Hill
+expansion. Thus the continuity clause in the printed (E1) may equivalently
+be replaced by the randomized conditional PIT construction.
+
+\begin{lemma}[Gamma-mean mgf]
+\label{lem:new-gamma-mgf}
+Let $G_k=k^{-1}\sum_{i=1}^kE_i$, where the $E_i$ are iid standard
+exponentials. Then, for $|\lambda|<k$,
+\[
+ \log\mathbb E\exp\{\lambda(G_k-1)\}
+ \le \frac{\lambda^2}{2k\{1-|\lambda|/k\}}.
+\]
+\end{lemma}
+
+\begin{proof}
+For $0\le\lambda<k$, with $x=\lambda/k$,
+\[
+ \log\mathbb E e^{\lambda(G_k-1)}
+ =k\{-x-\log(1-x)\}
+ \le \frac{kx^2}{2(1-x)}.
+\]
+The displayed inequality follows by integrating
+$x/(1-x)\le x/(1-x_0)$ on $[0,x_0]$, or directly from the power series.
+For $-k<\lambda<0$, apply the same argument to
+$x=-\lambda/k$ and use $x-\log(1+x)\le x^2/2$.
+\end{proof}
+
+\begin{lemma}[Concentration of an average of overlapping local spacings]
+\label{lem:new-colour}
+Fix a coordinate $j$ and condition on its covariate column. For
+$r\in\mathcal R_n$, let $G_{jr}$ be the R\'enyi variable appearing in the
+frozen-location local-Hill expansion; thus $G_{jr}$ has the law of a mean of
+$k_r$ iid standard exponentials. If $|a_r|\le A$ and
+\[
+ S_a=\frac1{L_n}\sum_{r\in\mathcal R_n}a_r(G_{jr}-1),
+\]
+then, for $x>0$,
+\[
+ \mathbb P\{|S_a|>A\rho_n(x)\mid\boldsymbol U_j\}\le2e^{-x}.
+\]
+\end{lemma}
+
+\begin{proof}
+Partition $\mathcal R_n$ according to residues modulo
+$\chi_n=2d_n+1$. Two centres in the same class differ by at least
+$2d_n+1$, so their rank windows are disjoint. Conditional on the covariate
+column, the PIT variables in disjoint windows are independent; hence the
+$G_{jr}$ in one colour class are independent.
+
+Let the colour sums be $S_1,\ldots,S_{\chi_n}$. H\"older's inequality and
+Lemma~\ref{lem:new-gamma-mgf} give, whenever
+$A\chi_n|\theta|/(L_nK_n)<1$,
+\begin{align*}
+ \log\mathbb E(e^{\theta S_a}\mid\boldsymbol U_j)
+ &\le \frac1{\chi_n}\sum_{c=1}^{\chi_n}
+       \log\mathbb E(e^{\chi_n\theta S_c}\mid\boldsymbol U_j)\\
+ &\le
+ \frac{A^2\theta^2v_n}
+      {2\{1-Ac_n|\theta|\}}.
+\end{align*}
+Thus $S_a$ is two-sided sub-gamma with variance factor $A^2v_n$ and
+scale factor $Ac_n$. Chernoff optimization gives the claimed bound.
+\end{proof}
+
+\begin{theorem}[Finite-sample concentration of the original sliding score]
+\label{thm:new-score-finite}
+Assume the hypotheses needed for the frozen-location expansion in the
+manuscript, let $K_n\ge2$, $0<\alpha\le1/3$, choose $\eta>0$,
+$0<\tau\le3\alpha$, and $x>0$. Then
+\begin{align*}
+ &\mathbb P\left\{
+  \max_{j\le p}|\widehat\Psi_j-\Psi_j|
+  >q_n+2\omega_n(\eta,\tau)+b_n+(\Gamma+b_n)\rho_n(x)
+  \right\}\\
+ &\quad\le
+ 2p e^{-2n\eta^2}
+ +pn\tau
+ +pL_n e^{-(K_n+1)/4}
+ +4p e^{-x}.
+\end{align*}
+In particular, the stochastic score term is governed by $v_n$ and $c_n$,
+not by $K_n^{-1}$ alone.
+\end{theorem}
+
+\begin{proof}
+Fix $j$ and a grid centre $r$. On the rank-displacement event, the global
+PIT truncation event, and the event that the $(k_r+1)$st PIT order statistic
+in every grid window is at most $3\alpha$, the signed version of the
+frozen-location calculation is
+\[
+ \widehat\xi_j(r/(n+1))-\xi_j(r/(n+1))
+ =e_{jr}+\xi_j(r/(n+1))(G_{jr}-1)+R_{jr},
+\]
+where
+\[
+ |e_{jr}|\le2\omega_n(\eta,\tau),
+ \qquad
+ |R_{jr}|\le b_nG_{jr}.
+\]
+This is the same decomposition as in the manuscript; the only change is
+that it is averaged before taking absolute values.
+
+Define
+\[
+ A_j=\frac1{L_n}\sum_{r\in\mathcal R_n}
+       \xi_j(r/(n+1))(G_{jr}-1),
+ \qquad
+ C_j=\frac1{L_n}\sum_{r\in\mathcal R_n}(G_{jr}-1).
+\]
+Averaging the signed expansion and then using the quadrature lemma gives
+pathwise
+\[
+ |\widehat\Psi_j-\Psi_j|
+ \le q_n+2\omega_n(\eta,\tau)+|A_j|+b_n(1+|C_j|).
+\]
+Lemma~\ref{lem:new-colour}, first with
+$a_r=\xi_j(r/(n+1))$ and then with $a_r=1$, yields
+\[
+ \mathbb P\{|A_j|>\Gamma\rho_n(x)\mid\boldsymbol U_j\}\le2e^{-x},
+ \qquad
+ \mathbb P\{|C_j|>\rho_n(x)\mid\boldsymbol U_j\}\le2e^{-x}.
+\]
+A union bound over $j$ contributes $4pe^{-x}$.
+
+The rank-displacement event fails with probability at most
+$2pe^{-2n\eta^2}$, and the global PIT truncation event fails with
+probability at most $pn\tau$. Conditional on a covariate column, each grid
+window satisfies
+\[
+ \mathbb P\{V_{(k_r+1)}>3\alpha\mid\boldsymbol U_j\}
+ \le e^{-(k_r+1)/4}\le e^{-(K_n+1)/4};
+\]
+a union bound over the $pL_n$ grid windows gives the third term. Combining
+these events proves the theorem.
+\end{proof}
+
+\begin{corollary}[The bandwidth cancels from the stochastic score rate]
+\label{cor:new-score-rate}
+Suppose $nh\ge4$, $\alpha m_n^-\ge2$, and $L_n\ge c_\varepsilon n$.
+Then, for a constant $C_\varepsilon$ depending only on the trimming
+parameter,
+\[
+ v_n\vee c_n\le \frac{C_\varepsilon}{n\alpha}.
+\]
+Consequently, under the same bias and localization assumptions as in
+Theorem~\ref{thm:new-score-finite}, and provided
+$K_n\gg\log(pn)$ so that every local threshold lies in the working tail
+with high probability,
+\[
+ \max_{j\le p}|\widehat\Psi_j-\Psi_j|
+ =O_{\mathbb P}\!\left(
+   \sqrt{\frac{\log p}{n\alpha}}
+   +\frac{\log p}{n\alpha}
+  \right)
+ +q_n+2\omega_n(\eta_n,\tau_n)+b_n.
+\]
+If the deterministic bias is $o(\Delta_{\mathcal D})$, where
+$\mathcal D=\{j:\Delta_j>0\}$, sure screening follows from
+\[
+ \log p=o(n\alpha\Delta_{\mathcal D}^2),
+\]
+together with the separate local-feasibility and localization conditions.
+\end{corollary}
+
+\begin{proof}
+The deterministic rank geometry gives
+$K_n\ge n\alpha h/4$. Also
+$\chi_n=2\lfloor h(n+1)\rfloor+1\le Cnh$ for large $n$. Hence
+\[
+ v_n\le\frac{\chi_n}{L_nK_n}
+ \le\frac{C_\varepsilon}{n\alpha},
+ \qquad
+ c_n=\frac{\chi_n}{L_nK_n}
+ \le\frac{C_\varepsilon}{n\alpha}.
+\]
+Take $x$ proportional to $\log p$ in
+Theorem~\ref{thm:new-score-finite}. The screening conclusion follows from
+the deterministic score-separation lemma.
+\end{proof}
+
+\section{A matched lower bound for the same sliding-window score}
+\label{sec:new-score-lower}
+
+The next result is estimator-specific and contains no nuisance bias. It
+therefore decides whether the factor $h$ can be intrinsic to the stochastic
+fluctuation of the score itself.
+
+\begin{theorem}[Exact-Pareto lower bound for the original score]
+\label{thm:new-score-lower}
+Let $Y_1,\ldots,Y_n$ be iid exact Pareto with
+$\mathbb P(Y>y)=y^{-1/\gamma}$ for $y\ge1$, and let the covariate rank
+column be independent of the responses. Assume $h<\varepsilon$ so that all
+trimmed grid windows have the common size
+\[
+ m=2\lfloor h(n+1)\rfloor+1,
+ \qquad k=\lfloor\alpha m\rfloor\ge1,
+ \qquad \bar\alpha=k/m,
+\]
+and assume $\alpha\le1/3$. For every
+$1<\lambda<1/\bar\alpha$,
+\[
+ \operatorname{Var}(\widehat\Psi)
+ \ge
+ \frac{\gamma^2}{\lambda n\bar\alpha}
+ \left[1-
+  \exp\left\{-\frac{(\lambda-1)^2k}{2\lambda}\right\}
+ \right]^2
+ \ge
+ \frac{\gamma^2}{\lambda n\alpha}
+ \left[1-
+  \exp\left\{-\frac{(\lambda-1)^2k}{2\lambda}\right\}
+ \right]^2.
+\]
+In particular, if $k\to\infty$ and
+$\lambda_k=1+k^{-1/4}$, then
+\[
+ \liminf_{n\to\infty}
+ \frac{n\alpha}{\gamma^2}\operatorname{Var}(\widehat\Psi)\ge1.
+\]
+Thus no stochastic bound of order
+$o\{(n\alpha)^{-1/2}\}$ is possible for the very estimator used in the
+manuscript, even on an exact-Pareto, constant-index model.
+\end{theorem}
+
+\begin{proof}
+Put $Z_i=\log Y_i$, so the $Z_i$ are iid exponentials with mean $\gamma$.
+Sorting by a rank column independent of $Y$ only applies an independent
+permutation, so along rank positions the $Z_i$ remain iid. Let $H_m$ be
+the local Hill statistic computed from any one window of $m$ observations.
+Then $\mathbb EH_m=\gamma$.
+
+Fix $\lambda>1$ and set
+\[
+ q_\lambda=\gamma\log\{m/(\lambda k)\}.
+\]
+Because $\lambda k<m$, the baseline exponential law puts mass
+$\lambda k/m=\lambda\bar\alpha$ above $q_\lambda$. Consider the regular
+one-parameter family
+\[
+ f_\beta(z)=
+ \begin{cases}
+  \gamma^{-1}e^{-z/\gamma},&0\le z\le q_\lambda,\\[2mm]
+  \lambda\bar\alpha\,\beta^{-1}
+  e^{-(z-q_\lambda)/\beta},&z>q_\lambda.
+ \end{cases}
+\]
+At $\beta=\gamma$ this is exactly the baseline exponential density.
+Let $N$ be the number of observations in the window exceeding
+$q_\lambda$. Its distribution is
+$\operatorname{Bin}(m,\lambda\bar\alpha)$ and does not depend on $\beta$.
+Conditional on $N=r$, all tail excesses are $\beta$ times standard
+exponentials, whereas the observations below $q_\lambda$ have a law
+independent of $\beta$.
+
+If $r\ge k+1$, the top $k$ observations and their threshold all lie above
+$q_\lambda$; by the R\'enyi representation, the conditional expectation of
+$H_m$ is affine in $\beta$ with derivative one. If $r=k$, the threshold is
+in the fixed body and all $k$ tail observations contribute, again giving
+derivative one. If $r<k$, precisely $r$ tail observations contribute a
+$\beta$-dependent excess, so the derivative is $r/k$. Therefore
+\[
+ a_{m,k,\lambda}
+ :=\left.\frac{d}{d\beta}\mathbb E_\beta H_m\right|_{\beta=\gamma}
+ =\mathbb E\left(\frac{N\wedge k}{k}\right)
+ \ge\mathbb P(N\ge k).
+\]
+Since $\mathbb EN=\lambda k$, the multiplicative Chernoff bound gives
+\[
+ \mathbb P(N<k)
+ \le\exp\left\{-\frac{(\lambda-1)^2k}{2\lambda}\right\}.
+\]
+
+The score of one observation for the family $f_\beta$, at
+$\beta=\gamma$, is
+\[
+ s(z)=\frac{\psi(z)}{\gamma^2},
+ \qquad
+ \psi(z)=(z-q_\lambda-\gamma)\mathbf 1_{\{z>q_\lambda\}}.
+\]
+It has mean zero and
+\[
+ \operatorname{Var}\{\psi(Z)\}
+ =\lambda\bar\alpha\,\gamma^2.
+\]
+Differentiating under the integral sign, which is justified by exponential
+moments in a neighbourhood of $\gamma$, yields the Fisher identity
+\[
+ \operatorname{Cov}\left(H_m,\sum_{i=1}^m\psi(Z_i)\right)
+ =\gamma^2a_{m,k,\lambda}.
+\]
+Let
+\[
+ h_1(z)=\mathbb E(H_m-\gamma\mid Z_1=z)
+\]
+be the first Hoeffding projection of the local statistic. Symmetry gives
+\[
+ m\operatorname{Cov}\{h_1(Z_1),\psi(Z_1)\}
+ =\gamma^2a_{m,k,\lambda}.
+\]
+Cauchy--Schwarz therefore implies
+\[
+ \operatorname{Var}\{h_1(Z_1)\}
+ \ge
+ \frac{\gamma^2a_{m,k,\lambda}^2}
+      {\lambda\bar\alpha m^2}.
+\]
+
+For a rank position $i$, let $N_i$ be the number of trimmed score windows
+that contain it. The first Hoeffding projection of the full sliding score
+is
+\[
+ \sum_{i=1}^n\frac{N_i}{L_n}h_1(Z_i).
+\]
+Orthogonality of the Hoeffding decomposition gives
+\[
+ \operatorname{Var}(\widehat\Psi)
+ \ge \operatorname{Var}\{h_1(Z_1)\}
+       \sum_{i=1}^n\frac{N_i^2}{L_n^2}.
+\]
+Every one of the $L_n$ windows contains $m$ rank positions, so
+$\sum_iN_i=L_nm$. Cauchy's inequality gives
+\[
+ \sum_{i=1}^nN_i^2\ge\frac{L_n^2m^2}{n}.
+\]
+Combining the last three displays and the Chernoff lower bound for
+$a_{m,k,\lambda}$ proves the finite-sample assertion. With
+$\lambda_k=1+k^{-1/4}$, the Chernoff exponent is asymptotic to
+$k^{1/2}/2$, while $\lambda_k\to1$, proving the last claim.
+\end{proof}
+
+\begin{proposition}[Matching exact-Pareto upper bound]
+\label{prop:new-pareto-upper}
+Under the assumptions of Theorem~\ref{thm:new-score-lower},
+\[
+ \mathbb P\left\{
+ |\widehat\Psi-\gamma|>
+ \gamma\left(
+  \sqrt{\frac{2x}{L_n\bar\alpha}}
+  +\frac{x}{L_n\bar\alpha}
+ \right)\right\}\le2e^{-x}.
+\]
+For $p$ coordinates the right-hand side becomes $2pe^{-x}$ by a union
+bound, without any independence assumption across coordinates.
+\end{proposition}
+
+\begin{proof}
+On an exact Pareto model, every local Hill statistic is exactly
+$\gamma G_{jr}$; there is no tail, spatial, rank, or quadrature bias. Since
+all windows have size $m$, one has $\chi_n=m$, $k_r=k$ and hence
+\[
+ v_n=c_n=\frac{m}{L_nk}=\frac1{L_n\bar\alpha}.
+\]
+Lemma~\ref{lem:new-colour} with $a_r=1$ gives the result.
+\end{proof}
+
+\paragraph{Conclusion.}
+The pointwise local-Hill profile genuinely has variance
+$\gamma^2/k\asymp(n\alpha h)^{-1}$. The integrated score does not: the
+$O(1/h)$ effectively distinct windows average that local variance back to
+order $(n\alpha)^{-1}$. The factor $h$ in the printed score rate is
+therefore an artefact of bounding the score by the supremum of the profile.
+
+\section{A sharp high-dimensional transition on an embedded tail submodel}
+\label{sec:new-fano}
+
+The next construction supplies the missing $\log p$ lower bound. It is a
+genuine submodel of the primitive conditional regular-variation model. It
+isolates the stochastic screening boundary; it does not remove the separate
+slow-variation/onset barrier discussed elsewhere in the campaign.
+
+Fix $q\in(0,1/2)$, $\gamma_0>0$, and
+$0<\delta\le\gamma_0/2$. Let
+$T=q^{-\gamma_0}$. Under every hypothesis, let
+$U\sim\operatorname{Unif}([0,1]^p)$, let $B\sim\operatorname{Bernoulli}(q)$,
+and let $E\sim\operatorname{Exp}(1)$, independently. If $B=0$, draw $Y$
+from one fixed continuous distribution supported in $(T/4,T/2)$. Under
+$P_0$, if $B=1$, put
+\[
+ Y=T\exp(\gamma_0E).
+\]
+Under $P_j$, $1\le j\le p$, if $B=1$, put
+\[
+ Y=T\exp\{(\gamma_0-\delta U_j)E\}.
+\]
+The indicator $B=\mathbf 1_{\{Y\ge T\}}$ and the excess
+$X=\log(Y/T)$ are observable.
+
+For $y\ge T$, under $P_j$,
+\[
+ \mathbb P_j(Y>y\mid U=u)
+ =q(y/T)^{-1/(\gamma_0-\delta u_j)}.
+\]
+Thus the conditional tail index is
+$\gamma_j(u)=\gamma_0-\delta u_j$. If
+$\delta\log(1/q)\le C\gamma_0$, the coefficient
+$qT^{1/\gamma_j(u)}$ is bounded above and away from zero uniformly, so the
+submodel satisfies (C1)--(C2) and full fibre support. Its active-coordinate
+score gap is $\Delta_j=\delta/2$, while every inactive projected index is
+$\gamma_0$.
+
+\begin{theorem}[List-Fano lower bound]
+\label{thm:new-list-fano}
+Let $J$ be uniform on $\{1,\ldots,p\}$ and, conditionally on $J=j$, observe
+$n$ iid draws from $P_j$. For every measurable selected set
+$\widehat S$ with $|\widehat S|\le d<p$ almost surely,
+\[
+ \frac1p\sum_{j=1}^pP_j\{j\in\widehat S\}
+ \le
+ \frac{nq\delta^2/(3\gamma_0^2)+\log2}{\log(p/d)}.
+\]
+Consequently, uniform sure screening is impossible whenever
+$nq\delta^2$ is smaller than a sufficiently small constant times
+$\gamma_0^2\log(p/d)$. With $q=3\alpha$ and
+$\Delta_j=\delta/2$, the lower boundary is
+\[
+ n\alpha\Delta_j^2\asymp\log(p/d),
+\]
+with no bandwidth factor.
+\end{theorem}
+
+\begin{proof}
+The body and the Bernoulli mixing weight are identical under $P_j$ and
+$P_0$. Conditional on $B=1$ and $U=u$, the excess $X$ is exponential with
+mean $\theta_j(u)=\gamma_0-\delta u_j$ under $P_j$, and mean $\gamma_0$
+under $P_0$. Hence
+\begin{align*}
+ D(P_j\|P_0)
+ &=q\,\mathbb E\left[
+  \log\frac{\gamma_0}{\theta_j(U)}
+  +\frac{\theta_j(U)}{\gamma_0}-1
+ \right]\\
+ &=q\,\mathbb E\{-\log(1-Z)-Z\},
+ \qquad Z=\delta U_j/\gamma_0.
+\end{align*}
+For $0\le Z\le1/2$,
+$-\log(1-Z)-Z\le Z^2$, so
+\[
+ D(P_j\|P_0)\le\frac{q\delta^2}{3\gamma_0^2}.
+\]
+The information-radius inequality therefore gives
+\[
+ I(J;\mathcal X_n)
+ \le\frac1p\sum_{j=1}^pD(P_j^{\otimes n}\|P_0^{\otimes n})
+ \le\frac{nq\delta^2}{3\gamma_0^2}.
+\]
+Write $A=\mathbf 1_{\{J\in\widehat S\}}$. Conditional on the data,
+$J$ has at most $d$ possible values on $\{A=1\}$ and at most $p$ possible
+values on $\{A=0\}$. Therefore
+\[
+ H(J\mid\mathcal X_n)
+ \le\log2+P(A=1)\log d+P(A=0)\log p.
+\]
+Since $H(J)=\log p$ and
+$I(J;\mathcal X_n)=H(J)-H(J\mid\mathcal X_n)$, rearrangement gives
+\[
+ P(A=1)\log(p/d)\le I(J;\mathcal X_n)+\log2,
+\]
+which proves the theorem.
+\end{proof}
+
+\begin{theorem}[Matching upper bound on the submodel]
+\label{thm:new-submodel-upper}
+For $\ell\le p$, define
+\[
+ T_\ell=\frac1n\sum_{i=1}^n
+ B_i(U_{i\ell}-1/2)\log(Y_i/T),
+ \qquad
+ \widehat J=\arg\min_{\ell\le p}T_\ell.
+\]
+Then, under $P_j$,
+\[
+ \mathbb E_jT_j=-\frac{q\delta}{12},
+ \qquad
+ \mathbb E_jT_\ell=0\quad(\ell\ne j),
+\]
+and
+\[
+ P_j(\widehat J\ne j)
+ \le2p\exp\left\{-\frac{nq\delta^2}{12000\gamma_0^2}\right\}.
+\]
+Thus the lower boundary of Theorem~\ref{thm:new-list-fano} is attained, up
+to an absolute constant, on this submodel.
+\end{theorem}
+
+\begin{proof}
+Since $\mathbb EE=1$ and the coordinates of $U$ are independent,
+\[
+ \mathbb E_j\{B(U_j-1/2)X\}
+ =q\,\mathbb E[(U_j-1/2)(\gamma_0-\delta U_j)]
+ =-q\delta/12,
+\]
+while the mean is zero for every $\ell\ne j$.
+
+Put $Z_\ell=B(U_\ell-1/2)X$. Since
+$|U_\ell-1/2|\le1/2$ and $X\le\gamma_0E$ under every $P_j$,
+for every integer $r\ge2$,
+\[
+ \mathbb E_j|Z_\ell|^r
+ \le q(\gamma_0/2)^rr!.
+\]
+With $W_\ell=Z_\ell-\mathbb E_jZ_\ell$ and Jensen's inequality,
+\[
+ \mathbb E_j|W_\ell|^r
+ \le2^r\mathbb E_j|Z_\ell|^r
+ \le q\gamma_0^rr!
+ =\frac{r!}{2}(2q\gamma_0^2)\gamma_0^{r-2}.
+\]
+Bernstein's inequality therefore yields
+\[
+ P_j\{|T_\ell-\mathbb E_jT_\ell|>t\}
+ \le2\exp\left\{-\frac{nt^2}
+ {2(2q\gamma_0^2+\gamma_0t)}\right\}.
+\]
+Take $t=q\delta/48$. Since $\delta\le\gamma_0/2$ and $q\le1/2$, the
+exponent is at least $nq\delta^2/(12000\gamma_0^2)$. On the simultaneous
+deviation event, the active statistic is at most
+$-q\delta/12+t=-3q\delta/48$, whereas every inactive statistic is at least
+$-t=-q\delta/48$. Hence $\widehat J=j$. A union bound over $p$
+coordinates proves the result.
+\end{proof}
+
+\section{A deterministic oracle guarantee for minimum-rank aggregation}
+\label{sec:new-rank-aggregation}
+
+Let $\Lambda$ be a set of $M$ tunings. At tuning $\lambda$, let
+$r_j(\lambda)\in\{1,\ldots,p\}$ be the rank of coordinate $j$, and define
+$r_j^{\rm agg}=\min_{\lambda\in\Lambda}r_j(\lambda)$, as in the numerical
+procedure of the manuscript.
+
+\begin{proposition}[Union-of-top-lists guarantee]
+\label{prop:new-rank-aggregation}
+For every integer $R\ge1$,
+\[
+ \#\{j:r_j^{\rm agg}\le R\}\le MR.
+\]
+Consequently, if a target set $\mathcal D$ satisfies
+\[
+ \forall j\in\mathcal D\quad
+ \exists\lambda_j\in\Lambda:
+ r_j(\lambda_j)\le R,
+\]
+then the first $MR$ positions of the minimum-rank aggregate contain
+$\mathcal D$. The good tuning may differ from one target coordinate to
+another.
+\end{proposition}
+
+\begin{proof}
+For each tuning, at most $R$ coordinates have rank at most $R$. Hence
+\[
+ \{j:r_j^{\rm agg}\le R\}
+ \subseteq\bigcup_{\lambda\in\Lambda}
+ \{j:r_j(\lambda)\le R\},
+\]
+whose cardinality is at most $MR$. Every coordinate in the left-hand set
+precedes every coordinate with aggregate rank larger than $R$, regardless
+of the secondary tie-breaking rule. The conclusion follows.
+\end{proof}
+
+\begin{corollary}[One unknown good tuning is enough]
+\label{cor:new-rank-oracle}
+If, for some unknown $\lambda_\star\in\Lambda$, all $s$ target coordinates
+have rank at most $s$ at tuning $\lambda_\star$, then the top $Ms$
+coordinates of the aggregate contain the target set. More generally,
+\[
+ \mathbb P\{\mathcal D\subseteq\widehat{\mathcal A}^{\rm agg}_{MR}\}
+ \ge
+ 1-\sum_{j\in\mathcal D}
+ \mathbb P\{\min_{\lambda\in\Lambda}r_j(\lambda)>R\}.
+\]
+For the nine-tuning block used in the manuscript, this gives a top-$9s$
+coverage guarantee under an oracle-good-tuning event; it does not require
+all nine tunings to separate simultaneously.
+\end{corollary}
+
+\begin{proof}
+If all target coordinates have rank at most $s$ at
+$\lambda_\star$, then each has aggregate rank at most $s$. Applying
+Proposition~\ref{prop:new-rank-aggregation} with $R=s$ shows that every
+target coordinate lies among the first $Ms$ aggregate positions.
+
+For the probabilistic statement, define
+\[
+ E_j=\left\{\min_{\lambda\in\Lambda}r_j(\lambda)\le R\right\}.
+\]
+On the event $\bigcap_{j\in\mathcal D}E_j$, every target coordinate has
+aggregate rank at most $R$. Proposition~\ref{prop:new-rank-aggregation}
+then implies
+\[
+ \mathcal D\subseteq\widehat{\mathcal A}^{\rm agg}_{MR}.
+\]
+Therefore
+\[
+ \mathbb P\{\mathcal D\not\subseteq
+ \widehat{\mathcal A}^{\rm agg}_{MR}\}
+ \le
+ \mathbb P\left(\bigcup_{j\in\mathcal D}E_j^c\right)
+ \le
+ \sum_{j\in\mathcal D}\mathbb P(E_j^c),
+\]
+which is the asserted bound.
+\end{proof}
