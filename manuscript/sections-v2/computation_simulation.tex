@@ -42,7 +42,13 @@ tail-index functions are
  -0.20\,u_1u_2-0.15\,u_3u_4\bigr).
 \end{align*}
 A1 is the monotone reference, with trimmed population gap $0.186$
-(Section~\ref{sec:population}). A2 weakens the signal, with gap
+(Section~\ref{sec:population}); its tail-index function and its Gaussian
+AR(1) covariate design are those of \citet{yoshidaUmezu2026}, adopted
+deliberately so that the comparison of Section~\ref{sec:comparison} runs
+on a benchmark chosen by a competing method rather than on one of our
+own. The response mechanism differs: they invert a Burr-type conditional
+survival function, whereas A1--A3 carry the slowly varying factor
+$\ell_1$ above. A2 weakens the signal, with gap
 $0.107$. A3 adds interactions among the active coordinates while
 keeping a reasonably strong signal, with gap $0.158$. All three share
 the maximum $\gmax=0.5$.
@@ -87,11 +93,11 @@ exponent. A screen built on a fixed high quantile can therefore
 legitimately rank the proxy cluster highly --- those variables move its
 target --- even though the cluster is inactive for tail-index
 screening. B1 measures the practical consequence of this target
-difference. Remark~\ref{rem:scale} places the mechanism in the theory:
-the scale enters (E3) through a term of order $L_ch$, which vanishes
-with the bandwidth but is $0.079$--$0.132$ here against a gap of
-$0.186$, so scale robustness must be earned in finite samples, not
-assumed from the limit.
+difference. Section~\ref{sec:estimation} places the mechanism in the
+theory: a bounded scale nuisance enters (E3) through a term of order
+$L_ch$, which vanishes with the bandwidth, so the screen is
+asymptotically immune to it; B1 measures how much sample that immunity
+costs at a finite bandwidth.
 
 \paragraph{Monte Carlo design.}
 The common design is
@@ -107,17 +113,30 @@ $\Pp(R_{\max}\le d)$ with $R_{\max}=\max_{j\in\A_\gamma}\mathrm{rank}(j)$,
 and all methods within a replication are evaluated on the same dataset.
 
 \paragraph{Relation to the asymptotic theory.}
-At the selected tuning and $n=2000$ the deterministic quantities of
-Theorems~\ref{thm:score} and~\ref{thm:sis} are $n\alpha h\approx33$,
-$\log(pn)\approx14.5$ at $p=1000$, and
-$n\alpha h\,\Delta_{\min}^2\approx1.1$ for the gap $0.186$: the
-sufficient conditions $\log(pn)=o(n\alpha h)$ and
-$\log(pn)=o(n\alpha h\,\Delta_{\min}^2)$ are not numerically met at
-these designs. The simulations therefore measure the finite-sample
-behaviour of the screen outside the regime certified by the theory ---
-the situation any user of the method faces --- and the observed
-recovery rates should be read as evidence about that regime, not as an
-illustration of the theorems.
+The simulation models instantiate the theory rather than sit beside it.
+Corollary~\ref{cor:app-models} verifies the primitive conditions of
+Appendix~\ref{app:primitive} for A1--A3 and B1, and shows that (E1),
+(E2) and (E3$^\uparrow$) hold along the tuning sequences
+$\alpha=n^{-a}$, $h=n^{-b}/2$ used throughout, with bias orders
+$O(n^{-1})$, $O(1/\log n)$ and $O(n^{-b}\log n)$. The effective local
+extreme count is $n\alpha h=n^{1-a-b}/2$ while the population gaps are
+constants, so conditions \eqref{eq:rate-cond} and \eqref{eq:sis-cond}
+reduce to $b<1/2$ and $a+b<1$: the selected $(a,b)=(0.30,0.15)$ and all
+nine settings of the aggregation block satisfy them, and
+Theorems~\ref{thm:score} and~\ref{thm:sis} apply. The same corollary
+covers the aggregated screen, by intersecting the nine separation
+events.
+
+What the finite design does not deliver is a numerically tight bound:
+at $n=2000$ and $p=1000$, $\sqrt{\log(pn)/(n\alpha h)}\approx0.67$
+against $\Delta_{\min}=0.186$, and the lower endpoint entering (E2) is
+only $\log\{(3\alpha)^{-1}\}\approx1.18$, so the asymptotic bounds are
+not yet informative at this sample size, as is usual for rate results at
+moderate $n$ (Remark~\ref{rem:app-finite}). This is why the recovery rates below are reported as
+direct finite-sample evidence, and it is the practically relevant
+question: the theory says the screen eventually separates active from
+inactive coordinates, and the simulations measure how much sample the
+separation actually needs.
 
 \subsection{Tuning and the aggregated screen}\label{sec:tuning}
 
@@ -153,15 +172,14 @@ of Sure-20 is maximized at
 at $0.780$; the five other cells of the block lie between $0.718$ and
 $0.773$, and the per-model values move by more than their paired
 standard errors across the block --- A2, the weakest signal, falls
-from $.555$ at the argmax to $.360$ at $(0.35,0.20)$. We keep the
-argmax as the single selected setting, with per-model Sure-20 $.935$,
-$.555$, $.955$ and $.675$. Two caveats attach to this choice: picking
-the argmax on the same $200$ replications shown in
-Figure~\ref{fig:tuning} is mildly optimistic, which is why the
-comparison of Section~\ref{sec:comparison} reruns everything on
-$1{,}000$ independent replications; and the selection optimizes over
-our own models, a search the competing methods do not receive
-(Section~\ref{sec:comparison}). At $n=2000$ the selected pair gives
+from $.555$ at the argmax to $.360$ at $(0.35,0.20)$. The residual
+sensitivity within an otherwise good region is precisely what the
+aggregated screen below is designed to absorb. We keep the argmax as
+the single selected setting, with per-model Sure-20 $.935$, $.555$,
+$.955$ and $.675$; because it is selected on the same $200$
+replications shown in Figure~\ref{fig:tuning}, the comparison of
+Section~\ref{sec:comparison} reruns everything on $1{,}000$
+independent replications. At $n=2000$ the selected pair gives
 $\alpha\approx0.10$, $h\approx0.16$, and about
 $2n\alpha h=n^{1-a-b}\approx65$ effective local extremes per interior
 window. No model is given its own tuning.

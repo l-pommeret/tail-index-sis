@@ -1,0 +1,61 @@
+\section{Discussion}\label{sec:discussion}
+
+The screen is a first stage. Its intended
+pipeline reduces $p$ coordinates to a manageable $d$, after which a joint
+method --- the central tail-index subspace of \citet{gardesPodgorny2025}, a
+structured tail regression \citep{wangTsai2009,sasakiTaoWang2026}, or
+multivariate local estimation --- can resolve interactions and correlated
+neighbours among the retained variables. The two stages solve different
+problems: rapid elimination of evidently irrelevant coordinates scales
+to large $p$, while accurate joint tail inference does not.
+
+The scope of a marginal screen for this target is delimited exactly
+rather than assumed. An active coordinate every one of whose fibres
+meets the global argmax set leaves no trace in the score, at any sample
+size; Proposition~\ref{prop:geometry} characterizes this case exactly,
+in terms of the argmax projections, where a signal-strength condition
+would only have hidden it. Knowing the boundary is what allows a user
+to tell a screen that has failed from a target that a marginal screen
+cannot see, and it marks where iterative or grouped extensions, with
+their own identification arguments, would be required. Two further
+features of the target are worth stating in the same spirit. Projected
+mixture bias is logarithmic, so (E2) covers every gap with
+$\Delta_{\min}\log(1/\alpha)\to\infty$ and in particular every fixed
+gap; whether gaps of the excluded order $1/\log n$ are detectable by
+any estimator is a question about the target, not about this screen.
+And the envelope near its maximum is estimated from observations whose
+remaining active coordinates are simultaneously near their maximizing
+values, so the sample cost grows with the number of active coordinates:
+the weak-signal model A2 in Section~\ref{sec:simulation} measures it,
+and aggregation over neighbouring tunings recovers most of it.
+
+Appendix~\ref{app:primitive} derives the estimation conditions from
+primitive assumptions that are verifiable on concrete models; what
+remains is to establish whether the logarithmic projected bias, which
+restricts the covered gaps to $\Delta_{\min}\log(1/\alpha)\to\infty$, is a
+property of the target or of this estimator. The score functional also
+invites variants: a minimum or a low quantile of the profile would
+emphasize depressions confined to short intervals, at the price of new
+uniformity arguments for empirical profile extrema.
+
+In practice, tuning matters more than the theory prescribes. The tail
+fraction trades Hill bias against variance; the bandwidth additionally
+determines how often near-maximizing configurations of the other active
+coordinates enter a window. We recommend the workflow of
+Sections~\ref{sec:simulation} and~\ref{sec:realdata}: run the screen on
+the block of nine neighbouring tunings and rank by the aggregated
+minimum rank. The aggregation is deliberately conservative --- a
+predictor is retained when at least one reasonable tuning finds
+evidence for it --- which is the right direction of error for a
+first-stage sure screen: false exclusion is final, while false
+retention is corrected by the second-stage multivariate analysis. The
+per-setting ranks describe tuning sensitivity and should accompany the
+ranking as a diagnostic, not act as a second screening threshold.
+Dependence deserves caution of its own: it can help, by concentrating
+active configurations, or hurt, by promoting inactive neighbours, and
+the direction is design-specific.
+
+Projection turns a tail-index surface into an upper envelope. Variation
+of that envelope is a scalable marginal signal for tail-index activity,
+and its absence, characterized by the argmax projections, tells the
+analyst exactly what a marginal screen can and cannot see.

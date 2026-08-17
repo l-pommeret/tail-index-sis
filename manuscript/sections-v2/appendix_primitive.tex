@@ -1,0 +1,482 @@
+\section{Primitive sufficient conditions}
+\label{app:primitive}
+\renewcommand{\theequation}{C.\arabic{equation}}
+\setcounter{equation}{0}
+
+Conditions (E1)--(E3) are stated on the projected quantiles. This
+appendix gives primitive sufficient conditions --- conditions on
+$\gamma$, on the full conditional survival function, and on the fibre
+kernels $K_j(u,\cdot)$ --- that imply (E1), (E2) and the tail-only
+condition (E3$^\uparrow$) of Appendix~\ref{app:aux}, with explicit
+rates, and verifies them for the simulation models of
+Section~\ref{sec:simulation}.
+
+All constants and envelopes below are uniform in the triangular array,
+in $j\le p_n$, and on the enlarged interval
+$I_{\varepsilon/2}=[\varepsilon/2,1-\varepsilon/2]$; scores continue to
+be integrated over $\I$. For $x=\iota_j(u,v)$ put
+\begin{equation}\label{eq:deficit}
+ \xi_j(u)=\esssup_{v\sim K_j(u,\cdot)}\gamma\{\iota_j(u,v)\},
+ \qquad
+ D_{j,u}(v)=\frac1{\gamma\{\iota_j(u,v)\}}-\frac1{\xi_j(u)}\ge0.
+\end{equation}
+The reciprocal-index deficit $D_{j,u}$, rather than
+$\xi_j(u)-\gamma$, is what makes the Laplace representation below exact.
+
+\subsection{Why (C1)--(C2) do not suffice}
+
+\begin{proposition}[Necessary repairs]\label{prop:app-necessary}
+The assumptions (C1)--(C2), even together with (S), imply none of (E1),
+(E2), (E3).
+\end{proposition}
+
+\begin{proof}
+(C1) constrains only the upper tail and does not exclude atoms, so it
+does not imply the continuity of the projected conditional distribution
+required by (E1).
+
+For (E2), a level bound on a Hall remainder is insufficient. Let
+$\bar F(e^t)=\exp\{-t+r(t)\}$, where $r$ is a sum of disjoint smooth
+negative bumps centred at $t_m\to\infty$, the $m$th of height
+$a_m=e^{-\beta t_m}$, with a decreasing side of width $o(a_m)$ and a
+recovery side of slope at most $1/2$. Then $-1+r'(t)<0$, so $\bar F$ is
+a valid survival function and $|r(t)|\le e^{-\beta t}$, yet
+$r'(t_m)\to-\infty$. With $T(x)=\log Q(e^x)$, quantile inversion gives
+\[
+ \frac{\mathrm d}{\mathrm dx}\log\{Q(e^x)e^{-x}\}
+ =\frac{r'\{T(x)\}}{1-r'\{T(x)\}},
+\]
+whose absolute value stays away from zero along a subsequence, so the
+normalized increment in (E2) need not vanish.
+
+Finally, make all conditional survival functions identical above a fixed
+level but let the conditional median below it vary discontinuously with
+the conditioning coordinate. This changes none of (C1), (C2), (S), and
+none of the tail quantities, yet the printed (E3) fails because its
+range $w\in[\tau_n,1-\tau_n]$ contains $w=1/2$. This last obstruction is
+an artefact of the statement, not of the method: by
+Lemma~\ref{lem:app-tailfreeze} the proofs use only $w\le3\alpha_n$, so
+the correct repair is to weaken (E3) to (E3$^\uparrow$) rather than to
+impose regularity on the body of the distribution.
+\end{proof}
+
+\subsection{The primitive conditions}
+
+\begin{itemize}
+\item[(P1)] \emph{Geometry and atomlessness.} For constants
+ $0<\underline\gamma\le\Gamma<\infty$ and $L_\gamma<\infty$,
+ \[
+  \underline\gamma\le\gamma(x)\le\Gamma,
+  \qquad
+  |\gamma(x)-\gamma(x')|\le L_\gamma\|x-x'\|_\infty .
+ \]
+ Full fibre support (S) holds, and every conditional law $Y\mid U=x$ is
+ atomless.
+\item[(P2)] \emph{Differentiable uniform tail approximation.} For
+ $t\ge t_0$,
+ \[
+  \Pp(Y>e^t\mid U=x)=c(x)e^{-t/\gamma(x)}\{1+r(t,x)\},
+  \qquad 0<c_-\le c(x)\le c_+<\infty,
+ \]
+ with $\sup_x|r(t,x)|\le R_0(t)$ and
+ $\sup_x|\partial_tr(t,x)|\le R_1(t)$, where $R_0(t)\to0$ and
+ $\overline R_1(T)=\sup_{t\ge T}R_1(t)\to0$; eventually
+ $R_0(t)\le1/2$. The maps $r(\cdot,x)$ are locally absolutely
+ continuous.
+\item[(P3)] \emph{Uniform doubling of the fibre-deficit mass.} With
+ \[
+  H_{j,u}(z)=\int\mathbf 1_{\{D_{j,u}(v)\le z\}}\,
+  c\{\iota_j(u,v)\}\,K_j(u,\mathrm dv),
+ \]
+ there are $z_0,h_0>0$ and $C_D<\infty$ with
+ \[
+  H_{j,u}(z_0)\ge h_0,
+  \qquad
+  H_{j,u}(2z)\le C_DH_{j,u}(z)
+  \quad(0<z\le z_0/2)
+ \]
+ uniformly. This allows an atom at $D=0$, includes the degenerate case
+ $D\equiv0$ of an inactive coordinate, and rules out only fibres on
+ which the probability of coming near the maximal index becomes
+ arbitrarily thinner under a fixed rescaling.
+\item[(P4)] \emph{Horizontal coupling of the primitive tail.} Whenever
+ $u\in\I$, $v\in I_{\varepsilon/2}$ and $|u-v|\le\varepsilon/2$, the
+ kernels $K_j(u,\cdot)$ and $K_j(v,\cdot)$ admit a coupling
+ $X_u=\iota_j(u,V_u)$, $X_v=\iota_j(v,V_v)$ such that, almost surely and
+ for every $t\ge t_0$,
+ \[
+  \left|\frac1{\gamma(X_v)}-\frac1{\gamma(X_u)}\right|\le L_D|v-u|,
+ \]
+ \[
+  |\log c(X_v)-\log c(X_u)|
+  +|\log\{1+r(t,X_v)\}-\log\{1+r(t,X_u)\}|
+  \le L_H|v-u|+\zeta_n,
+ \]
+ with $\zeta_n\ge0$ and $\zeta_n=o(\Delta_{\min})$. This concerns only
+ the primitive conditional tail of (P2), never the body.
+\end{itemize}
+
+A sufficient construction for (P4) is a coupling with
+$\|X_v-X_u\|_\infty\le C_K|v-u|$ together with Lipschitz $1/\gamma$,
+$\log c$ and $\log(1+r)$ on the coupled states; (P4) is weaker because it
+records only the three quantities actually used.
+
+\subsection{The transfer theorem}
+
+\begin{lemma}[Tilted deficit bound]\label{lem:app-tilted}
+Under (P3), for all sufficiently large $t$ the quantity
+\[
+ B_{j,u}(t)=\int e^{-tD_{j,u}(v)}c\{\iota_j(u,v)\}K_j(u,\mathrm dv)
+\]
+satisfies $B_{j,u}(t/2)\le C_BB_{j,u}(t)$ for a uniform constant $C_B$,
+and consequently
+\begin{equation}\label{eq:tiltedmoment}
+ \frac{\int D_{j,u}(v)e^{-tD_{j,u}(v)}c\{\iota_j(u,v)\}K_j(u,\mathrm dv)}
+      {B_{j,u}(t)}
+ \;\le\;\frac{2C_B}{e\,t}
+\end{equation}
+uniformly in $n,j,u$.
+\end{lemma}
+
+\begin{proof}
+Suppress $(j,u)$. For $t\ge z_0^{-1}$, restricting the integral to
+$\{D\le1/t\}$ gives $B(t)\ge e^{-1}H(1/t)$. Split $B(t/2)$ over
+$[0,1/t]$ and the dyadic bands $(2^m/t,2^{m+1}/t]$. Before the bands
+reach $z_0$ their total contribution is at most
+\[
+ H(1/t)\Bigl[1+\sum_{m\ge0}e^{-2^{m-1}}C_D^{m+1}\Bigr],
+\]
+a convergent series. Iterating the doubling bound backwards from $z_0$
+gives $H(1/t)\ge ct^{-\log_2C_D}$ for a uniform $c>0$, so the remaining
+part, which starts no lower than $z_0/2$ and is at most
+$c_+e^{-tz_0/4}$, is also bounded by a constant times $H(1/t)$.
+Combining the two displays proves the doubling property of $B$. For
+$z\ge0$, $ze^{-tz}\le(2/e)t^{-1}e^{-tz/2}$; integrating and using the
+doubling property gives \eqref{eq:tiltedmoment}.
+\end{proof}
+
+\begin{theorem}[Primitive sufficient conditions]\label{thm:app-transfer}
+Assume (P1)--(P4), let $\alpha_n\to0$, and suppose eventually
+$C_0h_n\le\varepsilon/2$ and $\tau_n=(p_nn)^{-2}\le3\alpha_n<1$. Put
+$x_\alpha=\log\{(3\alpha_n)^{-1}\}$ and $c_\gamma=\underline\gamma/2$.
+Then, after a common deterministic onset,
+\begin{align}
+ \omega_\xi(r)&\le L_\gamma r, \label{eq:transfer-E1}\\
+ b_n(3\alpha_n)&\le\frac{C_E}{x_\alpha}
+ +4\Gamma^2\overline R_1(c_\gamma x_\alpha), \label{eq:transfer-E2}\\
+ \omega_n^{\uparrow}(C_0h_n,\tau_n,\alpha_n)
+ &\le2\Gamma C_0h_n\bigl[L_H+L_D\Gamma\{2\log(p_nn)+C_Q\}\bigr]
+ +2\Gamma\zeta_n, \label{eq:transfer-E3}
+\end{align}
+where $C_E<\infty$ depends only on $\underline\gamma$, $\Gamma$, $C_B$
+and the onset constants, and $C_Q=\max\{0,\log(2c_+)\}$. Consequently
+(E1), (E2) and (E3$^\uparrow$) hold as soon as
+\begin{equation}\label{eq:transfer-rates}
+ n^{-1}=o(\Delta_{\min}),
+ \quad
+ x_\alpha^{-1}+\overline R_1(c_\gamma x_\alpha)=o(\Delta_{\min}),
+ \quad
+ h_n\log(p_nn)+\zeta_n=o(\Delta_{\min}).
+\end{equation}
+For a fixed gap and a Hall derivative envelope of order $O(t^{-1})$ or
+smaller, the substantive requirement from (E2) is simply
+$\log(1/\alpha_n)\to\infty$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: (E1).} Under (S), $\xi_j(u)=\max_v\gamma\{\iota_j(u,v)\}$;
+comparing the two maxima at the same $v$ in both directions gives
+\eqref{eq:transfer-E1}, hence $\omega_\xi(1/n)\le L_\gamma/n$. A mixture
+of atomless laws is atomless, because
+$\Pp(Y=y\mid U_j=u)=\int\Pp\{Y=y\mid U=\iota_j(u,v)\}K_j(u,\mathrm dv)=0$;
+this gives the continuity and the conditional quantile representation
+required by (E1).
+
+\emph{Step 2: exact projected factorization.} All derivative identities
+below hold almost everywhere, and local absolute continuity justifies
+their integrated forms. Let
+\[
+ \mathcal A_{j,u}(t)=\int e^{-tD_{j,u}(v)}c\{\iota_j(u,v)\}
+ \{1+r(t,\iota_j(u,v))\}K_j(u,\mathrm dv),
+\]
+so that $\bar F_j(e^t\mid u)=e^{-t/\xi_j(u)}\mathcal A_{j,u}(t)$
+exactly. With $M_{j,u}(t)=\int D_{j,u}e^{-tD_{j,u}}c\,K_j(u,\mathrm dv)$,
+(P2), Lemma~\ref{lem:app-tilted} and $R_0\le1/2$ give
+\begin{equation}\label{eq:app-g}
+ \left|\frac{\mathcal A_{j,u}'(t)}{\mathcal A_{j,u}(t)}\right|
+ \le\frac{\{1+R_0(t)\}M_{j,u}(t)+R_1(t)B_{j,u}(t)}
+         {\{1-R_0(t)\}B_{j,u}(t)}
+ \le\frac{C_A}{t}+2R_1(t)=:g(t),
+\end{equation}
+and $g(t)\to0$. Moreover
+$(1-R_0)B_{j,u}\le\mathcal A_{j,u}\le(1+R_0)B_{j,u}$, while the same
+tilted bound gives $-(\log B_{j,u})'(t)\le C/t$. Integrating from a
+fixed $t_1$ at which $R_0(t_1)\le1/2$, and using $D\le\underline\gamma^{-1}$
+and $c\ge c_-$ to bound $B_{j,u}(t_1)$ away from zero, yields uniform
+positive constants with $ct^{-C}\le\mathcal A_{j,u}(t)\le2c_+$, hence
+\begin{equation}\label{eq:app-logA}
+ |\log\mathcal A_{j,u}(t)|\le C\log t
+\end{equation}
+uniformly for large $t$.
+
+\emph{Step 3: inversion and (E2).} Let
+$T_{j,u}(x)=\log Q_j(e^x,u)$. Once $g(t)<1/(2\Gamma)$ the map
+$t\mapsto\bar F_j(e^t\mid u)$ is strictly decreasing and invertible, and
+\begin{equation}\label{eq:app-inv}
+ x=\frac{T_{j,u}(x)}{\xi_j(u)}-\log\mathcal A_{j,u}\{T_{j,u}(x)\}.
+\end{equation}
+By \eqref{eq:app-logA}, $T_{j,u}(x)\ge c_\gamma x$ for all sufficiently
+large $x$. Writing $Q_j(e^x,u)=e^{\xi_j(u)x}\ell_j(e^x,u)$ and
+differentiating \eqref{eq:app-inv},
+\[
+ \frac{\mathrm d}{\mathrm dx}\log\ell_j(e^x,u)
+ =\frac{\xi_j(u)^2a_{j,u}\{T_{j,u}(x)\}}
+        {1-\xi_j(u)a_{j,u}\{T_{j,u}(x)\}},
+ \qquad
+ a_{j,u}=\frac{\mathcal A_{j,u}'}{\mathcal A_{j,u}},
+\]
+so \eqref{eq:app-g} and $T_{j,u}(x)\ge c_\gamma x$ give
+\[
+ \sup_{j,u}\left|\frac{\mathrm d}{\mathrm dx}\log\ell_j(e^x,u)\right|
+ \le\frac{C_E}{x}+4\Gamma^2\overline R_1(c_\gamma x).
+\]
+For $q>1$ the ratio appearing in (E2) is an average of this derivative
+over $[\log s,\log(qs)]$; taking $s\ge(3\alpha_n)^{-1}$ and then all
+suprema proves \eqref{eq:transfer-E2}.
+
+\emph{Step 4: tail coupling and (E3$^\uparrow$).} For $t\ge t_0$ set
+$f_t(x)=c(x)e^{-t/\gamma(x)}\{1+r(t,x)\}$. Under the coupling of (P4),
+with $d=|u-v|$,
+\[
+ e^{-\delta_t}f_t(X_u)\le f_t(X_v)\le e^{\delta_t}f_t(X_u),
+ \qquad
+ \delta_t=(L_H+tL_D)d+\zeta_n,
+\]
+so taking expectations gives
+$|\log\bar F_j(e^t\mid v)-\log\bar F_j(e^t\mid u)|\le\delta_t$. By
+\eqref{eq:app-g}, after increasing the onset if necessary,
+$-\frac{\mathrm d}{\mathrm dt}\log\bar F_j(e^t\mid u)\ge1/(2\Gamma)$,
+while $\mathcal A_{j,u}\le2c_+$ and \eqref{eq:app-inv} give
+$T_{j,u}(x)\le\Gamma(x+C_Q)$. Evaluating the survival comparison at
+$t=T_{j,u}(x)$ and using the inverse-slope bound for the $v$-law,
+\[
+ |T_{j,v}(x)-T_{j,u}(x)|
+ \le2\Gamma\bigl[\{L_H+L_D\Gamma(x+C_Q)\}d+\zeta_n\bigr].
+\]
+Taking $x=\log(1/w)$ with $w\in[\tau_n,3\alpha_n]$: the lower endpoint
+$x\ge x_\alpha\to\infty$ places both quantiles beyond the common onset,
+while $x\le2\log(p_nn)$; for $d\le C_0h_n\le\varepsilon/2$ the displaced
+point lies in $I_{\varepsilon/2}$. Taking suprema proves
+\eqref{eq:transfer-E3}.
+\end{proof}
+
+\begin{remark}[The body is never used]
+Step~4 controls only $w\le3\alpha_n$. This is exactly the range that
+Lemma~\ref{lem:app-tailfreeze} shows to be relevant, and it is why (P4)
+constrains the primitive tail alone. No coupling of central quantiles is
+required anywhere.
+\end{remark}
+
+\subsection{Verifying deficit-mass doubling}
+
+\begin{proposition}[A one-step ratio bound implies (P3)]
+\label{prop:app-doubling}
+Suppose that, uniformly in $n,j,u$, either $H_{j,u}(0)\ge h_0>0$, or
+\begin{equation}\label{eq:app-margin}
+ H_{j,u}(z)=a_{j,u}z^{\kappa_{j,n}}L_{j,u}(1/z)\{1+o(1)\},
+ \qquad z\downarrow0,
+\end{equation}
+with $a_{j,u}$ bounded above and away from zero, $0\le\kappa_{j,n}\le
+\kappa_+<\infty$, the $o(1)$ uniform, $L_{j,u}$ bounded above and away
+from zero at one common point beyond the uniform onset, and
+\begin{equation}\label{eq:app-onestep}
+ \sup_{n,j,u}\frac{L_{j,u}(t/2)}{L_{j,u}(t)}\le C_L
+\end{equation}
+for all sufficiently large $t$. Then (P3) holds.
+\end{proposition}
+
+\begin{proof}
+In the atomic case $H(z)\ge h_0$ for every $z>0$, so
+$H(2z)\le c_+\le(c_+/h_0)H(z)$. Otherwise
+\[
+ \frac{H_{j,u}(2z)}{H_{j,u}(z)}
+ =2^{\kappa_{j,n}}\frac{L_{j,u}\{1/(2z)\}}{L_{j,u}(1/z)}\{1+o(1)\},
+\]
+uniformly bounded by \eqref{eq:app-onestep} and $\kappa_{j,n}\le\kappa_+$.
+Taking a fixed small $z_0$, the expansion and the uniform lower bound on
+$a_{j,u}L_{j,u}(1/z_0)$ give $H_{j,u}(z_0)\ge h_0'>0$.
+\end{proof}
+
+A pure two-sided power margin is not necessary, and is in fact false for
+the models below: their corner margins carry powers of $\log(1/z)$ and
+factors $\exp\{b\sqrt{\log(1/z)}\}$, which are slowly varying and
+therefore satisfy \eqref{eq:app-onestep}.
+
+\subsection{Verification for A1--A3 and B1}
+
+The active set in all four simulation models is $\{1,2,3,4\}$ and the
+fibre maximum is attained when every free active PIT coordinate equals
+zero. The following boundary calculation is the only model-specific
+ingredient; its dimension is at most four, independently of $p_n$.
+
+\begin{lemma}[Gaussian corner]\label{lem:app-corner}
+Let $X\sim N_d(\mu,\Sigma)$ with $1\le d\le d_0$, let $\Omega=\Sigma^{-1}$,
+and let the parameters range over a compact family of positive definite
+covariance matrices and bounded means with
+$\min_i(\Omega\mathbf 1)_i\ge\nu_0>0$. Suppose that on a fixed
+neighbourhood $N_0$ of the lower corner $D$ is uniformly $C^2$ with
+\[
+ D\{\Phi(X)\}=\sum_{i=1}^da_i\Phi(X_i)+O(\|\Phi(X)\|^2),
+ \qquad 0<a_-\le a_i\le a_+<\infty,
+\]
+and that $c_*\sum_iu_i\le D(u)\le C_*\sum_iu_i$ on $N_0$ with
+$\inf_{u\notin N_0}D(u)>0$. Write $\kappa=\mathbf 1^\top\Omega\mathbf 1$,
+$\nu=\Omega\mathbf 1$, $b=\mathbf 1^\top\Omega\mu$ and
+$r_z=-\Phi^{-1}(z)$. Then, uniformly over the family,
+\begin{equation}\label{eq:app-corner}
+ \Pp[D\{\Phi(X)\}\le z]
+ =C(\mu,\Sigma,a)\,z^{\kappa}\{\sqrt{2\pi}r_z\}^{\kappa-d}e^{-br_z}
+ \{1+O(r_z^{-1})\},
+\end{equation}
+with
+$C(\mu,\Sigma,a)=|\Sigma|^{-1/2}e^{-\mu^\top\Omega\mu/2}
+\prod_i\Gamma(\nu_i)a_i^{-\nu_i}/\Gamma(\kappa+1)$.
+The conclusion persists after multiplication by a positive weight that
+is uniformly Lipschitz at the corner and bounded there above and away
+from zero. In particular (P3) holds.
+\end{lemma}
+
+\begin{proof}
+The density of $U=\Phi(X)$ is
+\[
+ f_U(u)=|\Sigma|^{-1/2}
+ \exp\bigl\{-\tfrac12z(u)^\top(\Omega-I)z(u)+z(u)^\top\Omega\mu
+ -\tfrac12\mu^\top\Omega\mu\bigr\},
+ \quad z_i(u)=\Phi^{-1}(u_i).
+\]
+Set $u_i=\delta x_i$ and $r=r_\delta$. Uniformly on compact subsets of
+$(0,\infty)^d$,
+$\Phi^{-1}(\delta x_i)=-r+r^{-1}\log x_i+o(r^{-1})$ and
+$e^{-r^2/2}=\sqrt{2\pi}r\delta\{1+O(r^{-2})\}$, so with $\nu=\Omega\mathbf 1$
+\[
+ f_U(\delta x)\delta^d=|\Sigma|^{-1/2}e^{-\mu^\top\Omega\mu/2}
+ \delta^{\kappa}\{\sqrt{2\pi}r\}^{\kappa-d}e^{-br}
+ \prod_ix_i^{\nu_i-1}\{1+o(1)\}.
+\]
+The two-sided bound on $D$ confines $\{D(\delta x)\le\delta\}$ to a
+fixed rescaled simplex and excludes points outside $N_0$. Choose
+$0<\theta<\tfrac12\min\{1,\nu_0,\underline\lambda\}$ with
+$\underline\lambda=\inf\lambda_{\min}(\Omega)$, and split the simplex into
+$\mathcal B_r=\{x:\min_ix_i<e^{-\sqrt r}\}$ and its complement. On
+$\mathcal B_r$, Mills bounds and convexity of the Gaussian quadratic form
+give the envelope $C\prod_ix_i^{\theta-1}$, and a one-dimensional beta
+integral bounds the normalized mass of $\mathcal B_r$ by
+$Ce^{-\theta\sqrt r}=o(r^{-1})$. On $\mathcal B_r^c$ we have
+$|\log x_i|\le\sqrt r$ from below and a uniform bound from above, and the
+uniform normal-quantile expansion
+\[
+ \Phi^{-1}(\delta x_i)=-r+\frac{\log x_i}{r}
+ +O\!\left(\frac{1+|\log x_i|+(\log x_i)^2+\log r}{r^3}\right)
+\]
+shows that the quadratic Gaussian term contributes a relative error
+$r^{-1}$ times a fixed polynomial in $1+\sum_i|\log x_i|$, whose
+Dirichlet log moments are finite uniformly because $\nu_i\ge\nu_0$. The
+quadratic remainder in $D$ moves the limiting simplex boundary by
+$O(\delta)=o(r^{-1})$. Integrating the density expansion and using
+\[
+ \int_{\{\sum_ia_ix_i\le1\}}\prod_ix_i^{\nu_i-1}\,\mathrm dx
+ =\frac{\prod_i\Gamma(\nu_i)a_i^{-\nu_i}}{\Gamma(\kappa+1)}
+\]
+gives \eqref{eq:app-corner}. The factor multiplying $z^\kappa$ is
+slowly varying and obeys \eqref{eq:app-onestep}, so
+Proposition~\ref{prop:app-doubling} applies. A positive weight
+$w(u)=w(0)+O(\|u\|_1)$ changes the rescaled integrand by a relative
+$O(\delta)$ and therefore only multiplies the leading constant.
+\end{proof}
+
+For the AR(1) covariance of the four active Gaussian coordinates at
+$\rho=1/4$, the corner exponents are
+\begin{equation}\label{eq:app-kappas}
+ \kappa_j=
+ \begin{cases}
+  34/15, & j=1,4,\\
+  41/15, & j=2,3,\\
+  14/5+\lambda_j^2/(1-\lambda_j^2), & j\notin\{1,2,3,4\},
+ \end{cases}
+ \qquad \lambda_j=\rho^{\,j-4}\ (j\ge5),
+\end{equation}
+so $34/15\le\kappa_j\le43/15$ uniformly; in B1 a proxy coordinate is
+independent of the active block and has $\kappa_j=14/5$. All components
+of $\Omega\mathbf 1$ are bounded away from zero. The reciprocal deficit
+has the required expansion: in A1 and A2 this follows by expanding the
+exponential index surface at the active corner, and in A3 the relevant
+first derivatives of its exponent are $0.8+0.20u$, $0.8+0.15u$ or $0.8$,
+hence uniformly at least $0.8$. In the A family the weight $c$ is
+identically one; in B1 the bounded latent scale factor, integrated over
+the conditional Gaussian law of $F$, has a uniform expansion
+$w_{j,u}(z)=w_{j,u}(0)+O(\|z\|_1)$ with $0<w_-\le w_{j,u}(0)\le w_+$, so
+the weighted clause of Lemma~\ref{lem:app-corner} applies.
+
+The remaining primitive assumptions hold as follows. The conditional
+generators are strictly increasing and atomless, which gives (P1). For
+A1--A3, $q(s,u)=s^{\gamma(u)}/[1+\exp\{v(u)-s\}]$, and both the survival
+remainder and its log-level derivative decay faster than every
+exponential in $t=\log y$; for B1,
+$q(s,u,F)=s^{\gamma(u)}\exp\{A(F)-1/(2s)\}$ with
+$A(F)=\{\Phi(F)-1/2\}/2$, and inversion gives
+$\Pp(Y>y\mid U=x)=c_B(x)y^{-1/\gamma(x)}\{1+O(y^{-2})\}$ with
+$c_B(x)=\E[e^{A(F)/\gamma}\mid U=x]$, the same order holding for the
+log-level derivative. This is (P2). A common-residual coupling of the
+conditional Gaussian laws moves the other PIT coordinates by
+$O(|u-v|)$ on $I_{\varepsilon/2}$, which gives the $1/\gamma$ clause of
+(P4); the $c$ and $\log(1+r)$ clauses follow by differentiating the
+bounded posterior exponential moments, with $\zeta_n=0$. The projected
+profiles are exactly
+\[
+ \xi_j(u)=
+ \begin{cases}
+  \tfrac12e^{-u}, & \text{A1, B1},\ j\le4,\\
+  \tfrac12e^{-u/2}, & \text{A2},\ j\le4,\\
+  \tfrac12e^{-0.8u}, & \text{A3},\ j\le4,\\
+  \tfrac12, & j>4.
+ \end{cases}
+\]
+
+\begin{corollary}[The simulation models satisfy the estimation
+conditions]\label{cor:app-models}
+For A1--A3 and B1, conditions (E1), (E2) and (E3$^\uparrow$) hold along
+every sequence
+\[
+ \alpha_n=n^{-a},\qquad h_n=\tfrac12n^{-b},\qquad p_n\le n^{C},
+\]
+with fixed $0<a<1$ and $b,C>0$, with deterministic bias orders
+\[
+ \omega_\xi(1/n)=O(n^{-1}),
+ \qquad
+ b_n(3\alpha_n)=O(1/\log n),
+ \qquad
+ \omega_n^{\uparrow}(C_0h_n,\tau_n,\alpha_n)=O(n^{-b}\log n).
+\]
+If in addition $b<1/2$ and $a+b<1$, then
+$\log(p_nn)=o(nh_n^2)$ and $\log(p_nn)=o(n\alpha_nh_n)$, so the
+population gaps of A1--A3 and B1 being fixed and positive,
+Theorems~\ref{thm:score} and~\ref{thm:sis} apply. This covers all nine
+exponent pairs used by the aggregated screen: intersecting the nine
+separation events, every active coordinate has rank at most $s$ and
+every inactive coordinate rank at least $s+1$ at every setting, so
+taking the minimum of the nine ranks preserves the same strict
+separation, and a finite union bound makes the intersection probability
+tend to one.
+\end{corollary}
+
+\begin{remark}[Finite-design honesty]\label{rem:app-finite}
+Corollary~\ref{cor:app-models} is asymptotic. It does not certify that
+the $o(\Delta_{\min})$ biases are numerically small at the design used
+in Section~\ref{sec:simulation}: there $\log(1/\alpha)\simeq2.28$, the
+lower endpoint entering (E2) is only
+$x_\alpha=\log\{(3\alpha)^{-1}\}\simeq1.18$, and $h\log(pn)$ is much
+larger than the population gaps under the available uniform upper
+bounds. The finite-sample tables are empirical evidence about that
+regime; they are not a numerical verification of (E2), (E3$^\uparrow$)
+or of the concentration bound.
+\end{remark}

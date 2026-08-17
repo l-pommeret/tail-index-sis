@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage[section]{placeins}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\A}{A}\newcommand{\I}{I_\varepsilon}
+\newcommand{\M}{\mathcal{M}}\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}\newcommand{\R}{\mathbb R}
+\newcommand{\gmax}{\gamma^\star}
+\title{Tail-Index Sure Independence Screening for\\High-Dimensional Heavy-Tailed Regression}
+\author{Anonymous manuscript}\date{}
+\begin{document}\maketitle
+\begin{abstract}
+We propose a marginal screen for the covariates that determine a positive
+conditional tail index, designed for problems where the dimension $p$ is large
+relative to the number of observations informative about the tail. The screen
+rests on one geometric fact: after projection onto a single coordinate, the
+conditional distribution is a mixture whose tail is governed by its heaviest
+component, so the projected tail index is the upper envelope of the tail-index
+surface along the corresponding fibre. Inactive coordinates produce flat
+envelopes at the global maximum $\gmax$, while an active coordinate whose
+fibres miss the global argmax set depresses the envelope; ranking coordinates
+by the average projected index therefore separates active variables from
+noise, and we characterize exactly which active coordinates a marginal screen
+can see, rather than assuming a generic signal-strength condition. We estimate
+the envelope with empirical-rank local Hill profiles. Ranks give every
+coordinate the same deterministic window geometry, which removes the covariate
+density conditions that fixed-dimension projected-tail theory requires and
+permits exact finite-sample union bounds over a diverging number of
+coordinates: the maximal score error over $p$ coordinates is
+$O_{\Pp}(\sqrt{\log(pn)/(n\alpha h)})$ plus a bias term of order
+$o(\Delta_{\min})$, where $\alpha$ is the local tail fraction, $h$ the rank
+bandwidth, $n\alpha h$ the effective local extreme sample size, and
+$\Delta_{\min}$ the weakest population gap. Sure screening and exact recovery follow when
+$\log(pn)=o(n\alpha h\Delta_{\min}^2)$, so a polynomially growing dimension is
+affordable whenever the local extreme count dominates the logarithm of the
+dimension. The algorithm costs $O(pn\log n)$ time and $O(n)$ working memory,
+under a second per screen at $(n,p)=(2000,1000)$. A rank-aggregated version,
+taking the minimum rank over a block of nine neighbouring tunings, stabilizes
+the ranking against the choice of the smoothing parameters. Simulations across
+$p\in\{500,1000,2000\}$, including a model whose scale is driven by a
+correlated cluster of twenty inactive covariates, show when screening on
+the tail index differs from screening on a fixed high quantile: the
+cluster fills the leading positions of moderate-level quantile screens,
+whose contamination clears at extreme levels only at a severe variance
+cost, while the leading positions of the aggregated tail screen remain
+on the active set. An application to violent-crime rates in 1{,}993
+U.S. communities, with $p=99$ continuous predictors against an
+effective tail sample of about $200$, illustrates the method in the
+regime it is designed for, and separates predictors of the limiting
+exponent from predictors of a high quantile on real data. The uniform
+projected-quantile conditions used by the theorems are derived from
+primitive assumptions on the tail-index function, the conditional tails
+and the fibre kernels, and verified for the simulation models.
+\end{abstract}
+\input{sections-v2/introduction}
+\input{sections-v2/model_population}
+\input{sections-v2/estimation_theory}
+\input{sections-v2/computation_simulation}
+\FloatBarrier
+\input{sections-v2/real_data}
+\FloatBarrier
+\input{sections-v2/discussion}
+\appendix\input{sections-v2/appendix_aux}\input{sections-v2/appendix_proofs}
+\input{sections-v2/appendix_primitive}
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}

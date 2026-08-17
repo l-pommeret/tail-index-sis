@@ -454,3 +454,187 @@ porté à ~45 points. draft5_outputs.R lit désormais les métriques
 agrégées dans results/campaign7/summary.csv ; nouvelle figure crime
 générée par code/R/crime_figure5.R (script auparavant absent du dépôt).
 Compilation : 27 pages, 0 référence indéfinie.
+
+## Correction de la Remarque 3.1 (2026-08-15, réponse Q002)
+
+L'énoncé « $\omega_n(C_0h,\tau_n)$ est de l'ordre de l'amplitude
+log-échelle, une constante, et (E3) échoue à toute amplitude fixe »
+était faux. Le déplacement se scinde en une partie indice, bornée par
+$2L_\xi C_0h\log(pn)$, et une partie échelle : quand le profil
+log-échelle conditionnel est lipschitzien en $u$ de constante $L_c$
+uniforme en $n$, la partie échelle est $O(L_cC_0h)$, donc
+$o(\Delta_{\min})$ dès que $h=o(\Delta_{\min})$. Une amplitude bornée
+ne défait donc pas (E3) ; l'amplitude gouverne la bande passante à
+partir de laquelle le terme devient petit.
+
+Chiffres B1 vérifiés indépendamment (quadrature gaussienne 1-d sur
+$C_{\rm pr}(u)=\Ee[e^{\Phi(F)-1/2}\mid Z_j=\Phi^{-1}(u)]$,
+$F\mid Z_j=z\sim N(0.7z,0.51)$) : $C_{\rm pr}(0.05)=0.732189$,
+$C_{\rm pr}(0.95)=1.401617$, dérivée du profil bornée par $1.354$ sur
+$I_{0.05}$, déplacement exact $0.079$ ($C_0=1$) et $0.132$ ($C_0=2$)
+contre $\Delta_{\min}=0.186$, soit 43 % et 71 % du gap. Le message
+« robustesse d'échelle à gagner en échantillon fini » est conservé,
+mais gouverné par $h$ et non par l'amplitude seule.
+
+Fichiers : sections/estimation_theory.tex (Remarque 3.1 réécrite),
+sections/computation_simulation.tex (§4.1, phrase renvoyant à la
+remarque). Compilation : 27 pages, 0 référence indéfinie.
+
+Source : prompts/Q002-primitive-assumptions.md et la réponse
+prompts/q002-reponse-primitive-conditions.tex (20 p.), dont le reste
+(conditions primitives (P1)--(P4), théorème (P)=>(E), marges de coin
+gaussiennes, audits numériques) n'est PAS encore intégré ni audité
+ligne à ligne.
+
+## Variante v2 : recadrage argumentatif (2026-08-15)
+
+Duplication : manuscript/main-v2.tex + manuscript/sections-v2/ (figures,
+tables et references.bib partagés, chemins relatifs inchangés). La v1
+n'est pas touchée.
+
+Correction de fond. L'ancien §4.1 (« Relation to the asymptotic
+theory ») affirmait que les conditions suffisantes « are not
+numerically met at these designs » et que les simulations mesurent le
+comportement « outside the regime certified by the theory ». C'est une
+erreur de catégorie : une hypothèse en o(.) porte sur une suite, pas
+sur un n. Le long des suites de réglage alpha=n^-0.30, h=n^-0.15/2,
+avec Delta_min CONSTANT, on a n*alpha*h = n^0.55/2, et le rapport
+log(pn)/(n*alpha*h*Delta_min^2) vaut 13.4 a n=2000, 0.80 a 1e6,
+8e-4 a 1e12 : il tend vers 0. Les conditions (7) et (8) sont donc
+satisfaites et les theoremes s'appliquent a A1-A3 et B1. De meme
+(E1)-(E3) : omega_xi(1/n), le module de queue ~1/log(1/alpha) et le
+module spatial ~h*log(pn) tendent tous vers 0 a gap constant. Seul
+enonce vrai : la borne n'est pas numeriquement serree a n=2000
+(sqrt(log(pn)/(n*alpha*h)) = 0.67 contre Delta_min = 0.186), banal
+pour un resultat de vitesse a n modere. Paragraphe reecrit dans ce
+sens.
+
+Autres changements v2 : Remarque 3.1 supprimee (son contenu, la
+nuisance d'echelle en O(L_c h) donc asymptotiquement inoffensive, est
+replie en trois phrases apres (E3) ; reference correspondante de §4.1
+reecrite) ; §3.2 ne presente plus les conditions projetees comme un
+aveu mais comme un choix, avec la consequence utile
+(Delta_min*log(1/alpha) -> infini couvre tout gap fixe) ; introduction
+et resume recentres sur ce qui est prouve (fenetres par rangs =>
+suppression des conditions de densite, bornes d'union exactes, cout
+O(pn log n) et O(n) memoire) ; discussion : « three limitations are
+intrinsic » devient un enonce de perimetre exact (la caracterisation
+de la detectabilite comme atout, non comme aveu) ; mention du passage
+(C1)-(C2) -> (E1)-(E3) comme probleme ouvert supprimee partout ;
+§4.2 allege d'une mise en garde redondante (l'absence de re-reglage
+des concurrents reste dite en §4.3, a sa place).
+
+Compilation : 27 pages, 0 reference indefinie. La suppression de la
+Remarque 3.1 decale le compteur (thm:score 3.2 -> 3.1) ; aucun numero
+n'etait ecrit en dur, tout passe par \ref.
+
+Non fait : temps de calcul en §4.3 (demande puis differee ; campaign7
+n'enregistre pas de temps, il faudrait un banc dedie pour les six
+regles).
+
+## Gabarit Bernoulli (2026-08-15)
+
+manuscript/bernoulli/ : version soumission Bernoulli de la v2.
+Fichiers de style officiels VTeX (imsart.cls/.sty du 2025-03-18,
+imsart-number.bst, imsart-nameyear.bst, LICENSE LPPL 1.3c, donc
+redistribuables) recuperes depuis
+github.com/vtex-soft/texsupport.ims_supported-bj (les gabarits IMS ont
+quitte e-publications.org pour GitHub ; Bernoulli n'est pas sur CTAN ni
+dans TeX Live).
+
+Bernoulli exige un fichier .tex unique (« Please do not use \input{...}
+to include other tex files »). build_bj.py aplatit donc recursivement
+les \input (6 sections + 4 tables) depuis manuscript/sections-v2/ et
+enveloppe le tout dans le frontmatter imsart [bj]. main-bj.tex est
+GENERE : editer sections-v2/ puis relancer
+  python3 manuscript/bernoulli/build_bj.py
+
+Adaptations necessaires : ne pas recharger natbib ni hyperref (imsart
+les charge, avec sort&compress) ; \theoremstyle{remark} interdit par
+imsart (sans objet, plus aucun environnement remark en v2) ;
+\graphicspath{{../}} pour figures/ et tables/ ; \appendix remplace par
+l'environnement {appendix}.
+
+Bascule numbers -> authoryear : imsart-number.bst n'emet pas l'argument
+optionnel que \citet attend, ce qui produisait 17 occurrences de
+« (author?) » dans le texte. Le papier utilise \citet en prose 17 fois
+et authoryear est le defaut du gabarit Bernoulli ; la bascule corrige
+tout sans toucher a la prose. Revenir aux numeros imposerait de
+reecrire ces 17 appels.
+
+Compilation : 27 pages, 0 erreur, 0 reference/citation indefinie,
+figures et tables presentes, bibliographie avant les annexes
+(convention imsart).
+
+A remplir avant soumission : bloc \begin{aug} (auteurs, affiliations,
+courriels, ORCID) — placeholders explicites dans build_bj.py. Les
+mots-cles proposes sont a valider.
+
+## Auteurs et affiliations Bernoulli (2026-08-16)
+
+Bloc \begin{aug} renseigne dans manuscript/bernoulli/build_bj.py :
+  Alex Podgorny, ENSAI and IRMAR (UMR CNRS 6625), Universite de Rennes,
+    alex.podgorny@univ-rennes2.fr
+  Luc Pommeret, LISN, Universite Paris-Saclay, CNRS,
+    luc.pommeret@universite-paris-saclay.fr
+Affiliation Podgorny d'apres alexpodgorny.fr (postdoc en statistique,
+ENSAI Rennes + IRMAR equipe de statistique ; l'adresse univ-rennes2.fr
+y est confirmee) ; un seminaire de Poitiers de fevrier 2026 ne le
+donnait que comme « ENSAI (Rennes) ». Affiliation Pommeret d'apres son
+profil public (LISN). Compilation : 27 pages, 0 erreur, 0 reference
+indefinie.
+
+A noter : Gardes et Podgorny (2025) est desormais une auto-citation
+partielle ; le texte en parle a la troisieme personne (« their density
+assumptions are not needed here »), formulation correcte mais a
+relire si l'on veut l'assumer explicitement.
+
+## Annexe C : conditions primitives (2026-08-16)
+
+Integree dans la ligne v2 uniquement (manuscript/main-v2.tex,
+sections-v2/), d'apres prompts/primitive-transfer-patch.pdf. v1
+(main.tex) reste au commit + la seule correction de la Remarque 3.1 ;
+les deux lignes divergent desormais sur quatre sections de redaction
+(introduction, estimation_theory, computation_simulation, discussion)
+et sur les annexes.
+
+Reparation centrale. (E3) portait sur w dans [tau_n, 1-tau_n], donc
+aussi sur le corps de la distribution (w=1/2), alors que les preuves
+n'utilisent que la queue : seules les k+1 plus grandes observations
+entrent dans une statistique de Hill. Nouveau lemme de gel restreint a
+la queue (lem:app-tailfreeze) : sur l'evenement V_(k+1) <= 3*alpha, le
+deplacement des k+1 plus grandes est au plus omega_up, et celui du Hill
+au plus 2*omega_up. (E3) est remplacee par (E3^) sur w dans
+[tau_n, 3*alpha]. Les Theoremes 3.2-3.3 gardent leur vitesse exacte.
+
+Propagation dans l'annexe A : definition de omega_up, Prop. A.14 et
+A.16 reecrites avec omega_up, evenement de troncature devenu
+unilateral (V_ij < tau au lieu de V_ij hors de [tau, 1-tau]), d'ou la
+probabilite PIT qui passe de 2*p*n*tau a p*n*tau ; preuve du Theoreme
+3.2 mise a jour.
+
+Annexe C : Prop. C.1 (trois obstructions, dont le contre-exemple a
+bosses montrant qu'une borne de Hall en niveau ne suffit pas pour
+(E2)), conditions primitives (P1)-(P4), Lemme C.2 (borne de deficit
+incline), Theoreme C.3 (P => E1, E2, E3^ avec taux O(n^-1),
+O(1/log(1/alpha)), O(h log(pn))), Prop. C.5 (ratio en une etape => P3),
+Lemme C.6 (coin gaussien), Corollaire C.7 (A1-A3 et B1 verifient les
+conditions des que b < 1/2 et a+b < 1 ; couvre aussi l'ecran agrege par
+intersection des neuf evenements de separation), Remarque C.8
+(honnetete a n fini).
+
+Consequence redactionnelle : le §4.1 ne dit plus que les simulations
+sont hors du regime certifie (erreur de categorie : une hypothese en
+o(.) porte sur une suite). Il s'appuie sur le Corollaire C.7 et
+distingue « les conditions sont satisfaites » de « la borne n'est pas
+numeriquement serree a n=2000 ».
+
+NON VERIFIE : l'annexe C a ete retapee a la main depuis le PDF (le .tex
+source n'etait pas fourni). Les exposants kappa (34/15, 41/15,
+14/5 + lambda^2/(1-lambda^2)) ont ete recalcules independamment et
+tombent juste. Les preuves du Lemme C.2 (bornes dyadiques) et du Lemme
+C.6 (decoupage B_r, enveloppe de Dirichlet, moments logarithmiques)
+n'ont PAS ete relues ligne a ligne contre le PDF.
+
+Compilation : main-v2 34 pages, main 27 pages, 0 erreur, 0 reference
+indefinie de part et d'autre.

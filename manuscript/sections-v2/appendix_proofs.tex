@@ -1,0 +1,114 @@
+\section{Proofs of the main results}
+\label{app:proofs}
+\renewcommand{\theequation}{B.\arabic{equation}}
+\setcounter{equation}{0}
+
+This appendix proves the propositions of Section~\ref{sec:population}
+and the theorems of Section~\ref{sec:estimation} from the auxiliary
+results of Appendix~\ref{app:aux}.
+
+\subsection{Proof of Proposition~\ref{prop:projection}}
+
+For fixed $t>0$, with $N$ and $K_y^\star$ as in
+Lemmas~\ref{lem:app-remainder} and~\ref{lem:app-tilt} applied to
+$\mathcal G$,
+\[
+ \frac{N(ty)}{N(y)}
+ =\int_{[\underline\gamma,\Gamma]}t^{-1/g}\,K_y^\star(dg)
+ \longrightarrow t^{-1/\xi}
+\]
+almost surely, by Lemma~\ref{lem:app-tilt} and boundedness and
+continuity of $g\mapsto t^{-1/g}$ on $[\underline\gamma,\Gamma]$.
+Lemma~\ref{lem:app-remainder} transfers the limit to
+$\Pp(Y>ty\mid\mathcal G)/\Pp(Y>y\mid\mathcal G)$.  Convergence
+simultaneously for all $t>0$ follows from rational $t$, monotonicity of
+the ratio in $t$, and continuity of $t\mapsto t^{-1/\xi}$.
+
+For the fibre identity \eqref{eq:fibre}, fix $u\in\I$ and apply the above
+on the probability space $([0,1]^{p-1},K_j(u,\cdot))$ with the trivial
+$\sigma$-field; $\xi_j(u)$ is by definition the essential supremum of
+$v\mapsto\gamma(u,v)$ under $K_j(u,\cdot)$.  Let
+$m=\max_v\gamma(u,v)$, attained by compactness and continuity.  The
+essential supremum is at most $m$.  Conversely, for $\eta>0$ the set
+$\{v:\gamma(u,v)>m-\eta\}$ is open and nonempty, so has positive
+$K_j(u,\cdot)$-probability under (S); the essential supremum is at least
+$m-\eta$ for every $\eta>0$.  \qed
+
+\subsection{Proof of Proposition~\ref{prop:geometry}}
+
+\emph{Claim 1.}  For $j\notin\A$, $\gamma(u,v)=g\{(u,v)_{\A}\}$ does not
+involve $u$, and as $v$ ranges over the fibre the active subvector ranges
+over all of $[0,1]^{s}$; by \eqref{eq:fibre},
+$\xi_j(u)=\max_{w}g(w)=\gmax$ for every $u$.
+
+\emph{Claim 2.}  By \eqref{eq:fibre}, $\xi_j(u)=\gmax$ exactly when the
+fibre through $u$ intersects $\M$, i.e.\ when $u\in\pi_j(\M)$.
+
+\emph{Claim 3.}  $u\mapsto\gmax-\xi_j(u)$ is continuous
+(Lemma~\ref{lem:app-envelope-cont}), nonnegative, and by Claim~2 vanishes
+on $\I$ exactly on $\I\cap\pi_j(\M)$.  A continuous nonnegative function
+has positive integral over $\I$ if and only if its positivity set has
+positive Lebesgue measure.
+
+\emph{Final statement.}  Write $\M^{\A}$ for the maximizer set of $g$ in
+$[0,1]^{s}$; then $\M=\{u:u_{\A}\in\M^{\A}\}$ and, for $j\in\A$,
+$\pi_j(\M)$ is the projection of $\M^{\A}$, a finite set when $\M^{\A}$ is
+finite; its intersection with $\I$ is Lebesgue-null and Claim~3 applies.
+\qed
+
+\subsection{Proof of Proposition~\ref{prop:margin}}
+
+Every $x$ on the fibre $x_j=u$ has
+$\|x_{\A}-u^\star_{\A}\|\ge|u-u^\star_j|$, so every point of the fibre
+satisfies
+$\gamma(x)\le\gmax-c_1\,|u-u^\star_j|^\nu$; taking the fibre maximum
+gives $\xi_j(u)\le\gmax-c_1\,|u-u^\star_j|^\nu$.  Averaging
+over $u\in\I$ gives the score bound.  For $\nu=2$,
+$\E(W-u_j^\star)^2=\mathrm{Var}(W)+(1/2-u_j^\star)^2
+=(1-2\varepsilon)^2/12+(1/2-u_j^\star)^2$.  \qed
+
+\subsection{Proof of Theorem~\ref{thm:score}}
+
+Choose $\eta_n=\sqrt{\log(pn)/n}$, $\tau=\tau_n=(pn)^{-2}$, and
+$t_n=\sqrt{(4/K_n)\log\{pS_n(pn)\}}$.  The four probability terms in
+\eqref{eq:A6app} are then each $o(1)$: the first is
+$2pe^{-2\log(pn)}=2p(pn)^{-2}\to0$; the second is $2pn(pn)^{-2}\to0$; the
+third is $2pS_n\{pS_n(pn)\}^{-1}=2(pn)^{-1}\to0$; the fourth is
+$pS_ne^{-(K_n+1)/4}\to0$ because $\log(pS_n)\le C\log(pn)=o(K_n)$ by the
+second condition in \eqref{eq:rate-cond} and
+Lemma~\ref{lem:app-kn}.  The same condition makes $t_n\le1$ for large
+$n$, as required by Lemma~\ref{lem:app-chernoff}, and
+$\Gamma t_n=O(\sqrt{\log(pn)/(n\alpha h)})$, again by
+Lemma~\ref{lem:app-kn}.
+
+It remains to check that the bias part of $B_n(\eta_n,t_n,\tau_n)+q_n$ in
+Proposition~\ref{thm:app-score} is
+$o(\Delta_{\min})$.  First, $\log(pn)=o(nh^2)$ gives
+$\eta_n+\delta_n=o(h)$, so $h+\eta_n+\delta_n\le C_0h$ eventually and
+$2\omega_n^{\uparrow}(h+\eta_n+\delta_n,\tau_n,\alpha)\le2\omega_n^{\uparrow}(C_0h,\tau_n,\alpha)
+=o(\Delta_{\min})$ by (E3) and monotonicity of
+$\omega_n^{\uparrow}(\cdot,\tau,\alpha)$.  Second,
+$(1+t_n)b_n(3\alpha)\le2b_n(3\alpha)=o(\Delta_{\min})$ by (E2).  Third,
+$q_n=\omega_\xi(\delta_n)+O(1/n)$: the first part is
+$o(\Delta_{\min})$ by (E1), and
+$1/n\le\sqrt{\log(pn)/(n\alpha h)}$ since $\alpha h\le1\le n\log(pn)$, so
+the second part is absorbed into the stochastic rate.  Collecting terms,
+outside a vanishing probability,
+\[
+ \max_{j\le p}|\widehat\Psi_j-\Psi_j|
+ \le a_n+\beta_n,\qquad
+ a_n=O\Bigl(\sqrt{\log(pn)/(n\alpha h)}\Bigr),\quad
+ \beta_n=o(\Delta_{\min}),
+\]
+which is the assertion.  \qed
+
+\subsection{Proof of Theorem~\ref{thm:sis} and
+Corollary~\ref{cor:exact}}
+
+Under \eqref{eq:sis-cond},
+$\sqrt{\log(pn)/(n\alpha h)}=o(\Delta_{\min})$, so the bound of
+Theorem~\ref{thm:score} is below $\Delta_{\min}/2$ for $n$ large,
+outside a vanishing probability.  On the complementary event,
+Lemma~\ref{lem:app-separation} places every active score strictly before
+every inactive score, so $\A\subseteq\widehat\A_d$ for every $d\ge s$,
+and $\widehat\A_s=\A$ when $d=s$.  \qed

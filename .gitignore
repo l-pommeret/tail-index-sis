@@ -65,3 +65,10 @@ article_light_2/*.log
 article_light_2/*.out
 article_light_2/*.fls
 article_light_2/*.fdb_latexmk
+
+# LaTeX build artifacts (Bernoulli build)
+manuscript/bernoulli/*.aux
+manuscript/bernoulli/*.bbl
+manuscript/bernoulli/*.blg
+manuscript/bernoulli/*.log
+manuscript/bernoulli/*.out
