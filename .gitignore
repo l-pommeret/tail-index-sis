@@ -72,3 +72,10 @@ manuscript/bernoulli/*.bbl
 manuscript/bernoulli/*.blg
 manuscript/bernoulli/*.log
 manuscript/bernoulli/*.out
+article_light_3/*.aux
+article_light_3/*.bbl
+article_light_3/*.blg
+article_light_3/*.log
+article_light_3/*.out
+article_light_3/*.fls
+article_light_3/*.fdb_latexmk

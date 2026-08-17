@@ -1,0 +1,230 @@
+\section{Estimation and screening theory}\label{sec:estimation}
+
+\subsection{Empirical-rank local Hill scores}
+
+The estimator follows the envelope construction coordinate by coordinate.
+Let $R_{ij}$ be the rank of $X_{ij}$ among $X_{1j},\ldots,X_{nj}$ and
+$\widehat U_{ij}=R_{ij}/(n+1)$. For $u\in\I$, form the rank window
+\[
+ \mathcal W_j(u)=\{i:|\widehat U_{ij}-u|\le h\},\qquad
+ M_j(u)=|\mathcal W_j(u)|,\qquad
+ k_j(u)=\lfloor\alpha M_j(u)\rfloor,
+\]
+and, writing $Y_{j,u,(1)}\le\cdots\le Y_{j,u,(M_j(u))}$ for the local order
+statistics, the local Hill estimate
+\begin{equation}\label{eq:hill}
+ \widehat\xi_j(u)=\frac1{k_j(u)}\sum_{r=1}^{k_j(u)}
+ \log\frac{Y_{j,u,(M_j(u)-r+1)}}{Y_{j,u,(M_j(u)-k_j(u))}},
+\end{equation}
+defined when $\alpha M_j(u)>1$. This is the local-fraction Hill statistic of
+\citet[Definition~5]{gardesPodgorny2025} evaluated on one-coordinate rank
+windows. The score averages the profile over the deterministic grid
+$G=\{r/(n+1):r=1,\ldots,n\}\cap\I$,
+\begin{equation}\label{eq:emp-score}
+ \widehat\Psi_j=\frac1{|G_j^{\rm val}|}\sum_{u\in G_j^{\rm val}}\widehat\xi_j(u),
+ \qquad
+ G_j^{\rm val}=\{u\in G:\alpha M_j(u)>1\},
+\end{equation}
+Because the window counts $M_j(u)$ depend on the ranks only through
+the grid position, $G_j^{\rm val}$ is the same set for every $j$, and
+under the conditions of Theorem~\ref{thm:score} every grid point is
+usable, so $G_j^{\rm val}=G$; the convention $\widehat\Psi_j=+\infty$
+when no grid point is usable is an implementation safeguard that is
+provably never triggered when $K_n\ge2$. The screened set
+$\widehat\A_d$ collects the $d$ smallest scores, ties broken by a
+seeded auxiliary randomization.
+
+The two localization parameters play different roles: $h$ fixes how many
+observations resemble the target rank position, roughly $2nh$ of them, and
+$\alpha$ fixes how many of their largest responses enter the Hill statistic,
+roughly $2n\alpha h$. Rank windows make these counts deterministic up to
+boundary effects, which is what permits exact finite-sample union bounds
+over a diverging number of coordinates.
+
+\subsection{Assumptions}
+
+Ranks displace the unobserved transforms $U_{ij}$, windows displace the
+conditioning point, and the Hill statistic sees only the upper
+$\alpha$-fraction of a projected distribution. The assumptions bound these
+three effects uniformly over the coordinates. Throughout this section
+every active coordinate is assumed detectable, $\Delta_{\min}>0$ for
+every $n$, so that the conditions below are well posed. Let
+$Q_j(\cdot,u)$ denote the generalized upper conditional quantile of $Y$
+given $U_j=u$, $Q_j(s,u)=F_{Y|j}^{-1}(1-s^{-1}\mid u)$ with
+$F^{-1}(t)=\inf\{y:F(y)\ge t\}$, and let $\tau_n=(pn)^{-2}$.
+
+\begin{itemize}
+\item[(E1)] \emph{Quantile representation and regularity of the projected
+index.} For every $j\le p$ and every $u\in[0,1]$ the conditional
+distribution function $F_{Y|j}(\cdot\mid u)$ is continuous, so that
+$V_{ij}=1-F_{Y|j}(Y_i\mid U_{ij})$ is conditionally standard uniform and
+$Y_i=Q_j(1/V_{ij},U_{ij})$ almost surely. Moreover the projected indices
+are equicontinuous on $\I$, uniformly over coordinates and over $n$,
+\[
+ \omega_\xi(r)=\max_{j\le p}\;
+ \sup_{u,v\in\I,\,|u-v|\le r}|\xi_j(u)-\xi_j(v)|
+ \longrightarrow0\qquad(r\to0),
+\]
+and satisfy the grid-scale regularity condition
+$\omega_\xi(1/n)=o(\Delta_{\min})$.
+\item[(E2)] \emph{Uniform tail regularity.} Writing
+$Q_j(s,u)=s^{\xi_j(u)}\ell_j(s,u)$ with $\ell_j(\cdot,u)$ slowly varying,
+\[
+ \max_{j\le p}\,\sup_{u\in\I}\,
+ \sup_{s\ge(3\alpha)^{-1},\,t>1}
+ \frac{|\log\{\ell_j(ts,u)/\ell_j(s,u)\}|}{\log t}
+ \;=\;o(\Delta_{\min}).
+\]
+\item[(E3)] \emph{Uniform local quantile regularity.} There exists a
+constant $C_0>1$ such that
+\[
+ \max_{j\le p}\,
+ \sup_{u\in\I}\;
+ \sup_{v\in[0,1],\,|u-v|\le C_0h}\;
+ \sup_{w\in[\tau_n,1-\tau_n]}
+ \left|\log\frac{Q_j(w^{-1},v)}{Q_j(w^{-1},u)}\right|
+ \;=\;o(\Delta_{\min}).
+\]
+The theorems use only this one $C_0$; under \eqref{eq:rate-cond} any
+$C_0>1$ suffices.
+\end{itemize}
+
+
+The condition (E2) is the analogue of condition (H.4) in
+\citet{gardesPodgorny2025}, normalized by $\log t$ and required only beyond
+the working tail level $(3\alpha)^{-1}$. (E3)
+adapts their condition (H.5): the truncation $\tau_n=(pn)^{-2}$ makes the
+probability that any of the $pn$ conditional PIT variables leaves
+$[\tau_n,1-\tau_n]$ vanish, which is the high-dimensional replacement for
+their fixed-dimension truncation. These conditions are stated on the projected quantiles, not derived from
+(C1)--(C2): projection can generate genuinely new slow variation. If
+$W\sim U(0,1)$ and $\Pp(Y>y\mid W)=y^{-1/(1+W)}$ exactly, then
+$\Pp(Y>y)\sim4y^{-1/2}/\log y$, so even exact Pareto conditionals produce
+a logarithmic factor after projection, and the left side of (E2) is then
+of exact order $1/\log(1/\alpha)$. This logarithmic effect also suggests that the usual polynomially shrinking signal assumptions from the SIS literature may be too optimistic in the present EVT setting. In particular, if $\alpha=n^{-a}$, the preceding example produces a projected-tail bias of order $1/\log(1/\alpha)\asymp1/\log n$. Condition (E2) then requires this bias to be negligible relative to $\Delta_{\min}$, which is incompatible with a gap of polynomial order $\Delta_{\min}\asymp n^{-\kappa}$ for any $\kappa>0$, since $n^{-\kappa}=o(1/\log n)$. We therefore expect that, for realistic extreme-value models in which projection naturally generates logarithmic slow variation, admissible signal gaps may have to vanish substantially more slowly than the polynomial rates commonly imposed in classical SIS theory.
+
+\subsection{Main results}
+
+\begin{theorem}[Score concentration]\label{thm:score}
+Assume (C1)--(C2), (S), (E1)--(E3), $\alpha\le1/3$,
+$h\le1-\varepsilon$, and
+\begin{equation}\label{eq:rate-cond}
+ \log(pn)=o(nh^2),
+ \qquad
+ \log(pn)=o(n\alpha h).
+\end{equation}
+Then there are deterministic sequences
+$a_n=O(\sqrt{\log(pn)/(n\alpha)})$ and $\beta_n=o(\Delta_{\min})$ with
+\[
+ \Pp\Bigl(\max_{j\le p}\,|\widehat\Psi_j-\Psi_j|\le a_n+\beta_n\Bigr)
+ \longrightarrow1;
+\]
+in shorthand,
+$\max_{j\le p}|\widehat\Psi_j-\Psi_j|
+=O_{\Pp}(\sqrt{\log(pn)/(n\alpha)})+o(\Delta_{\min})$.
+\end{theorem}
+
+The bandwidth does not appear in the stochastic rate. It is worth being
+precise about why, because the natural guess is that it should. Each
+local Hill statistic is built from about $n\alpha h$ spacings and does
+fluctuate at scale $(n\alpha h)^{-1/2}$; but $\widehat\Psi_j$ is not a
+local statistic, it is an \emph{average} of $O(n)$ of them over the rank
+grid, and the fluctuation of an average is not the largest of the
+fluctuations. The windows overlap, so the local errors are dependent ---
+yet two windows whose centres are separated by more than $2h(n+1)$ rank
+positions are \emph{disjoint}. Colouring the grid by residue modulo
+$q_n=\lfloor2h(n+1)\rfloor+1$ therefore splits it into $\chi_n\asymp nh$
+classes inside which the local statistics are conditionally independent,
+and averaging the \emph{signed} R\'enyi-spacing fluctuations within each
+class before bounding them gives an effective sample size
+\[
+ \mathfrak n_n=\frac{L_nK_n}{\chi_n}
+ \asymp\frac{n\cdot n\alpha h}{nh}
+ \asymp n\alpha .
+\]
+The two factors of $h$ cancel: the colouring costs $\chi_n\asymp nh$,
+and each of the $L_n\asymp n$ terms contributes $1/k_r\asymp1/(n\alpha h)$.
+The quantity $n\alpha$ --- the number of observations in the tail, not
+the number in the tail \emph{of one window} --- is the effective sample
+size of the integrated score.
+
+Two features of the argument matter and are easy to get wrong. The
+average must be taken of the signed fluctuations, not of the profilewise
+absolute bounds: taking absolute values first destroys exactly the
+cancellation being exploited. And each colour class must be centred at
+its own sparse-grid population average; those sparse-grid averages
+recombine exactly into the original fine-grid average, so no additional
+smoothness assumption of the form $\omega_\xi(h)=o(\Delta_{\min})$ is
+incurred.
+
+The $o(\Delta_{\min})$ term is unchanged: it collects the tail bias (E2),
+the spatial bias (E3) evaluated at $C_0h$ --- the first condition in
+\eqref{eq:rate-cond} makes the rank displacement smaller than $(C_0-1)h$,
+so windows never leave the range covered by (E3) --- and the quadrature
+error $\omega_\xi(1/n)+O(1/n)$ from (E1).
+
+\begin{theorem}[Sure screening]\label{thm:sis}
+Assume the conditions of Theorem~\ref{thm:score} (including
+$\Delta_{\min}>0$, i.e.\ every active coordinate detectable in the
+sense of Proposition~\ref{prop:geometry}) and
+\begin{equation}\label{eq:sis-cond}
+ \log(pn)=o\bigl(n\alpha\,\Delta_{\min}^2\bigr).
+\end{equation}
+Then, for every $d\ge s$,
+\[
+ \Pp\bigl(\A\subseteq\widehat\A_d\bigr)\longrightarrow1,
+\]
+and with probability tending to one every active score is smaller than
+every inactive score.
+\end{theorem}
+
+
+The proofs are in Appendix~\ref{app:proofs}, supported by the auxiliary
+results of Appendix~\ref{app:aux}, whose centrepiece is a finite-sample
+uniform profile bound (Proposition~\ref{thm:app-rank-profile}). The
+roadmap: (i) a Dvoretzky--Kiefer--Wolfowitz event per coordinate controls
+all empirical-rank displacements simultaneously, contributing the
+$\log(pn)=o(nh^2)$ requirement; (ii) rank windows have deterministic
+local counts and pass through at most $4n+1$ membership states per
+coordinate; (iii) conditionally on a covariate column, the R\'enyi
+representation turns each local Hill statistic into a mean of
+i.i.d.\ exponentials built from about $n\alpha h$ extremes, plus a
+slowly varying remainder bounded through (E2); (iv) the signed
+fluctuations are averaged over the rank grid coloured by residue modulo
+$\lfloor2h(n+1)\rfloor+1$, within which windows are disjoint and hence
+conditionally independent, and a sub-gamma bound applied per colour
+class before recombination yields the effective sample size
+$\mathfrak n_n\asymp n\alpha$; (v) a union bound over
+the $p(4n+1)$ states yields the $\log(pn)$ factor; (vi) uniform score
+accuracy below $\Delta_{\min}/2$ gives deterministic separation of
+active from inactive scores. \citet[Theorem~3]{gardesPodgorny2025}
+establishes the corresponding uniform consistency in fixed dimension
+over a compact class of projection matrices; their covering-number
+argument and density assumptions are replaced here by the rank
+construction, and their result does not imply the growing-$p$ bound.
+
+Condition \eqref{eq:sis-cond} quantifies the cost of dimension:
+screening $p$ coordinates costs $\log p$ against the tail count
+$n\alpha$, deflated by the squared gap. The bandwidth has left this
+condition, but it has not left the theorem: it survives in
+\eqref{eq:rate-cond}, where $\log(pn)=o(n\alpha h)$ is what makes every
+local threshold lie inside the tail region, and $\log(pn)=o(nh^2)$
+controls the rank displacement. The gain is therefore a
+\emph{decoupling} rather than a removal.
+
+Writing $\alpha=n^{-a}$, $h=n^{-b}/2$ and $\Delta_{\min}\asymp n^{-d}$,
+the previous analysis required the single coupled restriction
+$a+b+2d<1$. It is replaced by the two separate restrictions
+\[
+ a+b<1
+ \qquad\text{and}\qquad
+ a+2d<1,
+\]
+together with $b<1/2$ from the rank-displacement condition, and $b>d$
+whenever the spatial bias is Lipschitz and must satisfy
+$h_n=o(\Delta_{\min,n})$. For fixed gaps, $d=0$, the admissible region
+does not enlarge, because $a+b<1$ still binds; the enlargement is strict
+as soon as the gap shrinks. If instead $\log p\asymp n^\kappa$ grows
+subexponentially, the three conditions read $\kappa<1-2b$,
+$\kappa<1-a-b$ and $\kappa<1-a-2d$, in place of the former
+$\kappa<1-a-b-2d$.

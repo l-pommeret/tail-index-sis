@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage[section]{placeins}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\A}{A}\newcommand{\I}{I_\varepsilon}
+\newcommand{\M}{M}\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}\newcommand{\R}{\mathbb R}
+\newcommand{\gmax}{\gamma^\star}
+\title{Tail-Index Sure Independence Screening for\\High-Dimensional Heavy-Tailed Regression}
+\author{Anonymous manuscript}\date{}
+\begin{document}\maketitle
+\begin{abstract} We propose a marginal screening procedure for identifying covariates that determine a positive conditional tail index in high-dimensional heavy-tailed regression. The method exploits a projection principle: conditioning on a single covariate produces a mixture whose tail index is the upper envelope of the underlying conditional tail-index surface. This yields an exact characterization of marginal detectability and motivates ranking covariates by their average projected tail index. We estimate these scores using empirical-rank local Hill profiles and establish uniform concentration over $p$ coordinates, leading to sure screening and exact recovery when $\log(pn)=o(n\alpha\Delta_{\min}^2)$. The bandwidth does not enter this rate: although each local Hill profile is built from about $n\alpha h$ extremes, the integrated score averages $O(n)$ of them, and a colouring of the rank grid into classes of disjoint windows shows that its effective sample size is the tail count $n\alpha$ itself. A rank-aggregated version improves stability with respect to the parameters. Simulations show that the proposed screen can distinguish tail-index activity from finite-quantile scale effects, and an application to violent-crime rates illustrates its use. 
+\end{abstract}
+\input{sections/introduction}
+\input{sections/model_population}
+\input{sections/estimation_theory}
+\input{sections/computation_simulation}
+\FloatBarrier
+\input{sections/real_data}
+\FloatBarrier
+\input{sections/discussion}
+\appendix\input{sections/appendix_aux}\input{sections/appendix_proofs}
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}
