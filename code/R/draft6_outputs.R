@@ -27,8 +27,10 @@ if (what == "tuning") {
           xlab = "tail exponent a", ylab = "bandwidth exponent b")
     for (i in seq_along(aa)) for (j in seq_along(bb))
       text(aa[i], bb[j], sprintf("%.2f", zz[i, j]), cex = .6)
+    ## dashed: the 3x3 aggregation block N9; solid: the selected cell.
+    ## Drawn as borders, not markers, so the printed Sure-20 stays legible.
     rect(0.275, 0.075, 0.425, 0.225, border = "grey30", lwd = 1.4, lty = 2)
-    points(0.35, 0.15, pch = 4, lwd = 2)          # selected cell
+    rect(0.325, 0.125, 0.375, 0.175, border = "black", lwd = 2.6)
   }
   dev.off()
   cat("WROTE tuning heatmaps (selected cell marked at a=0.35, b=0.15)\n")

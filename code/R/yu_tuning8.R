@@ -36,8 +36,17 @@ source("code/R/yoshida_umezu_grid.R")
 source("code/R/yu_select.R")
 
 N <- 2000L; P <- 1000L; RHO <- 0.25
-HS <- c(0.5, 1, 1.5, 2, 3)
-KFRAC <- c(0.05, 0.06, 0.072, 0.08)
+## Extended grid.  The first pass used h in {0.5,1,1.5,2,3} and
+## k/n in {.050,.060,.072,.080}, and three of the four selected cells came
+## out ON A BOUNDARY (h = 0.5 for A1 and A3, k/n = .050 for B1).  A cell on
+## the edge of a grid is not an optimum, it is where the search stopped, so
+## the grid is extended downwards in both parameters until the retained
+## cells are interior.  The extension stays inside the ranges Yoshida and
+## Umezu themselves explore: their bandwidth study spans [0.04, 10] and
+## finds h < 0.1 unusable, and k/n = .04 sits just below the .048 lower end
+## of their intermediate-sequence range.
+HS <- c(0.1, 0.2, 0.3, 0.5, 1, 1.5, 2, 3)
+KFRAC <- c(0.03, 0.04, 0.05, 0.06, 0.072, 0.08)
 KS <- as.integer(floor(KFRAC * N))
 EVAL <- seq(.02, .98, length.out = 25)
 MODELS <- c("A1", "A2", "A3", "B1")

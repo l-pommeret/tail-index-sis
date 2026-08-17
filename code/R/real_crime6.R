@@ -12,7 +12,7 @@ suppressMessages(library(Rcpp))
 sourceCpp("code/src/local_hill.cpp", rebuild = FALSE)
 source("code/R/rank_rules.R")
 
-ASTAR <- 0.30; BSTAR <- 0.15
+ASTAR <- 0.35; BSTAR <- 0.15
 AGRID <- c(0.30, 0.35, 0.40); BGRID <- c(0.10, 0.15, 0.20)
 
 src <- new.env()

@@ -129,26 +129,38 @@ scale factor produces no such deformation, degrades only mildly there
 together, where the local extreme count collapses, and the degenerate
 bandwidth $b=0$ is never competitive. In between, the block
 $a\in\{0.30,0.35\}$, $b\in\{0.10,0.15,0.20\}$ is the best-behaved
-region of the grid, but it is not a flat plateau. The four-model mean
-of Sure-20 is largest at $(0.30,0.15)$, at $0.780$, with
-$(0.35,0.15)$ next at $0.7625$; the four remaining cells of the block
-lie between $0.718$ and $0.756$. We adopt
+region of the grid, but it is not a flat plateau. Ordered by the
+four-model mean of Sure-20, its six cells run
+$0.780$ at $(0.30,0.15)$, $0.773$ at $(0.30,0.10)$, $0.763$ at
+$(0.35,0.15)$, $0.756$ at $(0.35,0.10)$, $0.746$ at $(0.30,0.20)$ and
+$0.718$ at $(0.35,0.20)$. We adopt
 \[
  (a^\star,b^\star)=(0.35,\ 0.15)
 \]
-rather than the raw argmax, for two reasons. First, the gap between the
-two leading cells, $0.018$ on the four-model mean, is of the order of
-one paired standard error, so the argmax is not separated from its
-neighbour by the evidence available here; selecting the argmax of the
-same $200$ replications that are displayed in Figure~\ref{fig:tuning}
-would be the more optimistic of the two choices. Second, of the two,
-$a=0.35$ is the one further from the small-$a$ edge at which the A-family
-models collapse, and that collapse is a bias phenomenon: a larger $a$
-means a smaller tail fraction and therefore a local Hill statistic that
-reaches less far into the region where $\ell_1$ deforms the projected
-distributions. The cost of the choice is borne by A2, the weakest
-signal, whose Sure-20 falls from $.555$ to $.475$; the other three
-models are at least as good at $(0.35,0.15)$, with per-model Sure-20
+rather than the argmax. The three leading cells span $0.017$ on the
+four-model mean, of the order of one paired standard error, so they are
+not separated by the evidence available here; and they do not trade
+uniformly, but along a line that matters for what this paper is about.
+Moving from $a=0.30$ to
+$a=0.35$ costs Sure-20 on the three tail-index models, $.935\to.960$ on
+A1, $.555\to.475$ on A2 and $.955\to.885$ on A3, and buys it back on B1,
+$.675\to.730$. The $1{,}000$-replication comparison of
+Section~\ref{sec:comparison} reproduces the same pattern on independent
+data and at all three dimensions: at $p=2000$ the change costs
+$.013$, $.138$ and $.027$ of Sure-20 on A1, A2 and A3, and gains $.069$
+on B1.
+
+That direction is not an accident. A larger $a$ is a smaller tail
+fraction, so the local Hill statistics reach less far down into the
+distribution --- away from the region where the finite-quantile scale
+cluster of B1 moves the conditional distribution without moving the
+limiting exponent, and away from the region where $\ell_1$ deforms the
+projected distributions in the A family. The choice therefore trades raw
+power on the models that carry tail-index structure alone for
+selectivity on the model built to separate tail-index activity from
+finite-quantile scale effects, which is the distinction the method
+exists to make. The cost is concentrated on A2, the weakest signal, and
+is stated rather than hidden: per-model Sure-20 at $(0.35,0.15)$ is
 $.960$, $.475$, $.885$ and $.730$.
 
 The selection nonetheless optimizes over our own models, and
@@ -165,8 +177,9 @@ Theorem~\ref{thm:sis} is an asymptotic exact-recovery result. When $\log(pn)$ is
 \caption{Sure-20 over the $(a,b)$ tuning grid for the four models at
 $n=2000$, $p=1000$, $\rho=0.25$ ($200$ common-random-number
 replications per model; $\alpha=n^{-a}$, $h=n^{-b}/2$; standard errors
-at most $0.036$). The dashed rectangle marks the aggregation block
-$\mathcal N_9$.}
+at most $0.036$). Panels are labelled by model. The dashed rectangle
+marks the aggregation block $\mathcal N_9$; the solid frame marks the
+selected pair $(a^\star,b^\star)=(0.35,0.15)$.}
 \label{fig:tuning}
 \end{figure}
 
@@ -273,19 +286,22 @@ worst active rank.
 \paragraph{Sensitivity to the dimension.}
 Every method degrades as $p$ grows, at very different rates, and the
 mean--median contrast locates the degradation. For the selected-pair
-tail screen on A1, $\E(R_{\max})$ grows from $5.7$ to $12.9$ between
+tail screen on A1, $\E(R_{\max})$ grows from $6.6$ to $15.8$ between
 $p=500$ and $p=2000$ while $\mathrm{Med}(R_{\max})$ stays at $4$: the
 typical replication is unaffected, and the loss is carried by a
 minority of replications in which an active coordinate falls into the
 null range, where its rank scales with $p$. Aggregation compresses that
 tail on every model ($\E(R_{\max})$ $4.6\to6.2$ on A1, $9.8\to22.6$
-against $29.8\to108.7$ on B1, $5.1\to8.1$ against $7.0\to22.0$ on A3).
+against $27.5\to75.9$ on B1, $5.1\to8.1$ against $9.8\to30.1$ on A3).
 The quantile screen at $\tau=.95$ is the least dimension-sensitive rule
 on the A family ($\E(R_{\max})$ $4.2\to4.8$ on A1). A2 is the most
 dimension-sensitive model for every method (aggregated Sure-20
 $.797\to.561$, quantile $.95$ $.930\to.782$): a weak signal loses the
-most from added competition. Yoshida--Umezu degrades from a low base
-throughout ($\mathrm{Med}(R_{\max})$ $29\to168$ on A1).
+most from added competition. The conditional-Pickands screen degrades
+from a low base throughout: at its paper tuning
+$\mathrm{Med}(R_{\max})$ moves from $29$ to $168$ on A1, and its own
+grid search reduces the level of the degradation without changing its
+slope ($8$ to $12$ on the same model).
 
 \paragraph{Sensitivity to the quantile level.}
 On the A family the quantile screen is non-monotone in $\tau$ in every
@@ -315,30 +331,37 @@ source of sensitivity that is specific to using fixed high quantiles as
 proxies for tail-index activity.
 
 \paragraph{Effect of the aggregation.}
-Aggregation improves the tail screen most where failures are worst. On
-B1 it lifts exact recovery from $.308/.249/.234$ to $.448/.368/.339$
-across the three dimensions, divides $\E(R_{\max})$ by three to five,
-and brings $\mathrm{Med}(R_{\max})$ to $5$--$6$; on A1 and A3 it moves
-Sure-4 by a few points in either direction ($+3.5$, $+1.4$, $+5.1$ on
-A1; $+1.5$, $-4.1$, $+0.7$ on A3) while compressing the
-rank tail; Sure-20 improves in all twelve model--dimension cells. On the weak-signal A2 it
-trades exact recovery ($.256\to.196$ at $p=500$,
-$.149\to.088$ at $p=2000$) for substantially better inclusion
-(Sure-20 $.463\to.561$ at $p=2000$; $\E(R_{\max})$ $144.8\to76.9$).
-The trade is the intended one: promotion by a single reasonable tuning
-occasionally admits a lucky null into the top four when the signal is
-weak, and reliably rescues active coordinates from single-setting
-failures further down the list. Aggregation stabilizes inclusion ---
-the sure-screening objective --- rather than exact selection.
+Aggregation improves the tail screen most where failures are worst. At the
+selected pair it improves \emph{both} criteria in all twelve
+model--dimension cells. Sure-4 gains most on the models where the
+single-setting screen is already strong ($+8.4$, $+7.7$, $+10.2$ points
+on A1 and $+6.3$, $+5.0$, $+9.6$ on A3, across the three dimensions),
+and least on the weak-signal A2 ($+2.6$, $+3.6$, $+0.8$); on B1 it
+lifts exact recovery from $.377/.336/.312$ to $.448/.368/.339$.
+$\E(R_{\max})$ is divided by a factor between $1.4$ and $3.7$
+everywhere, and $\mathrm{Med}(R_{\max})$ falls to $4$ on A1 and A3 and
+to $5$--$6$ on B1.
+
+The largest gains are in inclusion rather than exact selection, and
+they are concentrated where the single-setting screen fails. On A2 at
+$p=2000$, Sure-20 rises from $.325$ to $.561$ and $\E(R_{\max})$ falls
+from $248.8$ to $76.9$; on B1 at the same dimension, from $.668$ to
+$.805$ and from $75.9$ to $22.6$. This is the intended behaviour:
+promotion by a single reasonable tuning rescues active coordinates from
+setting-specific failures far down the list, which is what moves the
+sure-screening criterion, while the top four is already close to
+saturated on the models where the signal is strong.
 
 The quantile screen at a moderate level remains the strongest detector
 when high quantiles and the limiting exponent share their covariates
-and the signal is weak (A2); the aggregated tail screen is competitive
-or better on A1 and A3, and on B1 it is the only rule whose leading
-positions stay on the active set --- Sure-4 $.448/.368/.339$ and
-Sure-20 $.907/.849/.805$ across the three dimensions, against at most
-$.038$ and $.665$ for any fixed-quantile level, with $0.12$--$0.19$
-proxies in its top four (Table~\ref{tab:b1comp}). It is degraded, not
+and the signal is weak (A2). On A1 and A3 the two are close, with
+$\tau=.95$ slightly ahead on A3 and the two changing places on A1 as
+$p$ grows. The separation appears on B1, where the aggregated tail
+screen is the only rule whose leading positions stay on the active set
+--- Sure-4 $.448/.368/.339$ and Sure-20 $.907/.849/.805$ across the
+three dimensions, against at most $.038$ and $.665$ for any
+fixed-quantile level, with $0.12$--$0.18$ proxies in its top four
+(Table~\ref{tab:b1comp}). It is degraded, not
 immune: the same rule reaches Sure-4 $.884/.823/.802$ on A1, so the
 scale cluster, jointly with the exchange of slowly varying factors,
 costs it about forty-five points of exact recovery. For a question
