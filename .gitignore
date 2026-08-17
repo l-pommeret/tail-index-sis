@@ -79,3 +79,6 @@ article_light_3/*.log
 article_light_3/*.out
 article_light_3/*.fls
 article_light_3/*.fdb_latexmk
+
+# corpus brut : re-tirable par code/py/sample_fineweb.py a graine fixee
+results/wild/*docs.parquet
