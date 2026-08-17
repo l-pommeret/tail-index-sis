@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\caption{Model B1: average number of the twenty scale proxies among the top 4 and top 24 positions of each ranking, by dimension (same $1{,}000$ replications as Tables~\ref{tab:cmp500}--\ref{tab:cmp2000}). A perfectly specific screen scores $0$; ranking the proxies first scores $4$ and $20$.}
+\label{tab:b1comp}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{$p=500$} & \multicolumn{2}{c}{$p=1000$}
+ & \multicolumn{2}{c}{$p=2000$}\\
+Method & top 4 & top 24 & top 4 & top 24 & top 4 & top 24\\
+\midrule
+Tail-index SIS, selected $(a^\star,b^\star)$ & 0.18 & 1.97 & 0.14 & 1.47 & 0.13 & 1.14\\
+Tail-index SIS, aggregated & 0.18 & 2.71 & 0.15 & 2.15 & 0.12 & 1.57\\
+Yoshida--Umezu, tuned per model & 2.35 & 13.66 & 2.21 & 12.67 & 2.09 & 11.91\\
+Quantile SIS ($\tau=.90$) & 3.81 & 20.00 & 3.81 & 20.00 & 3.79 & 20.00\\
+Quantile SIS ($\tau=.95$) & 2.48 & 19.53 & 2.48 & 19.38 & 2.43 & 19.05\\
+Quantile SIS ($\tau=.99$) & 0.44 & 4.53 & 0.32 & 3.06 & 0.20 & 1.85\\
+\bottomrule
+\end{tabular}
+\end{table}

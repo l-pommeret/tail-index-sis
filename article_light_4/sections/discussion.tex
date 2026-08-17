@@ -1,0 +1,48 @@
+\section{Discussion}\label{sec:discussion}
+
+The screen is a first stage. Its intended
+pipeline reduces $p$ coordinates to a manageable $d$, after which a joint
+method --- the central tail-index subspace of \citet{gardesPodgorny2025}, a
+structured tail regression \citep{wangTsai2009,sasakiTaoWang2026}, or
+multivariate local estimation --- can resolve interactions and correlated
+neighbours among the retained variables. The two stages solve different
+problems: rapid elimination of evidently irrelevant coordinates scales to
+$p \geq n\alpha$, while accurate joint tail inference does not.
+
+Two limitations remain. First, activity does not imply marginal
+detectability. When every fibre of an active coordinate meets the global
+argmax set, the score carries no information about that coordinate, at any
+sample size. Proposition~\ref{prop:geometry} characterizes this case
+exactly. Neither increasing $d$ nor increasing $n$ can overcome this lack
+of identification; iterative or grouped extensions would require a
+different argument. Second, projection may introduce slowly varying terms with logarithmic
+decay, even when the conditional tails are exactly Pareto. Accordingly,
+condition (E2) allows the signal to decrease on a logarithmic scale, rather
+than at the polynomial rates $\Delta_{\min}\asymp n^{-\kappa}$ commonly
+used in SIS theory. This condition is sufficient for the asymptotic result, but does not define a finite-sample detection threshold; the simulations show that the screen can remain effective well before the asymptotic separation regime is reached. The slower signal regime may nevertheless help
+explain the comparison with fixed-quantile screening. In A2, where the
+tail-index gap is smaller than in A1, Quantile-SIS at a favourable choice
+of $\tau$ performs better than the tail-index screen.
+
+
+In practice, tuning matters more than the theory prescribes. The tail
+fraction trades Hill bias against variance; the bandwidth additionally
+determines how often near-maximizing configurations of the other active
+coordinates enter a window. We recommend the workflow of
+Sections~\ref{sec:simulation} and~\ref{sec:realdata}: run the screen on
+the block of nine neighbouring tunings and rank by the aggregated
+minimum rank. The aggregation is deliberately conservative --- a
+predictor is retained when at least one reasonable tuning finds
+evidence for it --- which is the right direction of error for a
+first-stage sure screen: false exclusion is final, while false
+retention is corrected by the second-stage multivariate analysis. The
+per-setting ranks describe tuning sensitivity and should accompany the
+ranking as a diagnostic, not act as a second screening threshold.
+Dependence deserves caution of its own: it can help, by concentrating
+active configurations, or hurt, by promoting inactive neighbours, and
+the direction is design-specific.
+
+Projection turns a tail-index surface into an upper envelope. Variation
+of that envelope is a scalable marginal signal for tail-index activity,
+and its absence, characterized by the argmax projections, tells the
+analyst exactly what a marginal screen can and cannot see.

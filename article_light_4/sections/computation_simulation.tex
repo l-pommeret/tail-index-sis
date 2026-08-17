@@ -1,0 +1,312 @@
+\section{Simulation study}\label{sec:simulation}
+
+Each coordinate is scored in $O(n\log n)$ time: one sort by empirical
+rank, then a sliding window over the rank grid whose local Hill statistics
+are maintained by a Fenwick tree indexed by global response ranks.
+Covariates are generated and processed in blocks, so the total cost is
+$O(pn\log n)$ time and $O(n)$ working memory beyond the scores. At
+$(n,p)=(2000,1000)$ one complete screen takes under a second on a laptop
+core. Scores are sorted increasingly.
+
+\subsection{Simulation models}\label{sec:models}
+
+\paragraph{Family A: tail-index structure.}
+Models A1, A2 and A3 share the covariate design, the slowly varying
+factor, and the tail-index active set $\A_\gamma=\{1,2,3,4\}$; they
+differ only in the tail-index function. Covariates are latent Gaussian
+AR(1),
+\[
+ Z_{i1}\sim N(0,1),\qquad
+ Z_{ij}=\rho Z_{i,j-1}+\sqrt{1-\rho^2}\,\epsilon_{ij},
+ \qquad j=2,\ldots,p,
+\]
+transformed to $U_{ij}=\Phi(Z_{ij})$; the tail-index functions are
+evaluated at the population transforms $U$, while the estimator sees
+only $Z$ and computes its own empirical ranks. Responses are generated
+by quantile inversion, $Y=V^{-\gamma(U)}\ell(1/V,\cdot)$ with
+$V\sim\mathrm{Unif}(0,1)$, the mechanism of
+\citet{gardesPodgorny2025}, and all three models carry their slowly
+varying factor
+\[
+ \ell_1(s,u)=\bigl[1+\exp\{v(u)-s\}\bigr]^{-1},
+ \qquad
+ v(u)=2.5\,(u_5+u_6+u_7+u_8),
+\]
+which satisfies $\ell_1(s,u)\to1$ as $s\to\infty$: its effect vanishes
+in the limit while perturbing estimation at finite tail levels. The
+tail-index functions are
+\begin{align*}
+ \gamma_{A1}(u)&=0.5\exp\bigl(-\textstyle\sum_{j=1}^4u_j\bigr),\\
+ \gamma_{A2}(u)&=0.5\exp\bigl(-0.5\textstyle\sum_{j=1}^4u_j\bigr),\\
+ \gamma_{A3}(u)&=0.5\exp\bigl(-0.80\textstyle\sum_{j=1}^4u_j
+ -0.20\,u_1u_2-0.15\,u_3u_4\bigr).
+\end{align*}
+A1 is the monotone reference, with trimmed population gap $0.186$
+(Section~\ref{sec:population}). A2 weakens the signal, with gap
+$0.107$. A3 adds interactions among the active coordinates while
+keeping a reasonably strong signal, with gap $0.158$. All three share
+the maximum $\gmax=0.5$.
+
+\paragraph{Family B: finite-quantile scale contamination.}
+Model B1 has the same tail-index function as A1,
+$\gamma_{B1}=\gamma_{A1}$, hence the same active set
+$\A_\gamma=\{1,2,3,4\}$ and the same gap $0.186$, and \emph{replaces}
+the slowly varying factor: responses are generated with $\ell_2$ below
+in place of $\ell_1$, which does not appear in B1. Let
+$F_i\sim N(0,1)$ be independent of the active coordinates and of the
+base AR(1) innovations, and set
+\[
+ \log\ell_2(s,F)=-\frac1{2s}+0.5\,\bigl\{\Phi(F)-0.5\bigr\},
+\]
+so the persistent scale factor lies in $[e^{-0.25},e^{0.25}]$, strictly
+positive and uniformly bounded. The factor $F$ is not observed. Instead,
+a block of $q_{\rm scale}=20$ proxies occupies the coordinates
+$\A_{\rm scale}=\{5,\ldots,24\}$:
+\[
+ Z_{ij}=0.7\,F_i+\sqrt{1-0.7^2}\,\epsilon_{ij},
+ \qquad j\in\A_{\rm scale},
+\]
+with independent standard normal proxy noises, so each proxy is
+marginally standard normal, loads on $F$ at $0.7$, and the pairwise
+correlation within the block is $0.49$. The B1 covariate vector is
+built from a base AR(1) vector of length $p$: coordinates $1$--$4$ and
+$25$--$p$ are kept from the base vector, coordinates $5$--$24$ are
+replaced by the proxies, and the AR(1) chain beyond coordinate $24$
+continues from the base coordinate $24$, not from the overwritten
+proxy. The observed B1 covariance is therefore deliberately not AR(1)
+over all coordinates; the AR(1) background is intact outside the proxy
+block. Because B1 changes both the slowly varying factor and the
+covariate design relative to A1, A1--B1 differences measure the joint
+effect of the scale cluster and of the exchange of $\ell_1$ for
+$\ell_2$, not the cluster alone.
+
+In B1, variables $1$--$4$ determine the limiting tail index; variables
+$5$--$24$ are informative about the finite conditional scale through
+their common information about $F$, and do not change the limiting
+exponent. A screen built on a fixed high quantile can therefore
+legitimately rank the proxy cluster highly --- those variables move its
+target --- even though the cluster is inactive for tail-index
+screening. B1 measures the practical consequence of this target
+difference. 
+
+\paragraph{Monte Carlo design.}
+The common design is
+\[
+ n=2000,\qquad p\in\{500,\,1000,\,2000\},\qquad \rho=0.25,
+ \qquad d=20,\qquad \varepsilon=0.05,
+\]
+with $1{,}000$ replications per cell and per model in the method
+comparison (binomial standard errors at most $0.016$) and $200$
+common-random-number replications per model in the tuning study
+(standard errors at most $0.036$); Sure-$d$ denotes
+$\Pp(R_{\max}\le d)$ with $R_{\max}=\max_{j\in\A_\gamma}\mathrm{rank}(j)$,
+and all methods within a replication are evaluated on the same dataset.
+
+
+\subsection{Tuning and the aggregated screen}\label{sec:tuning}
+
+The two smoothing parameters are parameterized as
+\[
+ \alpha=n^{-a},\qquad h=n^{-b}/2,
+\]
+following the convention of \citet{gardesPodgorny2025}. Sure-20 is
+evaluated for each model over the crossed grid
+$a\in\{.25,.30,.35,.40,.45,.50\}$,
+$b\in\{0,.05,.10,.15,.20,.30,.40\}$ at $n=2000$, $p=1000$,
+$\rho=0.25$, on $200$ common-random-number replications per model: the
+$200$ datasets are generated once per model and every cell of the grid
+is evaluated on the same datasets, so that differences between cells
+are not inflated by simulation noise. Figure~\ref{fig:tuning} shows the
+four heatmaps.
+
+The column $a=0.25$ collapses for the three A-family models, at $\alpha=n^{-0.25}\approx0.15$ the
+local Hill statistics reach into quantile regions where $\ell_1$, whose
+argument $v(u)-s$ is dominated by the $U_5$--$U_8$ combination at
+moderate $s$, deforms the projected distributions. B1, whose bounded
+scale factor produces no such deformation, degrades only mildly there. Performance also falls toward large $a$ and large $b$
+together, where the local extreme count collapses, and the degenerate
+bandwidth $b=0$ is never competitive. In between, the block
+$a\in\{0.30,0.35, 0.40\}$, $b\in\{0.10,0.15,0.20\}$ is the best-behaved
+region of the grid. We adopt
+\[
+ (a^\star,b^\star)=(0.35,\ 0.15).
+\]
+At $n=2000$ the selected pair gives $\alpha\approx0.070$, $h\approx0.16$.
+
+\paragraph{Relation to the asymptotic theory.}
+Theorem~\ref{thm:sis} is an asymptotic exact-recovery result. When $\log(pn)$ is negligible relative to the effective local extreme sample size $n\alpha h$ and to the signal scale $n\alpha\Delta_{\min}^2$, all active variables are eventually ranked ahead of the inactive ones, so that Sure-4 tends to one in the present four-signal designs. At the selected tuning and $n=2000$, however, $n\alpha h\approx22$ and $\log(pn)\approx14.5$ at $p=1000$, while for the gap $\Delta_{\min}=0.186$ one has $n\alpha \Delta_{\min}^2\approx26$. Thus the simulations deliberately consider a finite-sample regime in which these quantities are still comparable, rather than one in which the asymptotic separation is already overwhelming. Their purpose is therefore to examine how informative the ranking remains before exact recovery is reached, and in particular whether retaining a moderately larger set, $d>4$, can still recover all active variables with high probability.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.95\linewidth]{figures/tuning_heatmaps.pdf}
+\caption{Sure-20 over the $(a,b)$ tuning grid for the four models at
+$n=2000$, $p=1000$, $\rho=0.25$ ($200$ common-random-number
+replications per model; $\alpha=n^{-a}$, $h=n^{-b}/2$; standard errors
+at most $0.036$). Panels are labelled by model. The dashed rectangle
+marks the aggregation block $\mathcal N_9$; the solid frame marks the
+selected pair $(a^\star,b^\star)=(0.35,0.15)$.}
+\label{fig:tuning}
+\end{figure}
+
+\paragraph{The aggregated screen.}
+A single pair $(a,b)$ makes the final ranking depend entirely on one
+tuning. The aggregated version of the screen uses the $3\times3$ block
+of settings
+\[
+ \mathcal N_9=\{0.30,0.35,0.40\}\times\{0.10,0.15,0.20\},
+\]
+the neighbourhood of $(a^\star,b^\star)$ inside the well-behaved region
+of the grid. For each setting $(a,b)\in\mathcal N_9$ and each
+coordinate $j$, compute the score $\widehat\Psi_j(a,b)$ and its rank
+$r_j(a,b)$ among the $p$ coordinates, ranks increasing with the score;
+aggregate by
+\[
+ r_j^{\rm agg}=\min_{(a,b)\in\mathcal N_9}r_j(a,b),
+\]
+and rank the coordinates by increasing $r_j^{\rm agg}$; coordinates
+sharing the same minimum are ordered by the median, then the mean, then
+the maximum of their nine ranks, and any remaining ties by a seeded
+auxiliary randomization. A coordinate is thus retained early whenever at least
+one reasonable tuning finds evidence for it. This direction of
+conservatism matches the purpose of a sure-screening first stage: false
+exclusion is final, while false retention is corrected by the
+second-stage multivariate analysis that the screen feeds. Its effect is measured against the
+single-setting screen in Section~\ref{sec:comparison}. Its cost is nine
+score passes instead of one, leaving the $O(pn\log n)$ complexity
+unchanged up to the constant. The preceding aggregation does not create an additional asymptotic difficulty. Indeed, since the block \(\mathcal N_9\) contains a fixed number of tuning parameters, the sure-screening result of Theorem~\ref{thm:sis} transfers directly to the minimum-rank aggregation.
+
+\begin{corollary}
+Let $\mathcal T$ be a fixed finite set of tuning parameters and define
+\[
+r_j^{\mathrm{agg}}
+=
+\min_{(\alpha,h)\in\mathcal T} r_j(\alpha,h).
+\]
+If the conditions of Theorem~\ref{thm:sis} hold for every $(\alpha,h)\in\mathcal T$, then, for every $d\ge s$,
+\[
+\Pr\!\left(A\subseteq \widehat A_d^{\mathrm{agg}}\right)\to 1,
+\]
+\end{corollary}
+
+\begin{proof}
+By Theorem~3.2, for each $(\alpha,h)\in\mathcal T$, all active coordinates precede all inactive ones with probability tending to one. Since $\mathcal T$ is fixed and finite, this holds simultaneously over $\mathcal T$ with probability tending to one. Taking the minimum rank over $\mathcal T$ preserves this separation.
+\end{proof}
+
+The two versions are reported side by side throughout:
+\emph{Tail-index SIS, selected $(a^\star,b^\star)$} uses the central
+pair alone; \emph{Tail-index SIS, aggregated} uses $r_j^{\rm agg}$.
+
+\subsection{Comparison with competing screens}\label{sec:comparison}
+
+Six rules are compared on the same $1{,}000$ simulated datasets per
+model and per dimension $p\in\{500,1000,2000\}$, at $n=2000$,
+$\rho=0.25$: the two versions of the tail-index screen; the conditional-Pickands screen of \citet{yoshidaUmezu2026}; and the
+quantile-adaptive SIS of \citet{heWangHong2013} at the levels
+$\tau\in\{.90,.95,.99\}$, using cubic B-spline marginal quantile
+regression with three degrees of freedom, identical at every level. The
+competitors rank large utilities first; ours ranks small scores first.
+
+The conditional-Pickands screen is implemented from equations (2)--(4)
+of \citet{yoshidaUmezu2026}, with their Epanechnikov kernel and 25
+equally spaced evaluation points in $[.02,.98]$. For each model, Sure-20 is evaluated on the parameter grid consistent with their article (they recommend setting $h=1$ and $k/n = 0.072$):
+\[
+ h\in\{0.5,\ 1,\ 1.5,\ 2,\ 3\},
+ \qquad
+ k/n\in\{.050,\ .060,\ .072,\ .080\},
+\]
+on the same $200$ common-random-number replications that were
+used to tune our own screen, and the best cell is retained. Its grid cell is selected separately for each model, whereas the
+tail-index screen is reported at a single $(a^\star,b^\star)$ common to
+all four.
+
+Tables~\ref{tab:cmp500}--\ref{tab:cmp2000} report, for each model and
+method, Sure-4 (exact recovery), Sure-20, and the mean and median of the
+worst active rank.
+
+\input{tables/cmp500.tex}
+\input{tables/cmp1000.tex}
+\input{tables/cmp2000.tex}
+\input{tables/b1comp.tex}
+
+\paragraph{Sensitivity to the dimension.}
+Every method degrades as $p$ grows, at very different rates, and the
+mean--median contrast locates the degradation. For the selected-pair
+tail screen on A1, $\E(R_{\max})$ grows from $6.6$ to $15.8$ between
+$p=500$ and $p=2000$ while $\mathrm{Med}(R_{\max})$ stays at $4$: the
+typical replication is unaffected, and the loss is carried by a
+minority of replications in which an active coordinate falls into the
+null range, where its rank scales with $p$. Aggregation compresses that
+tail on every model ($\E(R_{\max})$ $4.6\to6.2$ on A1, $9.8\to22.6$
+against $27.5\to75.9$ on B1, $5.1\to8.1$ against $9.8\to30.1$ on A3).
+The quantile screen at $\tau=.95$ is the least dimension-sensitive rule
+on the A family ($\E(R_{\max})$ $4.2\to4.8$ on A1). A2 is the most
+dimension-sensitive model for every method (aggregated Sure-20
+$.797\to.561$, quantile $.95$ $.930\to.782$): a weak signal loses the
+most from added competition. The conditional-Pickands screen degrades
+from a low base throughout.
+
+\paragraph{Sensitivity to the quantile level.}
+On the A family the quantile screen is non-monotone in $\tau$ in every
+table, in opposite directions on either side of $\tau=.95$; on B1 its
+behaviour tracks its target, and Table~\ref{tab:b1comp} reports the
+resulting composition of its leading positions. At $\tau=.90$ its top
+four contain on average $3.8$ of the twenty scale proxies and all
+twenty fill its top 24; exact recovery is zero to three decimals at
+every $p$. This is coherent behaviour for a $.90$-quantile target,
+which the proxies genuinely move, and it is fatal for tail-index
+recovery. At $\tau=.95$ the contamination remains substantial
+($2.4$--$2.5$ proxies in the top four, $19.1$--$19.5$ in the top 24,
+median worst active rank $20$--$21$). At $\tau=.99$ the contamination
+largely clears ($0.2$--$0.4$ proxies in the top four) because the
+quantile target approaches the tail index, but the variance cost is
+severe everywhere: on the A family, Sure-4 falls from $.234$--$.891$
+at $\tau=.95$ to at most $.125$ at $\tau=.99$, and on B1 the level
+$.99$ never reaches Sure-4 $.04$. For tail-index screening, this sensitivity to $\tau$ is an important
+distinction. Quantile-SIS requires a quantile level to be fixed in
+advance, and there is no reason for the level that best approximates the
+tail-index ranking to be known a priori. In the A family, $\tau=.95$
+happens to give very good performance and can outperform the tail-index
+screen in some settings, but moving to either $\tau=.90$ or $\tau=.99$
+can substantially reduce recovery. The tail-index screen does not require
+this additional choice. This avoids a
+source of sensitivity that is specific to using fixed high quantiles as
+proxies for tail-index activity.
+
+\paragraph{Effect of the aggregation.}
+Aggregation improves the tail screen most where failures are worst. At the
+selected pair it improves \emph{both} criteria in all twelve
+model--dimension cells. Sure-4 gains most on the models where the
+single-setting screen is already strong ($+8.4$, $+7.7$, $+10.2$ points
+on A1 and $+6.3$, $+5.0$, $+9.6$ on A3, across the three dimensions),
+and least on the weak-signal A2 ($+2.6$, $+3.6$, $+0.8$); on B1 it
+lifts exact recovery from $.377/.336/.312$ to $.448/.368/.339$.
+$\E(R_{\max})$ is divided by a factor between $1.4$ and $3.7$
+everywhere, and $\mathrm{Med}(R_{\max})$ falls to $4$ on A1 and A3 and
+to $5$--$6$ on B1.
+
+The largest gains are in inclusion rather than exact selection, and
+they are concentrated where the single-setting screen fails. On A2 at
+$p=2000$, Sure-20 rises from $.325$ to $.561$ and $\E(R_{\max})$ falls
+from $248.8$ to $76.9$; on B1 at the same dimension, from $.668$ to
+$.805$ and from $75.9$ to $22.6$. This is the intended behaviour:
+promotion by a single reasonable tuning rescues active coordinates from
+setting-specific failures far down the list, which is what moves the
+sure-screening criterion, while the top four is already close to
+saturated on the models where the signal is strong.
+
+The quantile screen at a moderate level remains the strongest detector
+when high quantiles and the limiting exponent share their covariates
+and the signal is weak (A2). On A1 and A3 the two are close, with
+$\tau=.95$ slightly ahead on A3 and the two changing places on A1 as
+$p$ grows. The separation appears on B1, where the aggregated tail
+screen is the only rule whose leading positions stay on the active set
+--- Sure-4 $.448/.368/.339$ and Sure-20 $.907/.849/.805$ across the
+three dimensions, against at most $.038$ and $.665$ for any
+fixed-quantile level, with $0.12$--$0.18$ proxies in its top four
+(Table~\ref{tab:b1comp}). It is degraded, not
+immune: the same rule reaches Sure-4 $.884/.823/.802$ on A1, so the
+scale cluster, jointly with the exchange of slowly varying factors,
+costs it about forty-five points of exact recovery. For a question
+about the limiting exponent itself, the two rankings are best read
+side by side, as in Section~\ref{sec:realdata}: variables high on one
+list and low on the other are where the two targets part ways.
