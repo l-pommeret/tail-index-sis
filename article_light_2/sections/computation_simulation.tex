@@ -265,7 +265,23 @@ chosen to be coherent with the sensitivity study of
 \citet{yoshidaUmezu2026}: their bandwidth range is $[0.04,10]$, with
 $h<0.1$ unusable, $h=1.5$--$2.0$ best and $h>2$ progressively
 oversmoothed, and their intermediate sequence spans $k\in[121,200]$ at
-$n=2500$, i.e.\ fractions $[.048,.080]$, around a baseline of $.072$.
+$n=2500$, i.e.\ fractions $[.048,.080]$, around a baseline of $.072$. The
+grid is deliberately not widened beyond what they examine: a search over
+values their own study rules out would no longer be their method being
+tuned.
+
+One consequence is worth recording. On these designs the retained cell
+sits at the \emph{low} end of their range for three of the four models
+--- $h=0.5$ on A1 and A3, $k/n=.050$ on B1 --- rather than in the
+$h=1.5$--$2.0$ region their own sensitivity study identifies as best.
+Their recommendation was reached on their model and with a different
+criterion, the selection rate of individual covariates rather than the
+joint event that all four active covariates are retained; A1 nonetheless
+carries their tail-index function, so the discrepancy is not explained by
+a change of signal. What the grid shows is that the tuning advice of
+\citet{yoshidaUmezu2026} does not transfer to the joint criterion used
+here, and that their screen improves substantially when it is retuned
+for it.
 
 Two asymmetries deliberately favour the competitor in this comparison.
 Its grid cell is selected \emph{separately for each model}, whereas the

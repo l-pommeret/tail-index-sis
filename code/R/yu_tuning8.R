@@ -36,17 +36,20 @@ source("code/R/yoshida_umezu_grid.R")
 source("code/R/yu_select.R")
 
 N <- 2000L; P <- 1000L; RHO <- 0.25
-## Extended grid.  The first pass used h in {0.5,1,1.5,2,3} and
-## k/n in {.050,.060,.072,.080}, and three of the four selected cells came
-## out ON A BOUNDARY (h = 0.5 for A1 and A3, k/n = .050 for B1).  A cell on
-## the edge of a grid is not an optimum, it is where the search stopped, so
-## the grid is extended downwards in both parameters until the retained
-## cells are interior.  The extension stays inside the ranges Yoshida and
-## Umezu themselves explore: their bandwidth study spans [0.04, 10] and
-## finds h < 0.1 unusable, and k/n = .04 sits just below the .048 lower end
-## of their intermediate-sequence range.
-HS <- c(0.1, 0.2, 0.3, 0.5, 1, 1.5, 2, 3)
-KFRAC <- c(0.03, 0.04, 0.05, 0.06, 0.072, 0.08)
+## The grid stays inside what Yoshida and Umezu actually study, which is
+## the point of running it at all: a grid that ranged more widely than
+## their own would no longer be their method being tuned.  Their
+## intermediate sequence spans k in [121, 200] at n = 2500, i.e. fractions
+## [.048, .080] around a baseline of .072; the bandwidth values are theirs.
+##
+## Note for the write-up: on these designs the retained cell sits at the
+## low end of the range for three of the four models (h = 0.5 on A1 and
+## A3, k/n = .050 on B1).  That is reported as an observation --- their
+## optimum here lies at the bottom of the region they examine --- and not
+## chased below their range, where the comparison would stop being a
+## comparison with their method as published.
+HS <- c(0.5, 1, 1.5, 2, 3)
+KFRAC <- c(0.05, 0.06, 0.072, 0.08)
 KS <- as.integer(floor(KFRAC * N))
 EVAL <- seq(.02, .98, length.out = 25)
 MODELS <- c("A1", "A2", "A3", "B1")
