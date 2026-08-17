@@ -1,0 +1,42 @@
+n = 100000, p = 264
+  ecran par indice de queue : fait
+  Yoshida-Umezu : fait
+    quantile 0.90 en 108 s
+    quantile 0.95 en 100 s
+    quantile 0.99 en 101 s
+  quantile SIS : fait
+  critere externe disponible pour 264 coordonnees sur 264
+
+=== comparaison des regles ===
+rho_gamma : accord de rang avec le critere externe de variation de gamma
+            (positif = la regle classe haut ce que le critere juge variable)
+carriers  : les 4 covariables de plus forte variation de gamma
+loc_top20 : les 2 temoins de localisation pure dans les 20 premiers
+
+                rule rho_gamma carriers_top4 carriers_top20 loc_top20
+       tail selected    -0.154             4              4         0
+     tail aggregated    -0.036             4              4         0
+ Yoshida-Umezu paper     0.214             4              4         0
+   Yoshida-Umezu h=2     0.459             2              3         1
+       quantile 0.90     0.504             2              3         0
+       quantile 0.95     0.516             3              4         0
+       quantile 0.99     0.533             4              4         0
+ rank_s160m_max rank_s160m_mean rank_s70m_mean
+              1             177            241
+              1             170            189
+              1             100            125
+              3              15             21
+              1              23             26
+              1              24             27
+              1              43             45
+
+=== dix premieres par regle ===
+  tail selected          s160m_max, s70m_max, s160m_kurt, s70m_kurt, s160m_skew, s70m_skew, d70_160_min, s160m_bs01, s160m_bs08, d70_160_skew
+  tail aggregated        s160m_max, s70m_max, s160m_kurt, s70m_kurt, s160m_skew, s70m_skew, d70_160_min, s160m_bs01, s70m_sd, s70m_bs09
+  Yoshida-Umezu paper    s160m_max, s70m_max, s160m_kurt, s70m_kurt, s160m_skew, s70m_skew, d70_160_q02, s70m_bm10, s160m_bm10, d70_160_min
+  Yoshida-Umezu h=2      d70_160_min, s70m_q98, s160m_max, s70m_kurt, s160m_kurt, s160m_q98, s70m_q96, s160m_sd, s160m_q94, d70_160_bs10
+  quantile 0.90          s160m_max, s70m_max, s160m_sd, s70m_q98, s70m_sd, s160m_q98, s70m_q96, s160m_kurt, s160m_q96, s160m_q94
+  quantile 0.95          s160m_max, s70m_max, s160m_kurt, s160m_sd, s70m_sd, s70m_q98, s160m_q98, s160m_q96, s70m_q96, s70m_kurt
+  quantile 0.99          s160m_max, s70m_max, s160m_kurt, s70m_kurt, s160m_skew, s160m_sd, s70m_sd, s70m_q98, s160m_q98, s70m_q96
+
+ECRIT results/wild/real_wild.rds
