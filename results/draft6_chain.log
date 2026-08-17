@@ -1,0 +1,10 @@
+12:43:42 test_campaign_equivalence
+12:51:52   -> code 0
+12:51:52 test_yu_grid
+12:51:57   -> code 0
+12:51:57 etape 1b : tables de tuning
+12:51:57   -> code 0
+12:51:57 etape 2 : yu_tuning8 sur 8 coeurs
+13:00:56 etape 2 : yu_tuning8 sur 56 coeurs (reprise)
+13:06:47   -> code 0
+13:06:47 etape 3 : campaign8 sur 56 coeurs

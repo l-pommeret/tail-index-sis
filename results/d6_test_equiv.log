@@ -1,0 +1,7 @@
+PASS equivalence: A1 == campaign5 M1 at p = 500 
+PASS equivalence: A1 == campaign5 M1 at p = 1000 
+PASS equivalence: A1 == campaign5 M1 at p = 2000 
+PASS equivalence: A2 == campaign5 M3 at p = 500 
+PASS equivalence: A2 == campaign5 M3 at p = 1000 
+PASS equivalence: A2 == campaign5 M3 at p = 2000 
+ALL EQUIVALENCE CHECKS PASS
