@@ -72,3 +72,5 @@ manuscript/bernoulli/*.bbl
 manuscript/bernoulli/*.blg
 manuscript/bernoulli/*.log
 manuscript/bernoulli/*.out
+# corpus brut : re-tirable par code/py/sample_fineweb.py a graine fixee
+results/wild/*docs.parquet
