@@ -358,6 +358,13 @@ donc « plus d'espaces, queue plus lourde » serait faux.
 
 ### 8.4 Les états internes du modèle
 
+> **⚠ SECTION INVALIDÉE.** Le criblage décrit ci-dessous passait par
+> `code/py/export_ranks.py`, qui écrivait la matrice de rangs en ordre C alors
+> que `matrix()` de R la lit en ordre Fortran : l'écran lisait une matrice
+> brouillée, et donc du bruit. Le résultat nul rapporté ici est sans valeur.
+> Le pont est corrigé et un garde-fou vérifie désormais chaque colonne, mais
+> **le criblage reste à relancer**. Voir `RAPPORT_LLM_EXTREMES.md` §7.
+
 Question : quelles directions du flux résiduel annoncent que le modèle va
 échouer catastrophiquement ?
 
