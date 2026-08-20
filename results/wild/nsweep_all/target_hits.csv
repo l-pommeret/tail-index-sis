@@ -1,0 +1,8 @@
+"regle","n5000","n10000","n25000","n50000","n100000"
+"tail selected",2,2,2,2,2
+"tail aggregated",2,2,2,2,2
+"Yoshida-Umezu paper",0,0,1,2,2
+"Yoshida-Umezu h=2",1,1,1,0,2
+"quantile 0.90",1,2,2,2,2
+"quantile 0.95",2,2,2,2,2
+"quantile 0.99",2,2,2,2,2
